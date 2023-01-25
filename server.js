@@ -1,5 +1,4 @@
 const express = require("express");
-const compression = require('compression');
 
 // config
 const port = process.env.PORT || 8080;
@@ -15,7 +14,6 @@ const options = {
 
 // create app
 const app = express();
-app.use(compression());
 app.use(express.static(app_folder, options));
 
 // serve angular paths
