@@ -19,7 +19,7 @@ app.use(compression());
 app.use(express.static(app_folder, options));
 
 // serve angular paths
-app.all('*', function (req, res) {
+app.get('/', function (req, res) {
   res.status(200).sendFile(`/`, { root: app_folder });
 });
 
