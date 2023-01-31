@@ -43,12 +43,12 @@ registerLocaleData(en);
     {
       provide: 'SocialAuthServiceConfig',
       useValue: {
-        autoLogin: false,
+        autoLogin: true,
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(
-              environment.googleClientId
+              environment.GOOGLE_CLIENT_ID,
             )
           },
         ],
