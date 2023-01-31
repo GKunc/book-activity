@@ -1,12 +1,13 @@
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { BehaviorSubject, from } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginPageService {
-  private readonly _user$ = new BehaviorSubject<SocialUser | undefined>(undefined);
+  private readonly _user$ = new BehaviorSubject<SocialUser>(null);
 
   readonly user$ = this._user$.asObservable();
 
@@ -15,8 +16,20 @@ export class LoginPageService {
   ) {
 
     this.authService.authState.subscribe((user) => {
-      this._user$.next(user);
+      if (user) {
+        this._user$.next(user);
+      }
     });
+  }
+
+  signOut(): Observable<void> {
+    try {
+      localStorage.removeItem('user');
+      return from(this.authService.signOut());
+    } catch (e) {
+      console.log("Not signed to google");
+      return of(null);
+    }
   }
 
   get user(): SocialUser | undefined {

@@ -11,11 +11,15 @@
     </div>
 
     <div *ngIf="loginService.user$ | async as user; else login">
-        {{user.email}}
-        <hub-button *ngIf="user" text="Wyloguj" (click)="signOut()"></hub-button>
+        <div class="login-button">
+            <div>{{user.email}}</div>
+            <hub-button text="Wyloguj" (click)="signOut()"></hub-button>
+        </div>
     </div>
     <ng-template #login>
-        <hub-button text="Zaloguj się" routerLink="/log-in"></hub-button>
+        <div class="login-button">
+             <hub-button text="Zaloguj się" routerLink="/log-in"></hub-button>
+        </div>
     </ng-template>
     
 </div>
