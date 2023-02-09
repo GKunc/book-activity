@@ -1,13 +1,14 @@
 <div class="navigation__container">
-    <div class="navigation__title-container">
+    <div class="navigation__title-container" routerLink="/">
         <span nz-icon nzType="calendar" nzTheme="outline"></span>
         BA
     </div>
 
     <div class="navigation__items-container">
         <hub-nav-item text="O nas" routerLink="/"></hub-nav-item>
-        <hub-nav-item text="Ceny"></hub-nav-item>
+        <hub-nav-item text="Ceny" routerLink="/prices"></hub-nav-item>
         <hub-nav-item text="Znajdź zajęcia" routerLink="/find-activities"></hub-nav-item>
+        <hub-nav-item text="Dodaj zajęcia" (click)="openAddActivityScreen()"></hub-nav-item>
     </div>
 
     <div *ngIf="loginService.user$ | async as user; else login">
@@ -18,7 +19,7 @@
     </div>
     <ng-template #login>
         <div class="login-button">
-             <hub-button text="Zaloguj się" routerLink="/log-in"></hub-button>
+             <hub-button text="Zaloguj się" (click)="openLoginScreen()"></hub-button>
         </div>
     </ng-template>
     

@@ -1,1 +1,7 @@
-<p>find-activities works!</p>
+<div class="find-activities">
+    <div *ngFor="let a of activities$ | async" class="activity-container">
+        <h2>{{a.name}}</h2>
+        <p>Email: {{a.email}}</p>
+        <p>Telefon: {{a.phone}}</p>
+    </div>
+</div>

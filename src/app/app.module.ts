@@ -18,12 +18,23 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
 import { environment } from 'src/environments/environment.prod';
+import { AddActivityComponent } from './add-activity/add-activity.component';
+import { PricesComponent } from './prices/prices.component';
+import { FindActivitiesModule } from './find-activities/find-activities.module';
+import { ActivityDataFormComponent } from './add-activity/activity-data-form/activity-data-form.component';
+import { ClientDataFormComponent } from './add-activity/client-data-form/client-data-form.component';
+import { LocationDataFormComponent } from './add-activity/location-data-form/location-data-form.component';
 
 registerLocaleData(en);
 
 @NgModule({
   declarations: [
     AppComponent,
+    AddActivityComponent,
+    PricesComponent,
+    ActivityDataFormComponent,
+    ClientDataFormComponent,
+    LocationDataFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,6 +45,7 @@ registerLocaleData(en);
     HttpClientModule,
     LoginPageModule,
     LandingPageModule,
+    FindActivitiesModule,
     FormsModule,
     BrowserAnimationsModule,
     SocialLoginModule,

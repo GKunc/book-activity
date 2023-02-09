@@ -1,0 +1,63 @@
+<form nz-form [formGroup]="form" nzLayout="vertical">
+    <nz-form-item>
+        <nz-form-label nzFor="name" nzRequired>Nazwa</nz-form-label>
+        <nz-form-control [nzErrorTip]="errorDescription">
+            <input id="name" nz-input placeholder="Nazwa" formControlName="name" />
+        </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+        <nz-form-label nzFor="price" nzRequired>Cena</nz-form-label>
+        <nz-form-control [nzErrorTip]="errorDescription">
+            <input id="name" nz-input placeholder="Cena" formControlName="price" />
+        </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+        <nz-form-label nzFor="category" nzRequired>Kategoria</nz-form-label>
+        <nz-form-control [nzErrorTip]="errorDescription">
+            <nz-select formControlName="category" nzPlaceHolder="Wybierz kategorię">
+                <nz-option *ngFor="let option of acitivyCategories" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
+            </nz-select>   
+        </nz-form-control>  
+    </nz-form-item>
+
+    <nz-form-item>
+        <nz-form-label nzFor="description" nzRequired>Opis</nz-form-label>
+        <nz-form-control [nzErrorTip]="errorDescription">
+            <textarea
+                id="description"
+                formControlName="description"
+                nz-input
+                placeholder="Opis"
+                rows="4" 
+            ></textarea>
+        </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+        <nz-form-label nzFor="time" nzRequired>Godzina</nz-form-label>
+        <nz-form-control [nzErrorTip]="errorDescription">
+            <nz-time-picker [nzHideDisabledOptions]="true" [nzDisabledMinutes]="disabledMinutes" style="width: 100%;" id="time" formControlName="time" nzFormat="HH:mm" nzPlaceHolder="Wybierz godzinę"></nz-time-picker>
+        </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+        <nz-form-label nzFor="time" nzRequired>Dzień tygodnia</nz-form-label>
+        <nz-form-control [nzErrorTip]="errorDescription">
+            <nz-select formControlName="weekDay" nzPlaceHolder="Wybierz dzień tygodnia">
+                <nz-option *ngFor="let option of weekDaysOptions" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
+            </nz-select>     
+        </nz-form-control>
+    </nz-form-item>
+</form>       
+
+<div class="modal__action-container">
+    <hub-button text="Dalej" (click)="submit()"></hub-button>
+</div>
+
+<ng-template #errorDescription let-control>
+    <ng-container *ngIf="control.hasError('required')">To pole jest wymagane</ng-container>
+    <ng-container *ngIf="control.hasError('minlength')">Minimalna wymagana ilość znaków</ng-container>
+    <ng-container *ngIf="control.hasError('maxlength')">Przekroczono dopuszczalną ilość znaków</ng-container>
+</ng-template>

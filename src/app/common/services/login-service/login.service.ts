@@ -6,7 +6,7 @@ import { BehaviorSubject, from } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class LoginPageService {
+export class LoginService {
   private readonly _user$ = new BehaviorSubject<SocialUser>(null);
 
   readonly user$ = this._user$.asObservable();
@@ -16,18 +16,14 @@ export class LoginPageService {
   ) {
 
     this.authService.authState.subscribe((user) => {
-      if (user) {
-        this._user$.next(user);
-      }
+      this._user$.next(user);
     });
   }
 
   signOut(): Observable<void> {
     try {
-      localStorage.removeItem('user');
       return from(this.authService.signOut());
     } catch (e) {
-      console.log("Not signed to google");
       return of(null);
     }
   }
