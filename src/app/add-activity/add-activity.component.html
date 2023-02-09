@@ -1,0 +1,23 @@
+<div class="form-container">
+    <nz-steps [nzCurrent]="currentStep" (nzIndexChange)="onIndexChange($event)">
+        <nz-step></nz-step>
+        <nz-step [nzDisabled]="!stepOneDone"></nz-step>
+        <nz-step [nzDisabled]="!stepTwoDone"></nz-step>
+      </nz-steps>
+  
+      <div class="steps-content form-container">
+        <ng-container [ngSwitch]="currentStep">
+            <ng-container *ngSwitchCase="0">
+                <activity-data-form (formSubmitted)="next($event)"></activity-data-form>
+            </ng-container>
+                        
+           <ng-container *ngSwitchCase="1">
+                <location-data-form (formSubmitted)="next($event)" (previousForm)="previous()"></location-data-form>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="2">
+                <client-data-form (formSubmitted)="next($event)" (previousForm)="previous()"></client-data-form>
+            </ng-container>
+        </ng-container>            
+    </div>
+</div>

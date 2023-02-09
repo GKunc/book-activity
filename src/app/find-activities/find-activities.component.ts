@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FindActivitiesService } from './find-activities.service';
+import { Observable } from 'rxjs';
+import { ActivitiesService, Activity } from '../common/services/activities/activities.service';
 
 @Component({
   selector: 'app-find-activities',
@@ -7,10 +8,15 @@ import { FindActivitiesService } from './find-activities.service';
   styleUrls: ['./find-activities.component.less']
 })
 export class FindActivitiesComponent implements OnInit {
+  activities$: Observable<Activity[]>;
 
-  constructor(private findActivitiesService: FindActivitiesService) { }
+  constructor(private activitiesService: ActivitiesService) { }
 
   ngOnInit(): void {
-    this.findActivitiesService.getActivities();
+    this.getActivities();
   }
+  getActivities(): void {
+    this.activities$ = this.activitiesService.getActivities();
+  }
+
 }
