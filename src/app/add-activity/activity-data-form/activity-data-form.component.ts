@@ -44,15 +44,15 @@ export class ActivityDataFormComponent {
   }
 
   private validateForm(): boolean {
-    if (!this.form.valid) {
-      Object.values(this.form.controls).forEach(control => {
-        if (control.invalid) {
-          control.markAsDirty();
-          control.updateValueAndValidity({ onlySelf: true });
-        }
-      });
-      return false;
-    }
+    // if (!this.form.valid) {
+    //   Object.values(this.form.controls).forEach(control => {
+    //     if (control.invalid) {
+    //       control.markAsDirty();
+    //       control.updateValueAndValidity({ onlySelf: true });
+    //     }
+    //   });
+    //   return false;
+    // }
     return true;
   }
 }

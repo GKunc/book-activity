@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ActivityDetailsComponent } from './activity-details/activity-details.component';
 import { AddActivityComponent } from './add-activity/add-activity.component';
 import { FindActivitiesComponent } from './find-activities/find-activities.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
@@ -18,6 +19,10 @@ const routes: Routes = [
   {
     path: 'prices',
     component: PricesComponent,
+  },
+  {
+    path: 'detail/:id',
+    component: ActivityDetailsComponent
   },
 ];
 

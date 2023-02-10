@@ -5,16 +5,24 @@
     </div>
 
     <div class="navigation__items-container">
-        <hub-nav-item text="O nas" routerLink="/"></hub-nav-item>
-        <hub-nav-item text="Ceny" routerLink="/prices"></hub-nav-item>
-        <hub-nav-item text="Znajdź zajęcia" routerLink="/find-activities"></hub-nav-item>
-        <hub-nav-item text="Dodaj zajęcia" (click)="openAddActivityScreen()"></hub-nav-item>
+        <!-- <hub-nav-item text="O nas" routerLink="/"></hub-nav-item> -->
+        <!-- <hub-nav-item text="Ceny" routerLink="/prices"></hub-nav-item> -->
+        <!-- <hub-nav-item text="Znajdź zajęcia" routerLink="/find-activities"></hub-nav-item> -->
+        <!-- <hub-nav-item text="Dodaj zajęcia" (click)="openAddActivityScreen()"></hub-nav-item> -->
     </div>
 
-    <div *ngIf="loginService.user$ | async as user; else login">
+    <div *ngIf="loginService.user$ | async as user; else login" class="sign-in-container">
+        <hub-button text="Dodaj zajęcia" icon="plus" (click)="openAddActivityScreen()"></hub-button>
         <div class="login-button">
-            <div>{{user.email}}</div>
-            <hub-button text="Wyloguj" (click)="signOut()"></hub-button>
+            <nz-avatar nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" nzSize="large" [nzText]="userInitials"></nz-avatar>
+              <nz-dropdown-menu #menu="nzDropdownMenu">
+                <ul nz-menu nzSelectable>
+                  <li nz-menu-item>Twoje aktywności</li>
+                  <li nz-menu-item>Zapisane</li>
+                  <li nz-menu-item>Ustawnienia</li>
+                  <li nz-menu-item (click)="signOut()">Wyloguj</li>
+                </ul>
+              </nz-dropdown-menu>
         </div>
     </div>
     <ng-template #login>

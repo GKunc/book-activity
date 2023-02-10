@@ -1,14 +1,67 @@
 @import '../../styles.less';
 
+:host {
+    flex: 1;
+}
+
 .find-activities {
     display: grid;
-    grid-template-columns: repeat(5, minmax(200px, 1fr));
+    gap: 8px;
+    // grid-template-columns: repeat(3, minmax(200px, 1fr));
 }
 
 .activity-container {
-    margin: 16px;
     padding: 16px;
     background-color: white;
     border: 1px solid @primary-color;
-    border-radius: 1rem;
+    border-radius: 2px;
+
+    &:hover {
+        cursor: pointer;
+        box-shadow: 3px 7px 11px -8px rgba(81, 81, 90, 1);
+    }
+}
+
+.layout {
+    min-height: 100%;
+}
+
+nz-sider {
+    overflow: auto;
+    height: calc(100% - 24px);
+    position: fixed;
+    left: 0;
+    top: 24px;
+    margin-right: 16px;
+    border-right: 1px solid @primary-color;
+
+}
+
+nz-header {
+    background: #fff;
+    padding: 0;
+}
+
+nz-content {
+    margin-top: 24px;
+    margin-bottom: 24px;
+    // margin-left: 16px;
+    // padding-left: 16px;
+}
+
+.inner-content {
+    padding: 24px;
+    background: #fff;
+    text-align: center;
+}
+
+.find-activities__filters {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.find-activities__filters-row {
+    display: flex;
+    justify-content: space-between;
 }

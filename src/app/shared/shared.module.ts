@@ -14,9 +14,16 @@ import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzSliderModule } from 'ng-zorro-antd/slider';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 
 import { SocialLoginModule } from '@abacritt/angularx-social-login';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -39,8 +46,16 @@ import { ReactiveFormsModule } from '@angular/forms';
     NzSelectModule,
     NzFormModule,
     NzUploadModule,
+    NzLayoutModule,
+    NzMenuModule,
+    NzInputNumberModule,
+    NzSliderModule,
+    NzAvatarModule,
+    NzDropDownModule,
+    NzDividerModule,
 
     ReactiveFormsModule,
+    FormsModule,
   ],
   exports: [
     SocialLoginModule,
@@ -58,8 +73,15 @@ import { ReactiveFormsModule } from '@angular/forms';
     NzSelectModule,
     NzFormModule,
     NzUploadModule,
-
+    NzLayoutModule,
+    NzMenuModule,
+    NzInputNumberModule,
+    NzSliderModule,
+    NzAvatarModule,
+    NzDropDownModule,
+    NzDividerModule,
     ReactiveFormsModule,
+    FormsModule,
   ]
 })
 export class SharedModule { }

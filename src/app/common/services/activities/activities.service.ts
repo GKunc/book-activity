@@ -23,6 +23,7 @@ export class ActivitiesService {
 }
 
 export interface Activity {
+  id: number;
   name: string;
   email: string;
   phone: string;

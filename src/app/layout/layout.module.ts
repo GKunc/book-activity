@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { NavComponent } from './nav/nav.component';
 import { NavItemComponent } from './nav/nav-item/nav-item.component';
 import { SharedModule } from '../shared/shared.module';
-import { RouterModule } from '@angular/router';
 
 
 
