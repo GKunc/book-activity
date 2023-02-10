@@ -24,6 +24,8 @@ import { FindActivitiesModule } from './find-activities/find-activities.module';
 import { ActivityDataFormComponent } from './add-activity/activity-data-form/activity-data-form.component';
 import { ClientDataFormComponent } from './add-activity/client-data-form/client-data-form.component';
 import { LocationDataFormComponent } from './add-activity/location-data-form/location-data-form.component';
+import { IconModule } from '@ant-design/icons-angular';
+import { ActivityDetailsComponent } from './activity-details/activity-details.component';
 
 registerLocaleData(en);
 
@@ -35,6 +37,7 @@ registerLocaleData(en);
     ActivityDataFormComponent,
     ClientDataFormComponent,
     LocationDataFormComponent,
+    ActivityDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,6 +52,7 @@ registerLocaleData(en);
     FormsModule,
     BrowserAnimationsModule,
     SocialLoginModule,
+    IconModule,
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },

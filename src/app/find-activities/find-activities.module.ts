@@ -4,14 +4,13 @@ import { FindActivitiesComponent } from './find-activities.component';
 import { SharedModule } from '../shared/shared.module';
 
 
-
 @NgModule({
   declarations: [
     FindActivitiesComponent,
   ],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
   ],
   exports: [
     FindActivitiesComponent

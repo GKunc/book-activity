@@ -16,4 +16,7 @@ export class ButtonComponent {
   @Input()
   isLoading: boolean;
 
+  @Input()
+  icon: string;
+
 }

@@ -1,7 +1,44 @@
-<div class="find-activities">
-    <div *ngFor="let a of activities$ | async" class="activity-container">
-        <h2>{{a.name}}</h2>
-        <p>Email: {{a.email}}</p>
-        <p>Telefon: {{a.phone}}</p>
-    </div>
-</div>
+<nz-layout>
+    <nz-sider >
+        <div class="find-activities__filters">
+            <div class="find-activities__filters-row">
+                <h2>Filtruj:</h2> 
+                <hub-button text="Wyczyść"></hub-button>
+            </div>
+
+            <nz-input-group [nzSuffix]="suffixIconSearch">
+                <input type="text" nz-input placeholder="Szukaj" />
+            </nz-input-group>
+            <ng-template #suffixIconSearch>
+                <span nz-icon nzType="search"></span>
+            </ng-template>
+
+            <nz-select formControlName="category" nzPlaceHolder="Wybierz kategorię">
+                <nz-option *ngFor="let option of acitivyCategories" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
+            </nz-select>   
+
+            <nz-select formControlName="weekDay" nzPlaceHolder="Wybierz dzień tygodnia">
+                <nz-option *ngFor="let option of weekDaysOptions" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
+            </nz-select>     
+
+            <nz-slider nzRange [(ngModel)]="priceRange"></nz-slider>
+
+            <div class="find-activities__filters-row">
+                <nz-input-number [(ngModel)]="minPrice" [nzMin]="1" [nzMax]="1000" [nzStep]="1"></nz-input-number>
+                <nz-input-number [(ngModel)]="maxPrice" [nzMin]="1" [nzMax]="1000" [nzStep]="1"></nz-input-number>
+            </div>
+        </div>
+    </nz-sider>
+
+    <nz-layout>
+      <nz-content>
+        <div class="find-activities">
+            <div *ngFor="let a of activities$ | async" class="activity-container" routerLink="/detail/{{a.id}}">                
+                <h2>{{a.name}}</h2>
+                <p>Email: {{a.email}}</p>
+                <p>Telefon: {{a.phone}}</p>
+            </div>
+        </div>
+      </nz-content>
+    </nz-layout>
+  </nz-layout>

@@ -1,5 +1,8 @@
+import { WeekDay } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ACTIVITY_CATEGORIES, Category } from '../add-activity/category.consts';
+import { WEEK_DAYS } from '../add-activity/week-days.consts';
 import { ActivitiesService, Activity } from '../common/services/activities/activities.service';
 
 @Component({
@@ -9,6 +12,12 @@ import { ActivitiesService, Activity } from '../common/services/activities/activ
 })
 export class FindActivitiesComponent implements OnInit {
   activities$: Observable<Activity[]>;
+  acitivyCategories: { value: Category, label: string }[] = ACTIVITY_CATEGORIES;
+  weekDaysOptions: { value: WeekDay, label: string }[] = WEEK_DAYS;
+
+  minPrice: number = 0;
+  maxPrice: number = 100;
+  priceRange: number[] = [0, 100];
 
   constructor(private activitiesService: ActivitiesService) { }
 

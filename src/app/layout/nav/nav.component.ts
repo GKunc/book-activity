@@ -13,6 +13,7 @@ import { LoginPageComponent } from 'src/app/login-page/login-page.component';
 export class NavComponent implements OnInit {
 
   user: SocialUser | undefined;
+  userInitials: string;
 
   constructor(
     public loginService: LoginService,
@@ -22,7 +23,11 @@ export class NavComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginService.user$?.subscribe(data => {
-      this.user = data;
+      if (data) {
+        this.user = data;
+        const userNameSplitted = this.user?.name.split(' ');
+        this.userInitials = userNameSplitted[0].charAt(0).toUpperCase() + userNameSplitted[1].charAt(0).toUpperCase()
+      }
     })
   }
 

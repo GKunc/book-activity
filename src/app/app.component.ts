@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { IconService } from '@ant-design/icons-angular';
+import { PlusOutline } from '@ant-design/icons-angular/icons'
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'book-activity';
+
+  constructor(private iconService: IconService) {
+    this.iconService.addIcon(...[PlusOutline]);
+    this.iconService.twoToneColor = { primaryColor: '#fff' };
+  }
 }
