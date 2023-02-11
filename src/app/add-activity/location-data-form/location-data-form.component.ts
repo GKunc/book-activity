@@ -13,7 +13,9 @@ export class LocationDataFormComponent {
   previousForm: EventEmitter<any> = new EventEmitter<any>();
 
   form = this.fb.group({
-    location: ['', [Validators.required]],
+    street: ['', [Validators.required]],
+    postalCode: ['', [Validators.required]],
+    city: ['', [Validators.required]],
   });
 
   constructor(private fb: FormBuilder) { }
@@ -25,7 +27,8 @@ export class LocationDataFormComponent {
   submit(): void {
     if (this.validateForm()) {
       this.formSubmitted.emit({
-        location: this.form.controls.location.value,
+        street: this.form.controls.street.value,
+        city: this.form.controls.city.value,
       })
     }
   }
@@ -45,9 +48,10 @@ export class LocationDataFormComponent {
 }
 
 export interface LocationData {
-  location: string;
+  street: string;
+  city: string;
 }
 
 export function instanceOfLocationData(object: any): object is LocationData {
-  return ('location' in object);
+  return ('street' in object && 'city' in object);
 }

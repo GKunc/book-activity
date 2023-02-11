@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Activity } from '../common/services/activities/activities.service';
+import { ActivitiesService, Activity } from '../common/services/activities/activities.service';
 
 @Component({
   selector: 'app-activity-details',
@@ -10,14 +10,17 @@ import { Activity } from '../common/services/activities/activities.service';
 export class ActivityDetailsComponent implements OnInit {
 
   activity: Activity;
-  id: number;
 
   constructor(
     private route: ActivatedRoute,
+    private activitiesService: ActivitiesService,
   ) { }
 
   ngOnInit(): void {
-    this.id = Number(this.route.snapshot.paramMap.get('id'));
+    const id = this.route.snapshot.paramMap.get('id');
+    this.activitiesService.getActivityDetails(id).subscribe((data) => {
+      this.activity = data;
+    });
   }
 
 }

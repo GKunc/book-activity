@@ -3,20 +3,25 @@
         <nz-step></nz-step>
         <nz-step [nzDisabled]="!stepOneDone"></nz-step>
         <nz-step [nzDisabled]="!stepTwoDone"></nz-step>
+        <nz-step [nzDisabled]="!stepTwoDone"></nz-step>
       </nz-steps>
   
       <div class="steps-content form-container">
         <ng-container [ngSwitch]="currentStep">
             <ng-container *ngSwitchCase="0">
-                <activity-data-form (formSubmitted)="next($event)"></activity-data-form>
+                <activity-data-form (formSubmitted)="saveData($event); next()"></activity-data-form>
             </ng-container>
                         
            <ng-container *ngSwitchCase="1">
-                <location-data-form (formSubmitted)="next($event)" (previousForm)="previous()"></location-data-form>
+                <location-data-form (formSubmitted)="saveData($event); next();" (previousForm)="previous()"></location-data-form>
             </ng-container>
 
             <ng-container *ngSwitchCase="2">
-                <client-data-form (formSubmitted)="next($event)" (previousForm)="previous()"></client-data-form>
+                <client-data-form (formSubmitted)="saveData($event); next();" (previousForm)="previous()"></client-data-form>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="3">
+                <media-data-form [isLoading]="isLoading" (formSubmitted)="saveData($event); submit();" (previousForm)="previous()"></media-data-form>
             </ng-container>
         </ng-container>            
     </div>

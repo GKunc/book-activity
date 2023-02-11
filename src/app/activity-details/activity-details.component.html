@@ -1,1 +1,4 @@
-<p>activity-details works! {{id}}</p>
+<ng-container *ngIf="activity">
+    <h2>{{activity.name}}</h2>
+    <h2>{{activity.email}}</h2>
+</ng-container>

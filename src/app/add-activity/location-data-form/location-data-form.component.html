@@ -1,8 +1,15 @@
 <form nz-form [formGroup]="form">
     <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="location">Lokalizacja</nz-form-label>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="street" nzRequired>Ulica</nz-form-label>
         <nz-form-control [nzErrorTip]="errorDescription">
-            <input id="location" nz-input placeholder="Lokalizacja" formControlName="location" />
+            <input id="street" nz-input placeholder="Ulica" formControlName="street" />
+        </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="city" nzRequired>Miasto</nz-form-label>
+        <nz-form-control [nzErrorTip]="errorDescription">
+            <input id="city" nz-input placeholder="Miasto" formControlName="city" />
         </nz-form-control>
     </nz-form-item>
 </form>
