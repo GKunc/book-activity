@@ -7,7 +7,6 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from './shared/shared.module';
 import { LayoutModule } from './layout/layout.module';
 import { HttpClientModule } from '@angular/common/http';
-import { LandingPageModule } from './landing-page/landing-page.module';
 import { LoginPageModule } from './login-page/login-page.module';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { en_US } from 'ng-zorro-antd/i18n';
@@ -26,6 +25,7 @@ import { ClientDataFormComponent } from './add-activity/client-data-form/client-
 import { LocationDataFormComponent } from './add-activity/location-data-form/location-data-form.component';
 import { IconModule } from '@ant-design/icons-angular';
 import { ActivityDetailsComponent } from './activity-details/activity-details.component';
+import { MediaDataFormComponent } from './add-activity/media-data-form/media-data-form.component';
 
 registerLocaleData(en);
 
@@ -38,6 +38,7 @@ registerLocaleData(en);
     ClientDataFormComponent,
     LocationDataFormComponent,
     ActivityDetailsComponent,
+    MediaDataFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,7 +48,6 @@ registerLocaleData(en);
     LayoutModule,
     HttpClientModule,
     LoginPageModule,
-    LandingPageModule,
     FindActivitiesModule,
     FormsModule,
     BrowserAnimationsModule,

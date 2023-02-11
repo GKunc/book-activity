@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
 const URL_REGX = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
@@ -8,6 +8,9 @@ const URL_REGX = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
   templateUrl: './client-data-form.component.html',
 })
 export class ClientDataFormComponent {
+  @Input()
+  isLoading: boolean;
+
   @Output()
   formSubmitted: EventEmitter<ClientData> = new EventEmitter<ClientData>();
 

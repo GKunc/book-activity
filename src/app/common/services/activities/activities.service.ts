@@ -1,6 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { Observable } from 'rxjs';
+import { Category } from 'src/app/add-activity/category.consts';
+import { WeekDay } from 'src/app/add-activity/week-days.consts';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +16,19 @@ export class ActivitiesService {
     return this.http.get<Activity[]>('/api/activities');
   }
 
-  insertActivity(activity: Activity): void {
-    this.http.post<Activity>('/api/activities', activity).subscribe();
+  getActivityDetails(id: string): Observable<Activity> {
+    return this.http.get<Activity>('/api/activities/detail?id=' + id);
+  }
+
+  insertActivity(activity: Activity): Observable<any> {
+    return this.http.post('/api/activities', activity, { responseType: 'text' });
+  }
+
+  insertPhoto(fileList: FormData): Observable<any> {
+    const headers = new HttpHeaders({
+      'Accept': 'application/json'
+    })
+    return this.http.post('/api/activities/photos', fileList, { headers, responseType: 'text' });
   }
 
   editActivity(): void {
@@ -23,9 +37,18 @@ export class ActivitiesService {
 }
 
 export interface Activity {
-  id: number;
+  guid: string;
   name: string;
+  price: number;
+  category: Category;
+  description: string;
+  time: string;
+  weekDay: WeekDay;
+  street: string;
+  city: string;
   email: string;
   phone: string;
-  time: string;
+  facebook?: string;
+  instagram?: string;
+  www?: string;
 }

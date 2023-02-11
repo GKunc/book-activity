@@ -1,0 +1,31 @@
+<form nz-form [formGroup]="form">
+    <!-- <nz-form-label nzFor="iamges">Zjęcia</nz-form-label>
+    <nz-form-control [nzErrorTip]="errorDescription">
+        <input type="file" accept="image/jpeg, image/png, image/jpg">
+    </nz-form-control>   -->
+
+    <form class="mt-4"
+            enctype="multipart/form-data"
+          >
+            <div class="form-group">
+              <input
+                (change)="fileChange($event)"
+                type="file"
+                name="file"
+                id="input-files"
+                class="form-control-file border"
+              />
+            </div>
+          </form>
+</form>       
+
+<div class="modal__action-container">
+    <hub-button text="Poprzednie" (click)="previous()"></hub-button>
+    <hub-button text="Dalej" (click)="submit()"></hub-button>
+</div>
+
+<ng-template #errorDescription let-control>
+    <ng-container *ngIf="control.hasError('required')">To pole jest wymagane</ng-container>
+    <ng-container *ngIf="control.hasError('minlength')">Minimalna wymagana ilość znaków</ng-container>
+    <ng-container *ngIf="control.hasError('maxlength')">Przekroczono dopuszczalną ilość znaków</ng-container>
+</ng-template>

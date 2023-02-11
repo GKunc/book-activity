@@ -16,28 +16,28 @@
     <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="strona">Twoj strona</nz-form-label>
         <nz-form-control [nzErrorTip]="errorDescription">
-            <input type="url" nz-input placeholder="strona" formControlName="www"/>
+            <input type="url" nz-input placeholder="Strona" formControlName="www"/>
         </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="facebook">Facebook</nz-form-label>
         <nz-form-control [nzErrorTip]="errorDescription">
-            <input type="url" nz-input placeholder="facebook" formControlName="facebook"/>
+            <input type="url" nz-input placeholder="Facebook" formControlName="facebook"/>
         </nz-form-control>
     </nz-form-item> 
 
     <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="instagram">Instagram</nz-form-label>
         <nz-form-control [nzErrorTip]="errorDescription">
-            <input type="url" nz-input placeholder="instagram" formControlName="instagram"/>
+            <input type="url" nz-input placeholder="Instagram" formControlName="instagram"/>
         </nz-form-control>  
     </nz-form-item>
 </form>       
 
 <div class="modal__action-container">
     <hub-button text="Poprzednie" (click)="previous()"></hub-button>
-    <hub-button text="Wyślij" (click)="submit()"></hub-button>
+    <hub-button text="Dalej" (click)="submit()"></hub-button>
 </div>
 
 <ng-template #errorDescription let-control>

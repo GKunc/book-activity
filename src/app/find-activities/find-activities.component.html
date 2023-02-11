@@ -33,7 +33,7 @@
     <nz-layout>
       <nz-content>
         <div class="find-activities">
-            <div *ngFor="let a of activities$ | async" class="activity-container" routerLink="/detail/{{a.id}}">                
+            <div *ngFor="let a of activities$ | async" class="activity-container" routerLink="/detail/{{a.guid}}">                
                 <h2>{{a.name}}</h2>
                 <p>Email: {{a.email}}</p>
                 <p>Telefon: {{a.phone}}</p>
