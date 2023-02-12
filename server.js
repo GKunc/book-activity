@@ -1,9 +1,10 @@
 const express = require("express");
 const cors = require('cors')
-const { MongoClient } = require("mongodb");
-const multer = require('multer');
+const { MongoClient, GridFSBucket } = require("mongodb");
 const os = require('os');
-const upload = multer({ dest: os.tmpdir() });
+const upload = require("./upload");
+const fs = require('fs');
+const path = require('path');
 
 // config
 const port = process.env.PORT || 8080;
@@ -77,10 +78,9 @@ app.post('/api/activities', async function (req, res) {
   }
 });
 
-app.post('/api/activities/photos', upload.single('file'), async function (req, res) {
+app.post('/api/activities/photos', async function (req, res) {
   try {
     await upload(req, res);
-    console.log(req.file);
 
     if (req.file == undefined) {
       return res.send({
@@ -100,6 +100,38 @@ app.post('/api/activities/photos', upload.single('file'), async function (req, r
   }
 });
 
+
+app.get('/api/activities/photos', async function (req, res) {
+  const id = req.query.id;
+  uri = process.env.MANGO_DB_CONNECTION_STRING;
+  console.log("ID", id);
+  const client = new MongoClient(uri);
+  try {
+    const database = client.db('edds');
+    const bucket = new GridFSBucket(database, {
+      bucketName: 'photos',
+    });
+
+    let downloadStream = bucket.openDownloadStreamByName(id);
+
+    downloadStream.on("data", function (data) {
+      return res.status(200).write(data);
+    });
+
+    downloadStream.on("error", function (err) {
+      return res.status(404).send({ message: "Cannot download the Image!" + err });
+    });
+
+    downloadStream.on("end", () => {
+      return res.end();
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({
+      message: error.message,
+    });
+  }
+});
 
 // start listening
 app.listen(port, function () {

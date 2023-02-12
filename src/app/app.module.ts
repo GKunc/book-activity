@@ -39,6 +39,7 @@ registerLocaleData(en);
     LocationDataFormComponent,
     ActivityDetailsComponent,
     MediaDataFormComponent,
+    ActivityDetailsComponent,
   ],
   imports: [
     BrowserModule,

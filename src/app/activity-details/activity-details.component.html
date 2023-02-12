@@ -1,4 +1,13 @@
 <ng-container *ngIf="activity">
+    <nz-carousel nzEffect="scrollx">
+        <div nz-carousel-content *ngFor="let src of imagesSource">
+            <img [src]="src | safeUrl"/>        
+        </div>
+    </nz-carousel>
+
     <h2>{{activity.name}}</h2>
     <h2>{{activity.email}}</h2>
 </ng-container>
+
+
+

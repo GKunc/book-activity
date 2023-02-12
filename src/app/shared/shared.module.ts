@@ -21,14 +21,17 @@ import { NzSliderModule } from 'ng-zorro-antd/slider';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzCarouselModule } from 'ng-zorro-antd/carousel';
 
 import { SocialLoginModule } from '@abacritt/angularx-social-login';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SafeUrlPipe } from '../common/pipes/safe-url.pipe';
 
 
 @NgModule({
   declarations: [
     ButtonComponent,
+    SafeUrlPipe,
   ],
   imports: [
     SocialLoginModule,
@@ -53,6 +56,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NzAvatarModule,
     NzDropDownModule,
     NzDividerModule,
+    NzCarouselModule,
 
     ReactiveFormsModule,
     FormsModule,
@@ -61,6 +65,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     SocialLoginModule,
 
     ButtonComponent,
+    SafeUrlPipe,
     RouterModule,
 
     NzButtonModule,
@@ -80,6 +85,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NzAvatarModule,
     NzDropDownModule,
     NzDividerModule,
+    NzCarouselModule,
+
     ReactiveFormsModule,
     FormsModule,
   ]

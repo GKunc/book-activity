@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { NzUploadFile } from 'ng-zorro-antd/upload';
-import { Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { Category } from 'src/app/add-activity/category.consts';
 import { WeekDay } from 'src/app/add-activity/week-days.consts';
 
@@ -29,6 +28,10 @@ export class ActivitiesService {
       'Accept': 'application/json'
     })
     return this.http.post('/api/activities/photos', fileList, { headers, responseType: 'text' });
+  }
+
+  getPhoto(id: string): any {
+    return this.http.get(`/api/activities/photos?id=${id}`, { responseType: 'blob' });
   }
 
   editActivity(): void {
