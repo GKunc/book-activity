@@ -10,6 +10,7 @@ import { ActivitiesService, Activity } from '../common/services/activities/activ
 export class ActivityDetailsComponent implements OnInit {
 
   activity: Activity;
+  imagesSource: string[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -21,6 +22,18 @@ export class ActivityDetailsComponent implements OnInit {
     this.activitiesService.getActivityDetails(id).subscribe((data) => {
       this.activity = data;
     });
+
+    this.activitiesService.getPhoto(id).subscribe((response) => {
+      // const imageElem = document.querySelector('img');
+      // imageElem.onload = () => {
+      //   URL.revokeObjectURL(imageElem.src);
+      // }
+      // imageElem.src = URL.createObjectURL(response);
+      this.imagesSource.push(URL.createObjectURL(response));
+      this.imagesSource.push(URL.createObjectURL(response));
+    },
+      (e) => console.log("ERROR: ", e),
+    )
   }
 
 }

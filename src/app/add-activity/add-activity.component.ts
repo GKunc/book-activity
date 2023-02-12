@@ -18,6 +18,8 @@ export class AddActivityComponent {
 
   isLoading: boolean = false;
 
+  guid: string = getUUID();
+
   currentStep = 0;
   stepOneDone: boolean = false;
   stepTwoDone: boolean = false;
