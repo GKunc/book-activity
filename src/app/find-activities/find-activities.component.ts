@@ -24,7 +24,12 @@ export class FindActivitiesComponent implements OnInit {
   ngOnInit(): void {
     this.getActivities();
   }
-  getActivities(): void {
+
+  filterActivities(): void {
+    this.activitiesService.filterActivities().subscribe();
+  }
+
+  private getActivities(): void {
     this.activities$ = this.activitiesService.getActivities();
   }
 

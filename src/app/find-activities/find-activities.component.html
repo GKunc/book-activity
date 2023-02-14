@@ -1,9 +1,8 @@
 <nz-layout>
-    <nz-sider >
+    <nz-sider>
         <div class="find-activities__filters">
             <div class="find-activities__filters-row">
                 <h2>Filtruj:</h2> 
-                <hub-button text="Wyczyść"></hub-button>
             </div>
 
             <nz-input-group [nzSuffix]="suffixIconSearch">
@@ -26,6 +25,11 @@
             <div class="find-activities__filters-row">
                 <nz-input-number [(ngModel)]="minPrice" [nzMin]="1" [nzMax]="1000" [nzStep]="1"></nz-input-number>
                 <nz-input-number [(ngModel)]="maxPrice" [nzMin]="1" [nzMax]="1000" [nzStep]="1"></nz-input-number>
+            </div>
+
+            <div class="find-activities__filters-row">
+                <hub-button text="Wyczyść" type="default"></hub-button>
+                <hub-button text="Szukaj" (click)="filterActivities()"></hub-button>
             </div>
         </div>
     </nz-sider>

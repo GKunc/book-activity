@@ -12,6 +12,7 @@ export class ModalService {
   createModal(
     component: any,
     title: string,
+    width: number = 400,
     params?: any,
   ): void {
 
@@ -19,6 +20,7 @@ export class ModalService {
       nzTitle: title,
       nzContent: component,
       nzComponentParams: params,
+      nzWidth: width,
       nzFooter: null
     });
   }

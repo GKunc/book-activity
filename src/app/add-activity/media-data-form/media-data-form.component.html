@@ -9,11 +9,13 @@
           >
             <div class="form-group">
               <input
-                (change)="fileChange($event)"
+                (change)="filesChange($event)"
                 type="file"
                 name="file"
                 id="input-files"
                 class="form-control-file border"
+                accept="image/jpeg, image/png, image/jpg"
+                multiple
               />
             </div>
           </form>

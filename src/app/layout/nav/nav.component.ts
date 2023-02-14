@@ -27,6 +27,7 @@ export class NavComponent implements OnInit {
         this.user = data;
         const userNameSplitted = this.user?.name.split(' ');
         this.userInitials = userNameSplitted[0].charAt(0).toUpperCase() + userNameSplitted[1].charAt(0).toUpperCase()
+        this.modalService.close();
       }
     })
   }
@@ -36,10 +37,10 @@ export class NavComponent implements OnInit {
   }
 
   openAddActivityScreen(): void {
-    this.modalService.createModal(AddActivityComponent, 'Dodaj swoje zajęcia', "Wyślij");
+    this.modalService.createModal(AddActivityComponent, 'Dodaj swoje zajęcia', 500, "Wyślij");
   }
 
   openLoginScreen(): void {
-    this.modalService.createModal(LoginPageComponent, 'Login');
+    this.modalService.createModal(LoginPageComponent, 'Login', 440);
   }
 }
