@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NzCarouselComponent } from 'ng-zorro-antd/carousel';
 import { ActivitiesService, Activity } from '../common/services/activities/activities.service';
 
 @Component({
@@ -12,6 +13,9 @@ export class ActivityDetailsComponent implements OnInit {
   activity: Activity;
   imagesSource: string[] = [];
 
+  @ViewChild('carouselRef')
+  carouselRef: NzCarouselComponent;
+
   constructor(
     private route: ActivatedRoute,
     private activitiesService: ActivitiesService,
@@ -21,19 +25,22 @@ export class ActivityDetailsComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     this.activitiesService.getActivityDetails(id).subscribe((data) => {
       this.activity = data;
-    });
 
-    this.activitiesService.getPhoto(id).subscribe((response) => {
-      // const imageElem = document.querySelector('img');
-      // imageElem.onload = () => {
-      //   URL.revokeObjectURL(imageElem.src);
-      // }
-      // imageElem.src = URL.createObjectURL(response);
-      this.imagesSource.push(URL.createObjectURL(response));
-      this.imagesSource.push(URL.createObjectURL(response));
-    },
-      (e) => console.log("ERROR: ", e),
-    )
+      for (let i = 0; i < this.activity.nubmerOfImages; i++) {
+        this.activitiesService.getPhoto(`${id}-${i}`).subscribe((response) => {
+          this.imagesSource.push(URL.createObjectURL(response));
+        },
+          (e) => console.log("ERROR: ", e),
+        )
+      }
+    });
   }
 
+  nextImg(): void {
+    this.carouselRef.next()
+  }
+
+  previousImg(): void {
+    this.carouselRef.pre()
+  }
 }

@@ -86,7 +86,8 @@ export class AddActivityComponent {
 
   private createActivity(): Activity {
     return {
-      guid: getUUID(),
+      guid: this.guid,
+      nubmerOfImages: this.mediaData.images,
       name: this.activityData.name,
       price: this.activityData.price,
       category: this.activityData.category,

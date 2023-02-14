@@ -47,6 +47,28 @@ app.get('/api/activities/detail', async function (req, res) {
   }
 });
 
+app.post('/api/filter-activities', async function (req, res) {
+  console.log('Filter activities', req.body);
+  uri = process.env.MANGO_DB_CONNECTION_STRING;
+
+  console.log('Get activities');
+  const client = new MongoClient(uri);
+  try {
+    const database = client.db('edds');
+    const activities = database.collection('activities');
+    const activity = await activities.find({
+      weekDay: 0,
+      category: 1,
+      city: '',
+      price: 1,
+    }).toArray();
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(activity));
+  } finally {
+    await client.close();
+  }
+})
+
 app.get('/api/activities', async function (req, res) {
   uri = process.env.MANGO_DB_CONNECTION_STRING;
 
@@ -104,7 +126,6 @@ app.post('/api/activities/photos', async function (req, res) {
 app.get('/api/activities/photos', async function (req, res) {
   const id = req.query.id;
   uri = process.env.MANGO_DB_CONNECTION_STRING;
-  console.log("ID", id);
   const client = new MongoClient(uri);
   try {
     const database = client.db('edds');

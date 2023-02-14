@@ -25,12 +25,10 @@ export class MediaDataFormComponent {
   uploading: boolean;
 
   form = this.fb.group({
-    images: ['', [Validators.required]],
+    images: [0],
   });
 
-  fileList: NzUploadFile[] = [];
-
-  file: any;
+  private fileList: FileList;
 
   constructor(
     private fb: FormBuilder,
@@ -42,26 +40,30 @@ export class MediaDataFormComponent {
 
   submit(): void {
     if (this.validateForm()) {
+      this.uploadFiles();
       this.formSubmitted.emit({
-        images: [this.form.controls.images.value],
+        images: this.form.controls.images.value,
       })
     }
   }
 
-  fileChange(event) {
-    let fileList: FileList = event.target.files;
-    console.log("FILE", fileList);
+  filesChange(event) {
+    this.fileList = event.target.files;
+  }
 
-    if (fileList.length > 0) {
-      let file: File = fileList[0];
-      let formData: FormData = new FormData();
-      console.log(file.name);
+  private uploadFiles(): void {
+    if (this.fileList.length > 0) {
+      for (let i = 0; i < this.fileList.length; i++) {
+        let file: File = this.fileList[i];
+        let formData: FormData = new FormData();
+        formData.append('file', file, `${this.guid}-${i}`);
+        this.activitiesService.insertPhoto(formData).subscribe((data) => {
+          console.log("DATA:", data);
+        });
+      }
+      console.log("GUID FILE:", this.guid);
 
-      formData.append('file', file, this.guid + file.name.split('.')[1]);
-
-      this.activitiesService.insertPhoto(formData).subscribe((data) => {
-        console.log("DATA:", data);
-      });
+      this.form.controls.images.setValue(this.fileList.length);
     }
   }
 
@@ -80,7 +82,7 @@ export class MediaDataFormComponent {
 }
 
 export interface MediaData {
-  images: string[];
+  images: number;
 }
 
 export function instanceOfMediaData(object: any): object is MediaData {

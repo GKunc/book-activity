@@ -1,14 +1,43 @@
+:host {
+    margin-top: 16px;
+}
+
 [nz-carousel-content] {
     text-align: center;
     height: 300px;
     line-height: 300px;
-    background: #364d79;
-    color: #fff;
+    background: white;
+    color: black;
     overflow: hidden;
+    border: 1px solid #1890ff;
+    border-radius: 2px;
 
     img {
         height: 100%;
         width: 100%;
         object-fit: contain
     }
+}
+
+.carousel-container {
+    position: relative;
+}
+
+.arrow {
+    position: absolute;
+    top: 40%;
+    font-size: 40px;
+    color: #1890ff;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.arrow-left {
+    left: 16px;
+}
+
+.arrow-right {
+    right: 16px;
 }

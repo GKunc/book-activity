@@ -19,6 +19,17 @@ export class ActivitiesService {
     return this.http.get<Activity>('/api/activities/detail?id=' + id);
   }
 
+  filterActivities(): Observable<any> {
+    return this.http.post<Activity[]>('/api/filter-activities',
+      {
+        phrase: 'phrase',
+        day: 0,
+        category: '1',
+        minPrice: 10,
+        maxPrice: 100,
+      });
+  }
+
   insertActivity(activity: Activity): Observable<any> {
     return this.http.post('/api/activities', activity, { responseType: 'text' });
   }
@@ -41,6 +52,7 @@ export class ActivitiesService {
 
 export interface Activity {
   guid: string;
+  nubmerOfImages: number;
   name: string;
   price: number;
   category: Category;
