@@ -19,15 +19,15 @@ export class ActivitiesService {
     return this.http.get<Activity>('/api/activities/detail?id=' + id);
   }
 
-  filterActivities(): Observable<any> {
-    return this.http.post<Activity[]>('/api/filter-activities',
-      {
-        phrase: 'phrase',
-        day: 0,
-        category: '1',
-        minPrice: 10,
-        maxPrice: 100,
-      });
+  filterActivities(query: Partial<FilterActivitiesParams>): Observable<any> {
+    return this.http.post<Activity[]>('/api/filter-activities', query);
+    // {
+    //   phrase: 'phrase',
+    //   day: 0,
+    //   category: '1',
+    //   minPrice: 10,
+    //   maxPrice: 100,
+    // }
   }
 
   insertActivity(activity: Activity): Observable<any> {
@@ -66,4 +66,12 @@ export interface Activity {
   facebook?: string;
   instagram?: string;
   www?: string;
+}
+
+export interface FilterActivitiesParams {
+  phrase: string,
+  weekDay: WeekDay,
+  category: Category,
+  minPrice: number,
+  maxPrice: number,
 }

@@ -48,20 +48,37 @@ app.get('/api/activities/detail', async function (req, res) {
 });
 
 app.post('/api/filter-activities', async function (req, res) {
-  console.log('Filter activities', req.body);
+  const body = req.body;
   uri = process.env.MANGO_DB_CONNECTION_STRING;
+  let query = {}
 
-  console.log('Get activities');
+
+  if (body.phrase) {
+    query.name = new RegExp(body.phrase, 'i');
+  }
+
+  if (body.weekDay) {
+    query.weekDay = {}
+    query.weekDay.$in = body.weekDay;
+  }
+
+  if (body.category) {
+    query.category = {}
+    query.category.$in = body.category;
+  }
+
+  query.price = {}
+  query.price.$gte = body.minPrice;
+  query.price.$lte = body.maxPrice;
+
+  console.log('Filter activities', query);
+
   const client = new MongoClient(uri);
   try {
     const database = client.db('edds');
     const activities = database.collection('activities');
-    const activity = await activities.find({
-      weekDay: 0,
-      category: 1,
-      city: '',
-      price: 1,
-    }).toArray();
+    const activity = await activities.find(query).toArray();
+    console.log(activity);
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify(activity));
   } finally {
