@@ -26,6 +26,7 @@ import { LocationDataFormComponent } from './add-activity/location-data-form/loc
 import { IconModule } from '@ant-design/icons-angular';
 import { ActivityDetailsComponent } from './activity-details/activity-details.component';
 import { MediaDataFormComponent } from './add-activity/media-data-form/media-data-form.component';
+import { DragAndDropDirective } from './common/directives/drag-and-drop/drag-and-drop.directive';
 
 registerLocaleData(en);
 
@@ -40,6 +41,7 @@ registerLocaleData(en);
     ActivityDetailsComponent,
     MediaDataFormComponent,
     ActivityDetailsComponent,
+    DragAndDropDirective,
   ],
   imports: [
     BrowserModule,

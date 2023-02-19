@@ -61,6 +61,7 @@ export interface Activity {
   weekDay: WeekDay;
   street: string;
   city: string;
+  googleMapsSrc: string;
   email: string;
   phone: string;
   facebook?: string;

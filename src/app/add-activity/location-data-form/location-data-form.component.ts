@@ -4,6 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 @Component({
   selector: 'location-data-form',
   templateUrl: './location-data-form.component.html',
+  styleUrls: ['./location-data-form.component.less']
 })
 export class LocationDataFormComponent {
   @Output()
@@ -18,6 +19,9 @@ export class LocationDataFormComponent {
     city: ['', [Validators.required]],
   });
 
+  googleMapsSrc: string = '';
+  googleMapsSrcParsed: string = '';
+
   constructor(private fb: FormBuilder) { }
 
   previous(): void {
@@ -29,8 +33,13 @@ export class LocationDataFormComponent {
       this.formSubmitted.emit({
         street: this.form.controls.street.value,
         city: this.form.controls.city.value,
+        googleMapsSrc: this.googleMapsSrcParsed,
       })
     }
+  }
+
+  googleMapsSrcChanges(value: string): void {
+    this.googleMapsSrcParsed = this.getSrcFromIfarce(value);
   }
 
   private validateForm(): boolean {
@@ -45,11 +54,30 @@ export class LocationDataFormComponent {
     // }
     return true;
   }
+
+  private getSrcFromIfarce(value: string): string {
+    const startIndex = value.indexOf('src');
+    console.log("ID", startIndex);
+
+    if (value.includes('#')) {
+      return "";
+    }
+
+    if (startIndex === -1) {
+      return "";
+    }
+
+    const sub = value.substring(startIndex + 5);
+    const endIndex = sub.indexOf('"');
+
+    return sub.substring(0, endIndex);
+  }
 }
 
 export interface LocationData {
   street: string;
   city: string;
+  googleMapsSrc: string;
 }
 
 export function instanceOfLocationData(object: any): object is LocationData {
