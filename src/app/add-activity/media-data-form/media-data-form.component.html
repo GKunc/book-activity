@@ -4,22 +4,31 @@
         <input type="file" accept="image/jpeg, image/png, image/jpg">
     </nz-form-control>   -->
 
-    <form class="mt-4"
-            enctype="multipart/form-data"
-          >
-            <div class="form-group">
-              <input
-                (change)="filesChange($event)"
-                type="file"
-                name="file"
-                id="input-files"
-                class="form-control-file border"
-                accept="image/jpeg, image/png, image/jpg"
-                multiple
-              />
-            </div>
-          </form>
+    <form class="mt-4"enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="file-upload" class="custom-file-upload" dragAndDrop (fileDropped)="onFileDropped($event)">
+            <span class="upload-icon" nz-icon nzType="upload" nzTheme="outline"></span>
+            Kliknij lub przeciągnij swoje zdjęcia tutaj
+        </label>
+
+        <input
+          id="file-upload"
+          class="custom-file-input"
+          (change)="filesChange($event)"
+          type="file"
+          name="file"
+          class="form-control-file border"
+          accept="image/jpeg, image/png, image/jpg"
+          multiple
+        />
+      </div>
+      </form>
 </form>       
+
+<div class="added-files" *ngFor="let image of images; let i = index">
+    {{ image.name }} 
+    <span class="remove-icon" nz-icon nzType="delete" nzTheme="outline" (click)="deleteFile(i)"></span>
+</div>
 
 <div class="modal__action-container">
     <hub-button text="Poprzednie" (click)="previous()"></hub-button>

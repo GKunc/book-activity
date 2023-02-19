@@ -40,13 +40,14 @@
 
     <nz-layout>
       <nz-content>
-        <div class="find-activities">
-            <div *ngFor="let a of activities$ | async" class="activity-container" routerLink="/detail/{{a.guid}}">                
+        <div *ngIf="!loading" class="find-activities">
+            <div *ngFor="let a of activities" class="activity-container" routerLink="/detail/{{a.guid}}">                
                 <h2>{{a.name}}</h2>
                 <p>Email: {{a.email}}</p>
                 <p>Telefon: {{a.phone}}</p>
             </div>
         </div>
+        <loader *ngIf="loading"></loader>
       </nz-content>
     </nz-layout>
-  </nz-layout>
+</nz-layout>

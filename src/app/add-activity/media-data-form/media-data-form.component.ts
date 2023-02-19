@@ -28,6 +28,8 @@ export class MediaDataFormComponent {
     images: [0],
   });
 
+  images: File[] = [];
+
   private fileList: FileList;
 
   constructor(
@@ -48,13 +50,30 @@ export class MediaDataFormComponent {
   }
 
   filesChange(event) {
+    // make sure no duplicates
+    // add option to remove
     this.fileList = event.target.files;
+    for (let i = 0; i < this.fileList.length; i++) {
+      this.images.push(this.fileList[i])
+    }
   }
 
+  deleteFile(index: number) {
+    this.images.splice(index, 1);
+  }
+
+
+  onFileDropped(files: Array<any>) {
+    for (const item of files) {
+      this.images.push(item);
+    }
+  }
+
+
   private uploadFiles(): void {
-    if (this.fileList.length > 0) {
-      for (let i = 0; i < this.fileList.length; i++) {
-        let file: File = this.fileList[i];
+    if (this.images.length > 0) {
+      for (let i = 0; i < this.images.length; i++) {
+        let file: File = this.images[i];
         let formData: FormData = new FormData();
         formData.append('file', file, `${this.guid}-${i}`);
         this.activitiesService.insertPhoto(formData).subscribe((data) => {
@@ -63,7 +82,7 @@ export class MediaDataFormComponent {
       }
       console.log("GUID FILE:", this.guid);
 
-      this.form.controls.images.setValue(this.fileList.length);
+      this.form.controls.images.setValue(this.images.length);
     }
   }
 

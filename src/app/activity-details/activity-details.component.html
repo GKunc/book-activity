@@ -1,18 +1,23 @@
 <ng-container *ngIf="activity">
-    <div class="carousel-container">
+    <div *ngIf="!loading" class="carousel-container">
         <nz-carousel nzEffect="scrollx" #carouselRef>
             <div nz-carousel-content *ngFor="let src of imagesSource">
                 <img [src]="src | safeUrl"/>        
             </div>
         </nz-carousel>
 
-        <div class="arrow arrow-left" (click)="previousImg()">
+        <div *ngIf="imagesSource.length > 1" class="arrow arrow-left" (click)="previousImg()">
             <span nz-icon nzType="left-circle" nzTheme="outline"></span>
         </div>
-        <div class="arrow arrow-right" (click)="nextImg()">
+        <div *ngIf="imagesSource.length > 1" class="arrow arrow-right" (click)="nextImg()">
             <span nz-icon nzType="right-circle" nzTheme="outline"></span>
         </div>
     </div>
+
+    <loader *ngIf="loading"></loader>
+
+    <iframe *ngIf="activity.googleMapsSrc" [src]="activity.googleMapsSrc| safeUrl" width="600" height="450" style="border:0; width: 100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
     <div class="info-container">
         <h2>{{activity.name}}</h2>
         <h2>{{activity.email}}</h2>

@@ -1,7 +1,6 @@
 import { WeekDay } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { debounce, debounceTime, Observable, of, Subject } from 'rxjs';
+import { debounceTime, Observable, Subject } from 'rxjs';
 import { ACTIVITY_CATEGORIES, Category } from '../add-activity/category.consts';
 import { WEEK_DAYS } from '../add-activity/week-days.consts';
 import { ActivitiesService, Activity, FilterActivitiesParams } from '../common/services/activities/activities.service';
@@ -14,7 +13,7 @@ const KEYBOARD_DEBOUND_TIME = 400;
   styleUrls: ['./find-activities.component.less']
 })
 export class FindActivitiesComponent implements OnInit {
-  activities$: Observable<Activity[]>;
+  activities: Activity[];
   minPrice$: Subject<number> = new Subject();
   maxPrice$: Subject<number> = new Subject();
 
@@ -22,12 +21,13 @@ export class FindActivitiesComponent implements OnInit {
   weekDaysOptions: { value: WeekDay, label: string }[] = WEEK_DAYS;
 
   phrase: string;
-  weekDay: WeekDay[] = [];
-  category: Category[] = [];
+  weekDay: WeekDay[];
+  category: Category[];
   minPrice: number = 0;
   maxPrice: number = 100;
   priceRange: number[] = [0, 100];
 
+  loading: boolean;
   constructor(private activitiesService: ActivitiesService) { }
 
   ngOnInit(): void {
@@ -48,8 +48,12 @@ export class FindActivitiesComponent implements OnInit {
   }
 
   filterActivities(): void {
+    this.loading = true;
     const query = this.createFilterQuery();
-    this.activities$ = this.activitiesService.filterActivities(query);
+    this.activitiesService.filterActivities(query).subscribe(data => {
+      this.activities = data;
+      this.loading = false;
+    });
   }
 
   rangePriceChanged(value: number[]): void {
@@ -76,7 +80,11 @@ export class FindActivitiesComponent implements OnInit {
   }
 
   private getActivities(): void {
-    this.activities$ = this.activitiesService.getActivities();
+    this.loading = true;
+    this.activitiesService.getActivities().subscribe((data) => {
+      this.activities = data;
+      this.loading = false;
+    });
   }
 
   private createFilterQuery(): Partial<FilterActivitiesParams> {

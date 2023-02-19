@@ -96,6 +96,7 @@ export class AddActivityComponent {
       weekDay: this.activityData.weekDay,
       street: this.locationData.street,
       city: this.locationData.city,
+      googleMapsSrc: this.locationData.googleMapsSrc,
       email: this.clientData.email,
       facebook: this.clientData.facebook,
       instagram: this.clientData.instagram,

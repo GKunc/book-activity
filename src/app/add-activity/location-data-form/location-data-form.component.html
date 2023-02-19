@@ -1,8 +1,8 @@
-<form nz-form [formGroup]="form">
+<form nz-form [formGroup]="form" nzLayout="vertical">
     <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="street" nzRequired>Ulica</nz-form-label>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="street" nzRequired>Adres</nz-form-label>
         <nz-form-control [nzErrorTip]="errorDescription">
-            <input id="street" nz-input placeholder="Ulica" formControlName="street" />
+            <input id="street" nz-input placeholder="Adres" formControlName="street" />
         </nz-form-control>
     </nz-form-item>
 
@@ -13,6 +13,34 @@
         </nz-form-control>
     </nz-form-item>
 </form>
+
+<div class="google-maps__container">
+    <label class="label">
+        Google maps:
+        <span 
+        class="tooltip-icon"
+        nz-icon 
+        nzType="info-circle" 
+        nzTheme="outline"
+        nz-tooltip 
+        [nzTooltipTitle]="tooltipContent"
+        nzTooltipPlacement="right"
+        ></span>
+    </label>
+    <input id="googleIframe" nz-input placeholder="Google" [ngModel]="googleMapsSrc" (ngModelChange)="googleMapsSrcChanges($event)"/>
+    <ng-template #tooltipContent>
+        <div>
+            <div>1. Wejdź na <a target="_blank" href="https://www.google.pl/maps/">Google Maps</a></div>
+            <div>2. Znajdź twoją lokalizację</div>
+            <div>3. Kliknij udostępnij</div>
+            <div>4. Zakładka "Umieszczanie Mapy"</div>
+            <div>5. Kopuj element HTML</div>
+        </div>
+    </ng-template>
+</div>
+
+<iframe *ngIf="googleMapsSrcParsed" [src]="googleMapsSrcParsed | safeUrl" width="600" height="450" style="border:0; width: 100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
 
 <div class="modal__action-container">
     <hub-button text="Poprzednie" (click)="previous()"></hub-button>
