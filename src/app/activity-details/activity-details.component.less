@@ -1,5 +1,13 @@
 :host {
     margin-top: 16px;
+    height: 100%;
+}
+
+.grid-contaier {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 63% auto;
+    gap: 24px;
 }
 
 [nz-carousel-content] {
@@ -40,4 +48,39 @@
 
 .arrow-right {
     right: 16px;
+}
+
+.info-container {
+    &__section {
+        margin: 16px 0;
+    }
+
+    &__header {
+        margin-bottom: 0;
+    }
+
+    &__description {
+        color: gray;
+    }
+}
+
+.column {
+    padding: 16px;
+}
+
+.second-column {
+    background-color: #fafafa;
+    border-radius: 2px;
+}
+
+.activity-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &__price {
+        border: 1px solid #1890ff;
+        border-radius: 2px;
+        padding: 8px;
+    }
 }

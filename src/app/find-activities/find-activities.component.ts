@@ -6,6 +6,7 @@ import { WEEK_DAYS } from '../add-activity/week-days.consts';
 import { ActivitiesService, Activity, FilterActivitiesParams } from '../common/services/activities/activities.service';
 
 const KEYBOARD_DEBOUND_TIME = 400;
+const MAX_PRICE = 1000;
 
 @Component({
   selector: 'app-find-activities',
@@ -24,10 +25,12 @@ export class FindActivitiesComponent implements OnInit {
   weekDay: WeekDay[];
   category: Category[];
   minPrice: number = 0;
-  maxPrice: number = 100;
-  priceRange: number[] = [0, 100];
+  maxPrice: number = MAX_PRICE;
+  priceRange: number[] = [0, MAX_PRICE];
 
   loading: boolean;
+  noData: boolean = true;
+
   constructor(private activitiesService: ActivitiesService) { }
 
   ngOnInit(): void {
@@ -49,8 +52,10 @@ export class FindActivitiesComponent implements OnInit {
 
   filterActivities(): void {
     this.loading = true;
+    this.noData = false;
     const query = this.createFilterQuery();
     this.activitiesService.filterActivities(query).subscribe(data => {
+      this.noData = this.hasNoData(data);
       this.activities = data;
       this.loading = false;
     });
@@ -75,16 +80,22 @@ export class FindActivitiesComponent implements OnInit {
     this.weekDay = undefined;
     this.category = undefined;
     this.minPrice = 0;
-    this.maxPrice = 100;
+    this.maxPrice = MAX_PRICE;
     this.priceRange = [this.minPrice, this.maxPrice];
   }
 
   private getActivities(): void {
     this.loading = true;
+    this.noData = false;
     this.activitiesService.getActivities().subscribe((data) => {
+      this.noData = this.hasNoData(data);
       this.activities = data;
       this.loading = false;
     });
+  }
+
+  private hasNoData(data: Activity[]): boolean {
+    return data.length === 0 ? true : false;
   }
 
   private createFilterQuery(): Partial<FilterActivitiesParams> {

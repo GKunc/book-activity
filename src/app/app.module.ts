@@ -27,6 +27,7 @@ import { IconModule } from '@ant-design/icons-angular';
 import { ActivityDetailsComponent } from './activity-details/activity-details.component';
 import { MediaDataFormComponent } from './add-activity/media-data-form/media-data-form.component';
 import { DragAndDropDirective } from './common/directives/drag-and-drop/drag-and-drop.directive';
+import { WeekDayPipe } from './common/pipes/week-day.pipe';
 
 registerLocaleData(en);
 
@@ -42,6 +43,7 @@ registerLocaleData(en);
     MediaDataFormComponent,
     ActivityDetailsComponent,
     DragAndDropDirective,
+    WeekDayPipe,
   ],
   imports: [
     BrowserModule,

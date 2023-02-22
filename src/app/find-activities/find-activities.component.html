@@ -39,8 +39,8 @@
     </nz-sider>
 
     <nz-layout>
-      <nz-content>
-        <div *ngIf="!loading" class="find-activities">
+      <nz-content class="content-container">
+        <div *ngIf="!loading && !noData" class="find-activities">
             <div *ngFor="let a of activities" class="activity-container" routerLink="/detail/{{a.guid}}">                
                 <h2>{{a.name}}</h2>
                 <p>Email: {{a.email}}</p>
@@ -48,6 +48,7 @@
             </div>
         </div>
         <loader *ngIf="loading"></loader>
+        <no-data *ngIf="noData"></no-data>
       </nz-content>
     </nz-layout>
 </nz-layout>
