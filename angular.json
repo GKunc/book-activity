@@ -107,6 +107,7 @@
             ],
             "styles": [
               "src/styles.less",
+              "src/ng-zorro.less",
               "node_modules/ng-zorro-antd/ng-zorro-antd.min.css"
             ],
             "scripts": []
