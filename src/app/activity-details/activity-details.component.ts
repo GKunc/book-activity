@@ -14,6 +14,10 @@ export class ActivityDetailsComponent implements OnInit {
   imagesSource: string[] = [];
   loading: boolean;
 
+  currentDescription: string;
+  descriptionExpanded: boolean = false;
+  descriptionTooLong: boolean = false;
+
   @ViewChild('carouselRef')
   carouselRef: NzCarouselComponent;
 
@@ -27,6 +31,10 @@ export class ActivityDetailsComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     this.activitiesService.getActivityDetails(id).subscribe((data) => {
       this.activity = data;
+      if (data.description.length > 150) {
+        this.descriptionTooLong = true;
+      }
+      this.currentDescription = data.description.slice(0, 150);
 
       for (let i = 0; i < this.activity.nubmerOfImages; i++) {
         this.activitiesService.getPhoto(`${id}-${i}`).subscribe((response) => {
@@ -47,5 +55,14 @@ export class ActivityDetailsComponent implements OnInit {
 
   previousImg(): void {
     this.carouselRef.pre()
+  }
+
+  toggleShowMore(): void {
+    this.descriptionExpanded = !this.descriptionExpanded;
+    if (this.descriptionExpanded) {
+      this.currentDescription = this.activity.description;
+    } else {
+      this.currentDescription = this.activity.description.slice(0, 150);
+    }
   }
 }

@@ -29,6 +29,7 @@ import { SocialLoginModule } from '@abacritt/angularx-social-login';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SafeUrlPipe } from '../common/pipes/safe-url.pipe';
 import { LoaderComponent } from './loader/loader/loader.component';
+import { NoDataComponent } from './no-data/no-data/no-data.component';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { LoaderComponent } from './loader/loader/loader.component';
     ButtonComponent,
     SafeUrlPipe,
     LoaderComponent,
+    NoDataComponent,
   ],
   imports: [
     SocialLoginModule,
@@ -72,6 +74,7 @@ import { LoaderComponent } from './loader/loader/loader.component';
 
     ButtonComponent,
     LoaderComponent,
+    NoDataComponent,
     SafeUrlPipe,
     RouterModule,
 
