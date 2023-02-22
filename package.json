@@ -15,15 +15,15 @@
   "private": true,
   "dependencies": {
     "@abacritt/angularx-social-login": "^1.2.5",
-    "@angular/animations": "^14.2.12",
-    "@angular/common": "^14.2.12",
-    "@angular/compiler": "^14.2.12",
-    "@angular/core": "^14.2.12",
-    "@angular/forms": "^14.2.12",
-    "@angular/platform-browser": "^14.2.12",
-    "@angular/platform-browser-dynamic": "^14.2.12",
-    "@angular/platform-server": "^14.2.12",
-    "@angular/router": "^14.2.12",
+    "@angular/animations": "^15.1.5",
+    "@angular/common": "^15.1.5",
+    "@angular/compiler": "^15.1.5",
+    "@angular/core": "^15.1.5",
+    "@angular/forms": "^15.1.5",
+    "@angular/platform-browser": "^15.1.5",
+    "@angular/platform-browser-dynamic": "^15.1.5",
+    "@angular/platform-server": "^15.1.5",
+    "@angular/router": "^15.1.5",
     "@ant-design/icons-angular": "^15.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
@@ -32,16 +32,16 @@
     "mongodb": "^4.13.0",
     "multer": "^1.4.5-lts.1",
     "multer-gridfs-storage": "^5.0.2",
-    "ng-zorro-antd": "^13.4.0",
+    "ng-zorro-antd": "^15.0.3",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "uuidv4": "^6.2.13",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^14.2.10",
+    "@angular-devkit/build-angular": "^15.1.6",
     "@angular/cli": "^15.1.6",
-    "@angular/compiler-cli": "^14.2.12",
+    "@angular/compiler-cli": "^15.1.5",
     "@types/jasmine": "~3.10.0",
     "@types/node": "^12.20.55",
     "jasmine-core": "~4.0.0",
@@ -50,6 +50,6 @@
     "karma-coverage": "~2.1.0",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
-    "typescript": "~4.6.2"
+    "typescript": "~4.9.5"
   }
 }
