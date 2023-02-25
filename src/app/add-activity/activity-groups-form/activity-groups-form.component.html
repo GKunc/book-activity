@@ -1,38 +1,58 @@
 <form nz-form [formGroup]="form" nzLayout="vertical">
-    <div *ngFor="let group of activityGroups.controls; let i=index">
-        <div formArrayName="groups">
-            <div [formGroupName]="i">
-                <nz-form-item>
-                    <nz-form-label nzFor="time" nzRequired>Dzień tygodnia</nz-form-label>
-                    <nz-form-control [nzErrorTip]="errorDescription">
-                        <nz-select formControlName="weekDay" nzPlaceHolder="Wybierz dzień tygodnia">
-                            <nz-option *ngFor="let option of weekDaysOptions" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
-                        </nz-select>     
-                    </nz-form-control>
-                </nz-form-item>
-                
-                <nz-form-item>
-                    <nz-form-label nzFor="time" nzRequired>Godzina</nz-form-label>
-                    <nz-form-control [nzErrorTip]="errorDescription">
-                        <nz-time-picker [nzHideDisabledOptions]="true" [nzDisabledMinutes]="disabledMinutes" style="width: 100%;" id="time" formControlName="time" nzFormat="HH:mm" nzPlaceHolder="Wybierz godzinę"></nz-time-picker>
-                    </nz-form-control>
-                </nz-form-item>
-            
-                <nz-form-item>
-                    <nz-form-label nzFor="price" nzRequired>Cena</nz-form-label>
-                    <nz-form-control [nzErrorTip]="errorDescription">
-                        <nz-input-number id="name" nz-input placeholder="Cena" formControlName="price"></nz-input-number>
-                    </nz-form-control>
-                </nz-form-item>
-            </div>
-        
-            <span class="clickable" (click)="removeActivity(i)" nz-icon nzType="delete" nzTheme="outline"></span>
-            <nz-divider></nz-divider>
-        </div>
-        </div>
-      <span class="clickable" nz-icon nzType="plus-circle" nzTheme="outline" (click)="addNewActivity()"></span>
+    <nz-form-item>
+        <nz-form-label nzFor="name" nzRequired>Nazwa grupy</nz-form-label>
+        <nz-form-control [nzErrorTip]="errorDescription">
+            <input id="name" nz-input placeholder="Nazwa" formControlName="name" />
+        </nz-form-control>
+    </nz-form-item>
 
+    <div class="form__two-columns"> 
+        <nz-form-item class="width__full">
+            <nz-form-label nzFor="duration" nzRequired>Czas trwania (min)</nz-form-label>
+            <nz-form-control [nzErrorTip]="errorDescription">
+                <nz-input-number id="duration" nz-input placeholder="Czas trwania (min)" formControlName="duration"></nz-input-number>
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item class="width__full">
+            <nz-form-label nzFor="weekDay" nzRequired>Dzień tygodnia</nz-form-label>
+            <nz-form-control [nzErrorTip]="errorDescription">
+                <nz-select formControlName="weekDay" nzPlaceHolder="Wybierz dzień tygodnia">
+                    <nz-option *ngFor="let option of weekDaysOptions" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
+                </nz-select>     
+            </nz-form-control>
+        </nz-form-item>
+    </div>
+
+    <div class="form__two-columns"> 
+        <nz-form-item class="width__full">
+            <nz-form-label nzFor="time" nzRequired>Godzina</nz-form-label>
+            <nz-form-control [nzErrorTip]="errorDescription">
+                <nz-time-picker [nzHideDisabledOptions]="true" [nzDisabledMinutes]="disabledMinutes" style="width: 100%;" id="time" formControlName="time" nzFormat="HH:mm" nzPlaceHolder="Wybierz godzinę"></nz-time-picker>
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item class="width__full">
+            <nz-form-label nzFor="price" nzRequired>Cena</nz-form-label>
+            <nz-form-control [nzErrorTip]="errorDescription">
+                <nz-input-number id="price" nz-input placeholder="Cena" formControlName="price"></nz-input-number>
+            </nz-form-control>
+        </nz-form-item>
+    </div>
 </form>
+<hub-button class="button__add-group" type="dashed" text="Dodaj grupę" icon="plus-circle" (click)="addNewGroup()"></hub-button>
+<nz-divider></nz-divider>
+
+<div *ngFor="let group of addedGroups; let i=index" class="added-group__container">
+    <div class="added-group__info">
+        <div>{{ group.name }}</div>
+        <div>{{ group.duration | durationMin }}</div>
+        <div>{{ group.price | pricePLN }}</div>
+        <div>{{ group.time | date: 'HH:mm' }}</div>
+        <div>{{ group.weekDay | weekDay }}</div>
+    </div>
+    <div class="clickable" (click)="removeActivity(i)" nz-icon nzType="delete" nzTheme="outline"></div>
+</div>
 
 <div class="modal__action-container">
     <hub-button text="Dalej" (click)="submit()"></hub-button>

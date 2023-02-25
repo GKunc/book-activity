@@ -54,6 +54,7 @@ export class ActivitiesService {
 
 export interface Activity {
   guid: string;
+  createdBy: string;
   nubmerOfImages: number;
   name: string;
   category: Category;

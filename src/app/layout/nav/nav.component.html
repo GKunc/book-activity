@@ -1,24 +1,29 @@
 <div class="navigation__container">
-    <div class="navigation__title-container" routerLink="/">
-        <span nz-icon nzType="calendar" nzTheme="outline"></span>
-        BA
-    </div>
+    <div class="navigation__container--left">
+        <div class="navigation__title-container" routerLink="/">
+            <span nz-icon nzType="calendar" nzTheme="outline"></span>
+            BA
+        </div>
 
-    <div class="navigation__items-container">
-        <!-- <hub-nav-item text="O nas" routerLink="/"></hub-nav-item> -->
-        <!-- <hub-nav-item text="Ceny" routerLink="/prices"></hub-nav-item> -->
-        <hub-nav-item text="Znajdź zajęcia" routerLink="/find-activities"></hub-nav-item>
-        <!-- <hub-nav-item text="Dodaj zajęcia" (click)="openAddActivityScreen()"></hub-nav-item> -->
+        <div class="navigation__items-container">
+            <nz-input-group nzCompact nzSearch  nzSize="large" [nzAddOnAfter]="suffixButton">
+                <input type="phrase" nz-input placeholder="Szukaj zajęć" style="width: 300px;" />
+                <nz-select class="search__weekday" nzPlaceHolder="Wybierz dzień tygodnia" [(ngModel)]="weekDay" nzMode="multiple" [nzMaxTagCount]="1">
+                       <nz-option *ngFor="let option of weekDaysOptions" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
+                </nz-select>    
+            </nz-input-group>
+            <ng-template #suffixButton>
+                <button (click)="searchActivities()" class="search__suffix" nz-button nzType="primary" nzSearch><span nz-icon nzType="search"></span></button>
+            </ng-template>
+        </div>
     </div>
-
     <div *ngIf="loginService.user$ | async as user; else login" class="sign-in-container">
-        <hub-button text="Dodaj zajęcia" icon="plus" (click)="openAddActivityScreen()"></hub-button>
+        <hub-button size="large" text="Dodaj zajęcia" icon="plus" (click)="openAddActivityScreen()"></hub-button>
         <div class="login-button">
             <nz-avatar nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" nzSize="large" [nzText]="userInitials"></nz-avatar>
               <nz-dropdown-menu #menu="nzDropdownMenu">
                 <ul nz-menu nzSelectable>
                   <li nz-menu-item>Twoje zajęcia</li>
-                  <li nz-menu-item>Ustawnienia</li>
                   <li nz-menu-item (click)="signOut()">Wyloguj</li>
                 </ul>
               </nz-dropdown-menu>
@@ -26,7 +31,7 @@
     </div>
     <ng-template #login>
         <div class="login-button">
-             <hub-button text="Zaloguj się" (click)="openLoginScreen()"></hub-button>
+            <hub-button size="large" text="Zaloguj się" (click)="openLoginScreen()"></hub-button>
         </div>
     </ng-template>
     

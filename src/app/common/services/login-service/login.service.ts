@@ -16,6 +16,8 @@ export class LoginService {
   ) {
 
     this.authService.authState.subscribe((user) => {
+      console.log(user);
+
       this._user$.next(user);
     });
   }

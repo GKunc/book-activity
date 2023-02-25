@@ -6,7 +6,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class WeekDayPipe implements PipeTransform {
 
   transform(value: unknown, ...args: unknown[]): unknown {
-    console.log("PIPE", value);
     switch (value) {
       case 0:
         return 'Poniedziałek'
