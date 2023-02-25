@@ -37,7 +37,7 @@
             ],
             "styles": [
               "src/styles.less",
-              "node_modules/ng-zorro-antd/ng-zorro-antd.min.css"
+              "node_modules/ng-zorro-antd/ng-zorro-antd.variable.min.css"
             ],
             "scripts": []
           },
@@ -108,7 +108,7 @@
             "styles": [
               "src/styles.less",
               "src/ng-zorro.less",
-              "node_modules/ng-zorro-antd/ng-zorro-antd.min.css"
+              "node_modules/ng-zorro-antd/ng-zorro-antd.variable.min.css"
             ],
             "scripts": []
           }

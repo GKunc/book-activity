@@ -4,7 +4,6 @@ import { NzButtonSize, NzButtonType } from 'ng-zorro-antd/button';
 @Component({
   selector: 'hub-button',
   templateUrl: './button.component.html',
-  styleUrls: ['./button.component.less']
 })
 export class ButtonComponent {
   @Input()
