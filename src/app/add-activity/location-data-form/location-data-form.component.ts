@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'location-data-form',
@@ -13,16 +13,15 @@ export class LocationDataFormComponent {
   @Output()
   previousForm: EventEmitter<any> = new EventEmitter<any>();
 
-  form = this.fb.group({
-    street: ['', [Validators.required]],
-    postalCode: ['', [Validators.required]],
-    city: ['', [Validators.required]],
+  form = new FormGroup({
+    street: new FormControl<string>('', [Validators.required]),
+    postalCode: new FormControl<string>('', [Validators.required]),
+    city: new FormControl<string>('', [Validators.required]),
   });
 
   googleMapsSrc: string = '';
   googleMapsSrcParsed: string = '';
 
-  constructor(private fb: FormBuilder) { }
 
   previous(): void {
     this.previousForm.emit();

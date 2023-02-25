@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, tap } from 'rxjs';
 import { Details } from 'src/app/add-activity/activity-data-form/activity-data-form.component';
+import { GroupDetails } from 'src/app/add-activity/activity-groups-form/activity-groups-form.component';
 import { Category } from 'src/app/add-activity/category.consts';
 import { WeekDay } from 'src/app/add-activity/week-days.consts';
 
@@ -57,7 +58,7 @@ export interface Activity {
   name: string;
   category: Category;
   description: string;
-  activityDetails: Details[];
+  groups: GroupDetails[];
   street: string;
   city: string;
   googleMapsSrc: string;
