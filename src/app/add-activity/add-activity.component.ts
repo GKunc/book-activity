@@ -4,6 +4,7 @@ import { ActivitiesService, Activity } from '../common/services/activities/activ
 import { ModalService } from '../common/services/modal/modal.service';
 import { NotificationsService } from '../common/services/notifications/notifications.service';
 import { ActivityData, instanceOfActivityData } from './activity-data-form/activity-data-form.component';
+import { GroupsData, instanceOfGroupsData } from './activity-groups-form/activity-groups-form.component';
 import { ClientData, instanceOfClientData } from './client-data-form/client-data-form.component';
 import { instanceOfLocationData, LocationData } from './location-data-form/location-data-form.component';
 import { instanceOfMediaData, MediaData } from './media-data-form/media-data-form.component';
@@ -25,6 +26,7 @@ export class AddActivityComponent {
   stepTwoDone: boolean = false;
 
   activityData: ActivityData;
+  groupsData: GroupsData;
   locationData: LocationData;
   clientData: ClientData;
   mediaData: MediaData;
@@ -64,11 +66,14 @@ export class AddActivityComponent {
     if (this.currentStep === 2) this.stepTwoDone = true;
   }
 
-  saveData(data: ActivityData | ClientData | LocationData | MediaData): void {
+  saveData(data: ActivityData | GroupsData | ClientData | LocationData | MediaData): void {
     if (instanceOfActivityData(data)) {
       this.activityData = data;
       console.log('activityData', data);
-
+    }
+    else if (instanceOfGroupsData(data)) {
+      this.groupsData = data;
+      console.log('groupsData', data);
     }
     else if (instanceOfClientData(data)) {
       this.clientData = data;
@@ -91,7 +96,7 @@ export class AddActivityComponent {
       name: this.activityData.name,
       category: this.activityData.category,
       description: this.activityData.description,
-      activityDetails: this.activityData.activityDetails,
+      groups: this.groupsData.activityGroups,
       street: this.locationData.street,
       city: this.locationData.city,
       googleMapsSrc: this.locationData.googleMapsSrc,

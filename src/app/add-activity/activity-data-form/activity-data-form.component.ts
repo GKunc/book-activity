@@ -1,6 +1,6 @@
 import { WeekDay } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ACTIVITY_CATEGORIES, Category } from '../category.consts';
 import { WEEK_DAYS } from '../week-days.consts';
 
@@ -12,45 +12,14 @@ export class ActivityDataFormComponent {
   @Output()
   formSubmitted: EventEmitter<ActivityData> = new EventEmitter<ActivityData>();
 
-  form = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(2)]],
-    category: [null, [Validators.required]],
-    description: ['', [Validators.required, Validators.minLength(30), Validators.maxLength(200)]],
-    activityDetails: this.fb.array([
-      this.fb.group({
-        price: [0],
-        time: [null],
-        weekDay: [null],
-      })
-    ])
+  form = new FormGroup({
+    name: new FormControl<string>('', Validators.required),
+    category: new FormControl<Category>(null, Validators.required),
+    description: new FormControl<string>('', [Validators.required, Validators.minLength(30), Validators.maxLength(200)]),
   });
 
   weekDaysOptions: { value: WeekDay, label: string }[] = WEEK_DAYS;
   acitivyCategories: { value: Category, label: string }[] = ACTIVITY_CATEGORIES;
-
-  constructor(private fb: FormBuilder) { }
-
-  get activityDetails() {
-    return this.form.get('activityDetails') as FormArray;
-  }
-
-  addNewActivity(): void {
-    this.activityDetails.push(
-      this.fb.group({
-        price: [0],
-        time: [null],
-        weekDay: [null],
-      })
-    );
-  }
-
-  removeActivity(index): void {
-    this.activityDetails.removeAt(index);
-  }
-
-  disabledMinutes(): number[] {
-    return [...Array(61).keys()].filter(i => i % 15 !== 0)
-  }
 
   submit(): void {
     if (this.validateForm()) {
@@ -58,7 +27,6 @@ export class ActivityDataFormComponent {
         name: this.form.controls.name.value,
         category: this.form.controls.category.value,
         description: this.form.controls.description.value,
-        activityDetails: this.createDetailsObject(),
       })
     }
   }
@@ -75,26 +43,12 @@ export class ActivityDataFormComponent {
     // }
     return true;
   }
-
-  private createDetailsObject(): Details[] {
-    const result = []
-    this.form.controls.activityDetails.value.forEach((details) =>
-      result.push({
-        price: details.price,
-        time: details.time,
-        weekDay: details.weekDay,
-      })
-    );
-
-    return result
-  }
 }
 
 export interface ActivityData {
   name: string;
   category: Category;
   description: string;
-  activityDetails: Details[];
 }
 
 export interface Details {
@@ -107,7 +61,6 @@ export function instanceOfActivityData(object: any): object is ActivityData {
   return (
     'name' in object &&
     'category' in object &&
-    'description' in object &&
-    'activityDetails' in object
+    'description' in object
   );
 }

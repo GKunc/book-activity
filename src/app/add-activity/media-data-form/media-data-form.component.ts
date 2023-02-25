@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { NzUploadFile } from 'ng-zorro-antd/upload';
-import { Observable, Observer } from 'rxjs';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ActivitiesService } from 'src/app/common/services/activities/activities.service';
 
 @Component({
@@ -24,8 +22,8 @@ export class MediaDataFormComponent {
 
   uploading: boolean;
 
-  form = this.fb.group({
-    images: [0],
+  form = new FormGroup({
+    images: new FormControl(0),
   });
 
   images: File[] = [];
@@ -33,7 +31,6 @@ export class MediaDataFormComponent {
   private fileList: FileList;
 
   constructor(
-    private fb: FormBuilder,
     private activitiesService: ActivitiesService) { }
 
   previous(): void {

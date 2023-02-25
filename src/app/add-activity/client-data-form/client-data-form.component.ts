@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 const URL_REGX = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
 
@@ -17,16 +17,14 @@ export class ClientDataFormComponent {
   @Output()
   previousForm: EventEmitter<any> = new EventEmitter<any>();
 
-  form = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
-    phone: [null, [Validators.required]],
-    www: ['', [Validators.minLength(30), Validators.maxLength(200)]],
-    facebook: [null, [Validators.pattern(URL_REGX)]],
-    instagram: [null, [Validators.pattern(URL_REGX)]],
+  form = new FormGroup({
+    email: new FormControl<string>('', [Validators.required, Validators.email]),
+    phone: new FormControl<string>(null, [Validators.required]),
+    www: new FormControl<string>('', [Validators.minLength(30), Validators.maxLength(200)]),
+    facebook: new FormControl<string>(null, [Validators.pattern(URL_REGX)]),
+    instagram: new FormControl<string>(null, [Validators.pattern(URL_REGX)]),
   });
 
-
-  constructor(private fb: FormBuilder) { }
 
   previous(): void {
     this.previousForm.emit();

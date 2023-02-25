@@ -4,6 +4,7 @@
         <nz-step [nzDisabled]="!stepOneDone"></nz-step>
         <nz-step [nzDisabled]="!stepTwoDone"></nz-step>
         <nz-step [nzDisabled]="!stepTwoDone"></nz-step>
+        <nz-step [nzDisabled]="!stepTwoDone"></nz-step>
       </nz-steps>
   
       <div class="steps-content form-container">
@@ -12,15 +13,19 @@
                 <activity-data-form (formSubmitted)="saveData($event); next()"></activity-data-form>
             </ng-container>
                         
-           <ng-container *ngSwitchCase="1">
-                <location-data-form (formSubmitted)="saveData($event); next();" (previousForm)="previous()"></location-data-form>
+            <ng-container *ngSwitchCase="1">
+                <activity-groups-form (formSubmitted)="saveData($event); next();" (previousForm)="previous()"></activity-groups-form>
             </ng-container>
 
             <ng-container *ngSwitchCase="2">
-                <client-data-form (formSubmitted)="saveData($event); next();" (previousForm)="previous()"></client-data-form>
+                <location-data-form (formSubmitted)="saveData($event); next();" (previousForm)="previous()"></location-data-form>
             </ng-container>
 
             <ng-container *ngSwitchCase="3">
+                <client-data-form (formSubmitted)="saveData($event); next();" (previousForm)="previous()"></client-data-form>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="4">
                 <media-data-form [isLoading]="isLoading" [guid]="guid" (formSubmitted)="saveData($event); submit();" (previousForm)="previous()"></media-data-form>
             </ng-container>
         </ng-container>            

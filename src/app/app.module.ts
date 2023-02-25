@@ -28,6 +28,7 @@ import { ActivityDetailsComponent } from './activity-details/activity-details.co
 import { MediaDataFormComponent } from './add-activity/media-data-form/media-data-form.component';
 import { DragAndDropDirective } from './common/directives/drag-and-drop/drag-and-drop.directive';
 import { WeekDayPipe } from './common/pipes/week-day.pipe';
+import { ActivityGroupsFormComponent } from './add-activity/activity-groups-form/activity-groups-form.component';
 
 registerLocaleData(en);
 
@@ -44,6 +45,7 @@ registerLocaleData(en);
     ActivityDetailsComponent,
     DragAndDropDirective,
     WeekDayPipe,
+    ActivityGroupsFormComponent,
   ],
   imports: [
     BrowserModule,
