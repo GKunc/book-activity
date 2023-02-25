@@ -14,11 +14,10 @@ import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SocialLoginModule, SocialAuthServiceConfig, FacebookLoginProvider } from '@abacritt/angularx-social-login';
+import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
 import { environment } from 'src/environments/environment.prod';
 import { AddActivityComponent } from './add-activity/add-activity.component';
-import { PricesComponent } from './prices/prices.component';
 import { FindActivitiesModule } from './find-activities/find-activities.module';
 import { ActivityDataFormComponent } from './add-activity/activity-data-form/activity-data-form.component';
 import { ClientDataFormComponent } from './add-activity/client-data-form/client-data-form.component';
@@ -28,7 +27,9 @@ import { ActivityDetailsComponent } from './activity-details/activity-details.co
 import { MediaDataFormComponent } from './add-activity/media-data-form/media-data-form.component';
 import { DragAndDropDirective } from './common/directives/drag-and-drop/drag-and-drop.directive';
 import { WeekDayPipe } from './common/pipes/week-day.pipe';
+import { PricePlnPipe } from './common/pipes/price-pln.pipe';
 import { ActivityGroupsFormComponent } from './add-activity/activity-groups-form/activity-groups-form.component';
+import { DurationMinPipe } from './common/pipes/duration-min.pipe';
 
 registerLocaleData(en);
 
@@ -36,7 +37,6 @@ registerLocaleData(en);
   declarations: [
     AppComponent,
     AddActivityComponent,
-    PricesComponent,
     ActivityDataFormComponent,
     ClientDataFormComponent,
     LocationDataFormComponent,
@@ -45,6 +45,8 @@ registerLocaleData(en);
     ActivityDetailsComponent,
     DragAndDropDirective,
     WeekDayPipe,
+    PricePlnPipe,
+    DurationMinPipe,
     ActivityGroupsFormComponent,
   ],
   imports: [

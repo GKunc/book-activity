@@ -12,7 +12,7 @@
 }
 
 .content-container {
-    border-left: 1px solid rgba(0, 0, 0, 0.2);
+    border-left: 1px solid @gray-border-color;
     padding-left: 20px;
 }
 
@@ -24,13 +24,13 @@
 
 .activity-container {
     padding: 16px;
-    background-color: white;
+    background-color: @background-color;
     border: 1px solid @primary-color;
     border-radius: 2px;
 
     &:hover {
         cursor: pointer;
-        box-shadow: 3px 7px 11px -8px rgba(81, 81, 90, 1);
+        box-shadow: @default-box-shadow;
     }
 }
 
@@ -58,13 +58,13 @@
 }
 
 nz-header {
-    background: #fff;
+    background: @background-color;
     padding: 0;
 }
 
 .inner-content {
     padding: 24px;
-    background: #fff;
+    background: @background-color;
     text-align: center;
 }
 
@@ -77,6 +77,7 @@ nz-header {
 .find-activities__filters-row {
     display: flex;
     justify-content: space-between;
+    gap: 8px;
 
     ::ng-deep .hub-button {
         width: 90px;

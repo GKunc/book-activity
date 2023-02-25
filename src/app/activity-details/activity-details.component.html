@@ -1,5 +1,32 @@
 <ng-container *ngIf="activity">
     <div class="grid-contaier">
+
+        <div class="column second-column">
+            <iframe *ngIf="activity.googleMapsSrc" [src]="activity.googleMapsSrc| safeUrl" width="600" height="300" style="border:0; width: 100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            
+            <div class="info-container">
+                <div class="info-container__section">
+                    <h2>O nas</h2>
+                    <p>{{currentDescription}}</p>
+                    <span *ngIf="descriptionTooLong">
+                        <a *ngIf="!descriptionExpanded">Rozwiń <span nz-icon nzType="down" nzTheme="outline"></span></a>
+                        <a *ngIf="descriptionExpanded">Zwiń <span nz-icon nzType="up" nzTheme="outline"></span></a>
+                    </span>
+                </div>
+
+                <nz-divider></nz-divider>
+
+                <div class="info-container__section">
+                    <h2>Kontakt</h2>
+                    <p><span class="info__icon" nz-icon nzType="mobile" nzTheme="outline"></span>{{activity.phone}}</p>
+                    <p><span class="info__icon" nz-icon nzType="mail" nzTheme="outline"></span>{{activity.email}}</p>
+                    <p *ngIf="activity.www"><span class="info__icon" nz-icon nzType="global" nzTheme="outline"></span>{{activity.www}}</p>
+                    <p *ngIf="activity.facebook"><span class="info__icon" nz-icon nzType="instagram" nzTheme="outline"></span>{{activity.facebook}}</p>
+                    <p *ngIf="activity.instagram"><span class="info__icon" nz-icon nzType="facebook" nzTheme="outline"></span>{{activity.instagram}}</p>
+                </div>
+            </div>
+        </div>
+        
         <div class="column first-column">
             <div *ngIf="!loading" class="carousel-container">
                 <nz-carousel nzEffect="scrollx" #carouselRef>
@@ -24,43 +51,25 @@
                 </div>
             </div>  
 
-            <div class="activity-list">
-                <!-- <div class="activity-details">
-                    <div>
-                        <span>{{activity.time | date: 'HH:mm' }}</span>
-                        <span>{{activity.weekDay | weekDay }}</span>
-                    </div>
-                    <div class="activity-details__price">{{activity.price}} zł</div>
-                </div> -->
+            <div *ngFor="let group of activity.groups">
+                <div class="activity-groups">
+                    <div><h3>{{ group.name }}</h3></div>
+                    
+                    <div class="activity-groups__details">
+                        <div class="activity-groups__details--column">
+                            <div>{{ group.duration | durationMin }}</div>
+                        </div>
+                        <div class="activity-groups__details--column">
+                            <div><h3>{{ group.time | date: 'HH:mm' }}</h3></div>
+                            <div class="info-container__description">{{ group.weekDay | weekDay }}</div>
+                        </div>
+                        <div class="activity-groups__details--column activity-groups__price">{{ group.price | pricePLN }}</div>
+                    </div>  
+                </div>
                 <nz-divider></nz-divider>
             </div>
         </div>
 
-        <div class="column second-column">
-            <iframe *ngIf="activity.googleMapsSrc" [src]="activity.googleMapsSrc| safeUrl" width="600" height="300" style="border:0; width: 100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            
-            <div class="info-container">
-                <div class="info-container__section">
-                    <h2>O nas</h2>
-                    <p>{{currentDescription}}</p>
-                    <span *ngIf="descriptionTooLong">
-                        <a *ngIf="!descriptionExpanded">Rozwiń <span nz-icon nzType="down" nzTheme="outline"></span></a>
-                        <a *ngIf="descriptionExpanded">Zwiń <span nz-icon nzType="up" nzTheme="outline"></span></a>
-                    </span>
-                </div>
-
-                <nz-divider></nz-divider>
-
-                <div class="info-container__section">
-                    <h2>Kontakt</h2>
-                    <p><span nz-icon nzType="mobile" nzTheme="outline"></span> {{activity.phone}}</p>
-                    <p><span nz-icon nzType="mail" nzTheme="outline"></span> {{activity.email}}</p>
-                    <p *ngIf="activity.www"><span nz-icon nzType="global" nzTheme="outline"></span>{{activity.www}}</p>
-                    <p *ngIf="activity.facebook"><span nz-icon nzType="instagram" nzTheme="outline"></span>{{activity.facebook}}</p>
-                    <p *ngIf="activity.instagram"><span nz-icon nzType="facebook" nzTheme="outline"></span>{{activity.instagram}}</p>
-                </div>
-            </div>
-        </div>
     </div>
 </ng-container>
 

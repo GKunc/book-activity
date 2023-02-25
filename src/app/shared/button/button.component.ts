@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { NzButtonType } from 'ng-zorro-antd/button';
+import { Component, HostBinding, Input } from '@angular/core';
+import { NzButtonSize, NzButtonType } from 'ng-zorro-antd/button';
 
 @Component({
   selector: 'hub-button',
@@ -11,6 +11,9 @@ export class ButtonComponent {
   type: NzButtonType = 'primary';
 
   @Input()
+  size: NzButtonSize = 'default';
+
+  @Input()
   text: string | undefined;
 
   @Input()
@@ -18,5 +21,4 @@ export class ButtonComponent {
 
   @Input()
   icon: string;
-
 }

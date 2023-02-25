@@ -1,5 +1,7 @@
+@import '../../../styles.less';
+
 .added-files {
-    border: 1px solid #1890ff;
+    border: 1px solid @primary-color;
     padding: 8px;
     margin-bottom: 8px;
     display: flex;
@@ -16,7 +18,7 @@
 }
 
 .custom-file-upload {
-    border: 1px solid #ccc;
+    border: 1px solid @gray-border-color;
     display: inline-block;
     padding: 20px 12px;
     cursor: pointer;
@@ -27,7 +29,7 @@
 
     .upload-icon {
         font-size: 40px;
-        color: #1890ff;
+        color: @primary-color;
         margin-bottom: 8px;
     }
 }

@@ -1,6 +1,6 @@
 import { WeekDay } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { WEEK_DAYS } from '../week-days.consts';
 
 @Component({
@@ -20,40 +20,36 @@ export class ActivityGroupsFormComponent {
 
   weekDaysOptions: { value: WeekDay, label: string }[] = WEEK_DAYS;
 
+  addedGroups: GroupDetails[] = [];
+
   form = new FormGroup({
-    groups: new FormArray([
-      new FormGroup({
-        price: new FormControl<number>(0, Validators.required),
-        time: new FormControl<Date>(new Date(), Validators.required),
-        weekDay: new FormControl<WeekDay>(0, Validators.required),
-      }),
-    ]),
+    name: new FormControl<string>(null, Validators.required),
+    duration: new FormControl<number>(null, Validators.required),
+    price: new FormControl<number>(null, Validators.required),
+    time: new FormControl<Date>(null, Validators.required),
+    weekDay: new FormControl<WeekDay>(null, Validators.required),
   })
-
-  constructor(private fb: FormBuilder) { }
-
-
-  get activityGroups() {
-    return this.form.get('groups') as FormArray;
-  }
-
 
   disabledMinutes(): number[] {
     return [...Array(61).keys()].filter(i => i % 15 !== 0)
   }
 
-  addNewActivity(): void {
-    this.activityGroups.push(
-      this.fb.group({
-        price: [0, Validators.required],
-        time: [new Date(), Validators.required],
-        weekDay: [null, Validators.required],
-      })
-    );
+  addNewGroup(): void {
+    if (this.validateForm()) {
+      this.addedGroups.push({
+        name: this.form.controls.name.value,
+        duration: this.form.controls.duration.value,
+        price: this.form.controls.price.value,
+        time: this.form.controls.time.value,
+        weekDay: this.form.controls.weekDay.value,
+      });
+
+      this.form.reset();
+    }
   }
 
   removeActivity(index): void {
-    this.activityGroups.removeAt(index);
+    this.addedGroups.splice(index, 1);
   }
 
   previous(): void {
@@ -61,38 +57,29 @@ export class ActivityGroupsFormComponent {
   }
 
   submit(): void {
-    if (this.validateForm()) {
+    if (this.addedGroups.length > 0) {
       this.formSubmitted.emit({
-        activityGroups: this.createDetailsObject(),
+        activityGroups: this.addedGroups,
+      })
+    } else if (this.validateForm()) {
+      this.addNewGroup();
+      this.formSubmitted.emit({
+        activityGroups: this.addedGroups,
       })
     }
   }
 
   private validateForm(): boolean {
-    // if (!this.form.valid) {
-    //   Object.values(this.form.controls).forEach(control => {
-    //     if (control.invalid) {
-    //       control.markAsDirty();
-    //       control.updateValueAndValidity({ onlySelf: true });
-    //     }
-    //   });
-    //   return false;
-    // }
+    if (!this.form.valid) {
+      Object.values(this.form.controls).forEach(control => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+      return false;
+    }
     return true;
-  }
-
-
-  private createDetailsObject(): GroupDetails[] {
-    const result = []
-    this.activityGroups.value.forEach((details) =>
-      result.push({
-        price: details.price,
-        time: details.time,
-        weekDay: details.weekDay,
-      })
-    );
-
-    return result
   }
 }
 
@@ -101,11 +88,13 @@ export interface GroupsData {
 }
 
 export interface GroupDetails {
+  name: string,
+  duration: number;
   price: number,
   time: Date,
   weekDay: WeekDay,
 }
 
 export function instanceOfGroupsData(object: any): object is GroupsData {
-  return ('groupDetails' in object);
+  return ('activityGroups' in object);
 }

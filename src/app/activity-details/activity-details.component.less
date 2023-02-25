@@ -1,3 +1,5 @@
+@import '../../styles.less';
+
 :host {
     margin-top: 16px;
     height: 100%;
@@ -6,7 +8,7 @@
 .grid-contaier {
     height: 100%;
     display: grid;
-    grid-template-columns: 63% auto;
+    grid-template-columns: auto 63%;
     gap: 24px;
 }
 
@@ -17,7 +19,7 @@
     background: white;
     color: black;
     overflow: hidden;
-    border: 1px solid #1890ff;
+    border: 1px solid @primary-color;
     border-radius: 2px;
 
     img {
@@ -35,7 +37,7 @@
     position: absolute;
     top: 40%;
     font-size: 40px;
-    color: #1890ff;
+    color: @primary-color;
 
     &:hover {
         cursor: pointer;
@@ -60,7 +62,7 @@
     }
 
     &__description {
-        color: gray;
+        color: @disabled-color;
     }
 }
 
@@ -69,18 +71,35 @@
 }
 
 .second-column {
-    background-color: #fafafa;
+    background-color: @secondary-color;
     border-radius: 2px;
 }
 
-.activity-details {
+.activity-groups {
     display: flex;
     justify-content: space-between;
     align-items: center;
 
+    &__details {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+
+        &--column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80px;
+        }
+    }
+
     &__price {
-        border: 1px solid #1890ff;
+        border: 1px solid @primary-color;
         border-radius: 2px;
         padding: 8px;
     }
+}
+
+.info__icon {
+    margin-right: 4px;
 }
