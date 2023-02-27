@@ -22,9 +22,8 @@ export class WeekDayPipe implements PipeTransform {
       case 6:
         return 'Niedziela'
       default:
-        break;
+        throw new Error('Nie ma takiego dnia tygodnia!');
     }
-    return null;
   }
 
 }

@@ -77,7 +77,6 @@ export class MediaDataFormComponent {
           console.log("DATA:", data);
         });
       }
-      console.log("GUID FILE:", this.guid);
 
       this.form.controls.images.setValue(this.images.length);
     }

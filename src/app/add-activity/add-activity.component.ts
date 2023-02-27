@@ -43,7 +43,7 @@ export class AddActivityComponent {
     this.isLoading = true;
     const activity = this.createActivity();
 
-    this.activitiesService.insertActivity(activity).subscribe((data) => {
+    this.activitiesService.insertActivity(activity).subscribe(() => {
       this.isLoading = false;
       this.notificationsService.success('Zajęcia dodane', 'Poczekaj na email potwierdzający weryfijację.');
       this.modalService.close();

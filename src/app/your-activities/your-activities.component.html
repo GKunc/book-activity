@@ -1,0 +1,20 @@
+<h1 class="your-activities__title">Twoje zajęcia:</h1>
+
+<ng-container *ngIf="!loading">
+    <div class="your-activities">
+        <div *ngFor="let activity of activities" class="your-activities__container">   
+            <div>     
+                <h2 class="your-activities__details--name">{{ activity.name }}</h2>
+                <div class="your-activities__details--category">{{ activity.category | category }}</div>
+            </div>
+
+            <div class="your-activities__actions">
+            <a nz-button nzType="link">Edyduj <span nz-icon nzType="edit" nzTheme="outline"></span></a>
+            <a nz-button nzType="link" (click)="deleteActivity(activity)">Usuń <span nz-icon nzType="delete" nzTheme="outline"></span></a>
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+<loader *ngIf="loading"></loader>
+<no-data *ngIf="noData"></no-data>

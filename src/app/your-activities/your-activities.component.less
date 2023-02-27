@@ -1,0 +1,35 @@
+@import '../../styles.less';
+
+.your-activities {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    &__title {
+        margin-top: 16px;
+    }
+
+    &__container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px;
+        border: 1px solid @primary-color;
+    }
+
+    &__actions {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    &__details {
+        &--name {
+            margin-bottom: 0;
+        }
+
+        &--category {
+            color: @disabled-color;
+        }
+    }
+}
