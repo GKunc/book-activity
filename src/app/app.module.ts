@@ -30,6 +30,9 @@ import { WeekDayPipe } from './common/pipes/week-day.pipe';
 import { PricePlnPipe } from './common/pipes/price-pln.pipe';
 import { ActivityGroupsFormComponent } from './add-activity/activity-groups-form/activity-groups-form.component';
 import { DurationMinPipe } from './common/pipes/duration-min.pipe';
+import { YourActivitiesComponent } from './your-activities/your-activities.component';
+import { CategoryPipe } from './common/pipes/category.pipe';
+import { DeleteModalComponent } from './your-activities/delete-modal/delete-modal.component';
 
 registerLocaleData(en);
 
@@ -47,7 +50,10 @@ registerLocaleData(en);
     WeekDayPipe,
     PricePlnPipe,
     DurationMinPipe,
+    CategoryPipe,
     ActivityGroupsFormComponent,
+    YourActivitiesComponent,
+    DeleteModalComponent,
   ],
   imports: [
     BrowserModule,

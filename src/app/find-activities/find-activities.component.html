@@ -41,10 +41,9 @@
     <nz-layout>
       <nz-content class="content-container">
         <div *ngIf="!loading && !noData" class="find-activities">
-            <div *ngFor="let a of activities" class="activity-container" routerLink="/detail/{{a.guid}}">                
-                <h2>{{a.name}}</h2>
-                <p>Email: {{a.email}}</p>
-                <p>Telefon: {{a.phone}}</p>
+            <div *ngFor="let activity of activities" class="activity-container" routerLink="/detail/{{activity.guid}}">                
+                <h2>{{ activity.name }}</h2>
+                <div>{{ activity.category }}</div>
             </div>
         </div>
         <loader *ngIf="loading"></loader>

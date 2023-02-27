@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable, tap } from 'rxjs';
-import { Details } from 'src/app/add-activity/activity-data-form/activity-data-form.component';
+import { Observable } from 'rxjs';
 import { GroupDetails } from 'src/app/add-activity/activity-groups-form/activity-groups-form.component';
 import { Category } from 'src/app/add-activity/category.consts';
 import { WeekDay } from 'src/app/add-activity/week-days.consts';
@@ -17,19 +16,16 @@ export class ActivitiesService {
     return this.http.get<Activity[]>('/api/activities');
   }
 
+  getUserActivities(id: string): Observable<Activity[]> {
+    return this.http.get<Activity[]>(`/api/activities?id=${id}`);
+  }
+
   getActivityDetails(id: string): Observable<Activity> {
-    return this.http.get<Activity>('/api/activities/detail?id=' + id);
+    return this.http.get<Activity>(`/api/activities/detail?id=${id}`);
   }
 
   filterActivities(query: Partial<FilterActivitiesParams>): Observable<any> {
     return this.http.post<Activity[]>('/api/filter-activities', query);
-    // {
-    //   phrase: 'phrase',
-    //   day: 0,
-    //   category: '1',
-    //   minPrice: 10,
-    //   maxPrice: 100,
-    // }
   }
 
   insertActivity(activity: Activity): Observable<any> {
@@ -45,6 +41,10 @@ export class ActivitiesService {
 
   getPhoto(id: string): any {
     return this.http.get(`/api/activities/photos?id=${id}`, { responseType: 'blob' });
+  }
+
+  deleteActivity(id: string): Observable<any> {
+    return this.http.delete(`/api/activities?id=${id}`);
   }
 
   editActivity(): void {

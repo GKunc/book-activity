@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ActivityDetailsComponent } from './activity-details/activity-details.component';
 import { FindActivitiesComponent } from './find-activities/find-activities.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { YourActivitiesComponent } from './your-activities/your-activities.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: 'detail/:id',
     component: ActivityDetailsComponent
+  },
+  {
+    path: 'your-activities',
+    component: YourActivitiesComponent
   },
 ];
 

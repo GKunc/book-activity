@@ -48,7 +48,7 @@ export class NavComponent implements OnInit {
   }
 
   openAddActivityScreen(): void {
-    this.modalService.createModal(AddActivityComponent, 'Dodaj swoje zajęcia', 500, "Wyślij");
+    this.modalService.createModal(AddActivityComponent, 'Dodaj swoje zajęcia', 500);
   }
 
   openLoginScreen(): void {

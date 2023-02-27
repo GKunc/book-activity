@@ -32,7 +32,7 @@
 
 <div class="modal__action-container">
     <hub-button text="Poprzednie" (click)="previous()"></hub-button>
-    <hub-button text="Dalej" (click)="submit()"></hub-button>
+    <hub-button [isLoading]="isLoading" text="Wyślij" (click)="submit()"></hub-button>
 </div>
 
 <ng-template #errorDescription let-control>
