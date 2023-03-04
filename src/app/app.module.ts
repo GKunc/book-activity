@@ -26,19 +26,19 @@ import { IconModule } from '@ant-design/icons-angular';
 import { ActivityDetailsComponent } from './activity-details/activity-details.component';
 import { MediaDataFormComponent } from './add-activity/media-data-form/media-data-form.component';
 import { DragAndDropDirective } from './common/directives/drag-and-drop/drag-and-drop.directive';
-import { WeekDayPipe } from './common/pipes/week-day.pipe';
-import { PricePlnPipe } from './common/pipes/price-pln.pipe';
 import { ActivityGroupsFormComponent } from './add-activity/activity-groups-form/activity-groups-form.component';
-import { DurationMinPipe } from './common/pipes/duration-min.pipe';
 import { YourActivitiesComponent } from './your-activities/your-activities.component';
-import { CategoryPipe } from './common/pipes/category.pipe';
 import { DeleteModalComponent } from './your-activities/delete-modal/delete-modal.component';
+import { NotAuthorizedComponent } from './not-authorized/not-authorized.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
+import { ActivityBoxComponent } from './activity-box/activity-box.component';
 
 registerLocaleData(en);
 
 @NgModule({
   declarations: [
     AppComponent,
+    LandingPageComponent,
     AddActivityComponent,
     ActivityDataFormComponent,
     ClientDataFormComponent,
@@ -47,13 +47,11 @@ registerLocaleData(en);
     MediaDataFormComponent,
     ActivityDetailsComponent,
     DragAndDropDirective,
-    WeekDayPipe,
-    PricePlnPipe,
-    DurationMinPipe,
-    CategoryPipe,
     ActivityGroupsFormComponent,
     YourActivitiesComponent,
     DeleteModalComponent,
+    NotAuthorizedComponent,
+    ActivityBoxComponent,
   ],
   imports: [
     BrowserModule,

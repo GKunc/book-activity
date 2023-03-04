@@ -30,12 +30,21 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SafeUrlPipe } from '../common/pipes/safe-url.pipe';
 import { LoaderComponent } from './loader/loader/loader.component';
 import { NoDataComponent } from './no-data/no-data/no-data.component';
+import { WeekDayPipe } from '../common/pipes/week-day.pipe';
+import { PricePlnPipe } from '../common/pipes/price-pln.pipe';
+import { DurationMinPipe } from '../common/pipes/duration-min.pipe';
+import { CategoryPipe } from '../common/pipes/category.pipe';
 
 
 @NgModule({
   declarations: [
     ButtonComponent,
     SafeUrlPipe,
+    WeekDayPipe,
+    PricePlnPipe,
+    DurationMinPipe,
+    CategoryPipe,
+
     LoaderComponent,
     NoDataComponent,
   ],
@@ -75,7 +84,13 @@ import { NoDataComponent } from './no-data/no-data/no-data.component';
     ButtonComponent,
     LoaderComponent,
     NoDataComponent,
+
     SafeUrlPipe,
+    WeekDayPipe,
+    PricePlnPipe,
+    DurationMinPipe,
+    CategoryPipe,
+
     RouterModule,
 
     NzButtonModule,

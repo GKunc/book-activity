@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ActivityDetailsComponent } from './activity-details/activity-details.component';
+import { CanEditActivityGuard } from './common/guards/can-edit-activity.guard';
 import { FindActivitiesComponent } from './find-activities/find-activities.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { NotAuthorizedComponent } from './not-authorized/not-authorized.component';
 import { YourActivitiesComponent } from './your-activities/your-activities.component';
 
 const routes: Routes = [
@@ -16,11 +18,15 @@ const routes: Routes = [
   },
   {
     path: 'detail/:id',
-    component: ActivityDetailsComponent
+    component: ActivityDetailsComponent,
   },
   {
     path: 'your-activities',
-    component: YourActivitiesComponent
+    component: YourActivitiesComponent,
+  },
+  {
+    path: 'not-authorized',
+    component: NotAuthorizedComponent,
   },
 ];
 

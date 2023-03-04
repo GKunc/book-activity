@@ -1,4 +1,7 @@
-<h1 class="your-activities__title">Twoje zajęcia:</h1>
+<div class="your-activities__header">
+    <h1 class="your-activities__title">Twoje zajęcia:</h1>
+    <button *ngIf="userLogged" (click)="addActivity()" nz-button nzType="primary" nzShape="circle"><span nz-icon nzType="plus"></span></button>
+</div>
 
 <ng-container *ngIf="!loading">
     <div class="your-activities">
@@ -9,12 +12,12 @@
             </div>
 
             <div class="your-activities__actions">
-            <a nz-button nzType="link">Edyduj <span nz-icon nzType="edit" nzTheme="outline"></span></a>
+            <a nz-button nzType="link" (click)="editActivity(activity)">Edyduj <span nz-icon nzType="edit" nzTheme="outline"></span></a>
             <a nz-button nzType="link" (click)="deleteActivity(activity)">Usuń <span nz-icon nzType="delete" nzTheme="outline"></span></a>
             </div>
         </div>
     </div>
 </ng-container>
 
-<loader *ngIf="loading"></loader>
+<loader *ngIf="loading && userLogged"></loader>
 <no-data *ngIf="noData"></no-data>

@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { GroupDetails } from 'src/app/add-activity/activity-groups-form/activity-groups-form.component';
@@ -18,6 +18,10 @@ export class ActivitiesService {
 
   getUserActivities(id: string): Observable<Activity[]> {
     return this.http.get<Activity[]>(`/api/activities?id=${id}`);
+  }
+
+  checkPermission(guid: string, userId: string): Observable<any> {
+    return this.http.get(`/api/check-permissions?guid=${guid}&userId=${userId}`, { responseType: 'text', observe: 'response' });
   }
 
   getActivityDetails(id: string): Observable<Activity> {
@@ -68,12 +72,14 @@ export interface Activity {
   facebook?: string;
   instagram?: string;
   www?: string;
+  coverPhoto?: string;
 }
 
 export interface FilterActivitiesParams {
-  phrase: string,
-  weekDay: WeekDay,
-  category: Category,
-  minPrice: number,
-  maxPrice: number,
+  phrase: string;
+  weekDay: WeekDay;
+  category: Category;
+  minPrice: number;
+  maxPrice: number;
+  guid: string,
 }

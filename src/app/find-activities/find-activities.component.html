@@ -40,12 +40,17 @@
 
     <nz-layout>
       <nz-content class="content-container">
+        
         <div *ngIf="!loading && !noData" class="find-activities">
             <div *ngFor="let activity of activities" class="activity-container" routerLink="/detail/{{activity.guid}}">                
-                <h2>{{ activity.name }}</h2>
-                <div>{{ activity.category }}</div>
+                <img class="activity-container__background" [src]="activity.coverPhoto | safeUrl"/>        
+                <div class="activity-container__info">
+                    <h2>{{ activity.name }}</h2>
+                    <div>{{ activity.category | category }}</div>
+                </div>
             </div>
         </div>
+
         <loader *ngIf="loading"></loader>
         <no-data *ngIf="noData"></no-data>
       </nz-content>

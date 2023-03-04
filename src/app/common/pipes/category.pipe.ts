@@ -18,7 +18,7 @@ export class CategoryPipe implements PipeTransform {
       case 4:
         return 'Zajęcia ogólnorozwojowe'
       default:
-        throw new Error('Brak podanej kategorii zajęć!')
+        return ''
     }
   }
 }

@@ -1,9 +1,19 @@
 @import '../../styles.less';
 
+:host {
+    height: 100%;
+}
+
 .your-activities {
     display: flex;
     flex-direction: column;
     gap: 8px;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
     &__title {
         margin-top: 16px;
