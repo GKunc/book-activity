@@ -1,23 +1,22 @@
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, ReplaySubject } from 'rxjs';
 import { BehaviorSubject, from } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  private readonly _user$ = new BehaviorSubject<SocialUser>(null);
+  readonly _user$ = new ReplaySubject<SocialUser>(null);
 
-  readonly user$ = this._user$.asObservable();
+  loogedUser: SocialUser = null;
 
   constructor(
     private authService: SocialAuthService
   ) {
 
     this.authService.authState.subscribe((user) => {
-      console.log(user);
-
+      this.loogedUser = user;
       this._user$.next(user);
     });
   }
@@ -30,11 +29,7 @@ export class LoginService {
     }
   }
 
-  get user(): SocialUser | undefined {
-    return this._user$.getValue();
-  }
-
-  private set user(value: SocialUser | undefined) {
-    this._user$.next(value);
+  get user(): SocialUser {
+    return this.loogedUser;
   }
 }

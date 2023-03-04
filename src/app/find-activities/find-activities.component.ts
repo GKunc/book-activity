@@ -90,8 +90,15 @@ export class FindActivitiesComponent implements OnInit {
     this.activitiesService.getActivities().subscribe((data) => {
       this.noData = this.hasNoData(data);
       this.activities = data;
+      this.activities.forEach(activity => {
+        // zrownoleglic
+        this.activitiesService.getPhoto(`${activity.guid}-0`).subscribe(response =>
+          activity.coverPhoto = URL.createObjectURL(response)
+        )
+      })
       this.loading = false;
     });
+
   }
 
   private hasNoData(data: Activity[]): boolean {

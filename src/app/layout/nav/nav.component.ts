@@ -2,7 +2,6 @@ import { SocialUser } from '@abacritt/angularx-social-login';
 import { WeekDay } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AddActivityComponent } from 'src/app/add-activity/add-activity.component';
 import { WEEK_DAYS } from 'src/app/add-activity/week-days.consts';
 import { LoginService } from 'src/app/common/services/login-service/login.service';
 import { ModalService } from 'src/app/common/services/modal/modal.service';
@@ -29,7 +28,7 @@ export class NavComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loginService.user$?.subscribe(data => {
+    this.loginService._user$?.subscribe(data => {
       if (data) {
         this.user = data;
         const userNameSplitted = this.user?.name.split(' ');
@@ -45,10 +44,6 @@ export class NavComponent implements OnInit {
 
   signOut(): void {
     this.loginService.signOut();
-  }
-
-  openAddActivityScreen(): void {
-    this.modalService.createModal(AddActivityComponent, 'Dodaj swoje zajęcia', 500);
   }
 
   openLoginScreen(): void {

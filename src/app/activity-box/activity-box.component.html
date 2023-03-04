@@ -1,0 +1,7 @@
+<ng-component>
+    <img class="activity-box__background" [src]="activity.coverPhoto | safeUrl"/>        
+    <div class="activity-box__info">
+        <h2>{{ activity.name }}</h2>
+        <div>{{ activity.category | category }}</div>
+    </div>
+</ng-component>

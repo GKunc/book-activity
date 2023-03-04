@@ -88,6 +88,33 @@ app.post('/api/filter-activities', async function (req, res) {
   }
 })
 
+app.get('/api/check-permissions', async function (req, res) {
+  uri = process.env.MANGO_DB_CONNECTION_STRING;
+  let query = {};
+  const guid = req.query.guid;
+  const userId = req.query.userId;
+
+  if (guid) {
+    query.guid = req.query.guid;
+  }
+
+  const client = new MongoClient(uri);
+  try {
+    const database = client.db('edds');
+    const activities = database.collection('activities');
+    const result = await activities.findOne(query);
+    if (result.createdBy === userId) {
+      res.status(200).send('OK')
+      console.log("Permission granted.");
+    } else {
+      res.status(401).json({ error: 'No permission' })
+      console.log("No permission.");
+    }
+  } finally {
+    await client.close();
+  }
+})
+
 app.get('/api/activities', async function (req, res) {
   uri = process.env.MANGO_DB_CONNECTION_STRING;
   const id = req.query.id;

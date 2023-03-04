@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BooleanInput } from 'ng-zorro-antd/core/types';
-import { Observable } from 'rxjs';
+import { AddActivityComponent } from '../add-activity/add-activity.component';
 import { ActivitiesService, Activity } from '../common/services/activities/activities.service';
 import { LoginService } from '../common/services/login-service/login.service';
 import { ModalService } from '../common/services/modal/modal.service';
@@ -16,6 +15,7 @@ export class YourActivitiesComponent implements OnInit {
   activities: Activity[];
   loading: boolean;
   noData: boolean;
+  userLogged: boolean = false;
 
   constructor(
     private activitiesService: ActivitiesService,
@@ -28,6 +28,15 @@ export class YourActivitiesComponent implements OnInit {
     this.getUserActivities();
   }
 
+  addActivity(): void {
+    this.modalService.createModal(AddActivityComponent, 'Dodaj swoje zajęcia', 500);
+  }
+
+
+  editActivity(activity: Activity): void {
+
+  }
+
   deleteActivity(activity: Activity): void {
     const modal = this.modalService.createModal(DeleteModalComponent, "Czy na pewno chcesz usunąć zajęcia?", 400, { activity });
     modal.afterClose.subscribe(() => {
@@ -38,12 +47,19 @@ export class YourActivitiesComponent implements OnInit {
 
   private getUserActivities(): void {
     this.loading = true;
-    this.activitiesService.getUserActivities(this.loginService.user.id).subscribe(data => {
-      this.activities = data;
-      this.noData = this.hasNoData(data);
-      this.loading = false;
-    });
+    this.loginService._user$.subscribe(user => {
+      if (user) {
+        this.userLogged = true;
+        this.activitiesService.getUserActivities(user?.id).subscribe(data => {
+          this.activities = data;
+          this.noData = this.hasNoData(data);
+          this.loading = false;
+        });
+      }
+    })
+
   }
+
   private hasNoData(data: Activity[]): boolean {
     return data.length === 0 ? true : false;
   }

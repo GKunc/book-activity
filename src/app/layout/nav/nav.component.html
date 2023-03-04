@@ -17,21 +17,25 @@
             </ng-template>
         </div>
     </div>
-    <div *ngIf="loginService.user$ | async as user; else login" class="sign-in-container">
-        <hub-button size="large" text="Dodaj zajęcia" icon="plus" (click)="openAddActivityScreen()"></hub-button>
+    <div *ngIf="loginService._user$ | async as user; else login" class="sign-in-container">
         <div class="login-button">
-            <nz-avatar nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" nzSize="large" [nzText]="userInitials"></nz-avatar>
+            <nz-avatar nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" nzSize="large" [nzText]="userInitials"  nzPlacement="bottomRight"></nz-avatar>
               <nz-dropdown-menu #menu="nzDropdownMenu">
                 <ul nz-menu nzSelectable>
-                  <li nz-menu-item routerLink="/your-activities">Twoje zajęcia</li>
-                  <li nz-menu-item (click)="signOut()">Wyloguj</li>
+                    <li nz-menu-item routerLink="/your-activities">Twoje zajęcia</li>
+                    <li nz-menu-item (click)="signOut()">Wyloguj</li>
                 </ul>
               </nz-dropdown-menu>
         </div>
     </div>
     <ng-template #login>
         <div class="login-button">
-            <hub-button size="large" text="Zaloguj się" (click)="openLoginScreen()"></hub-button>
+            <nz-avatar nz-dropdown nzTrigger="click" [nzDropdownMenu]="menuNotLogged" nzSize="large" nzIcon="user"  nzPlacement="bottomRight"></nz-avatar>
+            <nz-dropdown-menu #menuNotLogged="nzDropdownMenu">
+                <ul nz-menu nzSelectable>
+                    <li nz-menu-item (click)="openLoginScreen()">Zaloguj</li>
+                </ul>
+            </nz-dropdown-menu>
         </div>
     </ng-template>
     
