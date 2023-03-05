@@ -1,10 +1,11 @@
 import { SocialUser } from '@abacritt/angularx-social-login';
 import { WeekDay } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { WEEK_DAYS } from 'src/app/add-activity/week-days.consts';
 import { LoginService } from 'src/app/common/services/login-service/login.service';
 import { ModalService } from 'src/app/common/services/modal/modal.service';
+import { ResizeService } from 'src/app/common/services/resize/resize.service';
 import { LoginPageComponent } from 'src/app/login-page/login-page.component';
 
 @Component({
@@ -13,6 +14,7 @@ import { LoginPageComponent } from 'src/app/login-page/login-page.component';
   styleUrls: ['./nav.component.less']
 })
 export class NavComponent implements OnInit {
+  visible: boolean = false;
 
   user: SocialUser | undefined;
   userInitials: string;
@@ -22,6 +24,7 @@ export class NavComponent implements OnInit {
 
   constructor(
     public loginService: LoginService,
+    public resizeService: ResizeService,
     private modalService: ModalService,
     private router: Router,
   ) {
@@ -48,5 +51,13 @@ export class NavComponent implements OnInit {
 
   openLoginScreen(): void {
     this.modalService.createModal(LoginPageComponent, 'Login', 440);
+  }
+
+  openMobileMenu(): void {
+    this.visible = true;
+  }
+
+  closeMobileMenu(): void {
+    this.visible = false;
   }
 }

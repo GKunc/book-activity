@@ -1,5 +1,5 @@
 <nz-layout>
-    <nz-sider class="slider__filters">
+    <nz-sider *ngIf="(resizeService.isSmall$ | async) === false" class="slider__filters">
         <div class="find-activities__filters">
             <div class="find-activities__filters-row">
                 <h2>Filtruj:</h2> 
@@ -40,14 +40,9 @@
 
     <nz-layout>
       <nz-content class="content-container">
-        
         <div *ngIf="!loading && !noData" class="find-activities">
-            <div *ngFor="let activity of activities" class="activity-container" routerLink="/detail/{{activity.guid}}">                
-                <img class="activity-container__background" [src]="activity.coverPhoto | safeUrl"/>        
-                <div class="activity-container__info">
-                    <h2>{{ activity.name }}</h2>
-                    <div>{{ activity.category | category }}</div>
-                </div>
+            <div *ngFor="let activity of activities" routerLink="/detail/{{activity.guid}}">                
+                <activity-box [activity]="activity"></activity-box>
             </div>
         </div>
 

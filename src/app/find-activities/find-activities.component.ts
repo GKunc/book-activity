@@ -1,9 +1,10 @@
 import { WeekDay } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { debounceTime, Observable, Subject } from 'rxjs';
 import { ACTIVITY_CATEGORIES, Category } from '../add-activity/category.consts';
 import { WEEK_DAYS } from '../add-activity/week-days.consts';
 import { ActivitiesService, Activity, FilterActivitiesParams } from '../common/services/activities/activities.service';
+import { ResizeService } from '../common/services/resize/resize.service';
 
 const KEYBOARD_DEBOUND_TIME = 400;
 const MAX_PRICE = 1000;
@@ -31,7 +32,10 @@ export class FindActivitiesComponent implements OnInit {
   loading: boolean;
   noData: boolean = true;
 
-  constructor(private activitiesService: ActivitiesService) { }
+  constructor(
+    private activitiesService: ActivitiesService,
+    public resizeService: ResizeService,
+  ) { }
 
   ngOnInit(): void {
     this.getActivities();

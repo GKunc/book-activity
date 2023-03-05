@@ -34,7 +34,7 @@ export class YourActivitiesComponent implements OnInit {
 
 
   editActivity(activity: Activity): void {
-
+    this.modalService.createModal(AddActivityComponent, 'Dodaj swoje zajęcia', 500);
   }
 
   deleteActivity(activity: Activity): void {

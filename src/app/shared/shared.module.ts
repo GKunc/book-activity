@@ -24,6 +24,9 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzCarouselModule } from 'ng-zorro-antd/carousel';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzImageModule } from 'ng-zorro-antd/image';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 
 import { SocialLoginModule } from '@abacritt/angularx-social-login';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -74,6 +77,9 @@ import { CategoryPipe } from '../common/pipes/category.pipe';
     NzCarouselModule,
     NzToolTipModule,
     NzImageModule,
+    NzSpinModule,
+    NzEmptyModule,
+    NzDrawerModule,
 
     ReactiveFormsModule,
     FormsModule,
@@ -113,6 +119,9 @@ import { CategoryPipe } from '../common/pipes/category.pipe';
     NzCarouselModule,
     NzToolTipModule,
     NzImageModule,
+    NzSpinModule,
+    NzEmptyModule,
+    NzDrawerModule,
 
     ReactiveFormsModule,
     FormsModule,

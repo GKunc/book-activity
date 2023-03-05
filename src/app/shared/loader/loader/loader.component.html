@@ -1,1 +1,5 @@
-<h1>Loading...</h1>
+<ng-template #indicatorTemplate>
+    <span class="loader__icon" nz-icon nzType="loading"></span>
+    <div class="loader__text">Loading...</div>
+</ng-template>
+<nz-spin nzSimple [nzIndicator]="indicatorTemplate"></nz-spin>
