@@ -234,18 +234,29 @@
 //   console.log("Node Express server for " + app.name + " listening on http://localhost:" + port);
 // });
 
-//Install express server
-const express = require('express');
-const path = require('path');
+const express = require("express");
 
+// config
+const port = process.env.PORT || 8080;
+const app_folder = 'dist/book-activity/';
+const options = {
+  dotfiles: 'ignore',
+  etag: false,
+  extensions: ['html', 'js', 'scss', 'css'],
+  index: false,
+  maxAge: '1y',
+  redirect: true,
+}
+
+// create app
 const app = express();
+app.use(express.static(app_folder, options));
 
-// Serve only the static files form the dist directory
-app.use(express.static(__dirname + '/dist/book-activity'));
-
-app.get('/*', function (req, res) {
-  res.sendFile(path.join(__dirname + '/dist/book-activity/index.html'));
+// serve angular paths
+app.get('/', function (req, res) {
+  res.status(200).sendFile(`/`, { root: app_folder });
 });
-
-// Start the app by listening on the default Heroku port
-app.listen(process.env.PORT || 8080);
+// start listening
+app.listen(port, function () {
+  console.log("Node Express server for " + app.name + " listening on http://localhost:" + port);
+});
