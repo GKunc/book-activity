@@ -22,9 +22,7 @@ const options = {
 const app = express();
 app.use(express.json());
 app.use(express.static(app_folder, options));
-app.use(cors({
-  origin: 'http://localhost:4200'
-}));
+app.use(cors({}));
 
 // serve angular paths
 app.get('/', function (req, res) {
