@@ -238,7 +238,7 @@ const express = require("express");
 
 // config
 const port = process.env.PORT || 8080;
-const app_folder = 'dist/book-activity/';
+const app_folder = 'dist/book-activity/browser';
 const options = {
   dotfiles: 'ignore',
   etag: false,
