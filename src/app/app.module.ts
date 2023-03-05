@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { LayoutModule } from '@angular/cdk/layout';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from './shared/shared.module';
-import { LayoutModule } from './layout/layout.module';
+import { HubLayoutModule } from './layout/layout.module';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginPageModule } from './login-page/login-page.module';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
@@ -18,7 +19,6 @@ import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-s
 import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
 import { environment } from 'src/environments/environment.prod';
 import { AddActivityComponent } from './add-activity/add-activity.component';
-import { FindActivitiesModule } from './find-activities/find-activities.module';
 import { ActivityDataFormComponent } from './add-activity/activity-data-form/activity-data-form.component';
 import { ClientDataFormComponent } from './add-activity/client-data-form/client-data-form.component';
 import { LocationDataFormComponent } from './add-activity/location-data-form/location-data-form.component';
@@ -32,6 +32,7 @@ import { DeleteModalComponent } from './your-activities/delete-modal/delete-moda
 import { NotAuthorizedComponent } from './not-authorized/not-authorized.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { ActivityBoxComponent } from './activity-box/activity-box.component';
+import { FindActivitiesComponent } from './find-activities/find-activities.component';
 
 registerLocaleData(en);
 
@@ -52,6 +53,7 @@ registerLocaleData(en);
     DeleteModalComponent,
     NotAuthorizedComponent,
     ActivityBoxComponent,
+    FindActivitiesComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,9 +61,9 @@ registerLocaleData(en);
     RouterModule,
     SharedModule,
     LayoutModule,
+    HubLayoutModule,
     HttpClientModule,
     LoginPageModule,
-    FindActivitiesModule,
     FormsModule,
     BrowserAnimationsModule,
     SocialLoginModule,

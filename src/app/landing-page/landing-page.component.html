@@ -1,8 +1,15 @@
 <div class="landing-page">
     <div class="landing-page__section">
         <div class="landing-page__section--text">
-            <h1 class="landing-page__section--title">Szukaj zajęć grupowych dla swoich dzieci!</h1>
-            <div class="landing-page__section--content">
+            <h1 class="landing-page__section--title">Szukaj zajęć grupowych!</h1>
+            <hub-button 
+            *ngIf="resizeService.isSmall$ | async"
+            class="landing-page__action-button" 
+            text="Szukaj zajęć" 
+            routerLink="/find-activities">
+            </hub-button>
+            
+            <div *ngIf="(resizeService.isSmall$ | async) === false" class="landing-page__section--content">
                 Witaj na naszej stronie, która pomaga w wyszukiwaniu grupowych zajęć sportowych!
                 
                 Nasza strona oferuje narzędzie wyszukiwania, które pozwala znaleźć grupowe zajęcia sportowe w Twojej okolicy. Dzięki temu narzędziu, możesz łatwo przeglądać dostępne opcje, porównać je pod kątem ceny, lokalizacji i rodzaju zajęć, oraz znaleźć zajęcia, które będą odpowiednie dla Twojego dziecka.
@@ -14,7 +21,7 @@
                 </hub-button>
             </div>
         </div>
-        <div class="landing-page__section--image kids-image">
+        <div *ngIf="(resizeService.isSmall$ | async) === false" class="landing-page__section--image kids-image">
         </div>
     </div>
 
@@ -59,12 +66,12 @@
     <nz-divider></nz-divider>
 
     <div class="landing-page__section">
-        <div class="landing-page__section--image instructor-image">
+        <div *ngIf="(resizeService.isSmall$ | async) === false" class="landing-page__section--image instructor-image">
         </div>
         <div class="landing-page__section--text">
             <h1 class="landing-page__section--title">Chcesz dodać swoje zajęcia?</h1>
             <div class="landing-page__section--content">
-                Załóz darmowe konto i dodaj szczegóły. 
+                Załóż darmowe konto i dodaj szczegóły. 
                 <br>
                 Zwiększysz zasięg swojej oferty.
                 <br>
@@ -72,7 +79,7 @@
 
                 <hub-button 
                     class="landing-page__action-button" 
-                    text="Załóz konto" 
+                    text="Załóż konto" 
                     >
                 </hub-button>
             </div>
