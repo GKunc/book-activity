@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostBinding, Input } from '@angular/core';
 
 @Component({
   selector: 'loader',
@@ -6,4 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./loader.component.less']
 })
 export class LoaderComponent {
+  @Input()
+  inlineStyle: boolean = false;
+
+  @HostBinding('class.inline')
+  get inline(): boolean {
+    console.log(this.inlineStyle);
+    return this.inlineStyle;
+  }
 }
