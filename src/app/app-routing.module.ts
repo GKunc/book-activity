@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ActivityDetailsComponent } from './activity-details/activity-details.component';
+import { ActivityMapComponent } from './activity-map/activity-map.component';
 import { CanEditActivityGuard } from './common/guards/can-edit-activity.guard';
 import { FindActivitiesComponent } from './find-activities/find-activities.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
@@ -15,6 +16,10 @@ const routes: Routes = [
   {
     path: 'find-activities',
     component: FindActivitiesComponent,
+  },
+  {
+    path: 'activity-map',
+    component: ActivityMapComponent,
   },
   {
     path: 'detail/:id',

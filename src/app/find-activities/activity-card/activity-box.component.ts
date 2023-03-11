@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Activity } from '../common/services/activities/activities.service';
+import { Activity } from '../../common/services/activities/activities.service';
 
 @Component({
   selector: 'activity-box',

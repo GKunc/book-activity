@@ -1,5 +1,6 @@
 import { WeekDay } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { debounceTime, Observable, Subject } from 'rxjs';
 import { ACTIVITY_CATEGORIES, Category } from '../add-activity/category.consts';
 import { WEEK_DAYS } from '../add-activity/week-days.consts';
@@ -34,10 +35,18 @@ export class FindActivitiesComponent implements OnInit {
 
   constructor(
     private activitiesService: ActivitiesService,
+    private route: ActivatedRoute,
     public resizeService: ResizeService,
   ) { }
 
   ngOnInit(): void {
+    this.phrase = this.route.snapshot.paramMap.get('phrase');
+    const includesWeekDays = this.route.snapshot.paramMap.get('weekDays')?.includes(',');
+    if (includesWeekDays) {
+      this.weekDay = this.route.snapshot.paramMap.get('weekDays')?.split(',').map(item => Number(item));
+    }
+    console.log(this.phrase, this.weekDay);
+
     this.getActivities();
 
     this.minPrice$.pipe(
@@ -102,7 +111,6 @@ export class FindActivitiesComponent implements OnInit {
       })
       this.loading = false;
     });
-
   }
 
   private hasNoData(data: Activity[]): boolean {

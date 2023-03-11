@@ -1,6 +1,5 @@
-<ng-container *ngIf="activity">
+<ng-container *ngIf="activity; else loadingState;">
     <div class="grid-contaier">
-
         <div class="column second-column">
             <iframe *ngIf="activity.googleMapsSrc" [src]="activity.googleMapsSrc| safeUrl" width="600" height="300" style="border:0; width: 100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             
@@ -8,7 +7,7 @@
                 <div class="info-container__section">
                     <h2>O nas</h2>
                     <p>{{currentDescription}}</p>
-                    <span *ngIf="descriptionTooLong">
+                    <span *ngIf="descriptionTooLong" (click)="toggleShowMore()">
                         <a *ngIf="!descriptionExpanded">Rozwiń <span nz-icon nzType="down" nzTheme="outline"></span></a>
                         <a *ngIf="descriptionExpanded">Zwiń <span nz-icon nzType="up" nzTheme="outline"></span></a>
                     </span>
@@ -18,11 +17,11 @@
 
                 <div class="info-container__section">
                     <h2>Kontakt</h2>
-                    <p><span class="info__icon" nz-icon nzType="mobile" nzTheme="outline"></span>{{activity.phone}}</p>
-                    <p><span class="info__icon" nz-icon nzType="mail" nzTheme="outline"></span>{{activity.email}}</p>
-                    <p *ngIf="activity.www"><span class="info__icon" nz-icon nzType="global" nzTheme="outline"></span>{{activity.www}}</p>
-                    <p *ngIf="activity.facebook"><span class="info__icon" nz-icon nzType="instagram" nzTheme="outline"></span>{{activity.facebook}}</p>
-                    <p *ngIf="activity.instagram"><span class="info__icon" nz-icon nzType="facebook" nzTheme="outline"></span>{{activity.instagram}}</p>
+                    <p><a [href]="phoneToHref"><span class="info__icon" nz-icon nzType="mobile" nzTheme="outline"></span>{{activity.phone}}</a></p>
+                    <p><a target="_blank" [href]="mailToHref"><span class="info__icon" nz-icon nzType="mail" nzTheme="outline"></span>{{activity.email}}</a></p>
+                    <p><a target="_blank" [href]="activity.www" *ngIf="activity.www"><span class="info__icon" nz-icon nzType="global" nzTheme="outline"></span>{{activity.www}}</a></p>
+                    <p><a target="_blank" [href]="activity.facebook" *ngIf="activity.facebook"><span class="info__icon" nz-icon nzType="instagram" nzTheme="outline"></span>{{activity.facebook}}</a></p>
+                    <p><a target="_blank" [href]="activity.instagram" *ngIf="activity.instagram"><span class="info__icon" nz-icon nzType="facebook" nzTheme="outline"></span>{{activity.instagram}}</a></p>
                 </div>
             </div>
         </div>
@@ -42,7 +41,6 @@
                     <span nz-icon nzType="right-circle" nzTheme="outline"></span>
                 </div>
             </div>
-            <loader *ngIf="loading"></loader>
         
             <div class="info-container">
                 <div class="info-container__section">
@@ -69,9 +67,9 @@
                 <nz-divider></nz-divider>
             </div>
         </div>
-
     </div>
 </ng-container>
 
-
-
+<ng-template #loadingState>
+<loader style="min-height: calc(100vh)"></loader>
+</ng-template>

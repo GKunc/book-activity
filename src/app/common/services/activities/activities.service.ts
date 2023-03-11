@@ -67,6 +67,7 @@ export interface Activity {
   street: string;
   city: string;
   googleMapsSrc: string;
+  coordinates: { lng: number, lat: number };
   email: string;
   phone: string;
   facebook?: string;

@@ -12,7 +12,8 @@
             <div *ngIf="(resizeService.isSmall$ | async) === false" class="landing-page__section--content">
                 Witaj na naszej stronie, która pomaga w wyszukiwaniu grupowych zajęć sportowych!
                 
-                Nasza strona oferuje narzędzie wyszukiwania, które pozwala znaleźć grupowe zajęcia sportowe w Twojej okolicy. Dzięki temu narzędziu, możesz łatwo przeglądać dostępne opcje, porównać je pod kątem ceny, lokalizacji i rodzaju zajęć, oraz znaleźć zajęcia, które będą odpowiednie dla Twojego dziecka.
+                Nasza strona oferuje narzędzie wyszukiwania, które pozwala znaleźć grupowe zajęcia sportowe w Twojej okolicy. 
+                <!-- Dzięki temu narzędziu, możesz łatwo przeglądać dostępne opcje, porównać je pod kątem ceny, lokalizacji i rodzaju zajęć, oraz znaleźć zajęcia, które będą odpowiednie dla Twojego dziecka. -->
                 
                 <hub-button 
                 class="landing-page__action-button" 
@@ -21,8 +22,10 @@
                 </hub-button>
             </div>
         </div>
-        <div *ngIf="(resizeService.isSmall$ | async) === false" class="landing-page__section--image kids-image">
-        </div>
+        <img class="landing-page__section--image" src="../../assets/kids_sport.png">
+
+        <!-- <div *ngIf="(resizeService.isSmall$ | async) === false" class="landing-page__section--image kids-image">
+        </div> -->
     </div>
 
     <nz-divider></nz-divider>
@@ -40,7 +43,7 @@
             <div class="landing-page__card">
                 <span class="landing-page__card-icon" nz-icon nzType="search" nzTheme="outline"></span>
                 <div class="landing-page_card--info">
-                    Znajdziesz najlepsze zajęcia sportowe
+                    Znajdziesz najlepsze zajęcia
                     <!-- Dzięki narzędziu wyszukiwania na naszej stronie, znajdziesz szeroki wybór zajęć sportowych dla dzieci w Twojej okolicy. Możesz przeglądać różne opcje, porównać je pod kątem ceny, lokalizacji i rodzaju zajęć, a także przeczytać opinie innych rodziców. Dzięki temu, znajdziesz zajęcia, które będą najlepsze dla Twojego dziecka. -->
                 </div>
             </div>
@@ -48,7 +51,7 @@
             <div class="landing-page__card">
                 <span class="landing-page__card-icon" nz-icon nzType="like" nzTheme="outline"></span>
                 <div class="landing-page_card--info">
-                    Zyskasz pewność, że wybierasz dobre zajęcia 
+                    Wiesz co wybierasz
                     <!-- Dzięki opinii innych rodziców, którzy uczestniczyli w zajęciach na danym klubie lub treningu, zyskasz pewność, że wybierasz dobre zajęcia. Opinie te pomogą Ci ocenić jakość zajęć i instruktorów, co pozwoli Ci podjąć dobrą decyzję i zapewnić Twojemu dziecku najlepsze doświadczenia sportowe. -->
                 </div>
             </div>
@@ -56,7 +59,7 @@
             <div class="landing-page__card">
                 <span class="landing-page__card-icon" nz-icon nzType="aim" nzTheme="outline"></span>
                 <div class="landing-page_card--info">
-                    Znajdziesz zajęcia dla każdego dziecka 
+                    Znajdziesz zajęcia dla każdego 
                     <!-- Niezależnie od wieku, poziomu zaawansowania lub zainteresowań Twojego dziecka, na naszej stronie znajdziesz zajęcia sportowe, które będą dla niego odpowiednie. Możesz przeglądać różne opcje i wybrać zajęcia, które najlepiej odpowiadają potrzebom Twojego dziecka. -->
                 </div>
             </div>
@@ -66,8 +69,8 @@
     <nz-divider></nz-divider>
 
     <div class="landing-page__section">
-        <div *ngIf="(resizeService.isSmall$ | async) === false" class="landing-page__section--image instructor-image">
-        </div>
+        <img class="landing-page__section--image" src="../../assets/kids_photo.png">
+
         <div class="landing-page__section--text">
             <h1 class="landing-page__section--title">Chcesz dodać swoje zajęcia?</h1>
             <div class="landing-page__section--content">

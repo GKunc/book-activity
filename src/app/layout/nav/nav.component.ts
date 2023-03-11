@@ -22,6 +22,9 @@ export class NavComponent implements OnInit {
 
   weekDaysOptions: { value: WeekDay, label: string }[] = WEEK_DAYS;
 
+  phrase: string = '';
+  weekDays: WeekDay[] = [];
+
   constructor(
     public loginService: LoginService,
     public resizeService: ResizeService,
@@ -42,7 +45,7 @@ export class NavComponent implements OnInit {
   }
 
   searchActivities(): void {
-    this.router.navigate(['find-activities']);
+    this.router.navigate(['find-activities', { phrase: this.phrase, weekDays: this.weekDays }]);
   }
 
   signOut(): void {
