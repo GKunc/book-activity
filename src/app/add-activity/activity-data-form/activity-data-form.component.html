@@ -1,4 +1,4 @@
-<form nz-form [formGroup]="form" nzLayout="vertical">
+<form nz-form *ngIf="form" [formGroup]="form" nzLayout="vertical">
     <nz-form-item>
         <nz-form-label nzFor="name" nzRequired>Nazwa</nz-form-label>
         <nz-form-control [nzErrorTip]="errorDescription">

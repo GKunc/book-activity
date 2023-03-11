@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Activity } from '../common/services/activities/activities.service';
 import { ResizeService } from '../common/services/resize/resize.service';
 
 @Component({
@@ -8,9 +7,5 @@ import { ResizeService } from '../common/services/resize/resize.service';
   styleUrls: ['./landing-page.component.less']
 })
 export class LandingPageComponent {
-
-
-  activities: Activity[] = [];
-
   constructor(public resizeService: ResizeService) { }
 }

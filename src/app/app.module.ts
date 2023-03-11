@@ -17,7 +17,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 import { AddActivityComponent } from './add-activity/add-activity.component';
 import { ActivityDataFormComponent } from './add-activity/activity-data-form/activity-data-form.component';
 import { ClientDataFormComponent } from './add-activity/client-data-form/client-data-form.component';
@@ -31,8 +31,9 @@ import { YourActivitiesComponent } from './your-activities/your-activities.compo
 import { DeleteModalComponent } from './your-activities/delete-modal/delete-modal.component';
 import { NotAuthorizedComponent } from './not-authorized/not-authorized.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
-import { ActivityBoxComponent } from './activity-box/activity-box.component';
+import { ActivityBoxComponent } from './find-activities/activity-card/activity-box.component';
 import { FindActivitiesComponent } from './find-activities/find-activities.component';
+import { ActivityMapComponent } from './activity-map/activity-map.component';
 
 registerLocaleData(en);
 
@@ -54,6 +55,7 @@ registerLocaleData(en);
     NotAuthorizedComponent,
     ActivityBoxComponent,
     FindActivitiesComponent,
+    ActivityMapComponent,
   ],
   imports: [
     BrowserModule,

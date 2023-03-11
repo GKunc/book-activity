@@ -1,5 +1,5 @@
 import { SocialUser } from '@abacritt/angularx-social-login';
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivitiesService, Activity } from '../common/services/activities/activities.service';
 import { LoginService } from '../common/services/login-service/login.service';
 import { ModalService } from '../common/services/modal/modal.service';
@@ -15,7 +15,13 @@ import { instanceOfMediaData, MediaData } from './media-data-form/media-data-for
   templateUrl: './add-activity.component.html',
   styleUrls: ['./add-activity.component.less']
 })
-export class AddActivityComponent {
+export class AddActivityComponent implements OnInit {
+  @Input()
+  activity: Activity;
+
+  @Input()
+  isEditing: boolean = false;
+
   user: SocialUser;
 
   isLoading: boolean = false;
@@ -39,9 +45,22 @@ export class AddActivityComponent {
     private activitiesService: ActivitiesService,
   ) { }
 
+  ngOnInit(): void {
+    console.log(this.activity);
+  }
+
   submit(): void {
     this.isLoading = true;
     const activity = this.createActivity();
+
+    if (this.mediaData.isEditing) {
+      // this.activitiesService.editActivity(activity).subscribe(() => {
+      //   this.isLoading = false;
+      //   this.notificationsService.success('Zajęcia dodane', 'Poczekaj na email potwierdzający weryfijację.');
+      //   this.modalService.close();
+      // });
+      // return;
+    }
 
     this.activitiesService.insertActivity(activity).subscribe(() => {
       this.isLoading = false;
@@ -103,6 +122,7 @@ export class AddActivityComponent {
       street: this.locationData.street,
       city: this.locationData.city,
       googleMapsSrc: this.locationData.googleMapsSrc,
+      coordinates: this.locationData.coordinates,
       email: this.clientData.email,
       facebook: this.clientData.facebook,
       instagram: this.clientData.instagram,

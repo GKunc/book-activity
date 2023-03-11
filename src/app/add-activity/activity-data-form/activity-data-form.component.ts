@@ -1,6 +1,7 @@
 import { WeekDay } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Activity } from 'src/app/common/services/activities/activities.service';
 import { ACTIVITY_CATEGORIES, Category } from '../category.consts';
 import { WEEK_DAYS } from '../week-days.consts';
 
@@ -8,18 +9,29 @@ import { WEEK_DAYS } from '../week-days.consts';
   selector: 'activity-data-form',
   templateUrl: './activity-data-form.component.html',
 })
-export class ActivityDataFormComponent {
+export class ActivityDataFormComponent implements OnInit {
+  @Input()
+  activity: Activity;
+
   @Output()
   formSubmitted: EventEmitter<ActivityData> = new EventEmitter<ActivityData>();
+
+  weekDaysOptions: { value: WeekDay, label: string }[] = WEEK_DAYS;
+  acitivyCategories: { value: Category, label: string }[] = ACTIVITY_CATEGORIES;
 
   form = new FormGroup({
     name: new FormControl<string>('', Validators.required),
     category: new FormControl<Category>(null, Validators.required),
     description: new FormControl<string>('', [Validators.required, Validators.minLength(30), Validators.maxLength(200)]),
-  });
+  });;
 
-  weekDaysOptions: { value: WeekDay, label: string }[] = WEEK_DAYS;
-  acitivyCategories: { value: Category, label: string }[] = ACTIVITY_CATEGORIES;
+  ngOnInit(): void {
+    if (this.activity) {
+      this.form.controls.name.setValue(this.activity.name)
+      this.form.controls.category.setValue(this.activity.category)
+      this.form.controls.description.setValue(this.activity.description)
+    }
+  }
 
   submit(): void {
     if (this.validateForm()) {

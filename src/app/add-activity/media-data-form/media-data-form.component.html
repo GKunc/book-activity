@@ -25,14 +25,20 @@
       </form>
 </form>       
 
+<ng-template *ngIf="!loadingImages; else loader;"></ng-template>
 <div class="added-files" *ngFor="let image of images; let i = index">
     {{ image.name }} 
     <span class="remove-icon" nz-icon nzType="delete" nzTheme="outline" (click)="deleteFile(i)"></span>
 </div>
 
+<ng-template #loader>
+    <loader style="height: 100px;"></loader>
+</ng-template>
+
+
 <div class="modal__action-container">
     <hub-button text="Poprzednie" (click)="previous()"></hub-button>
-    <hub-button [isLoading]="isLoading" text="Wyślij" (click)="submit()"></hub-button>
+    <hub-button [isLoading]="isLoading" [text]="submitLabel" (click)="submit()"></hub-button>
 </div>
 
 <ng-template #errorDescription let-control>

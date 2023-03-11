@@ -34,7 +34,7 @@ export class YourActivitiesComponent implements OnInit {
 
 
   editActivity(activity: Activity): void {
-    this.modalService.createModal(AddActivityComponent, 'Dodaj swoje zajęcia', 500);
+    this.modalService.createModal(AddActivityComponent, 'Dodaj swoje zajęcia', 500, { activity, isEditing: true });
   }
 
   deleteActivity(activity: Activity): void {
@@ -45,7 +45,7 @@ export class YourActivitiesComponent implements OnInit {
     });
   }
 
-  private getUserActivities(): void {
+  getUserActivities(): void {
     this.loading = true;
     this.loginService._user$.subscribe(user => {
       if (user) {

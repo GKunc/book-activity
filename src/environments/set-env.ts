@@ -14,6 +14,7 @@ const setEnv = () => {
   GOOGLE_SECRET: '${process.env["GOOGLE_SECRET"]}',
   MANGO_DB_CONNECTION_STRING: '${process.env["MANGO_DB_CONNECTION_STRING"]}',
   MANGO_DB_CONNECTION_STRING_PHOTOS: '${process.env["MANGO_DB_CONNECTION_STRING_PHOTOS"]}',
+  HERE_MAPS_API_KEY: '${process.env["HERE_MAPS_API_KEY"]}',
   API_URL: 'hhtp://localhost:8080',
   appVersion: '${appVersion}',
   production: true,

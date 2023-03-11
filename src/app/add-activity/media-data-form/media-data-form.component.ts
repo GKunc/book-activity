@@ -1,13 +1,19 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActivitiesService } from 'src/app/common/services/activities/activities.service';
+import { ActivitiesService, Activity } from 'src/app/common/services/activities/activities.service';
 
 @Component({
   selector: 'media-data-form',
   templateUrl: './media-data-form.component.html',
   styleUrls: ['./media-data-form.component.less']
 })
-export class MediaDataFormComponent {
+export class MediaDataFormComponent implements OnInit {
+  @Input()
+  activity: Activity;
+
+  @Input()
+  isEditing: boolean = false;
+
   @Input()
   isLoading: boolean = false;
 
@@ -20,10 +26,13 @@ export class MediaDataFormComponent {
   @Output()
   previousForm: EventEmitter<any> = new EventEmitter<any>();
 
+  submitLabel: string = "Wyślij";
+
   uploading: boolean;
+  loadingImages: boolean = false;
 
   form = new FormGroup({
-    images: new FormControl(0),
+    images: new FormControl(null),
   });
 
   images: File[] = [];
@@ -33,6 +42,25 @@ export class MediaDataFormComponent {
   constructor(
     private activitiesService: ActivitiesService) { }
 
+  ngOnInit(): void {
+    if (this.activity) {
+      this.loadingImages = true;
+      for (let i = 0; i < this.activity.nubmerOfImages; i++) {
+        this.activitiesService.getPhoto(`${this.activity.guid}-${i}`).subscribe((response) => {
+          this.images.push(new File([response], `file-${i}`));
+        },
+          (e) => console.log("ERROR: ", e),
+          () => this.loadingImages = false,
+        )
+      }
+      this.form.controls.images.setValue(this.activity.nubmerOfImages)
+    }
+
+    if (this.isEditing) {
+      this.submitLabel = "Zapisz";
+    }
+  }
+
   previous(): void {
     this.previousForm.emit();
   }
@@ -41,7 +69,8 @@ export class MediaDataFormComponent {
     if (this.validateForm()) {
       this.uploadFiles();
       this.formSubmitted.emit({
-        images: this.form.controls.images.value,
+        images: this.form.controls['images'].value,
+        isEditing: this.isEditing,
       })
     }
   }
@@ -78,7 +107,7 @@ export class MediaDataFormComponent {
         });
       }
 
-      this.form.controls.images.setValue(this.images.length);
+      this.form.controls['images'].setValue(this.images.length);
     }
   }
 
@@ -98,6 +127,7 @@ export class MediaDataFormComponent {
 
 export interface MediaData {
   images: number;
+  isEditing: boolean;
 }
 
 export function instanceOfMediaData(object: any): object is MediaData {

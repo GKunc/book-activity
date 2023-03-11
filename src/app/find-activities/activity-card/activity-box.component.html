@@ -1,0 +1,18 @@
+<!-- <div class="activity-box">
+    <img class="activity-box__background" [src]="activity.coverPhoto | safeUrl"/>        
+    <div class="activity-box__info">
+        <h2>{{ activity.name }}</h2>
+        <div>{{ activity.category | category }}</div>
+    </div>
+</div> -->
+
+<nz-card nzHoverable [nzCover]="coverTemplate">
+    <nz-card-meta [nzTitle]="activity.name" nzDescription="categoria"></nz-card-meta>
+</nz-card>
+
+<ng-template #coverTemplate>
+    <img class="activity-box__background" [src]="activity.coverPhoto | safeUrl"/>        
+</ng-template>
+<ng-template #description>
+    <div style="border:1px solid rgba(0,0,0,.06)">{{ activity.category | category }}</div>
+</ng-template>

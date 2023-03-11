@@ -18,6 +18,9 @@ export class ActivityDetailsComponent implements OnInit {
   descriptionExpanded: boolean = false;
   descriptionTooLong: boolean = false;
 
+  mailToHref: string;
+  phoneToHref: string;
+
   @ViewChild('carouselRef')
   carouselRef: NzCarouselComponent;
 
@@ -31,6 +34,8 @@ export class ActivityDetailsComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     this.activitiesService.getActivityDetails(id).subscribe((data) => {
       this.activity = data;
+      this.mailToHref = `mailto:${data.email}`;
+      this.phoneToHref = `tel:${data.phone}`;
       if (data.description.length > 150) {
         this.descriptionTooLong = true;
       }

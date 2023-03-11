@@ -1,13 +1,16 @@
 @import '../../styles.less';
 
 :host {
-    height: 100%;
+    display: block;
+    margin-bottom: 120px;
+    margin-top: 60px;
 }
 
 .your-activities {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    margin-bottom: 16px;
 
     &__header {
         display: flex;
@@ -17,7 +20,21 @@
 
     &__title {
         margin-top: 16px;
+
+        &--actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+
+            &_icon {
+                font-size: 24px;
+                color: @primary-color;
+                cursor: pointer;
+            }
+        }
     }
+
+
 
     &__container {
         display: flex;
@@ -41,5 +58,11 @@
         &--category {
             color: @disabled-color;
         }
+    }
+}
+
+@media (max-width: 575px) {
+    :host {
+        display: block;
     }
 }

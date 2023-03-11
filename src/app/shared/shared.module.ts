@@ -27,6 +27,7 @@ import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
+import { NzCardModule } from 'ng-zorro-antd/card';
 
 import { SocialLoginModule } from '@abacritt/angularx-social-login';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -80,6 +81,7 @@ import { CategoryPipe } from '../common/pipes/category.pipe';
     NzSpinModule,
     NzEmptyModule,
     NzDrawerModule,
+    NzCardModule,
 
     ReactiveFormsModule,
     FormsModule,
@@ -122,6 +124,7 @@ import { CategoryPipe } from '../common/pipes/category.pipe';
     NzSpinModule,
     NzEmptyModule,
     NzDrawerModule,
+    NzCardModule,
 
     ReactiveFormsModule,
     FormsModule,

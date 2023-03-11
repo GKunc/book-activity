@@ -1,6 +1,7 @@
 import { WeekDay } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Activity } from 'src/app/common/services/activities/activities.service';
 import { WEEK_DAYS } from '../week-days.consts';
 
 @Component({
@@ -8,7 +9,10 @@ import { WEEK_DAYS } from '../week-days.consts';
   templateUrl: './activity-groups-form.component.html',
   styleUrls: ['./activity-groups-form.component.less']
 })
-export class ActivityGroupsFormComponent {
+export class ActivityGroupsFormComponent implements OnInit {
+  @Input()
+  activity: Activity;
+
   @Input()
   isLoading: boolean;
 
@@ -29,6 +33,12 @@ export class ActivityGroupsFormComponent {
     time: new FormControl<Date>(null, Validators.required),
     weekDay: new FormControl<WeekDay>(null, Validators.required),
   })
+
+  ngOnInit(): void {
+    if (this.activity) {
+      this.addedGroups = this.activity.groups;
+    }
+  }
 
   disabledMinutes(): number[] {
     return [...Array(61).keys()].filter(i => i % 15 !== 0)

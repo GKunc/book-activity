@@ -50,14 +50,13 @@ app.post('/api/filter-activities', async function (req, res) {
   uri = process.env.MANGO_DB_CONNECTION_STRING;
   let query = {}
 
-  query.$or = []
-
-
+  console.log("phrase:", body.phrase)
   if (body.phrase) {
+    query.$or = []
     query.$or = [{ name: new RegExp(body.phrase, 'i') }, { 'groups.name': new RegExp(body.phrase, 'i') }];
   }
 
-  if (body.weekDay) {
+  if (body.weekDay && body.weekDay.length > 0) {
     query.weekDay = {}
     query.weekDay.$in = body.weekDay;
   }
