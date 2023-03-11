@@ -1,8 +1,10 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ACTIVITY_CATEGORIES, Category } from '../add-activity/category.consts';
 import { WeekDay, WEEK_DAYS } from '../add-activity/week-days.consts';
+import { CategoryPipe } from '../common/pipes/category.pipe';
+import { ActivitiesService, Activity } from '../common/services/activities/activities.service';
 import { ResizeService } from '../common/services/resize/resize.service';
 
 const MAX_PRICE = 1000;
@@ -12,8 +14,10 @@ const MAX_PRICE = 1000;
   templateUrl: './activity-map.component.html',
   styleUrls: ['./activity-map.component.less']
 })
-export class ActivityMapComponent {
+export class ActivityMapComponent implements OnInit {
   @ViewChild('map') mapDiv?: ElementRef;
+
+  activities: Activity[];
 
   minPrice$: Subject<number> = new Subject();
   maxPrice$: Subject<number> = new Subject();
@@ -32,13 +36,30 @@ export class ActivityMapComponent {
   lat: number = 50.04;
   lng: number = 19.94;
 
+  loading: boolean = false;
+
   private map?: H.Map;
+  private ui?: H.ui.UI;
 
-  constructor(public resizeService: ResizeService) { }
+  constructor(
+    public resizeService: ResizeService,
+    private activitiesService: ActivitiesService,
+    private categoryPipe: CategoryPipe,
+  ) { }
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
+    this.loading = true;
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.lng = position.coords.longitude;
+      this.lat = position.coords.latitude;
+
+      this.loadMap();
+      this.loading = false
+    });
+  }
+
+  loadMap(): void {
     if (!this.map && this.mapDiv) {
-      // instantiate a platform, default layers and a map as usual
       this.platform = new H.service.Platform({
         'apikey': environment.HERE_MAPS_API_KEY
       });
@@ -53,18 +74,16 @@ export class ActivityMapComponent {
           zoom: 13,
         },
       );
-      const ui = H.ui.UI.createDefault(map, layers);
+      this.ui = H.ui.UI.createDefault(map, layers);
       const mapEvents = new H.mapevents.MapEvents(map);
       new H.mapevents.Behavior(mapEvents);
 
       window.addEventListener('resize', () => {
-        console.log("resize map");
-
         map.getViewPort().resize()
       });
 
       this.map = map;
-      this.addInfoBubble(ui);
+      this.getActivities();
     }
   }
 
@@ -95,33 +114,42 @@ export class ActivityMapComponent {
 
   }
 
+  private getActivities(): void {
+    this.loading = true;
+    this.activitiesService.getActivities().subscribe((data) => {
+      this.activities = data;
+      this.activities.forEach(activity => {
+        this.addInfoBubble(activity);
+      })
+      this.loading = false;
+    });
+  }
+
   private addMarkerToGroup(group, coordinate, html) {
     const marker = new H.map.Marker(coordinate);
-    // add custom data to the marker
     marker.setData(html);
     group.addObject(marker);
   }
 
 
-  private addInfoBubble(ui) {
+  private addInfoBubble(activity: Activity) {
     const group = new H.map.Group();
-
     this.map.addObject(group);
 
-    // add 'tap' event listener, that opens info bubble, to the group
-    group.addEventListener('tap', function (evt) {
-      // event target is the marker itself, group is a parent event target
-      // for all objects that it contains
+    group.addEventListener('tap', (evt) => {
       var bubble = new H.ui.InfoBubble((evt.target as any).getGeometry(), {
-        // read custom data
         content: (evt.target as any).getData()
       });
-      // show info bubble
-      ui.addBubble(bubble);
+      this.ui.addBubble(bubble);
     }, false);
 
-    this.addMarkerToGroup(group, { lat: this.lat, lng: this.lng },
-      '<div><a href="https://www.mcfc.co.uk">Manchester City</a></div>' +
-      '<div>City of Manchester Stadium<br />Capacity: 55,097</div>');
+    console.log({ lat: activity.coordinates?.lat, lng: activity.coordinates?.lng });
+    if (activity.coordinates) {
+      this.addMarkerToGroup(group, { lat: activity.coordinates?.lat, lng: activity.coordinates?.lng },
+        `<div style='width: 200px'><h2>${activity.name}</h2></div>` +
+        `<div>${this.categoryPipe.transform(activity.category)}</div>` +
+        `<div>${activity.street}</div>`
+      );
+    }
   }
 }
