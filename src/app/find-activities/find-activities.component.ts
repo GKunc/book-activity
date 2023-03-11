@@ -45,7 +45,6 @@ export class FindActivitiesComponent implements OnInit {
     if (includesWeekDays) {
       this.weekDay = this.route.snapshot.paramMap.get('weekDays')?.split(',').map(item => Number(item));
     }
-    console.log(this.phrase, this.weekDay);
 
     this.getActivities();
 

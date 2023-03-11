@@ -39,10 +39,11 @@
     </nz-sider>
 
     <nz-layout>
-      <nz-content class="content-container">
+      <nz-content class="content-container" style="position:relative">
         <div class="activity-map">
             <div class="activity-map__container" #map id="map"></div>
         </div>
+        <loader *ngIf="loading" [inlineStyle]="true"></loader>
       </nz-content>
     </nz-layout>
 </nz-layout>

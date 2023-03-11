@@ -34,6 +34,7 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { ActivityBoxComponent } from './find-activities/activity-card/activity-box.component';
 import { FindActivitiesComponent } from './find-activities/find-activities.component';
 import { ActivityMapComponent } from './activity-map/activity-map.component';
+import { CategoryPipe } from './common/pipes/category.pipe';
 
 registerLocaleData(en);
 
@@ -72,6 +73,7 @@ registerLocaleData(en);
     IconModule,
   ],
   providers: [
+    CategoryPipe,
     { provide: NZ_I18N, useValue: en_US },
     {
       provide: 'SocialAuthServiceConfig',
