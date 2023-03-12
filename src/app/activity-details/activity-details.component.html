@@ -1,8 +1,10 @@
 <ng-container *ngIf="activity; else loadingState;">
     <div class="grid-contaier">
         <div class="column second-column">
-            <iframe *ngIf="activity.googleMapsSrc" [src]="activity.googleMapsSrc| safeUrl" width="600" height="300" style="border:0; width: 100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            
+            <div class="activity-map">
+                <div class="activity-map__container" #map id="map"></div>
+            </div>
+                        
             <div class="info-container">
                 <div class="info-container__section">
                     <h2>O nas</h2>
