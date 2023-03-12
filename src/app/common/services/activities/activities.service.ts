@@ -66,7 +66,6 @@ export interface Activity {
   groups: GroupDetails[];
   street: string;
   city: string;
-  googleMapsSrc: string;
   coordinates: { lng: number, lat: number };
   email: string;
   phone: string;

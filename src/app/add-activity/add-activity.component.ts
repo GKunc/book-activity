@@ -121,7 +121,6 @@ export class AddActivityComponent implements OnInit {
       groups: this.groupsData.activityGroups,
       street: this.locationData.street,
       city: this.locationData.city,
-      googleMapsSrc: this.locationData.googleMapsSrc,
       coordinates: this.locationData.coordinates,
       email: this.clientData.email,
       facebook: this.clientData.facebook,

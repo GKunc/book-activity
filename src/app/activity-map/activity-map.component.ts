@@ -11,9 +11,9 @@ import { ResizeService } from '../common/services/resize/resize.service';
 const MAX_PRICE = 1000;
 const CATEGORY_COLOR_MAP = new Map<Category, { backgroundColor: string, fillColor: string }>([
   [Category.Athletics, { backgroundColor: '#ff5050', fillColor: '#bf0003' }],
-  [Category.Football, { backgroundColor: 'green', fillColor: 'black' }],
-  [Category.GeneralDevelopment, { backgroundColor: 'orange', fillColor: 'darkorange' }],
-  [Category.Gymnastics, { backgroundColor: 'yellow', fillColor: '#c8c834' }],
+  [Category.Football, { backgroundColor: 'green', fillColor: '#54db54' }],
+  [Category.GeneralDevelopment, { backgroundColor: 'darkorange', fillColor: 'orange' }],
+  [Category.Gymnastics, { backgroundColor: '#c8c834', fillColor: 'yellow' }],
   [Category.Swimming, { backgroundColor: 'blue', fillColor: '#008dff' }],
 ])
 
@@ -57,8 +57,6 @@ export class ActivityMapComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(CATEGORY_COLOR_MAP);
-
     this.loading = true;
     navigator.geolocation.getCurrentPosition((position) => {
       this.lng = position.coords.longitude;
@@ -140,8 +138,6 @@ export class ActivityMapComponent implements OnInit {
     let fillColor = '#bf0003';
     let backgroundColor = '#ff5050';
     if (activity.category) {
-      console.log(CATEGORY_COLOR_MAP.get(activity.category).backgroundColor);
-
       fillColor = CATEGORY_COLOR_MAP.get(activity.category).backgroundColor;
       backgroundColor = CATEGORY_COLOR_MAP.get(activity.category).fillColor;
     }

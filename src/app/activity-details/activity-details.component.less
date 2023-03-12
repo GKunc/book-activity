@@ -6,10 +6,24 @@
     margin-top: 70px;
 }
 
+.activity-map {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 16px;
+
+    &__container {
+        width: 100%;
+        height: 100%;
+        width: 300px;
+        height: 300px;
+    }
+}
+
 .grid-contaier {
     height: 100%;
     display: grid;
-    grid-template-columns: auto 63%;
+    grid-template-columns: 33% 63%;
     gap: 24px;
 }
 
@@ -56,6 +70,12 @@
 .info-container {
     &__section {
         margin: 16px 0;
+
+        p {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
     }
 
     &__header {

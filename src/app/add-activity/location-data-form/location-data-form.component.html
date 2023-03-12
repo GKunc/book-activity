@@ -27,20 +27,23 @@
         nzTooltipPlacement="right"
         ></span>
     </label>
-    <input id="googleIframe" nz-input placeholder="Google" [ngModel]="googleMapsSrc" (ngModelChange)="googleMapsSrcChanges($event)"/>
+    <input id="googleIframe" nz-input placeholder="Google" [ngModel]="coordinatesString" (ngModelChange)="coordinatesChanges($event)"/>
     <ng-template #tooltipContent>
         <div>
             <div>1. Wejdź na <a target="_blank" href="https://www.google.pl/maps/">Google Maps</a></div>
             <div>2. Znajdź twoją lokalizację</div>
-            <div>3. Kliknij udostępnij</div>
-            <div>4. Zakładka "Umieszczanie Mapy"</div>
-            <div>5. Kopuj element HTML</div>
+            <div>3. Kliknij prawym przyciskiem myszy</div>
+            <div>4. Skopiuj koordynaty punktu</div>
         </div>
     </ng-template>
 </div>
 
-<iframe *ngIf="googleMapsSrcParsed" [src]="googleMapsSrcParsed | safeUrl" width="600" height="450" style="border:0; width: 100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-
+<div [style.height]="!coordinatesString ? '0px' :'400px'" style="position: relative">
+    <div class="activity-map">
+        <div class="activity-map__container" #map id="map"></div>
+    </div>
+    <loader *ngIf="loading" [inlineStyle]="true"></loader>
+</div>
 
 <div class="modal__action-container">
     <hub-button text="Poprzednie" (click)="previous()"></hub-button>
