@@ -9,6 +9,13 @@ import { ActivitiesService, Activity } from '../common/services/activities/activ
 import { ResizeService } from '../common/services/resize/resize.service';
 
 const MAX_PRICE = 1000;
+const CATEGORY_COLOR_MAP = new Map<Category, { backgroundColor: string, fillColor: string }>([
+  [Category.Athletics, { backgroundColor: '#ff5050', fillColor: '#bf0003' }],
+  [Category.Football, { backgroundColor: 'green', fillColor: 'black' }],
+  [Category.GeneralDevelopment, { backgroundColor: 'orange', fillColor: 'darkorange' }],
+  [Category.Gymnastics, { backgroundColor: 'yellow', fillColor: '#c8c834' }],
+  [Category.Swimming, { backgroundColor: 'blue', fillColor: '#008dff' }],
+])
 
 @Component({
   selector: 'app-activity-map',
@@ -50,6 +57,8 @@ export class ActivityMapComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log(CATEGORY_COLOR_MAP);
+
     this.loading = true;
     navigator.geolocation.getCurrentPosition((position) => {
       this.lng = position.coords.longitude;
@@ -127,10 +136,17 @@ export class ActivityMapComponent implements OnInit {
     });
   }
 
-  private addMarkerToGroup(group, coordinate, html) {
+  private addMarkerToGroup(group, coordinate, html, activity: Activity) {
+    let fillColor = '#bf0003';
+    let backgroundColor = '#ff5050';
+    if (activity.category) {
+      console.log(CATEGORY_COLOR_MAP.get(activity.category).backgroundColor);
 
+      fillColor = CATEGORY_COLOR_MAP.get(activity.category).backgroundColor;
+      backgroundColor = CATEGORY_COLOR_MAP.get(activity.category).fillColor;
+    }
     const icon = new H.map.Icon(
-      "<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><path style='stroke:none;fill-rule:nonzero;fill:#ff5050;fill-opacity:1' d='M15.98.176c5.305 0 9.622 4.316 9.622 9.62 0 6.755-9.215 13.774-9.622 21.993-.402-8.219-9.617-15.238-9.617-21.992 0-5.305 4.313-9.621 9.617-9.621Zm0 0'/><path style='stroke:none;fill-rule:nonzero;fill:#bf0003;fill-opacity:1' d='M19.219 9.512c0 1.785-1.45 3.23-3.235 3.23a3.233 3.233 0 1 1 0-6.465 3.236 3.236 0 0 1 3.235 3.235Zm0 0'/></svg>"
+      `<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><path style='stroke:none;fill-rule:nonzero;fill:${backgroundColor};fill-opacity:1' d='M15.98.176c5.305 0 9.622 4.316 9.622 9.62 0 6.755-9.215 13.774-9.622 21.993-.402-8.219-9.617-15.238-9.617-21.992 0-5.305 4.313-9.621 9.617-9.621Zm0 0'/><path style='stroke:none;fill-rule:nonzero;fill:${fillColor};fill-opacity:1' d='M19.219 9.512c0 1.785-1.45 3.23-3.235 3.23a3.233 3.233 0 1 1 0-6.465 3.236 3.236 0 0 1 3.235 3.235Zm0 0'/></svg>`
     );
 
     const marker = new H.map.Marker(coordinate, { icon });
@@ -144,8 +160,6 @@ export class ActivityMapComponent implements OnInit {
     this.map.addObject(group);
 
     group.addEventListener('tap', (evt) => {
-      console.log("event", evt.target);
-      console.log("event", activity.coordinates);
       var bubble = new H.ui.InfoBubble({ lat: activity.coordinates.lat, lng: activity.coordinates.lng }, {
         content: (evt.target as any).getData(),
       });
@@ -161,7 +175,8 @@ export class ActivityMapComponent implements OnInit {
         `<div style='width: 200px;'><h2 style='margin-bottom: 0;'>${activity.name}</h2></div>` +
         `<div style='color: rgba(0,0,0,.45);'>${this.categoryPipe.transform(activity.category)}</div>` +
         `<div>${activity.street}</div>` +
-        `<div id='details-${activity.guid}' (click)='navigateToDetials(${activity})' style='color: purple; cursor: pointer;'>Zobacz</div>`
+        `<div id='details-${activity.guid}' (click)='navigateToDetials(${activity})' style='color: purple; cursor: pointer;'>Zobacz</div>`,
+        activity
       );
     }
   }
