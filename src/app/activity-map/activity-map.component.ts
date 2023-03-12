@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ACTIVITY_CATEGORIES, Category } from '../add-activity/category.consts';
@@ -45,6 +46,7 @@ export class ActivityMapComponent implements OnInit {
     public resizeService: ResizeService,
     private activitiesService: ActivitiesService,
     private categoryPipe: CategoryPipe,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -126,7 +128,12 @@ export class ActivityMapComponent implements OnInit {
   }
 
   private addMarkerToGroup(group, coordinate, html) {
-    const marker = new H.map.Marker(coordinate);
+
+    const icon = new H.map.Icon(
+      "<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><path style='stroke:none;fill-rule:nonzero;fill:#ff5050;fill-opacity:1' d='M15.98.176c5.305 0 9.622 4.316 9.622 9.62 0 6.755-9.215 13.774-9.622 21.993-.402-8.219-9.617-15.238-9.617-21.992 0-5.305 4.313-9.621 9.617-9.621Zm0 0'/><path style='stroke:none;fill-rule:nonzero;fill:#bf0003;fill-opacity:1' d='M19.219 9.512c0 1.785-1.45 3.23-3.235 3.23a3.233 3.233 0 1 1 0-6.465 3.236 3.236 0 0 1 3.235 3.235Zm0 0'/></svg>"
+    );
+
+    const marker = new H.map.Marker(coordinate, { icon });
     marker.setData(html);
     group.addObject(marker);
   }
@@ -137,19 +144,29 @@ export class ActivityMapComponent implements OnInit {
     this.map.addObject(group);
 
     group.addEventListener('tap', (evt) => {
-      var bubble = new H.ui.InfoBubble((evt.target as any).getGeometry(), {
-        content: (evt.target as any).getData()
+      console.log("event", evt.target);
+      console.log("event", activity.coordinates);
+      var bubble = new H.ui.InfoBubble({ lat: activity.coordinates.lat, lng: activity.coordinates.lng }, {
+        content: (evt.target as any).getData(),
       });
+      this.ui.getBubbles().forEach(bub => this.ui.removeBubble(bub));
       this.ui.addBubble(bubble);
+      document.getElementById(`details-${activity.guid}`).addEventListener('click', () => {
+        this.navigateToDetials(activity);
+      })
     }, false);
 
-    console.log({ lat: activity.coordinates?.lat, lng: activity.coordinates?.lng });
     if (activity.coordinates) {
       this.addMarkerToGroup(group, { lat: activity.coordinates?.lat, lng: activity.coordinates?.lng },
-        `<div style='width: 200px'><h2>${activity.name}</h2></div>` +
-        `<div>${this.categoryPipe.transform(activity.category)}</div>` +
-        `<div>${activity.street}</div>`
+        `<div style='width: 200px;'><h2 style='margin-bottom: 0;'>${activity.name}</h2></div>` +
+        `<div style='color: rgba(0,0,0,.45);'>${this.categoryPipe.transform(activity.category)}</div>` +
+        `<div>${activity.street}</div>` +
+        `<div id='details-${activity.guid}' (click)='navigateToDetials(${activity})' style='color: purple; cursor: pointer;'>Zobacz</div>`
       );
     }
+  }
+
+  private navigateToDetials(activity: Activity): void {
+    this.router.navigate(['/detail/', activity.guid])
   }
 }
