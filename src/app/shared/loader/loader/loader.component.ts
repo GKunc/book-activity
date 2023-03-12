@@ -11,7 +11,6 @@ export class LoaderComponent {
 
   @HostBinding('class.inline')
   get inline(): boolean {
-    console.log(this.inlineStyle);
     return this.inlineStyle;
   }
 }
