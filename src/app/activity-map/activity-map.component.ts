@@ -14,7 +14,7 @@ const CATEGORY_COLOR_MAP = new Map<Category, { backgroundColor: string, fillColo
   [Category.Football, { backgroundColor: 'green', fillColor: '#54db54' }],
   [Category.GeneralDevelopment, { backgroundColor: 'darkorange', fillColor: 'orange' }],
   [Category.Gymnastics, { backgroundColor: '#c8c834', fillColor: 'yellow' }],
-  [Category.Swimming, { backgroundColor: 'blue', fillColor: '#008dff' }],
+  [Category.Swimming, { backgroundColor: '#0060ae', fillColor: '#008dff' }],
 ])
 
 @Component({
