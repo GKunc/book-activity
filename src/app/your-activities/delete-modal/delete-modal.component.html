@@ -1,14 +1,14 @@
 <ng-container>
-    <div>
-        <b>Nazwa:</b> {{ activity.name }}
-    </div> 
+  <div><b>Nazwa:</b> {{ activity.name }}</div>
 
-    <div>
-        <b>Kategoria:</b> {{ activity.category | category }}
-    </div>
+  <div><b>Kategoria:</b> {{ activity.category | category }}</div>
 
-    <div class="delete-modal__actions">
-        <hub-button type="default" text="Anuluj" (click)="cancel()"></hub-button>
-        <hub-button [isLoading]="loading" text="Tak" (click)="deleteActivity()"></hub-button>
-    </div>
+  <div class="delete-modal__actions">
+    <hub-button type="default" text="Anuluj" (click)="cancel()"></hub-button>
+    <hub-button
+      [isLoading]="loading"
+      text="Tak"
+      (click)="deleteActivity()"
+    ></hub-button>
+  </div>
 </ng-container>

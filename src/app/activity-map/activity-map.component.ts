@@ -36,15 +36,15 @@ export class ActivityMapComponent implements OnInit {
   phrase: string;
   weekDay: WeekDay[];
   category: Category[];
-  minPrice: number = 0;
+  minPrice = 0;
   maxPrice: number = MAX_PRICE;
   priceRange: number[] = [0, MAX_PRICE];
 
   platform: H.service.Platform;
-  lat: number = 50.04;
-  lng: number = 19.94;
+  lat = 50.04;
+  lng = 19.94;
 
-  loading: boolean = false;
+  loading = false;
 
   private map?: H.Map;
   private ui?: H.ui.UI;
@@ -120,7 +120,7 @@ export class ActivityMapComponent implements OnInit {
   }
 
   filterActivities(): void {
-
+    return;
   }
 
   private getActivities(): void {
@@ -156,7 +156,7 @@ export class ActivityMapComponent implements OnInit {
     this.map.addObject(group);
 
     group.addEventListener('tap', (evt) => {
-      var bubble = new H.ui.InfoBubble({ lat: activity.coordinates.lat, lng: activity.coordinates.lng }, {
+      const bubble = new H.ui.InfoBubble({ lat: activity.coordinates.lat, lng: activity.coordinates.lng }, {
         content: (evt.target as any).getData(),
       });
       this.ui.getBubbles().forEach(bub => this.ui.removeBubble(bub));

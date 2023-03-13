@@ -26,12 +26,12 @@ export class FindActivitiesComponent implements OnInit {
   phrase: string;
   weekDay: WeekDay[];
   category: Category[];
-  minPrice: number = 0;
+  minPrice = 0;
   maxPrice: number = MAX_PRICE;
   priceRange: number[] = [0, MAX_PRICE];
 
   loading: boolean;
-  noData: boolean = true;
+  noData = true;
 
   constructor(
     private activitiesService: ActivitiesService,

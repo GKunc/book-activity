@@ -20,17 +20,17 @@ export class AddActivityComponent implements OnInit {
   activity: Activity;
 
   @Input()
-  isEditing: boolean = false;
+  isEditing = false;
 
   user: SocialUser;
 
-  isLoading: boolean = false;
+  isLoading = false;
 
   guid: string = getUUID();
 
   currentStep = 0;
-  stepOneDone: boolean = false;
-  stepTwoDone: boolean = false;
+  stepOneDone = false;
+  stepTwoDone = false;
 
   activityData: ActivityData;
   groupsData: GroupsData;
@@ -54,12 +54,13 @@ export class AddActivityComponent implements OnInit {
     const activity = this.createActivity();
 
     if (this.mediaData.isEditing) {
-      // this.activitiesService.editActivity(activity).subscribe(() => {
-      //   this.isLoading = false;
-      //   this.notificationsService.success('Zajęcia dodane', 'Poczekaj na email potwierdzający weryfijację.');
-      //   this.modalService.close();
-      // });
-      // return;
+      activity.guid = this.activity.guid;
+      this.activitiesService.editActivity(activity).subscribe(() => {
+        this.isLoading = false;
+        this.notificationsService.success('Sukces', 'Zajęcia edytowano poprawnie.');
+        this.modalService.close();
+      });
+      return;
     }
 
     this.activitiesService.insertActivity(activity).subscribe(() => {

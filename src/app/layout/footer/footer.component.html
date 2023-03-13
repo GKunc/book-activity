@@ -1,29 +1,49 @@
 <div *ngIf="(resizeService.isSmall$ | async) === false" class="footer">
-   <div class="footer__container">
-      <div class="footer__container--left">
-         <div class="logo" routerLink="/">
-            <span nz-icon nzType="calendar" nzTheme="outline"></span>
-            BA
-         </div>
-         <div>© Copyright - Grzegorz Kunc</div>
+  <div class="footer__container">
+    <div class="footer__container--left">
+      <div class="logo" routerLink="/">
+        <span nz-icon nzType="calendar" nzTheme="outline"></span>
+        BA
       </div>
+      <div>© Copyright - Grzegorz Kunc</div>
+    </div>
 
-      <div class="footer__media">
-         <span class="footer__media--icon" nz-icon nzType="facebook" nzTheme="outline"></span>
-         <span class="footer__media--icon" nz-icon nzType="instagram" nzTheme="outline"></span>
-      </div>
-   </div>
+    <div class="footer__media">
+      <span
+        class="footer__media--icon"
+        nz-icon
+        nzType="facebook"
+        nzTheme="outline"
+      ></span>
+      <span
+        class="footer__media--icon"
+        nz-icon
+        nzType="instagram"
+        nzTheme="outline"
+      ></span>
+    </div>
+  </div>
 </div>
 
 <div *ngIf="resizeService.isSmall$ | async" class="mobile-footer">
-   <div class="mobile-footer__container">
-      <div class="mobile-footer__media">
-         <span class="footer__media--icon" nz-icon nzType="facebook" nzTheme="outline"></span>
-         <span class="footer__media--icon" nz-icon nzType="instagram" nzTheme="outline"></span>
-      </div>
+  <div class="mobile-footer__container">
+    <div class="mobile-footer__media">
+      <span
+        class="footer__media--icon"
+        nz-icon
+        nzType="facebook"
+        nzTheme="outline"
+      ></span>
+      <span
+        class="footer__media--icon"
+        nz-icon
+        nzType="instagram"
+        nzTheme="outline"
+      ></span>
+    </div>
 
-      <div class="mobile-footer__container--copyright">
-         <div>© Copyright - Grzegorz Kunc</div>
-      </div>
-   </div>
+    <div class="mobile-footer__container--copyright">
+      <div>© Copyright - Grzegorz Kunc</div>
+    </div>
+  </div>
 </div>

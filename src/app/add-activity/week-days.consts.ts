@@ -6,7 +6,7 @@ export enum WeekDay {
     Friday,
     Saturday,
     Sunday,
-};
+}
 
 export const WEEK_DAYS: { value: WeekDay, label: string }[] = [
     {

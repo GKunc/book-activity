@@ -1,48 +1,73 @@
 <form nz-form [formGroup]="form">
-    <!-- <nz-form-label nzFor="iamges">Zjęcia</nz-form-label>
+  <!-- <nz-form-label nzFor="iamges">Zjęcia</nz-form-label>
     <nz-form-control [nzErrorTip]="errorDescription">
         <input type="file" accept="image/jpeg, image/png, image/jpg">
     </nz-form-control>   -->
 
-    <form class="mt-4"enctype="multipart/form-data">
-      <div class="form-group">
-        <label for="file-upload" class="custom-file-upload" dragAndDrop (fileDropped)="onFileDropped($event)">
-            <span class="upload-icon" nz-icon nzType="upload" nzTheme="outline"></span>
-            Kliknij lub przeciągnij swoje zdjęcia tutaj
-        </label>
+  <form class="mt-4" enctype="multipart/form-data">
+    <div class="form-group">
+      <label
+        for="file-upload"
+        class="custom-file-upload"
+        dragAndDrop
+        (fileDropped)="onFileDropped($event)"
+      >
+        <span
+          class="upload-icon"
+          nz-icon
+          nzType="upload"
+          nzTheme="outline"
+        ></span>
+        Kliknij lub przeciągnij swoje zdjęcia tutaj
+      </label>
 
-        <input
-          id="file-upload"
-          class="custom-file-input"
-          (change)="filesChange($event)"
-          type="file"
-          name="file"
-          class="form-control-file border"
-          accept="image/jpeg, image/png, image/jpg"
-          multiple
-        />
-      </div>
-      </form>
-</form>       
+      <input
+        id="file-upload"
+        class="custom-file-input"
+        (change)="filesChange($event)"
+        type="file"
+        name="file"
+        class="form-control-file border"
+        accept="image/jpeg, image/png, image/jpg"
+        multiple
+      />
+    </div>
+  </form>
+</form>
 
-<ng-template *ngIf="!loadingImages; else loader;"></ng-template>
+<ng-template *ngIf="!loadingImages; else loader"></ng-template>
 <div class="added-files" *ngFor="let image of images; let i = index">
-    {{ image.name }} 
-    <span class="remove-icon" nz-icon nzType="delete" nzTheme="outline" (click)="deleteFile(i)"></span>
+  {{ image.name }}
+  <span
+    class="remove-icon"
+    nz-icon
+    nzType="delete"
+    nzTheme="outline"
+    (click)="deleteFile(i)"
+  ></span>
 </div>
 
 <ng-template #loader>
-    <loader style="height: 100px;"></loader>
+  <loader style="height: 100px"></loader>
 </ng-template>
 
-
 <div class="modal__action-container">
-    <hub-button text="Poprzednie" (click)="previous()"></hub-button>
-    <hub-button [isLoading]="isLoading" [text]="submitLabel" (click)="submit()"></hub-button>
+  <hub-button text="Poprzednie" (click)="previous()"></hub-button>
+  <hub-button
+    [isLoading]="isLoading"
+    [text]="submitLabel"
+    (click)="submit()"
+  ></hub-button>
 </div>
 
 <ng-template #errorDescription let-control>
-    <ng-container *ngIf="control.hasError('required')">To pole jest wymagane</ng-container>
-    <ng-container *ngIf="control.hasError('minlength')">Minimalna wymagana ilość znaków</ng-container>
-    <ng-container *ngIf="control.hasError('maxlength')">Przekroczono dopuszczalną ilość znaków</ng-container>
+  <ng-container *ngIf="control.hasError('required')"
+    >To pole jest wymagane</ng-container
+  >
+  <ng-container *ngIf="control.hasError('minlength')"
+    >Minimalna wymagana ilość znaków</ng-container
+  >
+  <ng-container *ngIf="control.hasError('maxlength')"
+    >Przekroczono dopuszczalną ilość znaków</ng-container
+  >
 </ng-template>

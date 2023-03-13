@@ -7,7 +7,7 @@ import { Component, HostBinding, Input } from '@angular/core';
 })
 export class LoaderComponent {
   @Input()
-  inlineStyle: boolean = false;
+  inlineStyle = false;
 
   @HostBinding('class.inline')
   get inline(): boolean {

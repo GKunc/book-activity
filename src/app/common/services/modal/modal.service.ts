@@ -12,7 +12,7 @@ export class ModalService {
   createModal(
     component: any,
     title: string,
-    width: number = 400,
+    width = 400,
     params?: any,
   ): NzModalRef {
 

@@ -12,10 +12,10 @@ export class MediaDataFormComponent implements OnInit {
   activity: Activity;
 
   @Input()
-  isEditing: boolean = false;
+  isEditing = false;
 
   @Input()
-  isLoading: boolean = false;
+  isLoading = false;
 
   @Input()
   guid: string;
@@ -26,10 +26,10 @@ export class MediaDataFormComponent implements OnInit {
   @Output()
   previousForm: EventEmitter<any> = new EventEmitter<any>();
 
-  submitLabel: string = "Wyślij";
+  submitLabel = "Wyślij";
 
   uploading: boolean;
-  loadingImages: boolean = false;
+  loadingImages = false;
 
   form = new FormGroup({
     images: new FormControl(null),
@@ -99,8 +99,8 @@ export class MediaDataFormComponent implements OnInit {
   private uploadFiles(): void {
     if (this.images.length > 0) {
       for (let i = 0; i < this.images.length; i++) {
-        let file: File = this.images[i];
-        let formData: FormData = new FormData();
+        const file: File = this.images[i];
+        const formData: FormData = new FormData();
         formData.append('file', file, `${this.guid}-${i}`);
         this.activitiesService.insertPhoto(formData).subscribe((data) => {
           console.log("DATA:", data);

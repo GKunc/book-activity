@@ -1,77 +1,157 @@
-<ng-container *ngIf="activity; else loadingState;">
-    <div class="grid-contaier">
-        <div class="column second-column">
-            <div class="activity-map">
-                <div class="activity-map__container" #map id="map"></div>
-            </div>
-                        
-            <div class="info-container">
-                <div class="info-container__section">
-                    <h2>O nas</h2>
-                    <p>{{currentDescription}}</p>
-                    <span *ngIf="descriptionTooLong" (click)="toggleShowMore()">
-                        <a *ngIf="!descriptionExpanded">Rozwiń <span nz-icon nzType="down" nzTheme="outline"></span></a>
-                        <a *ngIf="descriptionExpanded">Zwiń <span nz-icon nzType="up" nzTheme="outline"></span></a>
-                    </span>
-                </div>
+<ng-container *ngIf="activity; else loadingState">
+  <div class="grid-contaier">
+    <div class="column second-column">
+      <div class="activity-map">
+        <div class="activity-map__container" #map id="map"></div>
+      </div>
 
-                <nz-divider></nz-divider>
-
-                <div class="info-container__section">
-                    <h2>Kontakt</h2>
-                    <p><a [href]="phoneToHref"><span class="info__icon" nz-icon nzType="mobile" nzTheme="outline"></span>{{activity.phone}}</a></p>
-                    <p><a target="_blank" [href]="mailToHref"><span class="info__icon" nz-icon nzType="mail" nzTheme="outline"></span>{{activity.email}}</a></p>
-                    <p><a target="_blank" [href]="activity.www" *ngIf="activity.www"><span class="info__icon" nz-icon nzType="global" nzTheme="outline"></span>{{activity.www}}</a></p>
-                    <p><a target="_blank" [href]="activity.facebook" *ngIf="activity.facebook"><span class="info__icon" nz-icon nzType="instagram" nzTheme="outline"></span>{{activity.facebook}}</a></p>
-                    <p><a target="_blank" [href]="activity.instagram" *ngIf="activity.instagram"><span class="info__icon" nz-icon nzType="facebook" nzTheme="outline"></span>{{activity.instagram}}</a></p>
-                </div>
-            </div>
+      <div class="info-container">
+        <div class="info-container__section">
+          <h2>O nas</h2>
+          <p>{{ currentDescription }}</p>
+          <span *ngIf="descriptionTooLong" (click)="toggleShowMore()">
+            <a *ngIf="!descriptionExpanded"
+              >Rozwiń <span nz-icon nzType="down" nzTheme="outline"></span
+            ></a>
+            <a *ngIf="descriptionExpanded"
+              >Zwiń <span nz-icon nzType="up" nzTheme="outline"></span
+            ></a>
+          </span>
         </div>
-        
-        <div class="column first-column">
-            <div *ngIf="!loading" class="carousel-container">
-                <nz-carousel nzEffect="scrollx" #carouselRef>
-                    <div nz-carousel-content *ngFor="let src of imagesSource">
-                        <img [src]="src | safeUrl"/>        
-                    </div>
-                </nz-carousel>
-        
-                <div *ngIf="imagesSource.length > 1" class="arrow arrow-left" (click)="previousImg()">
-                    <span nz-icon nzType="left-circle" nzTheme="outline"></span>
-                </div>
-                <div *ngIf="imagesSource.length > 1" class="arrow arrow-right" (click)="nextImg()">
-                    <span nz-icon nzType="right-circle" nzTheme="outline"></span>
-                </div>
-            </div>
-        
-            <div class="info-container">
-                <div class="info-container__section">
-                    <h1 class="info-container__header">{{activity.name}}</h1>
-                    <p class="info-container__description">{{activity.city}}, {{activity.street}}</p>
-                </div>
-            </div>  
 
-            <div *ngFor="let group of activity.groups">
-                <div class="activity-groups">
-                    <div><h2>{{ group.name }}</h2></div>
-                    
-                    <div class="activity-groups__details">
-                        <div class="activity-groups__details--column">
-                            <div>{{ group.duration | durationMin }}</div>
-                        </div>
-                        <div class="activity-groups__details--column">
-                            <div><h3>{{ group.time | date: 'HH:mm' }}</h3></div>
-                            <div class="info-container__description">{{ group.weekDay | weekDay }}</div>
-                        </div>
-                        <div class="activity-groups__details--column activity-groups__price">{{ group.price | pricePLN }}</div>
-                    </div>  
-                </div>
-                <nz-divider></nz-divider>
-            </div>
+        <nz-divider></nz-divider>
+
+        <div class="info-container__section">
+          <h2>Kontakt</h2>
+          <p>
+            <a [href]="phoneToHref"
+              ><span
+                class="info__icon"
+                nz-icon
+                nzType="mobile"
+                nzTheme="outline"
+              ></span
+              >{{ activity.phone }}</a
+            >
+          </p>
+          <p>
+            <a target="_blank" [href]="mailToHref"
+              ><span
+                class="info__icon"
+                nz-icon
+                nzType="mail"
+                nzTheme="outline"
+              ></span
+              >{{ activity.email }}</a
+            >
+          </p>
+          <p>
+            <a target="_blank" [href]="activity.www" *ngIf="activity.www"
+              ><span
+                class="info__icon"
+                nz-icon
+                nzType="global"
+                nzTheme="outline"
+              ></span
+              >{{ activity.www }}</a
+            >
+          </p>
+          <p>
+            <a
+              target="_blank"
+              [href]="activity.facebook"
+              *ngIf="activity.facebook"
+              ><span
+                class="info__icon"
+                nz-icon
+                nzType="instagram"
+                nzTheme="outline"
+              ></span
+              >{{ activity.facebook }}</a
+            >
+          </p>
+          <p>
+            <a
+              target="_blank"
+              [href]="activity.instagram"
+              *ngIf="activity.instagram"
+              ><span
+                class="info__icon"
+                nz-icon
+                nzType="facebook"
+                nzTheme="outline"
+              ></span
+              >{{ activity.instagram }}</a
+            >
+          </p>
         </div>
+      </div>
     </div>
+
+    <div class="column first-column">
+      <div *ngIf="!loading" class="carousel-container">
+        <nz-carousel nzEffect="scrollx" #carouselRef>
+          <div nz-carousel-content *ngFor="let src of imagesSource">
+            <img [src]="src | safeUrl" />
+          </div>
+        </nz-carousel>
+
+        <div
+          *ngIf="imagesSource.length > 1"
+          class="arrow arrow-left"
+          (click)="previousImg()"
+        >
+          <span nz-icon nzType="left-circle" nzTheme="outline"></span>
+        </div>
+        <div
+          *ngIf="imagesSource.length > 1"
+          class="arrow arrow-right"
+          (click)="nextImg()"
+        >
+          <span nz-icon nzType="right-circle" nzTheme="outline"></span>
+        </div>
+      </div>
+
+      <div class="info-container">
+        <div class="info-container__section">
+          <h1 class="info-container__header">{{ activity.name }}</h1>
+          <p class="info-container__description">
+            {{ activity.city }}, {{ activity.street }}
+          </p>
+        </div>
+      </div>
+
+      <div *ngFor="let group of activity.groups">
+        <div class="activity-groups">
+          <div>
+            <h2>{{ group.name }}</h2>
+          </div>
+
+          <div class="activity-groups__details">
+            <div class="activity-groups__details--column">
+              <div>{{ group.duration | durationMin }}</div>
+            </div>
+            <div class="activity-groups__details--column">
+              <div>
+                <h3>{{ group.time | date : "HH:mm" }}</h3>
+              </div>
+              <div class="info-container__description">
+                {{ group.weekDay | weekDay }}
+              </div>
+            </div>
+            <div
+              class="activity-groups__details--column activity-groups__price"
+            >
+              {{ group.price | pricePLN }}
+            </div>
+          </div>
+        </div>
+        <nz-divider></nz-divider>
+      </div>
+    </div>
+  </div>
 </ng-container>
 
 <ng-template #loadingState>
-<loader style="min-height: calc(100vh)"></loader>
+  <loader style="min-height: calc(100vh)"></loader>
 </ng-template>

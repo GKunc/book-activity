@@ -51,8 +51,8 @@ export class ActivitiesService {
     return this.http.delete(`/api/activities?id=${id}`);
   }
 
-  editActivity(): void {
-    this.http.patch('/api/activities', {}).subscribe();
+  editActivity(activity: Partial<Activity>): Observable<any> {
+    return this.http.put(`/api/activities?id=${activity.guid}`, activity, { responseType: 'text' });
   }
 }
 
