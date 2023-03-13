@@ -23,7 +23,7 @@ export class ActivityDataFormComponent implements OnInit {
     name: new FormControl<string>('', Validators.required),
     category: new FormControl<Category>(null, Validators.required),
     description: new FormControl<string>('', [Validators.required, Validators.minLength(30), Validators.maxLength(200)]),
-  });;
+  });
 
   ngOnInit(): void {
     if (this.activity) {

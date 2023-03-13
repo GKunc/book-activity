@@ -1,33 +1,55 @@
 <div class="form-container">
-    <nz-steps [nzCurrent]="currentStep" (nzIndexChange)="onIndexChange($event)">
-        <nz-step></nz-step>
-        <nz-step [nzDisabled]="!stepOneDone"></nz-step>
-        <nz-step [nzDisabled]="!stepTwoDone"></nz-step>
-        <nz-step [nzDisabled]="!stepTwoDone"></nz-step>
-        <nz-step [nzDisabled]="!stepTwoDone"></nz-step>
-      </nz-steps>
-  
-      <div class="steps-content form-container">
-        <ng-container [ngSwitch]="currentStep">
-            <ng-container *ngSwitchCase="0">
-                <activity-data-form [activity]="activity" (formSubmitted)="saveData($event); next()"></activity-data-form>
-            </ng-container>
-                        
-            <ng-container *ngSwitchCase="1">
-                <activity-groups-form [activity]="activity" (formSubmitted)="saveData($event); next();" (previousForm)="previous()"></activity-groups-form>
-            </ng-container>
+  <nz-steps [nzCurrent]="currentStep" (nzIndexChange)="onIndexChange($event)">
+    <nz-step></nz-step>
+    <nz-step [nzDisabled]="!stepOneDone"></nz-step>
+    <nz-step [nzDisabled]="!stepTwoDone"></nz-step>
+    <nz-step [nzDisabled]="!stepTwoDone"></nz-step>
+    <nz-step [nzDisabled]="!stepTwoDone"></nz-step>
+  </nz-steps>
 
-            <ng-container *ngSwitchCase="2">
-                <location-data-form [activity]="activity" (formSubmitted)="saveData($event); next();" (previousForm)="previous()"></location-data-form>
-            </ng-container>
+  <div class="steps-content form-container">
+    <ng-container [ngSwitch]="currentStep">
+      <ng-container *ngSwitchCase="0">
+        <activity-data-form
+          [activity]="activity"
+          (formSubmitted)="saveData($event); next()"
+        ></activity-data-form>
+      </ng-container>
 
-            <ng-container *ngSwitchCase="3">
-                <client-data-form [activity]="activity" (formSubmitted)="saveData($event); next();" (previousForm)="previous()"></client-data-form>
-            </ng-container>
+      <ng-container *ngSwitchCase="1">
+        <activity-groups-form
+          [activity]="activity"
+          (formSubmitted)="saveData($event); next()"
+          (previousForm)="previous()"
+        ></activity-groups-form>
+      </ng-container>
 
-            <ng-container *ngSwitchCase="4">
-                <media-data-form [activity]="activity" [isEditing]="isEditing" [isLoading]="isLoading" [guid]="guid" (formSubmitted)="saveData($event); submit();" (previousForm)="previous()"></media-data-form>
-            </ng-container>
-        </ng-container>            
-    </div>
+      <ng-container *ngSwitchCase="2">
+        <location-data-form
+          [activity]="activity"
+          (formSubmitted)="saveData($event); next()"
+          (previousForm)="previous()"
+        ></location-data-form>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="3">
+        <client-data-form
+          [activity]="activity"
+          (formSubmitted)="saveData($event); next()"
+          (previousForm)="previous()"
+        ></client-data-form>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="4">
+        <media-data-form
+          [activity]="activity"
+          [isEditing]="isEditing"
+          [isLoading]="isLoading"
+          [guid]="guid"
+          (formSubmitted)="saveData($event); submit()"
+          (previousForm)="previous()"
+        ></media-data-form>
+      </ng-container>
+    </ng-container>
+  </div>
 </div>

@@ -15,7 +15,7 @@ export class YourActivitiesComponent implements OnInit {
   activities: Activity[];
   loading: boolean;
   noData: boolean;
-  userLogged: boolean = false;
+  userLogged = false;
 
   constructor(
     private activitiesService: ActivitiesService,

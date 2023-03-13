@@ -1,57 +1,84 @@
 <form nz-form [formGroup]="form" nzLayout="vertical">
-    <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="street" nzRequired>Adres</nz-form-label>
-        <nz-form-control [nzErrorTip]="errorDescription">
-            <input id="street" nz-input placeholder="Adres" formControlName="street" />
-        </nz-form-control>
-    </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="street" nzRequired
+      >Adres</nz-form-label
+    >
+    <nz-form-control [nzErrorTip]="errorDescription">
+      <input
+        id="street"
+        nz-input
+        placeholder="Adres"
+        formControlName="street"
+      />
+    </nz-form-control>
+  </nz-form-item>
 
-    <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="city" nzRequired>Miasto</nz-form-label>
-        <nz-form-control [nzErrorTip]="errorDescription">
-            <input id="city" nz-input placeholder="Miasto" formControlName="city" />
-        </nz-form-control>
-    </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="city" nzRequired
+      >Miasto</nz-form-label
+    >
+    <nz-form-control [nzErrorTip]="errorDescription">
+      <input id="city" nz-input placeholder="Miasto" formControlName="city" />
+    </nz-form-control>
+  </nz-form-item>
 </form>
 
 <div class="google-maps__container">
-    <label class="label">
-        Google maps:
-        <span 
-        class="tooltip-icon"
-        nz-icon 
-        nzType="info-circle" 
-        nzTheme="outline"
-        nz-tooltip 
-        [nzTooltipTitle]="tooltipContent"
-        nzTooltipPlacement="right"
-        ></span>
-    </label>
-    <input id="googleIframe" nz-input placeholder="Google" [ngModel]="coordinatesString" (ngModelChange)="coordinatesChanges($event)"/>
-    <ng-template #tooltipContent>
-        <div>
-            <div>1. Wejdź na <a target="_blank" href="https://www.google.pl/maps/">Google Maps</a></div>
-            <div>2. Znajdź twoją lokalizację</div>
-            <div>3. Kliknij prawym przyciskiem myszy</div>
-            <div>4. Skopiuj koordynaty punktu</div>
-        </div>
-    </ng-template>
+  <label class="label">
+    Google maps:
+    <span
+      class="tooltip-icon"
+      nz-icon
+      nzType="info-circle"
+      nzTheme="outline"
+      nz-tooltip
+      [nzTooltipTitle]="tooltipContent"
+      nzTooltipPlacement="right"
+    ></span>
+  </label>
+  <input
+    id="googleIframe"
+    nz-input
+    placeholder="Google"
+    [ngModel]="coordinatesString"
+    (ngModelChange)="coordinatesChanges($event)"
+  />
+  <ng-template #tooltipContent>
+    <div>
+      <div>
+        1. Wejdź na
+        <a target="_blank" href="https://www.google.pl/maps/">Google Maps</a>
+      </div>
+      <div>2. Znajdź twoją lokalizację</div>
+      <div>3. Kliknij prawym przyciskiem myszy</div>
+      <div>4. Skopiuj koordynaty punktu</div>
+    </div>
+  </ng-template>
 </div>
 
-<div [style.height]="!coordinatesString ? '0px' :'400px'" style="position: relative">
-    <div class="activity-map">
-        <div class="activity-map__container" #map id="map"></div>
-    </div>
-    <loader *ngIf="loading" [inlineStyle]="true"></loader>
+<div
+  [style.height]="!coordinatesString ? '0px' : '400px'"
+  style="position: relative"
+>
+  <div class="activity-map">
+    <div class="activity-map__container" #map id="map"></div>
+  </div>
+  <loader *ngIf="loading" [inlineStyle]="true"></loader>
 </div>
 
 <div class="modal__action-container">
-    <hub-button text="Poprzednie" (click)="previous()"></hub-button>
-    <hub-button text="Dalej" (click)="submit()"></hub-button>
+  <hub-button text="Poprzednie" (click)="previous()"></hub-button>
+  <hub-button text="Dalej" (click)="submit()"></hub-button>
 </div>
 
 <ng-template #errorDescription let-control>
-    <ng-container *ngIf="control.hasError('required')">To pole jest wymagane</ng-container>
-    <ng-container *ngIf="control.hasError('minlength')">Minimalna wymagana ilość znaków</ng-container>
-    <ng-container *ngIf="control.hasError('maxlength')">Przekroczono dopuszczalną ilość znaków</ng-container>
-  </ng-template>
+  <ng-container *ngIf="control.hasError('required')"
+    >To pole jest wymagane</ng-container
+  >
+  <ng-container *ngIf="control.hasError('minlength')"
+    >Minimalna wymagana ilość znaków</ng-container
+  >
+  <ng-container *ngIf="control.hasError('maxlength')"
+    >Przekroczono dopuszczalną ilość znaków</ng-container
+  >
+</ng-template>

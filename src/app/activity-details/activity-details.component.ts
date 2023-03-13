@@ -19,8 +19,8 @@ export class ActivityDetailsComponent implements OnInit {
   loading: boolean;
 
   currentDescription: string;
-  descriptionExpanded: boolean = false;
-  descriptionTooLong: boolean = false;
+  descriptionExpanded = false;
+  descriptionTooLong = false;
 
   mailToHref: string;
   phoneToHref: string;
@@ -101,8 +101,8 @@ export class ActivityDetailsComponent implements OnInit {
         this.map.getViewPort().resize()
       });
 
-      let fillColor = '#bf0003';
-      let backgroundColor = '#ff5050';
+      const fillColor = '#bf0003';
+      const backgroundColor = '#ff5050';
       const icon = new H.map.Icon(
         `<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><path style='stroke:none;fill-rule:nonzero;fill:${backgroundColor};fill-opacity:1' d='M15.98.176c5.305 0 9.622 4.316 9.622 9.62 0 6.755-9.215 13.774-9.622 21.993-.402-8.219-9.617-15.238-9.617-21.992 0-5.305 4.313-9.621 9.617-9.621Zm0 0'/><path style='stroke:none;fill-rule:nonzero;fill:${fillColor};fill-opacity:1' d='M19.219 9.512c0 1.785-1.45 3.23-3.235 3.23a3.233 3.233 0 1 1 0-6.465 3.236 3.236 0 0 1 3.235 3.235Zm0 0'/></svg>`
       );

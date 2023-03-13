@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NzButtonSize, NzButtonType } from 'ng-zorro-antd/button';
 
 @Component({

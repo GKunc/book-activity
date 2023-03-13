@@ -14,7 +14,7 @@ import { LoginPageComponent } from 'src/app/login-page/login-page.component';
   styleUrls: ['./nav.component.less']
 })
 export class NavComponent implements OnInit {
-  visible: boolean = false;
+  visible = false;
 
   user: SocialUser | undefined;
   userInitials: string;
@@ -22,7 +22,7 @@ export class NavComponent implements OnInit {
 
   weekDaysOptions: { value: WeekDay, label: string }[] = WEEK_DAYS;
 
-  phrase: string = '';
+  phrase = '';
   weekDays: WeekDay[] = [];
 
   constructor(

@@ -133,6 +133,27 @@ app.get('/api/activities', async function (req, res) {
   }
 });
 
+app.put('/api/activities', async function (req, res) {
+  console.log("PATH");
+  uri = process.env.MANGO_DB_CONNECTION_STRING;
+  const id = req.query.id;
+  let query = {};
+  if (id) {
+    query.guid = id;
+  }
+
+  console.log('Edit activity', query);
+  const client = new MongoClient(uri);
+  try {
+    const database = client.db('edds');
+    const activities = database.collection('activities');
+    const result = await activities.replaceOne(query, req.body);
+    console.log("Successfully modified ${result.modifiedCount} document.");
+  } finally {
+    await client.close();
+  }
+});
+
 app.delete('/api/activities', async function (req, res) {
   uri = process.env.MANGO_DB_CONNECTION_STRING;
   const id = req.query.id;
