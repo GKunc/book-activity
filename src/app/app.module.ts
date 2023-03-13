@@ -1,4 +1,4 @@
-import { NgModule, isDevMode } from '@angular/core';
+import { NgModule, isDevMode, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { LayoutModule } from '@angular/cdk/layout';
 
@@ -36,6 +36,7 @@ import { FindActivitiesComponent } from './find-activities/find-activities.compo
 import { ActivityMapComponent } from './activity-map/activity-map.component';
 import { CategoryPipe } from './common/pipes/category.pipe';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { GlobalErrorHandler } from './common/error/global-error-handler.service';
 
 registerLocaleData(en);
 
@@ -81,6 +82,10 @@ registerLocaleData(en);
   ],
   providers: [
     CategoryPipe,
+    {
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandler,
+    },
     { provide: NZ_I18N, useValue: en_US },
     {
       provide: 'SocialAuthServiceConfig',

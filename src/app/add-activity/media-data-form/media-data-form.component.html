@@ -1,11 +1,15 @@
-<form nz-form [formGroup]="form">
+<form nz-form [formGroup]="form" style="position: relative; min-height: 110px">
   <!-- <nz-form-label nzFor="iamges">Zjęcia</nz-form-label>
     <nz-form-control [nzErrorTip]="errorDescription">
         <input type="file" accept="image/jpeg, image/png, image/jpg">
     </nz-form-control>   -->
 
   <form class="mt-4" enctype="multipart/form-data">
-    <div class="form-group">
+    <ng-template #loaderImages>
+      <loader></loader>
+    </ng-template>
+
+    <div class="form-group" *ngIf="!loadingImages; else loaderImages">
       <label
         for="file-upload"
         class="custom-file-upload"
@@ -35,7 +39,6 @@
   </form>
 </form>
 
-<ng-template *ngIf="!loadingImages; else loader"></ng-template>
 <div class="added-files" *ngFor="let image of images; let i = index">
   {{ image.name }}
   <span
@@ -46,10 +49,6 @@
     (click)="deleteFile(i)"
   ></span>
 </div>
-
-<ng-template #loader>
-  <loader style="height: 100px"></loader>
-</ng-template>
 
 <div class="modal__action-container">
   <hub-button text="Poprzednie" (click)="previous()"></hub-button>

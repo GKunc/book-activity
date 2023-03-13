@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 import { ACTIVITY_CATEGORIES, Category } from '../add-activity/category.consts';
 import { WeekDay, WEEK_DAYS } from '../add-activity/week-days.consts';
 import { CategoryPipe } from '../common/pipes/category.pipe';
-import { ActivitiesService, Activity } from '../common/services/activities/activities.service';
+import { ActivitiesService, Activity, FilterActivitiesParams } from '../common/services/activities/activities.service';
 import { ResizeService } from '../common/services/resize/resize.service';
 
 const MAX_PRICE = 1000;
@@ -45,6 +45,7 @@ export class ActivityMapComponent implements OnInit {
   lng = 19.94;
 
   loading = false;
+  noData = true;
 
   private map?: H.Map;
   private ui?: H.ui.UI;
@@ -68,6 +69,9 @@ export class ActivityMapComponent implements OnInit {
   }
 
   loadMap(): void {
+    this.map = null;
+    this.mapDiv.nativeElement.innerHTML = '';
+
     if (!this.map && this.mapDiv) {
       this.platform = new H.service.Platform({
         'apikey': environment.HERE_MAPS_API_KEY
@@ -119,13 +123,17 @@ export class ActivityMapComponent implements OnInit {
     this.priceRange = [this.minPrice, this.maxPrice];
   }
 
+
   filterActivities(): void {
-    return;
+    this.loadMap();
   }
 
   private getActivities(): void {
     this.loading = true;
-    this.activitiesService.getActivities().subscribe((data) => {
+    this.noData = false;
+    const query = this.createFilterQuery();
+    this.activitiesService.filterActivities(query).subscribe(data => {
+      this.noData = this.hasNoData(data);
       this.activities = data;
       this.activities.forEach(activity => {
         this.addInfoBubble(activity);
@@ -177,7 +185,22 @@ export class ActivityMapComponent implements OnInit {
     }
   }
 
+  private createFilterQuery(): Partial<FilterActivitiesParams> {
+    const query = {}
+    query['phrase'] = this.phrase ?? this.phrase
+    query['weekDay'] = this.weekDay ?? this.weekDay
+    query['category'] = this.category ?? this.category
+    query['minPrice'] = this.minPrice ?? this.minPrice
+    query['maxPrice'] = this.maxPrice ?? this.maxPrice
+
+    return query;
+  }
+
   private navigateToDetials(activity: Activity): void {
     this.router.navigate(['/detail/', activity.guid])
+  }
+
+  private hasNoData(data: Activity[]): boolean {
+    return data.length === 0 ? true : false;
   }
 }
