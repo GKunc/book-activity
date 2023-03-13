@@ -149,6 +149,9 @@ app.put('/api/activities', async function (req, res) {
     const activities = database.collection('activities');
     const result = await activities.replaceOne(query, req.body);
     console.log("Successfully modified ${result.modifiedCount} document.");
+    res.sendStatus(200);
+  } catch(e) {
+    res.sendStatus(500);
   } finally {
     await client.close();
   }

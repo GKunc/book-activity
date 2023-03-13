@@ -5,4 +5,10 @@ import { Component } from '@angular/core';
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.less']
 })
-export class LoginPageComponent { }
+export class LoginPageComponent { 
+  constructor() {
+    const test = "xd"
+
+    
+  }
+}

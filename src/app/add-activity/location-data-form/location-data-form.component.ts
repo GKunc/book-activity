@@ -41,6 +41,10 @@ export class LocationDataFormComponent implements OnInit {
     }
   }
 
+  ngAfterViewInit(): void {
+    this.renderMap(this.coordinatesString);
+  }
+  
   previous(): void {
     this.previousForm.emit();
   }
@@ -57,11 +61,16 @@ export class LocationDataFormComponent implements OnInit {
 
   coordinatesChanges(value: string): void {
     this.coordinatesString = value;
+    this.renderMap(value);
+  }
 
+  private renderMap(value: string): void {
     this.map = null;
     this.mapDiv.nativeElement.innerHTML = '';
+    console.log(value);
+    
     const { lat, lng } = this.getCoordinates(value);
-
+    
     if (!this.map && this.mapDiv && lat && lng) {
       this.platform = new H.service.Platform({
         'apikey': environment.HERE_MAPS_API_KEY

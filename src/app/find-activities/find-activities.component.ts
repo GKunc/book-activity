@@ -31,7 +31,7 @@ export class FindActivitiesComponent implements OnInit {
   priceRange: number[] = [0, MAX_PRICE];
 
   loading: boolean;
-  noData = true;
+  noData:boolean = true;
 
   constructor(
     private activitiesService: ActivitiesService,
