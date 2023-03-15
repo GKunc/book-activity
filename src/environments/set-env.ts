@@ -15,7 +15,7 @@ const setEnv = () => {
   MANGO_DB_CONNECTION_STRING: '${process.env["MANGO_DB_CONNECTION_STRING"]}',
   MANGO_DB_CONNECTION_STRING_PHOTOS: '${process.env["MANGO_DB_CONNECTION_STRING_PHOTOS"]}',
   HERE_MAPS_API_KEY: '${process.env["HERE_MAPS_API_KEY"]}',
-  MEASUREMENT_ID: '${process.env["MEASUREMENT_ID"]}'
+  MEASUREMENT_ID: '${process.env["MEASUREMENT_ID"]}',
   API_URL: 'hhtp://localhost:8080',
   appVersion: '${appVersion}',
   production: true,
