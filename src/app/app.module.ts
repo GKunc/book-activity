@@ -38,6 +38,8 @@ import { CategoryPipe } from './common/pipes/category.pipe';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { GlobalErrorHandler } from './common/error/global-error-handler.service';
 
+import { NgxGoogleAnalyticsModule } from 'ngx-google-analytics';
+
 registerLocaleData(en);
 
 @NgModule({
@@ -73,6 +75,7 @@ registerLocaleData(en);
     BrowserAnimationsModule,
     SocialLoginModule,
     IconModule,
+    NgxGoogleAnalyticsModule.forRoot(environment.MEASUREMENT_ID),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable
