@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NzCarouselComponent } from 'ng-zorro-antd/carousel';
 import { environment } from 'src/environments/environment';
 import { ActivitiesService, Activity } from '../common/services/activities/activities.service';
+import { MapService } from '../common/services/map-service/map-service.service';
 
 @Component({
   selector: 'app-activity-details',
@@ -33,6 +34,7 @@ export class ActivityDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private activitiesService: ActivitiesService,
+    private mapService: MapService,
   ) { }
 
   ngOnInit(): void {
@@ -51,6 +53,8 @@ export class ActivityDetailsComponent implements OnInit {
           this.imagesSource.push(URL.createObjectURL(response));
           if (i === this.activity.nubmerOfImages - 1) {
             this.loading = false;
+            const { map, ui } = this.mapService.loadMap(this.mapDiv)
+            this.mapService.addInfoBubble(this.activity, map, ui);
             this.createMap();
           }
         },
