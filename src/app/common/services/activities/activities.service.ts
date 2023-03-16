@@ -1,9 +1,9 @@
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { GroupDetails } from 'src/app/add-activity/activity-groups-form/activity-groups-form.component';
 import { Category } from 'src/app/add-activity/category.consts';
-import { WeekDay } from 'src/app/add-activity/week-days.consts';
+import { ActivityFilters } from 'src/app/shared/activity-filters/activity-filters.component';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +28,7 @@ export class ActivitiesService {
     return this.http.get<Activity>(`/api/activities/detail?id=${id}`);
   }
 
-  filterActivities(query: Partial<FilterActivitiesParams>): Observable<any> {
+  filterActivities(query: Partial<ActivityFilters>): Observable<any> {
     return this.http.post<Activity[]>('/api/filter-activities', query);
   }
 
@@ -73,13 +73,4 @@ export interface Activity {
   instagram?: string;
   www?: string;
   coverPhoto?: string;
-}
-
-export interface FilterActivitiesParams {
-  phrase: string;
-  weekDay: WeekDay;
-  category: Category;
-  minPrice: number;
-  maxPrice: number;
-  guid: string,
 }

@@ -75,6 +75,10 @@ export class MapService {
   }
 
 
+  removeAllBubbles(map: H.Map): void {
+    map.removeObjects(map.getObjects ());
+  }
+
   addInfoBubble(activity: Activity, map: H.Map, ui: H.ui.UI) {
     const group = new H.map.Group();
     map.addObject(group);
