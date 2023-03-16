@@ -29,7 +29,7 @@
     </div>
     <img
       class="landing-page__section--image"
-      src="../../assets/kids_sport.png"
+      src="../../assets/group_sport.png"
     />
 
     <!-- <div *ngIf="(resizeService.isSmall$ | async) === false" class="landing-page__section--image kids-image">
@@ -92,6 +92,29 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <nz-divider></nz-divider>
+
+  <div class="landing-page__section">
+    <div class="landing-page__section--text">
+      <h1 class="landing-page__section--title">Znajdź zajęcia blisko Ciebie</h1>
+      <div class="landing-page__section--content">
+        Znajdź interesujące cię zajęcia na mapie
+        <br />
+        Filtruj kategorie i dni tygodnia
+
+        <hub-button
+          class="landing-page__action-button"
+          text="Znajdź na mapie"
+          routerLink="/activity-map"
+        ></hub-button>
+      </div>
+    </div>
+    <img
+      class="landing-page__section--image"
+      src="../../assets/map_photo.png"
+    />
   </div>
 
   <nz-divider></nz-divider>
