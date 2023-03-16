@@ -1,12 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Subject } from 'rxjs';
-import { ACTIVITY_CATEGORIES, Category } from '../add-activity/category.consts';
-import { WeekDay, WEEK_DAYS } from '../add-activity/week-days.consts';
 import { ActivitiesService, Activity, FilterActivitiesParams } from '../common/services/activities/activities.service';
 import { MapService } from '../common/services/map-service/map-service.service';
 import { ResizeService } from '../common/services/resize/resize.service';
+import { ActivityFilters } from '../shared/activity-filters/activity-filters.component';
 
-const MAX_PRICE = 1000;
 
 @Component({
   selector: 'app-activity-map',
@@ -17,19 +14,6 @@ export class ActivityMapComponent implements OnInit {
   @ViewChild('map') mapDiv?: ElementRef;
 
   activities: Activity[];
-
-  minPrice$: Subject<number> = new Subject();
-  maxPrice$: Subject<number> = new Subject();
-
-  acitivyCategories: { value: Category, label: string }[] = ACTIVITY_CATEGORIES;
-  weekDaysOptions: { value: WeekDay, label: string }[] = WEEK_DAYS;
-
-  phrase: string;
-  weekDay: WeekDay[];
-  category: Category[];
-  minPrice = 0;
-  maxPrice: number = MAX_PRICE;
-  priceRange: number[] = [0, MAX_PRICE];
 
   lat = 50.04;
   lng = 19.94;
@@ -57,64 +41,37 @@ export class ActivityMapComponent implements OnInit {
       this.ui = ui;
       this.platform = platform;
 
-      this.getActivities();
+      this.onSubmitFilters({minPrice: 0, maxPrice: 1000});
       this.loading = false
     });
   }
 
-  rangePriceChanged(value: number[]): void {
-    this.minPrice = value[0];
-    this.maxPrice = value[1];
-  }
-
-  minPriceChanged(value: number): void {
-    this.minPrice$.next(value);
-  }
-
-
-  maxPriceChanged(value: number): void {
-    this.maxPrice$.next(value);
-  }
-
-  clearAllData(): void {
-    this.phrase = undefined;
-    this.weekDay = undefined;
-    this.category = undefined;
-    this.minPrice = 0;
-    this.maxPrice = MAX_PRICE;
-    this.priceRange = [this.minPrice, this.maxPrice];
-  }
-
-
-  filterActivities(): void {
-      const { map, ui, platform } = this.mapService.loadMap(this.mapDiv, this.lat, this.lng);
-      this.map = map;
-      this.ui = ui;
-      this.platform = platform;
-  }
-
-  private getActivities(): void {
+  onSubmitFilters(filters: Partial<ActivityFilters>): void {
     this.loading = true;
     this.noData = false;
-    const query = this.createFilterQuery();
+    const query = this.createFilterQuery(filters);
     this.activitiesService.filterActivities(query).subscribe(data => {
+      
       this.noData = this.hasNoData(data);
       this.activities = data;
       this.activities.forEach(activity => {
+      console.log("activity", activity);
+
         this.mapService.addInfoBubble(activity, this.map, this.ui); 
       })
       this.loading = false;
     });
   }
 
-  private createFilterQuery(): Partial<FilterActivitiesParams> {
+  private createFilterQuery(filters: Partial<ActivityFilters>): Partial<FilterActivitiesParams> {
     const query = {}
-    query['phrase'] = this.phrase ?? this.phrase
-    query['weekDay'] = this.weekDay ?? this.weekDay
-    query['category'] = this.category ?? this.category
-    query['minPrice'] = this.minPrice ?? this.minPrice
-    query['maxPrice'] = this.maxPrice ?? this.maxPrice
-
+    if(filters) {
+      query['phrase'] = filters.phrase ?? filters.phrase
+      query['weekDay'] = filters.weekDays ?? filters.weekDays
+      query['category'] = filters.categories ?? filters.categories
+      query['minPrice'] = filters.minPrice ?? filters.minPrice
+      query['maxPrice'] = filters.maxPrice ?? filters.maxPrice
+    }
     return query;
   }
 

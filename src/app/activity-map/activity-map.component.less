@@ -10,15 +10,6 @@
     display: flex;
 }
 
-
-.find-activities {
-    display: grid;
-    gap: 8px;
-    grid-template-columns: repeat(3, minmax(200px, 1fr));
-    border-left: 1px solid rgba(0, 0, 0, 0.2);
-    padding: 0 20px;
-}
-
 .layout {
     min-height: 100%;
 }
@@ -35,7 +26,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border-left: 1px solid rgba(0, 0, 0, 0.2);
     padding: 0 20px;
 
     &__container {
@@ -46,16 +36,6 @@
     }
 }
 
-::ng-deep .slider__filters {
-    overflow: auto;
-    height: calc(100% - 24px);
-    margin-right: 16px;
-
-    width: 220px !important;
-    flex: 0 0 220px !important;
-    max-width: 220px !important;
-    min-width: 220px !important;
-}
 
 nz-header {
     background: @background-color;
@@ -68,21 +48,6 @@ nz-header {
     text-align: center;
 }
 
-.find-activities__filters {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.find-activities__filters-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 8px;
-
-    ::ng-deep .hub-button {
-        width: 90px;
-    }
-}
 
 @media (max-width: 575px) {
     :host {

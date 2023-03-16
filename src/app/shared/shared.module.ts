@@ -38,6 +38,7 @@ import { WeekDayPipe } from '../common/pipes/week-day.pipe';
 import { PricePlnPipe } from '../common/pipes/price-pln.pipe';
 import { DurationMinPipe } from '../common/pipes/duration-min.pipe';
 import { CategoryPipe } from '../common/pipes/category.pipe';
+import { ActivityFiltersComponent } from './activity-filters/activity-filters.component';
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import { CategoryPipe } from '../common/pipes/category.pipe';
 
     LoaderComponent,
     NoDataComponent,
+    ActivityFiltersComponent,
   ],
   imports: [
     SocialLoginModule,
@@ -92,7 +94,8 @@ import { CategoryPipe } from '../common/pipes/category.pipe';
     ButtonComponent,
     LoaderComponent,
     NoDataComponent,
-
+    ActivityFiltersComponent,
+    
     SafeUrlPipe,
     WeekDayPipe,
     PricePlnPipe,

@@ -3,87 +3,9 @@
     *ngIf="(resizeService.isSmall$ | async) === false"
     class="slider__filters"
   >
-    <div class="find-activities__filters">
-      <div class="find-activities__filters-row">
-        <h2>Filtruj:</h2>
-      </div>
-
-      <nz-input-group [nzSuffix]="suffixIconSearch">
-        <input type="text" nz-input placeholder="Szukaj" [(ngModel)]="phrase" />
-      </nz-input-group>
-      <ng-template #suffixIconSearch>
-        <span nz-icon nzType="search"></span>
-      </ng-template>
-
-      <nz-select
-        class="multiple-select"
-        nzPlaceHolder="Wybierz kategorię"
-        [(ngModel)]="category"
-        nzMode="multiple"
-        [nzMaxTagCount]="1"
-      >
-        <nz-option
-          *ngFor="let option of acitivyCategories"
-          [nzLabel]="option.label"
-          [nzValue]="option.value"
-        ></nz-option>
-      </nz-select>
-
-      <nz-select
-        class="multiple-select"
-        nzPlaceHolder="Wybierz dzień tygodnia"
-        [(ngModel)]="weekDay"
-        nzMode="multiple"
-        [nzMaxTagCount]="1"
-      >
-        <nz-option
-          *ngFor="let option of weekDaysOptions"
-          [nzLabel]="option.label"
-          [nzValue]="option.value"
-        ></nz-option>
-      </nz-select>
-
-      <nz-slider
-        nzRange
-        (ngModelChange)="rangePriceChanged($event)"
-        [(ngModel)]="priceRange"
-      ></nz-slider>
-
-      <div class="find-activities__filters-row">
-        <nz-input-number
-          (ngModelChange)="minPriceChanged($event)"
-          [(ngModel)]="minPrice"
-          [nzMin]="1"
-          [nzMax]="1000"
-          [nzStep]="1"
-        ></nz-input-number>
-        <nz-input-number
-          (ngModelChange)="maxPriceChanged($event)"
-          [(ngModel)]="maxPrice"
-          [nzMin]="1"
-          [nzMax]="1000"
-          [nzStep]="1"
-        ></nz-input-number>
-      </div>
-
-      <div class="find-activities__filters-row">
-        <nz-divider></nz-divider>
-      </div>
-
-      <div class="find-activities__filters-row">
-        <hub-button
-          class="action-button"
-          text="Wyczyść"
-          type="default"
-          (click)="clearAllData()"
-        ></hub-button>
-        <hub-button
-          class="action-button"
-          text="Szukaj"
-          (click)="filterActivities()"
-        ></hub-button>
-      </div>
-    </div>
+    <activity-filters
+      (submitFilters)="onSubmitFilters($event)"
+    ></activity-filters>
   </nz-sider>
 
   <nz-layout>

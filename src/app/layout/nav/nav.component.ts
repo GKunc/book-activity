@@ -1,6 +1,6 @@
 import { SocialUser } from '@abacritt/angularx-social-login';
 import { WeekDay } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { WEEK_DAYS } from 'src/app/add-activity/week-days.consts';
 import { LoginService } from 'src/app/common/services/login-service/login.service';
