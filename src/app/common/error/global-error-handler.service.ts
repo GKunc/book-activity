@@ -15,7 +15,7 @@ export class GlobalErrorHandler implements ErrorHandler {
     if (!environment.production) {
       this.zone.run(() =>
       this.notificationsService.error(
-        'Wystąpił niespodziewany błąd',
+        `${environment.production}`,
         error?.message || 'Undefined client error',
       )
     );

@@ -18,7 +18,7 @@ export class AppComponent {
   ) {
     this.iconService.addIcon(...[PlusOutline]);
     this.iconService.twoToneColor = { primaryColor: '#fff' };
-    this.nzConfigService.set('theme', { primaryColor: 'purple' })
+    this.nzConfigService.set('theme', { primaryColor: '#008dff' })
   }
 
 }

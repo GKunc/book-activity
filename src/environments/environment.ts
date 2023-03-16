@@ -6,5 +6,5 @@ export const environment = {
   MEASUREMENT_ID: '',
   API_URL: 'hhtp://localhost:8080',
   appVersion: '0.0.0',
-  production: true,
+  production: false,
 };
