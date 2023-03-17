@@ -19,9 +19,10 @@
     [nzClosable]="false"
     [nzContent]="modalContent"
     [nzFooter]="modalFooter"
-    [nzMask]="false"
+    [nzMask]="true"
     [nzMaskClosable]="true"
     (nzOnCancel)="showFilters = false"
+    [nzMaskStyle]="{ 'background-color': 'transparent' }"
   >
     <ng-template #modalContent>
       <div class="filters__label">Nazwa:</div>
