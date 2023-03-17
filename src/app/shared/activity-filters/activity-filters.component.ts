@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { debounceTime, Subject } from 'rxjs';
 import { ACTIVITY_CATEGORIES, Category } from 'src/app/add-activity/category.consts';
 import { WeekDay, WEEK_DAYS } from 'src/app/add-activity/week-days.consts';
+import { ResizeService } from 'src/app/common/services/resize/resize.service';
 
 const KEYBOARD_DEBOUND_TIME = 400;
 const MAX_PRICE = 1000;
@@ -15,6 +16,7 @@ export class ActivityFiltersComponent implements OnInit {
   @Output()
   submitFilters: EventEmitter<ActivityFilters> = new EventEmitter<ActivityFilters>();
 
+  showFilters: boolean = false;
   minPrice$: Subject<number> = new Subject();
   maxPrice$: Subject<number> = new Subject();
 
@@ -28,6 +30,8 @@ export class ActivityFiltersComponent implements OnInit {
   maxPrice: number = MAX_PRICE;
   priceRange: number[] = [0, MAX_PRICE];
 
+  constructor(public resizeService: ResizeService) {}
+  
   ngOnInit(): void {
     this.minPrice$.pipe(
       debounceTime(KEYBOARD_DEBOUND_TIME)
@@ -40,6 +44,10 @@ export class ActivityFiltersComponent implements OnInit {
     ).subscribe(price => {
       this.priceRange = [this.minPrice, price]
     })
+  }
+
+  openFilters(): void {
+    this.showFilters = true;
   }
 
   rangePriceChanged(value: number[]): void {
@@ -63,6 +71,8 @@ export class ActivityFiltersComponent implements OnInit {
     this.minPrice = 0;
     this.maxPrice = MAX_PRICE;
     this.priceRange = [this.minPrice, this.maxPrice];
+    
+    this.showFilters = false;
   }
 
   submit(): void {
@@ -72,7 +82,8 @@ export class ActivityFiltersComponent implements OnInit {
       categories: this.category,
       minPrice: this.minPrice,
       maxPrice: this.maxPrice,
-    })
+    });
+    this.showFilters = false;
   }
 }
 

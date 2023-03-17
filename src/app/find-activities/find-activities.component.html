@@ -8,8 +8,13 @@
     ></activity-filters>
   </nz-sider>
 
-  <nz-layout style="position: relative">
-    <nz-content class="content-container">
+  <nz-layout>
+    <activity-filters
+      *ngIf="resizeService.isSmall$ | async"
+      (submitFilters)="onSubmitFilters($event)"
+    ></activity-filters>
+
+    <nz-content class="content-container" style="position: relative">
       <div *ngIf="!loading && !noData" class="find-activities">
         <div
           *ngFor="let activity of activities"

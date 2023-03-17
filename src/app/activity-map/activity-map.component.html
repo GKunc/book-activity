@@ -9,6 +9,11 @@
   </nz-sider>
 
   <nz-layout>
+    <activity-filters
+      *ngIf="resizeService.isSmall$ | async"
+      (submitFilters)="onSubmitFilters($event)"
+    ></activity-filters>
+
     <nz-content class="content-container" style="position: relative">
       <div class="activity-map">
         <div class="activity-map__container" #map id="map"></div>
