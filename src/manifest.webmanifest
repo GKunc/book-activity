@@ -1,6 +1,6 @@
 {
-  "name": "book-activity",
-  "short_name": "book-activity",
+  "name": "Book Activity",
+  "short_name": "Book Activity",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",
