@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivitiesService, Activity } from '../common/services/activities/activities.service';
 import { MapService } from '../common/services/map-service/map-service.service';
 import { ResizeService } from '../common/services/resize/resize.service';
@@ -10,7 +10,7 @@ import { ActivityFilters } from '../shared/activity-filters/activity-filters.com
   templateUrl: './activity-map.component.html',
   styleUrls: ['./activity-map.component.less']
 })
-export class ActivityMapComponent implements OnInit {
+export class ActivityMapComponent implements OnInit , AfterViewInit{
   @ViewChild('map') mapDiv?: ElementRef;
 
   activities: Activity[];
@@ -31,7 +31,13 @@ export class ActivityMapComponent implements OnInit {
     private mapService: MapService,
   ) { }
 
+  ngAfterViewInit(): void {
+    this.resizeMapToFitScreen();
+  }
+
   ngOnInit(): void {
+    window.addEventListener('resize', () => this.resizeMapToFitScreen());
+    
     this.loading = true;
     navigator.geolocation.getCurrentPosition((position) => {
       this.lng = position.coords.longitude;
@@ -62,5 +68,14 @@ export class ActivityMapComponent implements OnInit {
 
   private hasNoData(data: Activity[]): boolean {
     return data.length === 0 ? true : false;
+  }
+
+  private resizeMapToFitScreen(): void {
+    this.mapDiv.nativeElement.style.height = window.innerHeight - 150 + "px";
+    if(this.resizeService._isSmall$.getValue()) {
+    this.mapDiv.nativeElement.style.width = window.innerWidth + "px";
+    } else {
+      this.mapDiv.nativeElement.style.width = window.innerWidth - 280 + "px";
+    }
   }
 }

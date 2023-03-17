@@ -1,10 +1,6 @@
 <ng-container *ngIf="activity; else loadingState">
   <div class="grid-contaier">
     <div class="column second-column">
-      <div class="activity-map">
-        <div class="activity-map__container" #map id="map"></div>
-      </div>
-
       <div class="info-container">
         <div class="info-container__section">
           <h2>O nas</h2>
@@ -84,6 +80,12 @@
               >{{ activity.instagram }}</a
             >
           </p>
+        </div>
+
+        <nz-divider></nz-divider>
+
+        <div class="activity-map">
+          <div class="activity-map__container" #map id="map"></div>
         </div>
       </div>
     </div>

@@ -9,12 +9,12 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class ResizeService {
-  private _isSmall$ = new BehaviorSubject<boolean>(null);
+  _isSmall$ = new BehaviorSubject<boolean>(null);
   isSmall$ = this._isSmall$.asObservable();
 
   constructor(public breakpointObserver: BreakpointObserver) {
     this.breakpointObserver
-      .observe(['(min-width: 500px)'])
+      .observe(['(min-width: 575px)'])
       .subscribe((state: BreakpointState) => {
         if (state.matches) {
           this._isSmall$.next(false);
