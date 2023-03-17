@@ -50,20 +50,19 @@ app.post('/api/filter-activities', async function (req, res) {
   uri = process.env.MANGO_DB_CONNECTION_STRING;
   let query = {}
 
-  console.log("phrase:", body.phrase)
   if (body.phrase) {
     query.$or = []
     query.$or = [{ name: new RegExp(body.phrase, 'i') }, { 'groups.name': new RegExp(body.phrase, 'i') }];
   }
 
-  if (body.weekDay && body.weekDay.length > 0) {
+  if (body.weekDays && body.weekDays.length > 0) {
     query.weekDay = {}
     query.weekDay.$in = body.weekDay;
   }
 
-  if (body.category) {
+  if (body.categories && body.categories.length > 0) {
     query.category = {}
-    query.category.$in = body.category;
+    query.category.$in = body.categories;
   }
 
   query['groups.price'] = {}
@@ -77,7 +76,6 @@ app.post('/api/filter-activities', async function (req, res) {
     const database = client.db('edds');
     const activities = database.collection('activities');
     const activity = await activities.find(query).toArray();
-    console.log(activity);
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify(activity));
   } finally {
