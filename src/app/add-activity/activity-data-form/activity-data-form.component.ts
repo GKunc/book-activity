@@ -1,6 +1,6 @@
 import { WeekDay } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Activity } from 'src/app/common/services/activities/activities.service';
 import { ACTIVITY_CATEGORIES, Category } from '../category.consts';
 import { WEEK_DAYS } from '../week-days.consts';

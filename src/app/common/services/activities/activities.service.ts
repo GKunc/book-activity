@@ -21,15 +21,15 @@ export class ActivitiesService {
   }
 
   checkPermission(guid: string, userId: string): Observable<any> {
-    return this.http.get(`/api/check-permissions?guid=${guid}&userId=${userId}`, { responseType: 'text', observe: 'response' });
+    return this.http.get(`/api/activities/check-permissions?guid=${guid}&userId=${userId}`, { responseType: 'text', observe: 'response' });
   }
 
   getActivityDetails(id: string): Observable<Activity> {
-    return this.http.get<Activity>(`/api/activities/detail?id=${id}`);
+    return this.http.get<Activity>(`/api/activities/details?id=${id}`);
   }
 
   filterActivities(query: Partial<ActivityFilters>): Observable<any> {
-    return this.http.post<Activity[]>('/api/filter-activities', query);
+    return this.http.post<Activity[]>('/api/activities/filter', query);
   }
 
   insertActivity(activity: Activity): Observable<any> {

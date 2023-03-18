@@ -3,4 +3,58 @@
     type="standard"
     shape="square"
   ></asl-google-signin-button>
+
+  <nz-divider></nz-divider>
+
+  <form nz-form *ngIf="form" [formGroup]="form" nzLayout="vertical">
+    <nz-form-item>
+      <nz-form-label nzFor="login" nzRequired>Login</nz-form-label>
+      <nz-form-control [nzErrorTip]="errorDescription">
+        <input id="login" nz-input formControlName="login" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzFor="email" nzRequired>Email</nz-form-label>
+      <nz-form-control [nzErrorTip]="errorDescription">
+        <input id="email" nz-input formControlName="email" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzFor="password" nzRequired>Hasło</nz-form-label>
+      <nz-form-control [nzErrorTip]="errorDescription">
+        <nz-input-group [nzSuffix]="suffixTemplate">
+          <input
+            [type]="passwordVisible ? 'text' : 'password'"
+            nz-input
+            formControlName="password"
+          />
+        </nz-input-group>
+        <ng-template #suffixTemplate>
+          <span
+            nz-icon
+            style="cursor: pointer"
+            [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+            (click)="passwordVisible = !passwordVisible"
+          ></span>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+
+  <hub-button text="Zarejestruj" (click)="signUp()"></hub-button>
+  <hub-button type="default" text="Zaloguj" (click)="signIn()"></hub-button>
 </div>
+
+<ng-template #errorDescription let-control>
+  <ng-container *ngIf="control.hasError('required')"
+    >To pole jest wymagane</ng-container
+  >
+  <ng-container *ngIf="control.hasError('minlength')"
+    >Minimalna wymagana ilość znaków</ng-container
+  >
+  <ng-container *ngIf="control.hasError('maxlength')"
+    >Przekroczono dopuszczalną ilość znaków</ng-container
+  >
+</ng-template>

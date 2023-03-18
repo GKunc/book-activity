@@ -28,7 +28,7 @@ export class MediaDataFormComponent implements OnInit {
 
   submitLabel = "Wyślij";
 
-  uploading: boolean;
+  uploading: boolean = false;
   loadingImages = false;
 
   form = new FormGroup({

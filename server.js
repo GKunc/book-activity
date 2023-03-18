@@ -5,6 +5,7 @@ const os = require('os');
 const upload = require("./upload");
 const fs = require('fs');
 const path = require('path');
+const cookieSession = require("cookie-session");
 
 // config
 const port = process.env.PORT || 8080;
@@ -23,67 +24,64 @@ const app = express();
 app.use(express.json());
 app.use(express.static(app_folder, options));
 app.use(cors({}));
+app.use(express.urlencoded({ extended: true }));
 
+app.use(
+  cookieSession({
+    name: "book-activity__session",
+    secret: process.env.AUTH_SECRET, // should use as secret environment variable
+    httpOnly: true
+  })
+);
+
+// routes
+require('./server/routes/auth.routes')(app);
+require('./server/routes/activity.routes')(app);
+
+const db = require("./server/models");
+const Role = db.role;
+
+db.mongoose
+  .connect(`${process.env.MANGO_DB_CONNECTION_STRING_PHOTOS}`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(() => {
+    console.log("Successfully connect to MongoDB.");
+    initial();
+  })
+  .catch(err => {
+    console.error("Connection error", err);
+    process.exit();
+  });
+
+
+async function initial() {
+  const result = await Role.find({});
+  if (result && result.length === 0) {
+    new Role({
+      name: "user"
+    }).save();
+
+    new Role({
+      name: "moderator"
+    }).save();
+
+    new Role({
+      name: "admin"
+    }).save();
+  }
+}
+
+// ========================================================
+// ========================================================
+// ========================================================
 // serve angular paths
 app.get('/', function (req, res) {
   res.status(200).sendFile(`/`, { root: app_folder });
 });
 
-app.get('/api/activities/detail', async function (req, res) {
-  const id = req.query.id;
-  uri = process.env.MANGO_DB_CONNECTION_STRING;
-
-  const client = new MongoClient(uri);
-  try {
-    const database = client.db('edds');
-    const activities = database.collection('activities');
-    const activity = await activities.findOne({ guid: id });
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(activity));
-  } finally {
-    await client.close();
-  }
-});
-
-app.post('/api/filter-activities', async function (req, res) {
-  const body = req.body;
-  uri = process.env.MANGO_DB_CONNECTION_STRING;
-  let query = {}
-
-  if (body.phrase) {
-    query.$or = []
-    query.$or = [{ name: new RegExp(body.phrase, 'i') }, { 'groups.name': new RegExp(body.phrase, 'i') }];
-  }
-
-  if (body.weekDays && body.weekDays.length > 0) {
-    query.weekDay = {}
-    query.weekDay.$in = body.weekDay;
-  }
-
-  if (body.categories && body.categories.length > 0) {
-    query.category = {}
-    query.category.$in = body.categories;
-  }
-
-  query['groups.price'] = {}
-  query['groups.price'].$gte = body.minPrice;
-  query['groups.price'].$lte = body.maxPrice;
-
-  console.log('Filter activities', query);
-
-  const client = new MongoClient(uri);
-  try {
-    const database = client.db('edds');
-    const activities = database.collection('activities');
-    const activity = await activities.find(query).toArray();
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(activity));
-  } finally {
-    await client.close();
-  }
-})
-
-app.get('/api/check-permissions', async function (req, res) {
+app.get('/api/activities/check-permissions', async function (req, res) {
   uri = process.env.MANGO_DB_CONNECTION_STRING;
   let query = {};
   const guid = req.query.guid;
@@ -105,92 +103,6 @@ app.get('/api/check-permissions', async function (req, res) {
       res.status(401).json({ error: 'No permission' })
       console.log("No permission.");
     }
-  } finally {
-    await client.close();
-  }
-})
-
-app.get('/api/activities', async function (req, res) {
-  uri = process.env.MANGO_DB_CONNECTION_STRING;
-  const id = req.query.id;
-  let query = {};
-  if (id) {
-    query.createdBy = id;
-  }
-
-  console.log('Get activities');
-  const client = new MongoClient(uri);
-  try {
-    const database = client.db('edds');
-    const activities = database.collection('activities');
-    const activity = await activities.find(query).toArray();
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(activity));
-  } finally {
-    await client.close();
-  }
-});
-
-app.put('/api/activities', async function (req, res) {
-  console.log("PATH");
-  uri = process.env.MANGO_DB_CONNECTION_STRING;
-  const id = req.query.id;
-  let query = {};
-  if (id) {
-    query.guid = id;
-  }
-
-  console.log('Edit activity', query);
-  const client = new MongoClient(uri);
-  try {
-    const database = client.db('edds');
-    const activities = database.collection('activities');
-    const result = await activities.replaceOne(query, req.body);
-    console.log("Successfully modified ${result.modifiedCount} document.");
-    res.sendStatus(200);
-  } catch(e) {
-    res.sendStatus(500);
-  } finally {
-    await client.close();
-  }
-});
-
-app.delete('/api/activities', async function (req, res) {
-  uri = process.env.MANGO_DB_CONNECTION_STRING;
-  const id = req.query.id;
-  let query = {};
-  if (id) {
-    query.guid = id;
-  }
-
-  console.log('Get activities');
-  const client = new MongoClient(uri);
-  try {
-    const database = client.db('edds');
-    const activities = database.collection('activities');
-    const result = await activities.deleteOne(query);
-    if (result.deletedCount === 1) {
-      res.sendStatus(200);
-      console.log("Successfully deleted one document.");
-    } else {
-      res.sendStatus(404);
-      console.log("No documents matched the query. Deleted 0 documents.");
-    }
-  } finally {
-    await client.close();
-  }
-});
-
-app.post('/api/activities', async function (req, res) {
-  let data = req.body;
-  uri = process.env.MANGO_DB_CONNECTION_STRING;
-
-  const client = new MongoClient(uri);
-  try {
-    const database = client.db('edds');
-    const activities = database.collection('activities');
-    await activities.insertOne(data);
-    res.sendStatus(200);
   } finally {
     await client.close();
   }
