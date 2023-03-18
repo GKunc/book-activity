@@ -18,7 +18,8 @@ export class LoginService {
 
     this.authService.authState.subscribe((user) => {
       this.loogedUser = user;
-      // add JWT token
+      this.signUp(this.user.name, this.user.email, '').subscribe();
+      this.signIn(this.user.name, '', true).subscribe();
       this._user$.next(user);
     });
   }
@@ -32,16 +33,18 @@ export class LoginService {
     }, {responseType: "text"});
   }
 
-  signIn(username: string, password: string): Observable<any> {
+  signIn(username: string, password: string, googleLogIn: boolean = false): Observable<any> {
     return this.http.post('/api/auth/signin', {
       username,
       password,
+      googleLogIn,
     }, {responseType: "text"});
   } 
 
   signOut(): Observable<void> {
     try {
-      this.http.post('/api/auth/signout', {}).subscribe(() => { return; });
+      this.http.post('/api/auth/signout', {}).subscribe();
+      this._user$.next(null);
       return from(this.authService.signOut());
     } catch (e) {
       return of(null);
