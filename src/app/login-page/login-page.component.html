@@ -1,6 +1,11 @@
 <div class="login-container">
   <asl-google-signin-button
+    #googleSingInButton
+    theme="filled_blue"
+    logo_alignment="left"
     type="standard"
+    width="392px"
+    [text]="showLoginTemplate ? 'signin_with' : 'signup_with'"
     shape="square"
   ></asl-google-signin-button>
 
@@ -10,11 +15,11 @@
     <nz-form-item>
       <nz-form-label nzFor="login" nzRequired>Login</nz-form-label>
       <nz-form-control [nzErrorTip]="errorDescription">
-        <input id="login" nz-input formControlName="login" />
+        <input #loginInputField id="login" nz-input formControlName="login" />
       </nz-form-control>
     </nz-form-item>
 
-    <nz-form-item>
+    <nz-form-item *ngIf="!showLoginTemplate">
       <nz-form-label nzFor="email" nzRequired>Email</nz-form-label>
       <nz-form-control [nzErrorTip]="errorDescription">
         <input id="email" nz-input formControlName="email" />
@@ -43,8 +48,32 @@
     </nz-form-item>
   </form>
 
-  <hub-button text="Zarejestruj" (click)="signUp()"></hub-button>
-  <hub-button type="default" text="Zaloguj" (click)="signIn()"></hub-button>
+  <hub-button
+    class="button__full-width"
+    *ngIf="showLoginTemplate; else registerButton"
+    text="Zaloguj"
+    (click)="signIn()"
+  ></hub-button>
+  <ng-template #registerButton>
+    <hub-button
+      class="button__full-width"
+      text="Zarejestruj"
+      (click)="signUp()"
+    ></hub-button>
+  </ng-template>
+
+  <div
+    *ngIf="!showLoginTemplate; else registerTemplate"
+    (click)="showLoginTemplate = true"
+  >
+    Masz juz konto? <a>Zaloguj się.</a>
+  </div>
+
+  <ng-template #registerTemplate>
+    <div (click)="showLoginTemplate = false">
+      Nie masz konta? <a>Zarejestruj się.</a>
+    </div>
+  </ng-template>
 </div>
 
 <ng-template #errorDescription let-control>
@@ -52,9 +81,27 @@
     >To pole jest wymagane</ng-container
   >
   <ng-container *ngIf="control.hasError('minlength')"
-    >Minimalna wymagana ilość znaków</ng-container
+    ><div>Minimalna wymagana ilość znaków</div></ng-container
   >
-  <ng-container *ngIf="control.hasError('maxlength')"
-    >Przekroczono dopuszczalną ilość znaków</ng-container
+  <ng-container *ngIf="control.hasError('hasUpperCase')"
+    ><div>Hasło musi posiadac jedną duzą literę</div></ng-container
+  >
+  <ng-container *ngIf="control.hasError('hasLowerCase')"
+    ><div>Hasło musi przynajmniej jedną małą literę</div></ng-container
+  >
+  <ng-container *ngIf="control.hasError('hasNumeric')"
+    ><div>Hasło musi przynajmniej jedną liczbę</div></ng-container
+  >
+  <ng-container *ngIf="control.hasError('notUniqueName')"
+    >Ta nazwa jest juz zajęta</ng-container
+  >
+  <ng-container *ngIf="control.hasError('notUniqueEmail')"
+    >Uytkownik z podanym loginem jest juz zarejestrowany</ng-container
+  >
+  <ng-container *ngIf="control.hasError('email')"
+    >Podany email jest nieprawidlowy</ng-container
+  >
+  <ng-container *ngIf="control.hasError('credentialNotCorrect')"
+    >Podany login lub hasło jest nieprawidłowe</ng-container
   >
 </ng-template>

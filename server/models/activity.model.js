@@ -7,17 +7,17 @@ const Activity = mongoose.model(
     guid: String,
     createdBy: String,
     nubmerOfImages: Number,
-    category: Number, // change to typeRef
+    category: Number, 
     description: String,
     groups: [{
         name: String,
         duration: Number,
         price: Number,
         time: String,
-        weekDay: Number, // change to typeRef
+        weekDay: Number, 
     }],
     street: String,
-    city: String, // change to typeRef
+    city: String, 
     coordinates: {
         lat: Number,
         lng: Number,

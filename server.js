@@ -39,7 +39,7 @@ require('./server/routes/auth.routes')(app);
 require('./server/routes/activity.routes')(app);
 
 const db = require("./server/models");
-const Role = db.role;
+const initializeDb = require("./server/setup/initializeDb");
 
 db.mongoose
   .connect(`${process.env.MANGO_DB_CONNECTION_STRING_PHOTOS}`, {
@@ -48,7 +48,7 @@ db.mongoose
   })
   .then(() => {
     console.log("Successfully connect to MongoDB.");
-    initial();
+    initializeDb();
   })
   .catch(err => {
     console.error("Connection error", err);
@@ -56,31 +56,19 @@ db.mongoose
   });
 
 
-async function initial() {
-  const result = await Role.find({});
-  if (result && result.length === 0) {
-    new Role({
-      name: "user"
-    }).save();
-
-    new Role({
-      name: "moderator"
-    }).save();
-
-    new Role({
-      name: "admin"
-    }).save();
-  }
-}
-
-// ========================================================
-// ========================================================
-// ========================================================
 // serve angular paths
 app.get('/', function (req, res) {
   res.status(200).sendFile(`/`, { root: app_folder });
 });
 
+// start listening
+app.listen(port, function () {
+  console.log("Node Express server for " + app.name + " listening on http://localhost:" + port);
+});
+
+// ========================================================
+// ========================================================
+// ========================================================
 app.get('/api/activities/check-permissions', async function (req, res) {
   uri = process.env.MANGO_DB_CONNECTION_STRING;
   let query = {};
@@ -162,7 +150,3 @@ app.get('/api/activities/photos', async function (req, res) {
   }
 });
 
-// start listening
-app.listen(port, function () {
-  console.log("Node Express server for " + app.name + " listening on http://localhost:" + port);
-});
