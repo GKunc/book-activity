@@ -17,18 +17,18 @@ exports.signup = async (req, res) => {
     const roles = await Role.find({ name: { $in: req.body.roles } });
     user.roles = roles.map((role) => role._id);
     if(!roles) {
-      res.status(500).send({ message: 'Role does not exists' });
+      res.status(500).send({ message: 'Rola nie istnieje' });
     }
 
     const newUser = user.save();
     if(newUser) {
-      res.send({ type: 'emailNotUnique', message: 'User was registered successfully!' });
+      res.send({ message: 'Poprawnie zarejestrowano uzytkownika!' });
     } else {
-      res.status(500).send({ message: 'Could not register user' });
+      res.status(500).send({ message: 'Nie mozna zarejestrowac uzytkownika' });
       return;
     }
   } else {
-    res.status(500).send({ message: 'No role specified' });
+    res.status(500).send({ message: 'Nie podano zadnej roli' });
   }
 };
 
@@ -40,7 +40,7 @@ exports.signin = async (req, res) => {
     .exec();
    
     if (!user) {
-      return res.status(401).send({ message: "Invalid enail or password" });
+      return res.status(401).send({ message: "Niepoprawny email lub hasło" });
     }
 
     if(!req.body.googleLogin) {
@@ -50,7 +50,7 @@ exports.signin = async (req, res) => {
       );
 
       if (!passwordIsValid) {
-        return res.status(401).send({ message: "Invalid enail or password" });
+        return res.status(401).send({ message: "Niepoprawny email lub hasło" });
       }
     }
     const token = jwt.sign({ id: user.id }, config.secret, {
@@ -76,7 +76,7 @@ exports.signin = async (req, res) => {
 exports.signout = async (req, res) => {
   try {
     req.session = null;
-    return res.status(200).send({ message: "You've been signed out!" });
+    return res.status(200).send({ message: "Pomyślnie wylogowano!" });
   } catch (err) {
     this.next(err);
   }

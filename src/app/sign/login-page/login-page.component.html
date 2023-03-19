@@ -45,7 +45,6 @@
     class="button__full-width"
     text="Zaloguj"
     (click)="signIn()"
-    [isDisabled]="!form.valid"
   ></hub-button>
   <div>Nie masz konta? <a (click)="switchMode.emit()">Zarejestruj się.</a></div>
 </div>
@@ -53,5 +52,8 @@
 <ng-template #errorDescription let-control>
   <ng-container *ngIf="control.hasError('required')"
     >To pole jest wymagane</ng-container
+  >
+  <ng-container *ngIf="control.hasError('invalidLogin')"
+    >Niepoprawny login lub hasło</ng-container
   >
 </ng-template>

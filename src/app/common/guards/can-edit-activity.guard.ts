@@ -18,7 +18,7 @@ export class CanEditActivityGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const guid = route.params['id'];
-    const userId = this.loginService.loogedUser?.id;
+    const userId = this.loginService.loggedUser?.id;
     return this.activitiesService.checkPermission(guid, userId).pipe(
       map((response) => {
         console.log(response);

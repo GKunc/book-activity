@@ -51,7 +51,6 @@
     class="button__full-width"
     text="Zarejestruj"
     (click)="signUp()"
-    [isDisabled]="!form.valid"
   ></hub-button>
   <div>Masz juz konto? <a (click)="switchMode.emit()">Zaloguj się.</a></div>
 </div>
@@ -73,10 +72,10 @@
     ><div>Hasło musi przynajmniej jedną liczbę</div></ng-container
   >
   <ng-container *ngIf="control.hasError('uniqueUser')"
-    >Ta nazwa jest juz zajęta</ng-container
+    >Uytkownik z podanym loginem jest juz zarejestrowany</ng-container
   >
   <ng-container *ngIf="control.hasError('uniqueEmail')"
-    >Uytkownik z podanym loginem jest juz zarejestrowany</ng-container
+    >Uytkownik z podanym emailem jest juz zarejestrowany</ng-container
   >
   <ng-container *ngIf="control.hasError('email')"
     >Podany email jest nieprawidlowy</ng-container

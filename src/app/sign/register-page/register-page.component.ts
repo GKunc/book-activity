@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ModalService } from 'src/app/common/services/modal/modal.service';
 import { LoginService } from '../../common/services/login-service/login.service';
 import { NotificationsService } from '../../common/services/notifications/notifications.service';
 import { hasLowerCase, hasNumber, hasUpperCase } from '../../common/validators/strong-password.validator';
@@ -23,14 +24,15 @@ export class RegisterPageComponent {
 
   constructor(
     private loginService: LoginService,
-    private notificationService: NotificationsService
+    private notificationService: NotificationsService,
+    private modalService: ModalService,
     ) {}
     
   signUp(): void {
     if(this.validateForm()) {
       this.loginService.signUp(this.form.controls.login.value, this.form.controls.email.value, this.form.controls.password.value).subscribe((response) => {
-        this.notificationService.success('Rejestracja', response.message);
-        // close modal
+        this.notificationService.success('Poprawnie zarejestrowano uzytkownika', response.message);
+        this.modalService.close();
       },
       (error) => {
         const errorMessage = JSON.parse(error.error);
@@ -48,7 +50,7 @@ export class RegisterPageComponent {
           control.updateValueAndValidity({ onlySelf: true });
         }
       });
-      return true;
+      return false;
     }
     return true;
   }

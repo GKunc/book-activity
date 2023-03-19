@@ -9,14 +9,14 @@ checkDuplicateUsernameOrEmail = async (req, res, next) => {
   }).exec();
   
   if (userName) {
-    res.status(400).send({ field: "login", errorType: "uniqueUser", message: "Username is already in use!" });
+    res.status(400).send({ field: "login", errorType: "uniqueUser", message: "Nazwa zajeta" });
     return;
   }
 
   // Email
   const userEmail = await User.findOne({ email: req.body.email });
   if (userEmail) {
-    res.status(400).send({ field: "email", errorType: "uniqueEmail", message: "Email is already in use!" });
+    res.status(400).send({ field: "email", errorType: "uniqueEmail", message: "Email jest zajety" });
     return;
   }
     next();

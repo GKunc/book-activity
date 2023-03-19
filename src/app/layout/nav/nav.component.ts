@@ -1,12 +1,10 @@
-import { SocialUser } from '@abacritt/angularx-social-login';
 import { WeekDay } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { WEEK_DAYS } from 'src/app/add-activity/week-days.consts';
-import { LoginService } from 'src/app/common/services/login-service/login.service';
+import { InternalUser, LoginService } from 'src/app/common/services/login-service/login.service';
 import { ModalService } from 'src/app/common/services/modal/modal.service';
 import { ResizeService } from 'src/app/common/services/resize/resize.service';
-import { LoginPageComponent } from 'src/app/sign/login-page/login-page.component';
 import { SignComponent } from 'src/app/sign/sign.component';
 
 @Component({
@@ -17,7 +15,7 @@ import { SignComponent } from 'src/app/sign/sign.component';
 export class NavComponent implements OnInit {
   visible = false;
 
-  user: SocialUser | undefined;
+  user: InternalUser;
   userInitials: string;
   weekDay: WeekDay[];
 
@@ -36,10 +34,15 @@ export class NavComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginService._user$?.subscribe(data => {
+      console.log("INITIALS", data);
+      
       if (data) {
         this.user = data;
-        const userNameSplitted = this.user?.name.split(' ');
-        this.userInitials = userNameSplitted[0].charAt(0).toUpperCase() + userNameSplitted[1].charAt(0).toUpperCase()
+        console.log("INITIALS", this.userInitials);
+        console.log("INITIALS", this.user.username);
+        this.userInitials = this.user.username.charAt(0).toUpperCase();
+
+        
         this.modalService.close();
       }
     })

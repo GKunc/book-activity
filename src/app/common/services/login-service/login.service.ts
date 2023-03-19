@@ -1,4 +1,4 @@
-import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, ReplaySubject } from 'rxjs';
@@ -8,8 +8,8 @@ import { from } from 'rxjs';
   providedIn: 'root'
 })
 export class LoginService {
-  readonly _user$ = new ReplaySubject<SocialUser>(null);
-  loogedUser: SocialUser = null;
+  _user$ = new ReplaySubject<InternalUser>(null);
+  loggedUser: InternalUser = null;
 
   constructor(
     private authService: SocialAuthService,
@@ -17,10 +17,10 @@ export class LoginService {
   ) {
 
     this.authService.authState.subscribe((user) => {
-      this.loogedUser = user;
-      this.signUp(this.user.name, this.user.email, '').subscribe();
-      this.signIn(this.user.name, '', true).subscribe();
-      this._user$.next(user);
+      this.loggedUser = { id: user.id, username: user.name, email: user.email };
+      this.signUp(this.user.username, this.user.email, '').subscribe();
+      this.signIn(this.user.username, '', true).subscribe();
+      this._user$.next(this.loggedUser);
     });
   }
 
@@ -51,7 +51,14 @@ export class LoginService {
     }
   }
 
-  get user(): SocialUser {
-    return this.loogedUser;
+  get user(): InternalUser {
+    return this.loggedUser;
   }
+}
+
+
+export interface InternalUser {
+  id: string;
+  username: string;
+  email: string;
 }
