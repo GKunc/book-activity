@@ -8,7 +8,6 @@ db.mongoose = mongoose;
 db.user = require("./user.model");
 db.role = require("./role.model");
 db.activity = require("./activity.model");
-db.weekDay = require("./weekDay.model");
 
 db.ROLES = ["user", "admin", "moderator"];
 

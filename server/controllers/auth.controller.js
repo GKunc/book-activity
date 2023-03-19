@@ -22,7 +22,7 @@ exports.signup = async (req, res) => {
 
     const newUser = user.save();
     if(newUser) {
-      res.send({ message: 'User was registered successfully!' });
+      res.send({ type: 'emailNotUnique', message: 'User was registered successfully!' });
     } else {
       res.status(500).send({ message: 'Could not register user' });
       return;
@@ -40,7 +40,7 @@ exports.signin = async (req, res) => {
     .exec();
    
     if (!user) {
-      return res.status(404).send({ message: "User Not found." });
+      return res.status(401).send({ message: "Invalid enail or password" });
     }
 
     if(!req.body.googleLogin) {
@@ -50,7 +50,7 @@ exports.signin = async (req, res) => {
       );
 
       if (!passwordIsValid) {
-        return res.status(401).send({ message: "Invalid enail or password!" });
+        return res.status(401).send({ message: "Invalid enail or password" });
       }
     }
     const token = jwt.sign({ id: user.id }, config.secret, {
@@ -62,8 +62,6 @@ exports.signin = async (req, res) => {
     for (let i = 0; i < user.roles.length; i++) {
       authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
     }
-
-    console.log("token", token);
 
     req.session.token = token;
 

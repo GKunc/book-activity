@@ -1,11 +1,10 @@
 <div class="login-container">
   <asl-google-signin-button
-    #googleSingInButton
     theme="filled_blue"
     logo_alignment="left"
     type="standard"
     width="392px"
-    [text]="showLoginTemplate ? 'signin_with' : 'signup_with'"
+    text="signup_with"
     shape="square"
   ></asl-google-signin-button>
 
@@ -19,7 +18,7 @@
       </nz-form-control>
     </nz-form-item>
 
-    <nz-form-item *ngIf="!showLoginTemplate">
+    <nz-form-item>
       <nz-form-label nzFor="email" nzRequired>Email</nz-form-label>
       <nz-form-control [nzErrorTip]="errorDescription">
         <input id="email" nz-input formControlName="email" />
@@ -50,30 +49,11 @@
 
   <hub-button
     class="button__full-width"
-    *ngIf="showLoginTemplate; else registerButton"
-    text="Zaloguj"
-    (click)="signIn()"
+    text="Zarejestruj"
+    (click)="signUp()"
+    [isDisabled]="!form.valid"
   ></hub-button>
-  <ng-template #registerButton>
-    <hub-button
-      class="button__full-width"
-      text="Zarejestruj"
-      (click)="signUp()"
-    ></hub-button>
-  </ng-template>
-
-  <div
-    *ngIf="!showLoginTemplate; else registerTemplate"
-    (click)="showLoginTemplate = true"
-  >
-    Masz juz konto? <a>Zaloguj się.</a>
-  </div>
-
-  <ng-template #registerTemplate>
-    <div (click)="showLoginTemplate = false">
-      Nie masz konta? <a>Zarejestruj się.</a>
-    </div>
-  </ng-template>
+  <div>Masz juz konto? <a (click)="switchMode.emit()">Zaloguj się.</a></div>
 </div>
 
 <ng-template #errorDescription let-control>
@@ -92,10 +72,10 @@
   <ng-container *ngIf="control.hasError('hasNumeric')"
     ><div>Hasło musi przynajmniej jedną liczbę</div></ng-container
   >
-  <ng-container *ngIf="control.hasError('notUniqueName')"
+  <ng-container *ngIf="control.hasError('uniqueUser')"
     >Ta nazwa jest juz zajęta</ng-container
   >
-  <ng-container *ngIf="control.hasError('notUniqueEmail')"
+  <ng-container *ngIf="control.hasError('uniqueEmail')"
     >Uytkownik z podanym loginem jest juz zarejestrowany</ng-container
   >
   <ng-container *ngIf="control.hasError('email')"

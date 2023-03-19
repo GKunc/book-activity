@@ -20,4 +20,7 @@ export class ButtonComponent {
 
   @Input()
   icon: string;
+
+  @Input()
+  isDisabled: boolean = false;
 }

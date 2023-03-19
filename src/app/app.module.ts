@@ -8,7 +8,6 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from './shared/shared.module';
 import { HubLayoutModule } from './layout/layout.module';
 import { HttpClientModule } from '@angular/common/http';
-import { LoginPageModule } from './login-page/login-page.module';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
@@ -39,6 +38,9 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { GlobalErrorHandler } from './common/error/global-error-handler.service';
 
 import { NgxGoogleAnalyticsModule } from 'ngx-google-analytics';
+import { RegisterPageComponent } from './sign/register-page/register-page.component';
+import { SignComponent } from './sign/sign.component';
+import { LoginPageComponent } from './sign/login-page/login-page.component';
 
 registerLocaleData(en);
 
@@ -61,6 +63,9 @@ registerLocaleData(en);
     ActivityBoxComponent,
     FindActivitiesComponent,
     ActivityMapComponent,
+    LoginPageComponent,
+    RegisterPageComponent,
+    SignComponent,
   ],
   imports: [
     BrowserModule,
@@ -70,7 +75,6 @@ registerLocaleData(en);
     LayoutModule,
     HubLayoutModule,
     HttpClientModule,
-    LoginPageModule,
     FormsModule,
     BrowserAnimationsModule,
     SocialLoginModule,

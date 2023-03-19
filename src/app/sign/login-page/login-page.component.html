@@ -1,0 +1,57 @@
+<div class="login-container">
+  <asl-google-signin-button
+    #googleSingInButton
+    theme="filled_blue"
+    logo_alignment="left"
+    type="standard"
+    width="392px"
+    text="signin_with"
+    shape="square"
+  ></asl-google-signin-button>
+
+  <nz-divider></nz-divider>
+
+  <form nz-form *ngIf="form" [formGroup]="form" nzLayout="vertical">
+    <nz-form-item>
+      <nz-form-label nzFor="login" nzRequired>Login</nz-form-label>
+      <nz-form-control [nzErrorTip]="errorDescription">
+        <input #loginInputField id="login" nz-input formControlName="login" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzFor="password" nzRequired>Hasło</nz-form-label>
+      <nz-form-control [nzErrorTip]="errorDescription">
+        <nz-input-group [nzSuffix]="suffixTemplate">
+          <input
+            [type]="passwordVisible ? 'text' : 'password'"
+            nz-input
+            formControlName="password"
+          />
+        </nz-input-group>
+        <ng-template #suffixTemplate>
+          <span
+            nz-icon
+            style="cursor: pointer"
+            [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+            (click)="passwordVisible = !passwordVisible"
+          ></span>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+
+  <hub-button
+    class="button__full-width"
+    text="Zaloguj"
+    (click)="signIn()"
+    [isDisabled]="!form.valid"
+  ></hub-button>
+  <div>Nie masz konta? <a (click)="switchMode.emit()">Zarejestruj się.</a></div>
+</div>
+
+<ng-template #errorDescription let-control>
+  <ng-container *ngIf="control.hasError('required')"
+    >To pole jest wymagane</ng-container
+  >
+</ng-template>

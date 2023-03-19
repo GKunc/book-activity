@@ -6,7 +6,8 @@ import { WEEK_DAYS } from 'src/app/add-activity/week-days.consts';
 import { LoginService } from 'src/app/common/services/login-service/login.service';
 import { ModalService } from 'src/app/common/services/modal/modal.service';
 import { ResizeService } from 'src/app/common/services/resize/resize.service';
-import { LoginPageComponent } from 'src/app/login-page/login-page.component';
+import { LoginPageComponent } from 'src/app/sign/login-page/login-page.component';
+import { SignComponent } from 'src/app/sign/sign.component';
 
 @Component({
   selector: 'hub-nav',
@@ -53,7 +54,7 @@ export class NavComponent implements OnInit {
   }
 
   openLoginScreen(): void {
-    this.modalService.createModal(LoginPageComponent, 'Login', 440);
+    this.modalService.createModal(SignComponent, 'Login', 440);
   }
 
   openMobileMenu(): void {
