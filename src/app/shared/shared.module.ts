@@ -28,6 +28,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzResultModule } from 'ng-zorro-antd/result';
 
 import { SocialLoginModule } from '@abacritt/angularx-social-login';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -84,6 +85,7 @@ import { ActivityFiltersComponent } from './activity-filters/activity-filters.co
     NzEmptyModule,
     NzDrawerModule,
     NzCardModule,
+    NzResultModule,
 
     ReactiveFormsModule,
     FormsModule,
@@ -128,7 +130,8 @@ import { ActivityFiltersComponent } from './activity-filters/activity-filters.co
     NzEmptyModule,
     NzDrawerModule,
     NzCardModule,
-
+    NzResultModule,
+    
     ReactiveFormsModule,
     FormsModule,
   ]

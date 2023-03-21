@@ -19,9 +19,9 @@ export class YourActivitiesComponent implements OnInit {
 
   constructor(
     private activitiesService: ActivitiesService,
-    private loginService: LoginService,
     private modalService: ModalService,
     private notificationsService: NotificationsService,
+    public loginService: LoginService,
   ) { }
 
   ngOnInit(): void {

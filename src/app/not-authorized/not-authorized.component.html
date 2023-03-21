@@ -1,1 +1,11 @@
-<p>not-authorized works!</p>
+<nz-result
+  nzStatus="403"
+  nzTitle="Brak dostępu"
+  nzSubTitle="Przepraszamy. Ta strona jest dostępna tylko dla zalogowanych uytkowników"
+>
+  <div nz-result-extra>
+    <button nz-button nzType="primary" (click)="openLoginModal()">
+      Zaloguj sie
+    </button>
+  </div>
+</nz-result>
