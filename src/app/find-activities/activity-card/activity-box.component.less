@@ -1,42 +1,3 @@
-// @import '../../../styles.less';
-
-// .activity-box {
-//     height: 200px;
-//     background-color: @background-color;
-//     border: 1px solid @primary-color;
-//     border-radius: 2px;
-//     display: inline-block;
-//     overflow: hidden;
-//     position: relative;
-//     width: 100%;
-//     color: white;
-
-//     &:hover {
-//         cursor: pointer;
-//         box-shadow: @default-box-shadow;
-//     }
-
-//     h2 {
-//         color: white;
-//     }
-
-//     &__background {
-//         pointer-events: none;
-//         position: absolute;
-//         width: 100%;
-//         height: 100%;
-//         object-fit: contain;
-//     }
-
-//     &__info {
-//         padding: 16px;
-//         position: absolute;
-//         width: 100%;
-//         height: 100%;
-//         background-color: rgba(0, 0, 0, 0.3);
-//     }
-// }
-
 img {
     min-height: 150px;
     max-height: 150px;
@@ -45,12 +6,14 @@ img {
 
 
 .ant-card-bordered {
+        border: 1px solid rgb(0 141 255 / 54%);
+
     ::ng-deep .ant-card-cover {
         margin: 0 !important;
     }
 
     ::ng-deep .ant-card-meta-title {
         padding-top: 8px;
-        border-top: 1px solid rgba(0, 0, 0, .06);
+        // border-top: 1px solid rgba(0, 0, 0, .06);
     }
 }

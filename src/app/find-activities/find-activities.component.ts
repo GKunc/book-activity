@@ -1,6 +1,7 @@
 import { WeekDay } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { catchError, concat, finalize, map, mergeAll, of, switchMap, zipAll } from 'rxjs';
 import { ActivitiesService, Activity } from '../common/services/activities/activities.service';
 import { ResizeService } from '../common/services/resize/resize.service';
 import { ActivityFilters } from '../shared/activity-filters/activity-filters.component';
@@ -48,17 +49,33 @@ export class FindActivitiesComponent implements OnInit {
   private getActivities(): void {
     this.loading = true;
     this.noData = false;
-    this.activitiesService.getActivities().subscribe((data) => {
-      this.noData = this.hasNoData(data);
-      this.activities = data;
-      this.activities.forEach(activity => {
-        // zrownoleglic
-        this.activitiesService.getPhoto(`${activity.guid}-0`).subscribe(response =>
-          activity.coverPhoto = URL.createObjectURL(response)
+      
+    this.activitiesService.getActivities().pipe(
+      switchMap((data) => {
+        const requests = data.map((activity) => 
+          this.activitiesService.getPhoto(`${activity.guid}-0`).pipe(
+            map((photo: Blob) => {
+              activity.coverPhoto = URL.createObjectURL(photo)
+              return activity;
+            }),
+            catchError((error) => {
+              console.error(error);
+              return of(activity);
+            })
+          ),
         )
+        
+        return concat(requests).pipe(
+            zipAll(),
+            map((a) => a),
+            finalize(() => {
+              this.loading = false;
+            })
+          );
       })
-      this.loading = false;
-    });
+    ).subscribe((activities: Activity[]) => {
+      this.activities = activities
+    })
   }
 
   private hasNoData(data: Activity[]): boolean {
