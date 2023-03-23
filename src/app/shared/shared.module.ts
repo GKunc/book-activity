@@ -40,6 +40,7 @@ import { PricePlnPipe } from '../common/pipes/price-pln.pipe';
 import { DurationMinPipe } from '../common/pipes/duration-min.pipe';
 import { CategoryPipe } from '../common/pipes/category.pipe';
 import { ActivityFiltersComponent } from './activity-filters/activity-filters.component';
+import { ErrorComponent } from './error/error.component';
 
 
 @NgModule({
@@ -54,6 +55,7 @@ import { ActivityFiltersComponent } from './activity-filters/activity-filters.co
     LoaderComponent,
     NoDataComponent,
     ActivityFiltersComponent,
+    ErrorComponent,
   ],
   imports: [
     SocialLoginModule,
@@ -97,6 +99,7 @@ import { ActivityFiltersComponent } from './activity-filters/activity-filters.co
     LoaderComponent,
     NoDataComponent,
     ActivityFiltersComponent,
+    ErrorComponent,
     
     SafeUrlPipe,
     WeekDayPipe,

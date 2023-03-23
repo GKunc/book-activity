@@ -26,6 +26,11 @@
 
       <loader *ngIf="loading" [inlineStyle]="true"></loader>
       <no-data *ngIf="noData"></no-data>
+      <error
+        *ngIf="error"
+        [inlineStyle]="true"
+        [retryHandler]="onSubmitFilters.bind(this)"
+      ></error>
     </nz-content>
   </nz-layout>
 </nz-layout>

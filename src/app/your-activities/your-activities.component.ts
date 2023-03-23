@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { of } from 'rxjs';
 import { AddActivityComponent } from '../add-activity/add-activity.component';
 import { ActivitiesService, Activity } from '../common/services/activities/activities.service';
 import { LoginService } from '../common/services/login-service/login.service';
@@ -14,6 +15,7 @@ import { DeleteModalComponent } from './delete-modal/delete-modal.component';
 export class YourActivitiesComponent implements OnInit {
   activities: Activity[];
   loading: boolean;
+  error: boolean;
   noData: boolean;
   userLogged = false;
 
@@ -26,6 +28,7 @@ export class YourActivitiesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserActivities();
+    this.loginService._user$.subscribe(() => this.getUserActivities());
   }
 
   addActivity(): void {
@@ -39,7 +42,8 @@ export class YourActivitiesComponent implements OnInit {
 
   deleteActivity(activity: Activity): void {
     const modal = this.modalService.createModal(DeleteModalComponent, "Czy na pewno chcesz usunąć zajęcia?", 400, { activity });
-    modal.afterClose.subscribe(() => {
+    modal.afterClose.subscribe((result) => {
+      console.log("RESULT", result)
       this.notificationsService.success("Potwierdzenie", "Pomylnie usunięto aktywność");
       this.getUserActivities();
     });
@@ -47,17 +51,22 @@ export class YourActivitiesComponent implements OnInit {
 
   getUserActivities(): void {
     this.loading = true;
-    this.loginService._user$.subscribe(user => {
+    const user = this.loginService.user;
+    
       if (user) {
         this.userLogged = true;
         this.activitiesService.getUserActivities(user?.id).subscribe(data => {
+          this.error = false;
           this.activities = data;
           this.noData = this.hasNoData(data);
           this.loading = false;
+        },
+        () => {
+          this.error = true;
+          this.loading = false;
+          return of(null);
         });
       }
-    })
-
   }
 
   private hasNoData(data: Activity[]): boolean {

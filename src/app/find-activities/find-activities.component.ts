@@ -18,7 +18,8 @@ export class FindActivitiesComponent implements OnInit {
   weekDays: WeekDay[];
 
   loading: boolean;
-  noData:boolean = true;
+  noData: boolean = true;
+  error: boolean = false;
 
   constructor(
     private activitiesService: ActivitiesService,
@@ -39,9 +40,14 @@ export class FindActivitiesComponent implements OnInit {
   onSubmitFilters(filters: ActivityFilters): void {
     this.loading = true;
     this.noData = false;
+    this.error = false;
     this.activitiesService.filterActivities(filters).subscribe(data => {
       this.noData = this.hasNoData(data);
       this.activities = data;
+      this.loading = false;
+    },
+    () => {
+      this.error = true;
       this.loading = false;
     });
   }
@@ -75,6 +81,10 @@ export class FindActivitiesComponent implements OnInit {
       })
     ).subscribe((activities: Activity[]) => {
       this.activities = activities;
+    },
+    () => {
+      this.error = true;
+      this.loading = false;
     });
   }
 
