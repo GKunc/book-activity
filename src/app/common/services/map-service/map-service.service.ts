@@ -24,11 +24,11 @@ export class MapService {
     private categoryPipe: CategoryPipe,
     ) {}
 
-    lat = 50.04;
+  lat = 50.04;
   lng = 19.94;
   loadMap(mapDiv: ElementRef, lat: number = 50.04, lng: number = 19.94): { map: H.Map, ui: H.ui.UI, platform: H.service.Platform } {
     mapDiv.nativeElement.innerHTML = '';
-
+    
     if (mapDiv) {
       const platform = new H.service.Platform({
         'apikey': environment.HERE_MAPS_API_KEY

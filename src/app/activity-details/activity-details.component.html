@@ -4,7 +4,9 @@
       <div class="info-container">
         <div class="info-container__section">
           <h2>O nas</h2>
-          <p>{{ currentDescription }}</p>
+          <p [class.ellipsis]="!descriptionExpanded">
+            {{ currentDescription }}
+          </p>
           <span *ngIf="descriptionTooLong" (click)="toggleShowMore()">
             <a *ngIf="!descriptionExpanded"
               >Rozwiń <span nz-icon nzType="down" nzTheme="outline"></span
@@ -93,20 +95,20 @@
     <div class="column first-column">
       <div *ngIf="!loading" class="carousel-container">
         <nz-carousel nzEffect="scrollx" #carouselRef>
-          <div nz-carousel-content *ngFor="let src of imagesSource">
+          <div nz-carousel-content *ngFor="let src of activity.photos">
             <img [src]="src | safeUrl" />
           </div>
         </nz-carousel>
 
         <div
-          *ngIf="imagesSource.length > 1"
+          *ngIf="activity.photos.length > 1"
           class="arrow arrow-left"
           (click)="previousImg()"
         >
           <span nz-icon nzType="left-circle" nzTheme="outline"></span>
         </div>
         <div
-          *ngIf="imagesSource.length > 1"
+          *ngIf="activity.photos.length > 1"
           class="arrow arrow-right"
           (click)="nextImg()"
         >

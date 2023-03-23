@@ -73,4 +73,5 @@ export interface Activity {
   instagram?: string;
   www?: string;
   coverPhoto?: string;
+  photos?: string[];
 }

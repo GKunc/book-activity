@@ -1,7 +1,7 @@
 import { WeekDay } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { catchError, concat, finalize, map, mergeAll, of, switchMap, zipAll } from 'rxjs';
+import { catchError, concat, finalize, map, of, switchMap, zipAll } from 'rxjs';
 import { ActivitiesService, Activity } from '../common/services/activities/activities.service';
 import { ResizeService } from '../common/services/resize/resize.service';
 import { ActivityFilters } from '../shared/activity-filters/activity-filters.component';
@@ -74,8 +74,8 @@ export class FindActivitiesComponent implements OnInit {
           );
       })
     ).subscribe((activities: Activity[]) => {
-      this.activities = activities
-    })
+      this.activities = activities;
+    });
   }
 
   private hasNoData(data: Activity[]): boolean {
