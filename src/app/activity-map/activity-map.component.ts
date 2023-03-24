@@ -20,6 +20,7 @@ export class ActivityMapComponent implements OnInit , AfterViewInit{
 
   loading = false;
   noData = true;
+  error = false;
 
   private map?: H.Map;
   private ui?: H.ui.UI;
@@ -39,6 +40,7 @@ export class ActivityMapComponent implements OnInit , AfterViewInit{
     window.addEventListener('resize', () => this.resizeMapToFitScreen());
     
     this.loading = true;
+    this.error = false;
     navigator.geolocation.getCurrentPosition((position) => {
       this.lng = position.coords.longitude;
       this.lat = position.coords.latitude;
@@ -48,7 +50,6 @@ export class ActivityMapComponent implements OnInit , AfterViewInit{
       this.platform = platform;
 
       this.onSubmitFilters({minPrice: 0, maxPrice: 1000});
-      this.loading = false
     });
   }
 
@@ -57,11 +58,16 @@ export class ActivityMapComponent implements OnInit , AfterViewInit{
     this.noData = false;
     this.mapService.removeAllBubbles(this.map);
     this.activitiesService.filterActivities(filters).subscribe(data => {
+      this.error = false;
       this.noData = this.hasNoData(data);
       this.activities = data;
       this.activities.forEach(activity => {
         this.mapService.addInfoBubble(activity, this.map, this.ui); 
       })
+      this.loading = false;
+    },
+    () => {
+      this.error = true;
       this.loading = false;
     });
   }

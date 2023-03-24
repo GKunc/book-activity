@@ -114,7 +114,7 @@ export class AddActivityComponent implements OnInit {
   private createActivity(): Activity {
     return {
       guid: this.guid,
-      createdBy: this.loginService.user.id,
+      createdBy: this.loginService.user?.id,
       nubmerOfImages: this.mediaData.images,
       name: this.activityData.name,
       category: this.activityData.category,

@@ -53,6 +53,10 @@
   </div>
 </ng-container>
 
-<loader *ngIf="loading && userLogged"></loader>
-<no-data *ngIf="noData"></no-data>
-<error *ngIf="error" [retryHandler]="getUserActivities.bind(this)"></error>
+<loader *ngIf="loading && userLogged" [inlineStyle]="true"></loader>
+<no-data *ngIf="noData && userLogged"></no-data>
+<error
+  *ngIf="error"
+  [retryHandler]="getUserActivities.bind(this)"
+  [inlineStyle]="true"
+></error>

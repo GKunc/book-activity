@@ -19,6 +19,11 @@
         <div class="activity-map__container" #map id="map"></div>
       </div>
       <loader *ngIf="loading" [inlineStyle]="true"></loader>
+      <error
+        *ngIf="error"
+        [inlineStyle]="true"
+        [retryHandler]="onSubmitFilters.bind(this)"
+      ></error>
     </nz-content>
   </nz-layout>
 </nz-layout>

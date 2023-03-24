@@ -17,6 +17,7 @@ export class ActivityDetailsComponent implements OnInit {
   carouselRef: NzCarouselComponent;
   activity: Activity;
   loading: boolean;
+  error: boolean; 
 
   currentDescription: string;
   descriptionExpanded = false;
@@ -32,6 +33,10 @@ export class ActivityDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.downloadDetails();
+  }
+
+  downloadDetails(): void {
     this.loading = true;
     const id = this.route.snapshot.paramMap.get('id');
     this.activitiesService.getActivityDetails(id).pipe(
@@ -45,6 +50,12 @@ export class ActivityDetailsComponent implements OnInit {
       }
       this.currentDescription = data.description.slice(0, 150);
       this.renderMap();
+      this.error = false;
+      this.loading = false;
+    },
+    () => {
+      this.error = true;
+      this.loading = false;
     });
   }
 

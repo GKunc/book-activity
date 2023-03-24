@@ -1,8 +1,10 @@
 import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, ReplaySubject } from 'rxjs';
+import { Observable, of, ReplaySubject, tap } from 'rxjs';
 import { from } from 'rxjs';
+
+export const AUTH_TOKEN = 'AUTH_TOKEN';
 
 @Injectable({
   providedIn: 'root'
@@ -16,12 +18,27 @@ export class LoginService {
     private http: HttpClient,
   ) {
 
-    this.authService.authState.subscribe((user) => {
-      this.loggedUser = { id: user.id, username: user.name, email: user.email };
-      this.signUp(this.user.username, this.user.email, '').subscribe();
-      this.signIn(this.user.username, '', true).subscribe();
+    if(localStorage.getItem(AUTH_TOKEN)) {
+      const loggedUser: InternalUser = JSON.parse(localStorage.getItem(AUTH_TOKEN));
+      this.loggedUser = {id: loggedUser.id, username: loggedUser.username, email: loggedUser.email};
       this._user$.next(this.loggedUser);
-    });
+    }
+    else {
+      this.authService.authState.subscribe((user) => {
+        if(user) {
+          this.loggedUser = { id: user.id, username: user.name, email: user.email };
+          this.signUp(this.user.username, this.user.email, '').subscribe(
+            () => of(null),
+            () => of(null));
+
+          this.signIn(this.user.username, '', true).subscribe();
+          this._user$.next(this.loggedUser);
+        }
+      },
+      (error) => {
+        console.log("LOGIN ERROR", error)
+      });
+    }
   }
 
   signUp(username: string, email: string, password: string): Observable<any> {
@@ -38,7 +55,9 @@ export class LoginService {
       username,
       password,
       googleLogIn,
-    }, {responseType: "text"});
+    }, {responseType: "text"}).pipe(tap(user => {
+      localStorage.setItem(AUTH_TOKEN, user);
+    }));
   } 
 
   signOut(): Observable<void> {
@@ -48,6 +67,8 @@ export class LoginService {
       return from(this.authService.signOut());
     } catch (e) {
       return of(null);
+    } finally {
+      localStorage.removeItem(AUTH_TOKEN);
     }
   }
 

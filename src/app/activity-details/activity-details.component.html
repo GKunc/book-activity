@@ -157,5 +157,9 @@
 </ng-container>
 
 <ng-template #loadingState>
-  <loader style="min-height: calc(100vh)"></loader>
+  <loader [inlineStyle]="true"></loader>
+  <error
+    [inlineStyle]="true"
+    [retryHandler]="downloadDetails.bind(this)"
+  ></error>
 </ng-template>

@@ -5,6 +5,7 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
   providedIn: 'root'
 })
 export class ModalService {
+  modal: NzModalRef;
 
   constructor(private modalService: NzModalService) {
   }
@@ -16,29 +17,22 @@ export class ModalService {
     params?: any,
   ): NzModalRef {
 
-    return this.modalService.create({
+    this.modal = this.modalService.create({
       nzTitle: title,
       nzContent: component,
       nzComponentParams: params,
       nzWidth: width,
       nzFooter: null,
     });
-  }
 
-  createConfirmationModal(
-    title: string,
-    content: string,
-  ): void {
-    this.modalService.confirm({
-      nzTitle: title,
-      nzContent: content,
-      nzOkText: "Tak",
-      nzCancelText: "Anuluj",
-      nzOnOk: () => console.log('OK')
-    });
+    return this.modal;
   }
 
   close(): void {
-    this.modalService.closeAll();
+    this.modal?.close({success: true});
+  }
+
+  cancel(): void {
+    this.modal?.close({success: false});
   }
 }

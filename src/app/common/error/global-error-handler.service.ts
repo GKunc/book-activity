@@ -13,12 +13,14 @@ export class GlobalErrorHandler implements ErrorHandler {
 
   handleError(error: any) {
     if (!environment.production) {
-      this.zone.run(() =>
+      this.zone.run(() => {
+        console.log(error);
+      
         this.notificationsService.error(
           `${environment.production}`,
           error?.message || 'Undefined client error',
         )
-      );
+      });
     }
   }
 }
