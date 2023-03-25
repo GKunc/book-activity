@@ -4,6 +4,6 @@ module.exports = {
     refresh_private_token: process.env.REFRESH_PRIVATE_KEY,
     refresh_public_token: process.env.REFRESH_PUBLIC_KEY,
 
-    accessTokenExpiresIn: 15,
+    accessTokenExpiresIn: 1,
     refreshTokenExpiresIn: 59
 };

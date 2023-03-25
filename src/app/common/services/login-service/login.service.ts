@@ -27,9 +27,7 @@ export class LoginService {
       this._user$.next(this.loggedUser);
     } else {
       this.authService.authState.subscribe(
-        (user) => {
-          console.log("USER", user);
-        
+        (user) => {        
           if(user) {
             this.signUp(user.name, user.email, '').subscribe(
               () => of(null),
@@ -52,6 +50,10 @@ export class LoginService {
       password,
       roles: ["user"],
     }, {responseType: "text"});
+  }
+
+  refreshToken(username: string): Observable<any> {
+    return this.http.get(`/api/auth/refresh?username=${username}`);
   }
 
   signIn(username: string, password: string, googleLogIn: boolean = false): Observable<any> {

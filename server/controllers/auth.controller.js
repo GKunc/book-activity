@@ -107,16 +107,17 @@ exports.signout = async (req, res) => {
   }
 };
 
-exports.refreshAccessTokenHandler = async (req, res, next) => {
+exports.refreshAccessToken = async (req, res, next) => {
   try {
-    // Get the refresh token from cookie
-    const refresh_token = req.cookies.refresh_token;
+    console.log("REFRESH TOKEN")
 
     // Validate the Refresh token
-    const decoded = verifyJwt(
-      refresh_token,
-      'refresh_public_token'
+    const decoded = verifyRefreshToken(
+      req,
+      res,
+      next,
     );
+
     const message = 'Could not refresh access token';
     if (!decoded) {
       return next(new Error(message, 403));
@@ -124,16 +125,16 @@ exports.refreshAccessTokenHandler = async (req, res, next) => {
 
     // Check if the user exist
     const user = await User.findOne({
-      username: req.body.username,
+      username: req.query.username,
     })
 
     if (!user) {
-      return next(new AppError(message, 403));
+      return next(new Error(message, 403));
     }
 
     // Sign new access token
-    const access_token = signJwt({ sub: user._id }, 'auth_private_token', {
-      expiresIn: `${config.get<number>('accessTokenExpiresIn')}m`,
+    const access_token = signJwt({ id: user._id, username: user.username, email: user.email }, 'auth_private_token', {
+      expiresIn: `${Number(config.accessTokenExpiresIn)}m`,
     });
 
     // Send the access token as cookie
@@ -145,7 +146,6 @@ exports.refreshAccessTokenHandler = async (req, res, next) => {
 
     // Send response
     res.status(200).json({
-      status: 'success',
       access_token,
     });
   } catch (err) {

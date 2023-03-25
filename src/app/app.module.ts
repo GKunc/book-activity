@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from './shared/shared.module';
 import { HubLayoutModule } from './layout/layout.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
@@ -35,12 +35,13 @@ import { FindActivitiesComponent } from './find-activities/find-activities.compo
 import { ActivityMapComponent } from './activity-map/activity-map.component';
 import { CategoryPipe } from './common/pipes/category.pipe';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { GlobalErrorHandler } from './common/error/global-error-handler.service';
+import { GlobalErrorInterceptor } from './common/interceptors/error/global-error-interceptor.service';
 
 import { NgxGoogleAnalyticsModule } from 'ngx-google-analytics';
 import { RegisterPageComponent } from './sign/register-page/register-page.component';
 import { SignComponent } from './sign/sign.component';
 import { LoginPageComponent } from './sign/login-page/login-page.component';
+import { HttpRequestInterceptor } from './common/interceptors/auth/auth.interceptor';
 
 registerLocaleData(en);
 
@@ -91,8 +92,9 @@ registerLocaleData(en);
     CategoryPipe,
     {
       provide: ErrorHandler,
-      useClass: GlobalErrorHandler,
+      useClass: GlobalErrorInterceptor,
     },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true },
     { provide: NZ_I18N, useValue: en_US },
     {
       provide: 'SocialAuthServiceConfig',
@@ -106,7 +108,7 @@ registerLocaleData(en);
             )
           },
         ],
-        onError: (err: any) => {
+        onError: (err) => {
           console.error(err);
         }
       } as SocialAuthServiceConfig,
