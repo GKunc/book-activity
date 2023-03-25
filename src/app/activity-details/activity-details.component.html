@@ -157,8 +157,9 @@
 </ng-container>
 
 <ng-template #loadingState>
-  <loader [inlineStyle]="true"></loader>
+  <loader *ngIf="loading" [inlineStyle]="true"></loader>
   <error
+    *ngIf="error"
     [inlineStyle]="true"
     [retryHandler]="downloadDetails.bind(this)"
   ></error>

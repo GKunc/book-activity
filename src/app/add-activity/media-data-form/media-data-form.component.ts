@@ -44,12 +44,14 @@ export class MediaDataFormComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.activity) {
-      this.loadingImages = true;
       for (let i = 0; i < this.activity.nubmerOfImages; i++) {
+        this.loadingImages = true;
         this.activitiesService.getPhoto(`${this.activity.guid}-${i}`).subscribe((response) => {
           this.images.push(new File([response], `file-${i}`));
         },
-          (e) => console.log("ERROR: ", e),
+          (e) => {
+            this.loadingImages = false;
+          },
           () => this.loadingImages = false,
         )
       }
@@ -86,6 +88,7 @@ export class MediaDataFormComponent implements OnInit {
 
   deleteFile(index: number) {
     this.images.splice(index, 1);
+    // add images to remove
   }
 
 
@@ -102,11 +105,19 @@ export class MediaDataFormComponent implements OnInit {
         const file: File = this.images[i];
         const formData: FormData = new FormData();
         formData.append('file', file, `${this.guid}-${i}`);
-        this.activitiesService.insertPhoto(formData).subscribe((data) => {
-          console.log("DATA:", data);
-        });
+        this.activitiesService.insertPhoto(formData).subscribe(
+          () => console.log("DONE"),
+          () => {
+            console.log("no insert 1");
+            
+            this.loadingImages = false;
+            this.isLoading = false;
+          },
+          () => this.loadingImages = false,
+        );
       }
 
+      // remove images 
       this.form.controls['images'].setValue(this.images.length);
     }
   }

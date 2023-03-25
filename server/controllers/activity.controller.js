@@ -51,6 +51,7 @@ exports.getActivities = async (req, res) => {
 
 exports.insertActivity = async (req, res) => {
   let data = req.body;
+  console.log('insertActivity', data)
   await Activity.create(data);
   res.sendStatus(200);
 }

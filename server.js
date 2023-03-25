@@ -6,6 +6,7 @@ const upload = require("./upload");
 const fs = require('fs');
 const path = require('path');
 const cookieSession = require("cookie-session");
+const cookieParser = require('cookie-parser');
 
 // config
 const port = process.env.PORT || 8080;
@@ -25,6 +26,7 @@ app.use(express.json());
 app.use(express.static(app_folder, options));
 app.use(cors({}));
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.use(
   cookieSession({

@@ -15,7 +15,7 @@ import { instanceOfMediaData, MediaData } from './media-data-form/media-data-for
   templateUrl: './add-activity.component.html',
   styleUrls: ['./add-activity.component.less']
 })
-export class AddActivityComponent implements OnInit {
+export class AddActivityComponent {
   @Input()
   activity: Activity;
 
@@ -45,21 +45,23 @@ export class AddActivityComponent implements OnInit {
     private activitiesService: ActivitiesService,
   ) { }
 
-  ngOnInit(): void {
-    console.log(this.activity);
-  }
-
   submit(): void {
     this.isLoading = true;
     const activity = this.createActivity();
 
     if (this.mediaData.isEditing) {
       activity.guid = this.activity.guid;
-      this.activitiesService.editActivity(activity).subscribe(() => {
+      this.activitiesService.editActivity(activity).subscribe(
+        () => {
         this.isLoading = false;
         this.notificationsService.success('Sukces', 'Zajęcia edytowano poprawnie.');
         this.modalService.close();
-      });
+        },
+        () => {
+          this.isLoading = false;
+          this.notificationsService.error('Wystąpił problem', 'Nie mozna bylo dodac zajec. Sprobuj ponownie');
+        }
+      );
       return;
     }
 
@@ -67,6 +69,10 @@ export class AddActivityComponent implements OnInit {
       this.isLoading = false;
       this.notificationsService.success('Zajęcia dodane', 'Poczekaj na email potwierdzający weryfijację.');
       this.modalService.close();
+    },
+    () => {
+      this.isLoading = false;
+      this.notificationsService.error('Wystąpił problem', 'Nie mozna bylo dodac zajec. Sprobuj ponownie');
     });
   }
 

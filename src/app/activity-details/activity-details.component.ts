@@ -38,6 +38,7 @@ export class ActivityDetailsComponent implements OnInit {
 
   downloadDetails(): void {
     this.loading = true;
+    this.error = false;
     const id = this.route.snapshot.paramMap.get('id');
     this.activitiesService.getActivityDetails(id).pipe(
       switchMap((data) => this.downloadPhotos(id, data)),
@@ -101,6 +102,7 @@ export class ActivityDetailsComponent implements OnInit {
       map(a => a[0]),
       finalize(() => {
         this.loading = false;
+        this.error = false;
       })
     );
   }

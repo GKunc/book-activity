@@ -1,90 +1,53 @@
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.js");
-const db = require("../models");
-const User = db.user;
-const Role = db.role;
+
+signJwt = (payload, key, options) => {
+  const privateKey = Buffer.from(config[key], 'base64').toString(
+    'ascii'
+  );
+  return jwt.sign(payload, privateKey, {
+    ...(options && options),
+    algorithm: 'RS256',
+  });
+};
 
 verifyToken = (req, res, next) => {
-  let token = req.session.token;
+  let token = req.cookies.refresh_token;
 
   if (!token) {
     return res.status(403).send({ message: "No token provided!" });
   }
 
-  jwt.verify(token, config.secret, (err, decoded) => {
-    if (err) {
-      return res.status(401).send({ message: "Unauthorized!" });
-    }
-    req.userId = decoded.id;
+  try {
+    const publicKey = Buffer.from(config.refresh_public_token, 'base64').toString(
+      'ascii'
+    );
+    jwt.verify(token, publicKey);
     next();
-  });
+  } catch (error) {
+    console.log('error', error)
+    return res.status(401).send({ message: "Unauthorized!" });
+  }
 };
 
-isAdmin = (req, res, next) => {
-  User.findById(req.userId).exec((err, user) => {
-    if (err) {
-      res.status(500).send({ message: err });
-      return;
-    }
-
-    Role.find(
-      {
-        _id: { $in: user.roles },
-      },
-      (err, roles) => {
-        if (err) {
-          res.status(500).send({ message: err });
-          return;
-        }
-
-        for (let i = 0; i < roles.length; i++) {
-          if (roles[i].name === "admin") {
-            next();
-            return;
-          }
-        }
-
-        res.status(403).send({ message: "Require Admin Role!" });
-        return;
-      }
-    );
+signToken = async (user) => {
+  // Sign the access token
+  const access_token = signJwt({ id: user._id, username: user.username, email: user.email }, 'auth_private_token', {
+    expiresIn: `${Number(config.accessTokenExpiresIn)}m`,
   });
-};
 
-isModerator = (req, res, next) => {
-  User.findById(req.userId).exec((err, user) => {
-    if (err) {
-      res.status(500).send({ message: err });
-      return;
-    }
+  // Sign the refresh token
+  const refresh_token = signJwt({ id: user._id, username: user.username, email: user.email }, 'refresh_private_token', {
+    expiresIn: `${Number(config.refreshTokenExpiresIn)}m`,
+  });
 
-    Role.find(
-      {
-        _id: { $in: user.roles },
-      },
-      (err, roles) => {
-        if (err) {
-          res.status(500).send({ message: err });
-          return;
-        }
-
-        for (let i = 0; i < roles.length; i++) {
-          if (roles[i].name === "moderator") {
-            next();
-            return;
-          }
-        }
-
-        res.status(403).send({ message: "Require Moderator Role!" });
-        return;
-      }
-    );
-});
+  // Return access token
+  return { access_token, refresh_token };
 };
 
 const authJwt = {
+  signJwt,
+  signToken,
   verifyToken,
-  isAdmin,
-  isModerator,
 };
 module.exports = authJwt;

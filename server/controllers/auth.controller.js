@@ -6,6 +6,24 @@ const Role = db.role;
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
+const accessTokenCookieOptions = {
+  expires: new Date(
+    Date.now() + Number(config.accessTokenExpiresIn) * 60 * 1000
+  ),
+  maxAge: Number(config.accessTokenExpiresIn) * 60 * 1000,
+  httpOnly: true,
+  sameSite: 'lax',
+};
+
+const refreshTokenCookieOptions = {
+  expires: new Date(
+    Date.now() + Number(config.refreshTokenExpiresIn) * 60 * 1000
+  ),
+  maxAge: Number(config.refreshTokenExpiresIn) * 60 * 1000,
+  httpOnly: true,
+  sameSite: 'lax',
+};
+
 exports.signup = async (req, res) => {
   const user = new User({
     username: req.body.username,
@@ -53,9 +71,8 @@ exports.signin = async (req, res) => {
         return res.status(401).send({ message: "Niepoprawny email lub hasło" });
       }
     }
-    const token = jwt.sign({ id: user.id }, config.secret, {
-      expiresIn: 86400, // 24 hours
-    });
+
+    const { access_token, refresh_token } = await signToken(user);
 
     const authorities = [];
 
@@ -63,21 +80,75 @@ exports.signin = async (req, res) => {
       authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
     }
 
-    req.session.token = token;
+    res.cookie('access_token', access_token, accessTokenCookieOptions);
+    res.cookie('refresh_token', refresh_token, refreshTokenCookieOptions);
+    res.cookie('logged_in', true, {
+      ...accessTokenCookieOptions,
+      httpOnly: false,
+    });
 
-    res.status(200).send({
-      id: user._id,
-      username: user.username,
-      email: user.email,
-      roles: authorities,
+    // Send Access Token
+    res.status(200).json({
+      access_token,
+      refresh_token,
     });
 };
 
 exports.signout = async (req, res) => {
   try {
-    req.session = null;
+    res.cookie('access_token', '', { maxAge: 1 });
+    res.cookie('refresh_token', '', { maxAge: 1 });
+    res.cookie('logged_in', '', {
+      maxAge: 1,
+    });
     return res.status(200).send({ message: "Pomyślnie wylogowano!" });
   } catch (err) {
     this.next(err);
+  }
+};
+
+exports.refreshAccessTokenHandler = async (req, res, next) => {
+  try {
+    // Get the refresh token from cookie
+    const refresh_token = req.cookies.refresh_token;
+
+    // Validate the Refresh token
+    const decoded = verifyJwt(
+      refresh_token,
+      'refresh_public_token'
+    );
+    const message = 'Could not refresh access token';
+    if (!decoded) {
+      return next(new Error(message, 403));
+    }
+
+    // Check if the user exist
+    const user = await User.findOne({
+      username: req.body.username,
+    })
+
+    if (!user) {
+      return next(new AppError(message, 403));
+    }
+
+    // Sign new access token
+    const access_token = signJwt({ sub: user._id }, 'auth_private_token', {
+      expiresIn: `${config.get<number>('accessTokenExpiresIn')}m`,
+    });
+
+    // Send the access token as cookie
+    res.cookie('access_token', access_token, accessTokenCookieOptions);
+    res.cookie('logged_in', true, {
+      ...accessTokenCookieOptions,
+      httpOnly: false,
+    });
+
+    // Send response
+    res.status(200).json({
+      status: 'success',
+      access_token,
+    });
+  } catch (err) {
+    next(err);
   }
 };

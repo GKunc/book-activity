@@ -29,6 +29,8 @@ export class YourActivitiesComponent implements OnInit {
   ngOnInit(): void {
     this.getUserActivities();
     this.loginService._user$.subscribe((user) => {
+      console.log('getUserActivities', user);
+      
       if(user) {
         this.userLogged = true;
         this.getUserActivities();

@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Activity } from 'src/app/common/services/activities/activities.service';
 import { environment } from 'src/environments/environment';
@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './location-data-form.component.html',
   styleUrls: ['./location-data-form.component.less']
 })
-export class LocationDataFormComponent implements OnInit {
+export class LocationDataFormComponent implements OnInit, AfterViewInit {
   @ViewChild('map') mapDiv?: ElementRef;
 
   @Input()
@@ -37,13 +37,18 @@ export class LocationDataFormComponent implements OnInit {
     if (this.activity) {
       this.form.controls.street.setValue(this.activity.street)
       this.form.controls.city.setValue(this.activity.city)
+      if(this.activity.coordinates.lat && this.activity.coordinates.lng) {
       this.coordinatesString = `${this.activity.coordinates.lat}, ${this.activity.coordinates.lng}`;
+      }
     }
   }
 
   ngAfterViewInit(): void {
-    this.renderMap(this.coordinatesString);
+    if(this.coordinatesString) {
+      this.renderMap(this.coordinatesString);
+    }
   }
+  
   
   previous(): void {
     this.previousForm.emit();

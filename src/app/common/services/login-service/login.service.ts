@@ -3,8 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, ReplaySubject, tap } from 'rxjs';
 import { from } from 'rxjs';
+import jwt_decode from 'jwt-decode';
 
-export const AUTH_TOKEN = 'AUTH_TOKEN';
+export const ACCESS_TOKEN = 'access_token';
+export const REFRESH_TOKEN = 'refresh_token';
 
 @Injectable({
   providedIn: 'root'
@@ -17,23 +19,25 @@ export class LoginService {
     private authService: SocialAuthService,
     private http: HttpClient,
   ) {
-
-    if(localStorage.getItem(AUTH_TOKEN)) {
-      const loggedUser: InternalUser = JSON.parse(localStorage.getItem(AUTH_TOKEN));
+    
+    const token = localStorage.getItem(ACCESS_TOKEN);
+    if(token) {
+      const loggedUser: InternalUser = jwt_decode(token);
       this.loggedUser = {id: loggedUser.id, username: loggedUser.username, email: loggedUser.email};
       this._user$.next(this.loggedUser);
-    }
-    else {
-      this.authService.authState.subscribe((user) => {
-        if(user) {
-          this.loggedUser = { id: user.id, username: user.name, email: user.email };
-          this.signUp(this.user.username, this.user.email, '').subscribe(
-            () => of(null),
-            () => of(null));
+    } else {
+      this.authService.authState.subscribe(
+        (user) => {
+          console.log("USER", user);
+        
+          if(user) {
+            this.signUp(user.name, user.email, '').subscribe(
+              () => of(null),
+              () => of(null),
+            );
 
-          this.signIn(this.user.username, '', true).subscribe();
-          this._user$.next(this.loggedUser);
-        }
+            this.signIn(user.name, '', true).subscribe();
+          }
       },
       (error) => {
         console.log("LOGIN ERROR", error)
@@ -55,20 +59,33 @@ export class LoginService {
       username,
       password,
       googleLogIn,
-    }, {responseType: "text"}).pipe(tap(user => {
-      localStorage.setItem(AUTH_TOKEN, user);
-    }));
+    }, {responseType: "text"}).pipe(
+      tap(result => {        
+        const { access_token, refresh_token } = JSON.parse(result);
+        localStorage.setItem(ACCESS_TOKEN, access_token);
+        localStorage.setItem(REFRESH_TOKEN, refresh_token);
+
+        const loggedUser: InternalUser = jwt_decode(access_token);
+        console.log("SIGNIN RESULT", loggedUser);
+        this.loggedUser = loggedUser;
+        this._user$.next(loggedUser);
+      })
+    );
   } 
 
-  signOut(): Observable<void> {
+  signOut(): void {
     try {
       this.http.post('/api/auth/signout', {}).subscribe();
+      this.loggedUser = null;
       this._user$.next(null);
-      return from(this.authService.signOut());
+      from(this.authService.signOut()).subscribe(
+        () => of(null),
+        () => of(null));
     } catch (e) {
-      return of(null);
+      console.log("Error", e)
     } finally {
-      localStorage.removeItem(AUTH_TOKEN);
+      localStorage.removeItem(ACCESS_TOKEN);
+      localStorage.removeItem(REFRESH_TOKEN);
     }
   }
 

@@ -34,15 +34,9 @@ export class NavComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginService._user$?.subscribe(data => {
-      console.log("INITIALS", data);
-      
       if (data) {
         this.user = data;
-        console.log("INITIALS", this.userInitials);
-        console.log("INITIALS", this.user.username);
         this.userInitials = this.user.username.charAt(0).toUpperCase();
-
-        
         this.modalService.close();
       }
     })

@@ -34,10 +34,8 @@ export class LoginPageComponent implements OnInit {
   signIn(): void {
     if(this.validateForm()) {
       this.loginService.signIn(this.form.controls.login.value, this.form.controls.password.value).subscribe(
-        (response) => {
+        () => {
         this.notificationService.success('Pomyślnie zalogowano uzytkownika', '');
-        this.loginService.loggedUser = JSON.parse(response);
-        this.loginService._user$.next(JSON.parse(response));
         this.modalService.close();
       },
       (error) => {
