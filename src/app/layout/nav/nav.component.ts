@@ -44,7 +44,7 @@ export class NavComponent implements OnInit {
   }
 
   searchActivities(): void {
-    localStorage.setItem(ACTIVITY_FILTERS, JSON.stringify({ phrase: this.phrase, weekDays: this.weekDays }))
+    localStorage.setItem(ACTIVITY_FILTERS, JSON.stringify({ phrase: this.phrase, weekDays: this.weekDays, minPrice: 0, maxPrice: 1000 }))
     this.router.navigate(['find-activities']);
   }
 

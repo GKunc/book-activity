@@ -12,10 +12,6 @@ export class ActivitiesService {
 
   constructor(private http: HttpClient) { }
 
-  getActivities(): Observable<Activity[]> {
-    return this.http.get<Activity[]>('/api/activities');
-  }
-
   getUserActivities(id: string): Observable<Activity[]> {
     return this.http.get<Activity[]>(`/api/activities?id=${id}`);
   }
