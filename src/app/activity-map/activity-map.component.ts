@@ -57,6 +57,8 @@ export class ActivityMapComponent implements OnInit , AfterViewInit{
     this.loading = true;
     this.noData = false;
     this.mapService.removeAllBubbles(this.map);
+    filters.limit = 100;
+    
     this.activitiesService.filterActivities(filters).subscribe(data => {
       this.error = false;
       this.noData = this.hasNoData(data);

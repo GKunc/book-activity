@@ -1,12 +1,10 @@
 const express = require("express");
 const cors = require('cors')
 const { MongoClient, GridFSBucket } = require("mongodb");
-const os = require('os');
 const upload = require("./upload");
-const fs = require('fs');
-const path = require('path');
 const cookieSession = require("cookie-session");
 const cookieParser = require('cookie-parser');
+const mongoose = require('mongoose');
 
 // config
 const port = process.env.PORT || 8080;
@@ -144,6 +142,31 @@ app.get('/api/activities/photos', async function (req, res) {
     downloadStream.on("end", () => {
       return res.end();
     });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({
+      message: error.message,
+    });
+  }
+});
+
+app.delete('/api/activities/photos', async function (req, res) {
+  const id = req.query.id;
+  uri = process.env.MANGO_DB_CONNECTION_STRING;
+  const client = new MongoClient(uri);
+  try {
+    const database = client.db('edds');
+    const collection = database.collection('photos');
+    const bucket = new GridFSBucket(database, {
+      bucketName: 'photos',
+    });
+
+    const image = bucket.find({filename: id});
+    image.forEach(async doc =>  await bucket.delete(doc._id));
+
+   
+   
+    return res.status(200);
   } catch (error) {
     console.log(error);
     return res.status(500).send({

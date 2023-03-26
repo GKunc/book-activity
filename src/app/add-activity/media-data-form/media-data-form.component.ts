@@ -36,6 +36,7 @@ export class MediaDataFormComponent implements OnInit {
   });
 
   images: File[] = [];
+  imagesToDelete: string[] = [];
 
   private fileList: FileList;
 
@@ -47,7 +48,7 @@ export class MediaDataFormComponent implements OnInit {
       for (let i = 0; i < this.activity.nubmerOfImages; i++) {
         this.loadingImages = true;
         this.activitiesService.getPhoto(`${this.activity.guid}-${i}`).subscribe((response) => {
-          this.images.push(new File([response], `file-${i}`));
+          this.images.push(new File([response], `${this.activity.guid}-${i}`));
         },
           (e) => {
             this.loadingImages = false;
@@ -70,25 +71,24 @@ export class MediaDataFormComponent implements OnInit {
   submit(): void {
     if (this.validateForm()) {
       this.uploadFiles();
+      this.deleteFiles();
       this.formSubmitted.emit({
-        images: this.form.controls['images'].value,
+        images: this.form.controls.images.value,
         isEditing: this.isEditing,
       })
     }
   }
 
   filesChange(event) {
-    // make sure no duplicates
-    // add option to remove
     this.fileList = event.target.files;
     for (let i = 0; i < this.fileList.length; i++) {
       this.images.push(this.fileList[i])
     }
   }
 
-  deleteFile(index: number) {
+  deleteFile(index: number, image: File) {
     this.images.splice(index, 1);
-    // add images to remove
+    this.imagesToDelete.push(image.name);
   }
 
 
@@ -98,8 +98,23 @@ export class MediaDataFormComponent implements OnInit {
     }
   }
 
+  private deleteFiles(): void {
+    if (this.imagesToDelete.length > 0) {
+      for (let i = 0; i < this.imagesToDelete.length; i++) {
+        this.activitiesService.deletePhoto(this.imagesToDelete[i]).subscribe(
+          () => console.log("DONE"),
+          () => {
+            this.isLoading = false;
+          },
+          () => this.loadingImages = false,
+        );
+      }
+    }
+  }
 
   private uploadFiles(): void {
+    console.log('uploadFiles', this.images.length);
+    
     if (this.images.length > 0) {
       for (let i = 0; i < this.images.length; i++) {
         const file: File = this.images[i];
@@ -108,8 +123,6 @@ export class MediaDataFormComponent implements OnInit {
         this.activitiesService.insertPhoto(formData).subscribe(
           () => console.log("DONE"),
           () => {
-            console.log("no insert 1");
-            
             this.loadingImages = false;
             this.isLoading = false;
           },
@@ -117,8 +130,7 @@ export class MediaDataFormComponent implements OnInit {
         );
       }
 
-      // remove images 
-      this.form.controls['images'].setValue(this.images.length);
+      this.form.controls.images.setValue(this.images.length);
     }
   }
 

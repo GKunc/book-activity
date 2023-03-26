@@ -32,6 +32,18 @@ exports.filter = async (req, res) => {
   res.send(JSON.stringify(activity));
 }
 
+exports.getUserActivities = async (req, res) => {
+  const id = req.query.id;
+  let query = {};
+  if (id) {
+    query.createdBy = id;
+  }
+
+  const activity = await Activity.find(query);
+  res.setHeader('Content-Type', 'application/json');
+  res.send(JSON.stringify(activity));
+}
+
 exports.details = async (req, res) => {
   const id = req.query.id;
   const activity = await Activity.findOne({ guid: id });

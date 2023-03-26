@@ -13,7 +13,7 @@ export class ActivitiesService {
   constructor(private http: HttpClient) { }
 
   getUserActivities(id: string): Observable<Activity[]> {
-    return this.http.get<Activity[]>(`/api/activities?id=${id}`);
+    return this.http.get<Activity[]>(`/api/user-activities?id=${id}`);
   }
 
   filterActivities(query: Partial<ActivityFilters>): Observable<any> {
@@ -37,6 +37,10 @@ export class ActivitiesService {
       'Accept': 'application/json'
     })
     return this.http.post('/api/activities/photos', fileList, { headers, responseType: 'text' });
+  }
+
+  deletePhoto(id: string): any {
+    return this.http.delete(`/api/activities/photos?id=${id}`);
   }
 
   getPhoto(id: string): any {
