@@ -21,15 +21,14 @@
         />
         <nz-select
           *ngIf="(resizeService.isSmall$ | async) === false"
-          class="search__weekday"
-          [(ngModel)]="weekDays"
-          nzPlaceHolder="Kiedy"
-          [(ngModel)]="weekDay"
+          class="search__categories"
+          [(ngModel)]="categories"
+          nzPlaceHolder="Kategoria"
           nzMode="multiple"
           [nzMaxTagCount]="1"
         >
           <nz-option
-            *ngFor="let option of weekDaysOptions"
+            *ngFor="let option of categoriesOptions"
             [nzLabel]="option.label"
             [nzValue]="option.value"
           ></nz-option>

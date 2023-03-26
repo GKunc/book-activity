@@ -1,13 +1,6 @@
 const db = require("../models");
 const Activity = db.activity;
 
-exports.details = async (req, res) => {
-  const id = req.query.id;
-  const activity = await Activity.findOne({ guid: id });
-  res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify(activity));
-}
-
 exports.filter = async (req, res) => {
   const body = req.body;
   let query = {}
@@ -31,8 +24,17 @@ exports.filter = async (req, res) => {
   query['groups.price'].$gte = body.minPrice;
   query['groups.price'].$lte = body.maxPrice;
 
-  console.log('Filter activities', query);
-  const activity = await Activity.find(query);
+  const skip = (body.page - 1) * body.limit;
+  const activity = await Activity.find(query).skip(skip).limit(body.limit);
+  res.setHeader('Content-Type', 'application/json');
+  console.log("body: ", body)
+  console.log('Filter activities', query, ",skip: ", skip, ",limit: ", body.limit, "result: ", activity.length);
+  res.send(JSON.stringify(activity));
+}
+
+exports.details = async (req, res) => {
+  const id = req.query.id;
+  const activity = await Activity.findOne({ guid: id });
   res.setHeader('Content-Type', 'application/json');
   res.send(JSON.stringify(activity));
 }

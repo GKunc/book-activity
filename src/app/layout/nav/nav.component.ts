@@ -1,6 +1,7 @@
 import { WeekDay } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ACTIVITY_CATEGORIES, Category } from 'src/app/add-activity/category.consts';
 import { WEEK_DAYS } from 'src/app/add-activity/week-days.consts';
 import { InternalUser, LoginService } from 'src/app/common/services/login-service/login.service';
 import { ModalService } from 'src/app/common/services/modal/modal.service';
@@ -18,12 +19,11 @@ export class NavComponent implements OnInit {
 
   user: InternalUser;
   userInitials: string;
-  weekDay: WeekDay[];
+  categories: Category[];
 
-  weekDaysOptions: { value: WeekDay, label: string }[] = WEEK_DAYS;
+  categoriesOptions: { value: Category, label: string }[] = ACTIVITY_CATEGORIES;
 
   phrase = '';
-  weekDays: WeekDay[] = [];
 
   constructor(
     public loginService: LoginService,
@@ -44,7 +44,7 @@ export class NavComponent implements OnInit {
   }
 
   searchActivities(): void {
-    localStorage.setItem(ACTIVITY_FILTERS, JSON.stringify({ phrase: this.phrase, weekDays: this.weekDays, minPrice: 0, maxPrice: 1000 }))
+    localStorage.setItem(ACTIVITY_FILTERS, JSON.stringify({ phrase: this.phrase, categories: this.categories, minPrice: 0, maxPrice: 1000, page: 1, limit: 10 }))
     this.router.navigate(['find-activities']);
   }
 

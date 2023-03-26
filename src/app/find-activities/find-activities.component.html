@@ -15,15 +15,22 @@
     ></activity-filters>
 
     <nz-content class="content-container" style="position: relative">
-      <div *ngIf="!loading && !noData" class="find-activities">
-        <div
-          *ngFor="let activity of activities"
-          routerLink="/detail/{{ activity.guid }}"
-        >
-          <activity-box [activity]="activity"></activity-box>
+      <ng-container *ngIf="!loading && !noData">
+        <div class="find-activities">
+          <div
+            *ngFor="let activity of activities"
+            routerLink="/detail/{{ activity.guid }}"
+          >
+            <activity-box [activity]="activity"></activity-box>
+          </div>
         </div>
-      </div>
+      </ng-container>
 
+      <hub-button
+        *ngIf="hasMoreData"
+        text="Załaduj wiecej"
+        (click)="loadMore()"
+      ></hub-button>
       <loader *ngIf="loading" [inlineStyle]="true"></loader>
       <no-data *ngIf="noData"></no-data>
       <error

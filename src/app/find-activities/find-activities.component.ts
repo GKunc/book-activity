@@ -1,5 +1,4 @@
-import { WeekDay } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
 import { catchError, concat, finalize, map, of, switchMap, zipAll } from 'rxjs';
 import { ActivitiesService, Activity } from '../common/services/activities/activities.service';
 import { ResizeService } from '../common/services/resize/resize.service';
@@ -10,23 +9,31 @@ import { ActivityFilters, ACTIVITY_FILTERS } from '../shared/activity-filters/ac
   templateUrl: './find-activities.component.html',
   styleUrls: ['./find-activities.component.less']
 })
-export class FindActivitiesComponent implements OnInit {
-  activities: Activity[];
+export class FindActivitiesComponent implements AfterViewInit {
+  activities: Activity[] = [];
 
-  phrase: string;
-  weekDays: WeekDay[];
+  lastFilters: ActivityFilters;
 
-  loading: boolean;
+  loading: boolean = true;
   noData: boolean = true;
+  hasMoreData: boolean = false;
   error: boolean = false;
 
   constructor(
     private activitiesService: ActivitiesService,
+    private cdr: ChangeDetectorRef,
     public resizeService: ResizeService,
   ) { }
 
-  ngOnInit(): void {
-    this.onSubmitFilters(JSON.parse(localStorage.getItem(ACTIVITY_FILTERS)));
+  ngAfterViewInit(): void {
+    this.lastFilters = JSON.parse(localStorage.getItem(ACTIVITY_FILTERS));
+    this.onSubmitFilters(this.lastFilters);
+    this.cdr.detectChanges();
+  }
+
+  loadMore(): void {
+    this.lastFilters.page = this.lastFilters.page + 1;
+    this.onSubmitFilters(this.lastFilters);
   }
 
   onSubmitFilters(filters: Partial<ActivityFilters>): void {
@@ -36,7 +43,6 @@ export class FindActivitiesComponent implements OnInit {
     this.activitiesService.filterActivities(filters).pipe(
       switchMap((data) => {
         this.noData = this.hasNoData(data);
-
         const requests = data.map((activity) => 
           this.activitiesService.getPhoto(`${activity.guid}-0`).pipe(
             map((photo: Blob) => {
@@ -59,7 +65,12 @@ export class FindActivitiesComponent implements OnInit {
           );
       })
     ).subscribe((activities: Activity[]) => {
-      this.activities = activities;
+      if(activities.length === this.lastFilters.limit) {
+        this.hasMoreData = true;
+      } else {
+        this.hasMoreData = false;
+      }
+      this.activities = [...this.activities, ...activities];
     },
     () => {
       this.error = true;

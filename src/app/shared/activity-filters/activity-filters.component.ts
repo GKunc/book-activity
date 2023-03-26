@@ -30,20 +30,26 @@ export class ActivityFiltersComponent implements OnInit {
   minPrice = 0;
   maxPrice: number = MAX_PRICE;
   priceRange: number[] = [0, MAX_PRICE];
-
+  page: number;
+  limit: number;
+  
   constructor(public resizeService: ResizeService) {}
   
   ngOnInit(): void {
     const filters = JSON.parse(localStorage.getItem(ACTIVITY_FILTERS));
     if(filters) {
-      console.log("FILTEr", filters);
-      
       this.phrase = filters.phrase;
       this.weekDays = filters.weekDays;
       this.categories = filters.categories;
       this.minPrice = filters.minPrice;
       this.maxPrice = filters.maxPrice;
       this.priceRange = [this.minPrice, this.maxPrice];
+      this.page = 1;
+      this.limit = 10;
+    } else {
+      console.log("INIT FILTERS");
+      
+      this.clearAllFilters();
     }
 
     this.minPrice$.pipe(
@@ -84,23 +90,31 @@ export class ActivityFiltersComponent implements OnInit {
     this.minPrice = 0;
     this.maxPrice = MAX_PRICE;
     this.priceRange = [this.minPrice, this.maxPrice];
-    
+    this.page = 1;
+    this.limit = 10;
+
+    const filters = this.createFilters()
     this.showFilters = false;
-    localStorage.setItem(ACTIVITY_FILTERS, null);
+    localStorage.setItem(ACTIVITY_FILTERS, JSON.stringify(filters))
   }
 
   submit(): void {
-    const filters = {
+    const filters = this.createFilters()
+    this.submitFilters.emit(filters);
+    this.showFilters = false;
+    localStorage.setItem(ACTIVITY_FILTERS, JSON.stringify(filters))
+  }
+
+  private createFilters(): ActivityFilters {
+   return {
       phrase: this.phrase,
       weekDays: this.weekDays,
       categories: this.categories,
       minPrice: this.minPrice,
       maxPrice: this.maxPrice,
+      page: this.page,
+      limit: this.limit,
     };
-
-    this.submitFilters.emit(filters);
-    this.showFilters = false;
-    localStorage.setItem(ACTIVITY_FILTERS, JSON.stringify(filters))
   }
 }
 
@@ -110,4 +124,6 @@ export interface ActivityFilters {
   categories: Category[];
   minPrice: number;
   maxPrice: number;
+  page: number;
+  limit: number;
 }
