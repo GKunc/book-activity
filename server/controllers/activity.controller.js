@@ -19,7 +19,7 @@ exports.filter = async (req, res) => {
 
   if (body.weekDays && body.weekDays.length > 0) {
     query.weekDay = {}
-    query.weekDay.$in = body.weekDay;
+    query.weekDay.$in = body.weekDays;
   }
 
   if (body.categories && body.categories.length > 0) {

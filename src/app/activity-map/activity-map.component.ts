@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 import { ActivitiesService, Activity } from '../common/services/activities/activities.service';
 import { MapService } from '../common/services/map-service/map-service.service';
 import { ResizeService } from '../common/services/resize/resize.service';
-import { ActivityFilters } from '../shared/activity-filters/activity-filters.component';
+import { ActivityFilters, ACTIVITY_FILTERS } from '../shared/activity-filters/activity-filters.component';
 
 
 @Component({
@@ -49,7 +49,7 @@ export class ActivityMapComponent implements OnInit , AfterViewInit{
       this.ui = ui;
       this.platform = platform;
 
-      this.onSubmitFilters({minPrice: 0, maxPrice: 1000});
+      this.onSubmitFilters(JSON.parse(localStorage.getItem(ACTIVITY_FILTERS)));
     });
   }
 

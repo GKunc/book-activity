@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { catchError, concat, finalize, map, of, switchMap, zipAll } from 'rxjs';
 import { ActivitiesService, Activity } from '../common/services/activities/activities.service';
 import { ResizeService } from '../common/services/resize/resize.service';
-import { ActivityFilters } from '../shared/activity-filters/activity-filters.component';
+import { ActivityFilters, ACTIVITY_FILTERS } from '../shared/activity-filters/activity-filters.component';
 
 @Component({
   selector: 'app-find-activities',
@@ -34,30 +34,17 @@ export class FindActivitiesComponent implements OnInit {
       this.weekDays = this.route.snapshot.paramMap.get('weekDays')?.split(',').map(item => Number(item));
     }
 
-    this.getActivities();
+    this.onSubmitFilters(JSON.parse(localStorage.getItem(ACTIVITY_FILTERS)));
   }
 
-  onSubmitFilters(filters: ActivityFilters): void {
+  onSubmitFilters(filters: Partial<ActivityFilters>): void {
     this.loading = true;
     this.noData = false;
     this.error = false;
-    this.activitiesService.filterActivities(filters).subscribe(data => {
-      this.noData = this.hasNoData(data);
-      this.activities = data;
-      this.loading = false;
-    },
-    () => {
-      this.error = true;
-      this.loading = false;
-    });
-  }
-
-  private getActivities(): void {
-    this.loading = true;
-    this.noData = false;
-      
-    this.activitiesService.getActivities().pipe(
+    this.activitiesService.filterActivities(filters).pipe(
       switchMap((data) => {
+        this.noData = this.hasNoData(data);
+
         const requests = data.map((activity) => 
           this.activitiesService.getPhoto(`${activity.guid}-0`).pipe(
             map((photo: Blob) => {
