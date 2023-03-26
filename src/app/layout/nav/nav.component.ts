@@ -5,6 +5,7 @@ import { WEEK_DAYS } from 'src/app/add-activity/week-days.consts';
 import { InternalUser, LoginService } from 'src/app/common/services/login-service/login.service';
 import { ModalService } from 'src/app/common/services/modal/modal.service';
 import { ResizeService } from 'src/app/common/services/resize/resize.service';
+import { ACTIVITY_FILTERS } from 'src/app/shared/activity-filters/activity-filters.component';
 import { SignComponent } from 'src/app/sign/sign.component';
 
 @Component({
@@ -43,7 +44,8 @@ export class NavComponent implements OnInit {
   }
 
   searchActivities(): void {
-    this.router.navigate(['find-activities', { phrase: this.phrase, weekDays: this.weekDays }]);
+    localStorage.setItem(ACTIVITY_FILTERS, JSON.stringify({ phrase: this.phrase, weekDays: this.weekDays }))
+    this.router.navigate(['find-activities']);
   }
 
   signOut(): void {

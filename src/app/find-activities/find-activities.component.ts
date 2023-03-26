@@ -1,6 +1,5 @@
 import { WeekDay } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { catchError, concat, finalize, map, of, switchMap, zipAll } from 'rxjs';
 import { ActivitiesService, Activity } from '../common/services/activities/activities.service';
 import { ResizeService } from '../common/services/resize/resize.service';
@@ -23,17 +22,10 @@ export class FindActivitiesComponent implements OnInit {
 
   constructor(
     private activitiesService: ActivitiesService,
-    private route: ActivatedRoute,
     public resizeService: ResizeService,
   ) { }
 
   ngOnInit(): void {
-    this.phrase = this.route.snapshot.paramMap.get('phrase');
-    const includesWeekDays = this.route.snapshot.paramMap.get('weekDays')?.includes(',');
-    if (includesWeekDays) {
-      this.weekDays = this.route.snapshot.paramMap.get('weekDays')?.split(',').map(item => Number(item));
-    }
-
     this.onSubmitFilters(JSON.parse(localStorage.getItem(ACTIVITY_FILTERS)));
   }
 
