@@ -40,6 +40,7 @@ export class ActivityDetailsComponent implements OnInit {
     this.loading = true;
     this.error = false;
     const id = this.route.snapshot.paramMap.get('id');
+    
     this.activitiesService.getActivityDetails(id).pipe(
       switchMap((data) => this.downloadPhotos(id, data)),
     ).subscribe((data: Activity) => {
@@ -78,9 +79,12 @@ export class ActivityDetailsComponent implements OnInit {
     }
   }
 
-  private downloadPhotos(id: string, activity: Activity): any {
+  private downloadPhotos(id: string, activity: Activity): any {    
+    if(!activity.nubmerOfImages || activity.nubmerOfImages === 0) {
+      return of(activity);
+    }
+
     const requests = [];
-    
     for (let i = 0; i < activity.nubmerOfImages; i++) {
       requests.push(this.activitiesService.getPhoto(`${id}-${i}`).pipe(
         map((response: Blob) => {

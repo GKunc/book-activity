@@ -39,8 +39,8 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
       if (this.loginService.user) {
         return this.loginService.refreshToken(this.loginService.user.username).pipe(
-          switchMap((result) => {
-            localStorage.setItem(ACCESS_TOKEN, result);
+          switchMap(({access_token}) => {
+            localStorage.setItem(ACCESS_TOKEN, access_token);
             this.isRefreshing = false;
             return next.handle(request);
           }),
