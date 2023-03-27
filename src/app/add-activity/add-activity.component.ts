@@ -1,5 +1,5 @@
 import { SocialUser } from '@abacritt/angularx-social-login';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ActivitiesService, Activity } from '../common/services/activities/activities.service';
 import { LoginService } from '../common/services/login-service/login.service';
 import { ModalService } from '../common/services/modal/modal.service';
@@ -121,7 +121,7 @@ export class AddActivityComponent {
     return {
       guid: this.guid,
       createdBy: this.loginService.user?.id,
-      nubmerOfImages: this.mediaData.images,
+      images: this.mediaData.images,
       name: this.activityData.name,
       category: this.activityData.category,
       description: this.activityData.description,
@@ -138,7 +138,7 @@ export class AddActivityComponent {
   }
 }
 
-const getUUID = () =>
+export const getUUID = () =>
   (String(1e7) + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
     (
       Number(c) ^

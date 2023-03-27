@@ -42,15 +42,15 @@ export class ActivityDetailsComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     
     this.activitiesService.getActivityDetails(id).pipe(
-      switchMap((data) => this.downloadPhotos(id, data)),
-    ).subscribe((data: Activity) => {
-      this.activity = data;
-      this.mailToHref = `mailto:${data.email}`;
-      this.phoneToHref = `tel:${data.phone}`;
-      if (data.description.length > 150) {
+      switchMap((activity: Activity) => this.downloadPhotos(activity)),
+    ).subscribe((activity: Activity) => {
+      this.activity = activity;
+      this.mailToHref = `mailto:${activity.email}`;
+      this.phoneToHref = `tel:${activity.phone}`;
+      if (activity.description.length > 150) {
         this.descriptionTooLong = true;
       }
-      this.currentDescription = data.description.slice(0, 150);
+      this.currentDescription = activity.description.slice(0, 150);
       this.renderMap();
       this.error = false;
       this.loading = false;
@@ -79,14 +79,10 @@ export class ActivityDetailsComponent implements OnInit {
     }
   }
 
-  private downloadPhotos(id: string, activity: Activity): any {    
-    if(!activity.nubmerOfImages || activity.nubmerOfImages === 0) {
-      return of(activity);
-    }
-
+  private downloadPhotos(activity: Activity): any {    
     const requests = [];
-    for (let i = 0; i < activity.nubmerOfImages; i++) {
-      requests.push(this.activitiesService.getPhoto(`${id}-${i}`).pipe(
+    activity.images?.forEach(image => {
+      requests.push(this.activitiesService.getPhoto(image).pipe(
         map((response: Blob) => {
           if(!activity.photos) {
             activity.photos = [];
@@ -99,7 +95,8 @@ export class ActivityDetailsComponent implements OnInit {
           return of(activity);
         })
       ))
-    }
+    })
+      
 
     return concat(requests).pipe(
       zipAll(),

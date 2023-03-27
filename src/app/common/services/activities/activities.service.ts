@@ -59,7 +59,7 @@ export class ActivitiesService {
 export interface Activity {
   guid: string;
   createdBy: string;
-  nubmerOfImages: number;
+  images: string[];
   name: string;
   category: Category;
   description: string;

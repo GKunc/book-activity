@@ -6,7 +6,7 @@ const Activity = mongoose.model(
     name: String,
     guid: String,
     createdBy: String,
-    nubmerOfImages: Number,
+    images: [String],
     category: Number, 
     description: String,
     groups: [{
