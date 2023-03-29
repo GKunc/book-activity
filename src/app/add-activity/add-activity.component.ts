@@ -53,9 +53,9 @@ export class AddActivityComponent {
       activity.guid = this.activity.guid;
       this.activitiesService.editActivity(activity).subscribe(
         () => {
-        this.isLoading = false;
-        this.notificationsService.success('Sukces', 'Zajęcia edytowano poprawnie.');
-        this.modalService.close();
+          this.isLoading = false;
+          this.notificationsService.success('Sukces', 'Zajęcia edytowano poprawnie.');
+          this.modalService.close();
         },
         () => {
           this.isLoading = false;

@@ -43,8 +43,8 @@ export class FindActivitiesComponent implements AfterViewInit {
     this.activitiesService.filterActivities(filters).pipe(
       switchMap((data) => {
         this.noData = this.hasNoData(data);
-        const requests = data.map((activity) => 
-          this.activitiesService.getPhoto(`${activity.guid}-0`).pipe(
+        const requests = data.map((activity: Activity) => 
+          this.activitiesService.getPhoto(activity.images[0]).pipe(
             map((photo: Blob) => {
               activity.coverPhoto = URL.createObjectURL(photo)
               return activity;
@@ -72,9 +72,13 @@ export class FindActivitiesComponent implements AfterViewInit {
       }
       this.activities = [...this.activities, ...activities];
     },
-    () => {
-      this.error = true;
-      this.loading = false;
+    (error) => {
+      if (
+        error.status !== 403
+      ) {
+        this.error = true;
+        this.loading = false;
+      }
     });
   }
 

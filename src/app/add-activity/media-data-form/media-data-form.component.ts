@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { finalize, forkJoin, map } from 'rxjs';
 import { ActivitiesService, Activity } from 'src/app/common/services/activities/activities.service';
 import { getUUID } from '../add-activity.component';
 
@@ -31,28 +32,35 @@ export class MediaDataFormComponent implements OnInit {
   uploading: boolean = false;
   loadingImages = false;
 
-  images: File[] = [];
+  images: FileWithUrl[] = [];
   newImages: File[] = [];
   imagesToDelete: string[] = [];
 
   private fileList: FileList;
 
   constructor(
-    private activitiesService: ActivitiesService) { }
+    private activitiesService: ActivitiesService,
+    ) { }
 
   ngOnInit(): void {
     if (this.activity) {
-        this.activity.images?.forEach(image => {
-          this.loadingImages = true;
-          this.activitiesService.getPhoto(image).subscribe((response) => {
-            this.images.push(new File([response], image));
-          },
-          () => {
-            this.loadingImages = false;
-          },
-          () => this.loadingImages = false,
+      this.loadingImages = true;
+      forkJoin(
+        Array.from(this.activity.images).map(image => 
+          this.activitiesService.getPhoto(image).pipe(
+            map((response: Blob) => { 
+              const file = new File([response], image);
+              return  {file, url: URL.createObjectURL(file) }
+          }),
+          )
+        )
       )
-    })
+      .pipe(
+        finalize(() => this.loadingImages = false)
+      )
+      .subscribe(images => {
+        this.images = images;
+      })
   }
 
     if (this.isEditing) {
@@ -69,7 +77,7 @@ export class MediaDataFormComponent implements OnInit {
       this.uploadFiles();
       this.deleteFiles();
       this.formSubmitted.emit({
-        images: this.images.map(image => image.name),
+        images: this.images.map(image => image.file.name),
         isEditing: this.isEditing,
       })
     }
@@ -79,13 +87,13 @@ export class MediaDataFormComponent implements OnInit {
     this.fileList = event.target.files;
     for (let i = 0; i < this.fileList.length; i++) {
       this.newImages.push(this.fileList[i])
-      this.images.push(this.fileList[i])
+      this.images.push({file: this.fileList[i], url: URL.createObjectURL(this.fileList[i])})
     }
   }
 
   deleteFile(index: number, image: File) {
     const deletedImage = this.images.splice(index, 1);
-    this.newImages = this.newImages.filter(i => i.name !== deletedImage[0].name)
+    this.newImages = this.newImages.filter(i => i.name !== deletedImage[0].file.name)
     this.imagesToDelete.push(image.name);
   }
 
@@ -121,8 +129,8 @@ export class MediaDataFormComponent implements OnInit {
         formData.append('file', file, guid);
         const rename = new File([this.newImages[i]], guid);
         this.images = this.images.map(img => {
-          if(img.name === this.newImages[i].name) {
-            return rename;
+          if(img.file.name === this.newImages[i].name) {
+            return {file: rename, url: img.url};
           }
           return img;
         })
@@ -164,3 +172,9 @@ export function instanceOfMediaData(object: any): object is MediaData {
   return ('images' in object);
 }
 
+
+
+export interface FileWithUrl {
+  file: File;
+  url: string;
+}

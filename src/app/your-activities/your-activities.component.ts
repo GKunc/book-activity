@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { NzModalRef } from 'ng-zorro-antd/modal';
 import { of } from 'rxjs';
 import { AddActivityComponent } from '../add-activity/add-activity.component';
 import { ActivitiesService, Activity } from '../common/services/activities/activities.service';
 import { LoginService } from '../common/services/login-service/login.service';
 import { ModalService } from '../common/services/modal/modal.service';
-import { NotificationsService } from '../common/services/notifications/notifications.service';
 import { DeleteModalComponent } from './delete-modal/delete-modal.component';
 
 @Component({
@@ -22,15 +22,12 @@ export class YourActivitiesComponent implements OnInit {
   constructor(
     private activitiesService: ActivitiesService,
     private modalService: ModalService,
-    private notificationsService: NotificationsService,
     public loginService: LoginService,
   ) { }
 
   ngOnInit(): void {
     this.getUserActivities();
     this.loginService._user$.subscribe((user) => {
-      console.log('getUserActivities', user);
-      
       if(user) {
         this.userLogged = true;
         this.getUserActivities();
@@ -43,21 +40,18 @@ export class YourActivitiesComponent implements OnInit {
   }
 
   addActivity(): void {
-    this.modalService.createModal(AddActivityComponent, 'Dodaj swoje zajęcia', 500);
+    const modal = this.modalService.createModal(AddActivityComponent, 'Dodaj swoje zajęcia', 500, false);
+    this.refreshActivitiesOnModalClose(modal);
   }
 
-
   editActivity(activity: Activity): void {
-    this.modalService.createModal(AddActivityComponent, 'Dodaj swoje zajęcia', 500, { activity, isEditing: true });
+    const modal = this.modalService.createModal(AddActivityComponent, 'Dodaj swoje zajęcia', 500, { activity, isEditing: true }, false);
+    this.refreshActivitiesOnModalClose(modal);
   }
 
   deleteActivity(activity: Activity): void {
     const modal = this.modalService.createModal(DeleteModalComponent, "Czy na pewno chcesz usunąć zajęcia?", 400, { activity });
-    modal.afterClose.subscribe((result) => {
-      if(result?.success) {
-        this.getUserActivities();
-      }
-    });
+    this.refreshActivitiesOnModalClose(modal);
   }
 
   getUserActivities(): void {
@@ -70,15 +64,27 @@ export class YourActivitiesComponent implements OnInit {
       this.noData = this.hasNoData(data);
       this.loading = false;
     },
-    () => {
-      this.error = true;
-      this.loading = false;
-      this.activities = [];
+    (error) => {
+      if (
+        error.status !== 403
+      ) {
+        this.error = true;
+        this.loading = false;
+        this.activities = [];
+      }
       return of(null);
     });
   }
 
   private hasNoData(data: Activity[]): boolean {
     return data.length === 0 ? true : false;
+  }
+
+  private refreshActivitiesOnModalClose(modal: NzModalRef): void {
+    modal.afterClose.subscribe((result) => {
+      if(result?.success) {
+        this.getUserActivities();
+      }
+    });
   }
 }

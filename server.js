@@ -156,7 +156,6 @@ app.delete('/api/activities/photos', async function (req, res) {
   const client = new MongoClient(uri);
   try {
     const database = client.db('edds');
-    const collection = database.collection('photos');
     const bucket = new GridFSBucket(database, {
       bucketName: 'photos',
     });

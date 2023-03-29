@@ -34,15 +34,15 @@
   </form>
 </form>
 
-<div class="added-files" *ngFor="let image of images; let i = index">
-  {{ image.name }}
-  <span
-    class="remove-icon"
-    nz-icon
-    nzType="delete"
-    nzTheme="outline"
-    (click)="deleteFile(i, image)"
-  ></span>
+<div class="images-container" *ngIf="!loadingImages">
+  <div
+    class="added-files"
+    *ngFor="let image of images; let i = index"
+    (click)="deleteFile(i, image.file)"
+  >
+    <img class="added-files__image" [src]="image.url | safeUrl" />
+    <span class="remove-icon" nz-icon nzType="delete" nzTheme="outline"></span>
+  </div>
 </div>
 
 <div class="modal__action-container">

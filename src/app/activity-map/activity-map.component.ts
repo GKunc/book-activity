@@ -68,9 +68,13 @@ export class ActivityMapComponent implements OnInit , AfterViewInit{
       })
       this.loading = false;
     },
-    () => {
-      this.error = true;
-      this.loading = false;
+    (error) => {
+      if (
+        error.status !== 403
+      ) {
+        this.error = true;
+        this.loading = false;
+      }
     });
   }
 

@@ -5,6 +5,8 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HTTP_INTERCEPTORS
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { ACCESS_TOKEN, LoginService } from '../../services/login-service/login.service';
+import { Router } from '@angular/router';
+import { ModalService } from '../../services/modal/modal.service';
 
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
@@ -12,6 +14,8 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
   constructor(
     private loginService: LoginService,
+    private modalService: ModalService,
+    private router: Router,
   ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -49,6 +53,8 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
             if (error.status == '403') {
               this.loginService.signOut();
+              this.modalService.closeAll();
+              this.router.navigate(['/not-authorized'])
             }
 
             return throwError(() => error);

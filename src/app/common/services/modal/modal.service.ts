@@ -15,6 +15,7 @@ export class ModalService {
     title: string,
     width = 400,
     params?: any,
+    maskClosable: boolean = true,
   ): NzModalRef {
 
     this.modal = this.modalService.create({
@@ -23,9 +24,14 @@ export class ModalService {
       nzComponentParams: params,
       nzWidth: width,
       nzFooter: null,
+      nzMaskClosable: maskClosable,
     });
 
     return this.modal;
+  }
+
+  closeAll(): void {
+    this.modalService.closeAll();
   }
 
   close(): void {

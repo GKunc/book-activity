@@ -1,5 +1,6 @@
 const db = require("../models");
 const Activity = db.activity;
+const { MongoClient, GridFSBucket } = require("mongodb");
 
 exports.filter = async (req, res) => {
   const body = req.body;
@@ -76,6 +77,19 @@ exports.deleteActivity = async (req, res) => {
   if (id) {
     query.guid = id;
   }
+
+  const activity = await Activity.findOne({ guid: id });
+  activity.images.forEach(image => {
+    uri = process.env.MANGO_DB_CONNECTION_STRING;
+    const client = new MongoClient(uri);
+      const database = client.db('edds');
+      const bucket = new GridFSBucket(database, {
+        bucketName: 'photos',
+      });
+  
+      const foundImage = bucket.find({filename: image});
+      foundImage.forEach(async doc =>  await bucket.delete(doc._id));
+  });
 
   const result = await Activity.deleteOne(query);
   if (result.deletedCount === 1) {

@@ -47,8 +47,6 @@ export class ActivityFiltersComponent implements OnInit {
       this.page = 1;
       this.limit = 10;
     } else {
-      console.log("INIT FILTERS");
-      
       this.clearAllFilters();
     }
 

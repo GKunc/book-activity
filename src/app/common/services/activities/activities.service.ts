@@ -48,7 +48,7 @@ export class ActivitiesService {
   }
 
   deleteActivity(id: string): Observable<any> {
-    return this.http.delete(`/api/activities?id=${id}`);
+    return this.http.delete(`/api/activities?id=${id}`,  { responseType: 'text' });
   }
 
   editActivity(activity: Partial<Activity>): Observable<any> {

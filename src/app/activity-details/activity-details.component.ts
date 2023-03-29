@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NzCarouselComponent } from 'ng-zorro-antd/carousel';
@@ -55,9 +56,13 @@ export class ActivityDetailsComponent implements OnInit {
       this.error = false;
       this.loading = false;
     },
-    () => {
-      this.error = true;
-      this.loading = false;
+    (error) => {
+      if (
+        error.status !== 403
+      ) {
+        this.error = true;
+        this.loading = false;
+      }
     });
   }
 
