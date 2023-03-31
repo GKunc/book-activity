@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Activity } from 'src/app/common/services/activities/activities.service';
 import { environment } from 'src/environments/environment';
 
+
+
 @Component({
   selector: 'location-data-form',
   templateUrl: './location-data-form.component.html',
@@ -20,11 +22,13 @@ export class LocationDataFormComponent implements OnInit, AfterViewInit {
   @Output()
   previousForm: EventEmitter<any> = new EventEmitter<any>();
 
+  cities:{ value: City, label: string }[] = CITIES;
+
   coordinatesString = '';
 
   form = new FormGroup({
     street: new FormControl<string>('', [Validators.required]),
-    city: new FormControl<string>('', [Validators.required]),
+    city: new FormControl<City>(City.Krakow, [Validators.required]),
   });
 
   platform: H.service.Platform;
@@ -129,10 +133,20 @@ export class LocationDataFormComponent implements OnInit, AfterViewInit {
 
 export interface LocationData {
   street: string;
-  city: string;
+  city: City;
   coordinates: { lng: number, lat: number };
 }
 
 export function instanceOfLocationData(object: any): object is LocationData {
   return ('street' in object && 'city' in object);
 }
+
+export enum City {
+  Krakow = 'Krakow'
+}
+
+export const CITIES: { value: City, label: string }[] = [
+  {
+      value: City.Krakow, label: 'Kraków',
+  },
+];

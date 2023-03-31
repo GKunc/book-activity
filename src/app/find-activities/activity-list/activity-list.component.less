@@ -1,9 +1,5 @@
 @import '../../../styles.less';
 
-:host {
-    display: block;
-    margin-bottom: 16px;
-}
 
 .flex-contaier {
     display: flex;
@@ -33,6 +29,11 @@ nz-header {
 }
 
 .find-activities {
+    display: block;
+    margin-bottom: 16px;
+    height: 490px;
+    overflow: scroll;
+
     display: grid;
     gap: 8px;
     grid-template-columns: repeat(3, minmax(100px, 1fr));

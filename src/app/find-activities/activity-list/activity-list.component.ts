@@ -1,13 +1,12 @@
-import {  Component, EventEmitter, Input, Output } from '@angular/core';
+import {  ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { Activity } from 'src/app/common/services/activities/activities.service';
-import { ResizeService } from 'src/app/common/services/resize/resize.service';
 
 @Component({
   selector: 'activity-list',
   templateUrl: './activity-list.component.html',
   styleUrls: ['./activity-list.component.less']
 })
-export class ActivityListComponent {
+export class ActivityListComponent implements OnChanges {
   @Input()
   activities: Activity[];
 
@@ -18,7 +17,13 @@ export class ActivityListComponent {
   loadMore: EventEmitter<void> = new EventEmitter();
 
   constructor(
-    public resizeService: ResizeService,
-  ) { }
+    private cdr: ChangeDetectorRef,
+    ) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(!changes['activities']?.firstChange) {
+      this.cdr.detectChanges();
+    }
+  }
 }
 

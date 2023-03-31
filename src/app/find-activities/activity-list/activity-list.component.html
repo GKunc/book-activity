@@ -1,4 +1,4 @@
-<div class="find-activities">
+<div class="find-activities" scrolledToBottom (atTheBottom)="loadMore.emit()">
   <div
     *ngFor="let activity of activities"
     routerLink="/detail/{{ activity.guid }}"
@@ -6,9 +6,3 @@
     <activity-box [activity]="activity"></activity-box>
   </div>
 </div>
-
-<hub-button
-  *ngIf="hasMoreData"
-  text="Załaduj wiecej"
-  (click)="loadMore.emit()"
-></hub-button>

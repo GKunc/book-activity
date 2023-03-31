@@ -3,7 +3,6 @@ import { Activity } from '../../common/services/activities/activities.service';
 import { MapService } from '../../common/services/map-service/map-service.service';
 import { ResizeService } from '../../common/services/resize/resize.service';
 
-
 @Component({
   selector: 'activity-map',
   templateUrl: './activity-map.component.html',

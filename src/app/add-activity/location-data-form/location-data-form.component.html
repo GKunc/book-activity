@@ -18,7 +18,17 @@
       >Miasto</nz-form-label
     >
     <nz-form-control [nzErrorTip]="errorDescription">
-      <input id="city" nz-input placeholder="Miasto" formControlName="city" />
+      <nz-select
+        formControlName="city"
+        nzPlaceHolder="Miast"
+        [nzDisabled]="true"
+      >
+        <nz-option
+          *ngFor="let option of cities"
+          [nzLabel]="option.label"
+          [nzValue]="option.value"
+        ></nz-option>
+      </nz-select>
     </nz-form-control>
   </nz-form-item>
 </form>
