@@ -51,29 +51,29 @@ export class FindActivitiesComponent implements AfterViewInit {
     this.noData = false;
     this.error = false;
     this.activitiesService.filterActivities(filters).pipe(
-      // switchMap((data) => {
-      //   this.noData = this.hasNoData(data);
-      //   const requests = data.map((activity: Activity) => 
-      //     this.activitiesService.getPhoto(activity.images[0]).pipe(
-      //       map((photo: Blob) => {
-      //         activity.coverPhoto = URL.createObjectURL(photo)
-      //         return activity;
-      //       }),
-      //       catchError((error) => {
-      //         console.error(error);
-      //         return of(activity);
-      //       })
-      //     ),
-      //   )
+      switchMap((data) => {
+        this.noData = this.hasNoData(data);
+        const requests = data.map((activity: Activity) => 
+          this.activitiesService.getPhoto(activity.images[0]).pipe(
+            map((photo: Blob) => {
+              activity.coverPhoto = URL.createObjectURL(photo)
+              return activity;
+            }),
+            catchError((error) => {
+              console.error(error);
+              return of(activity);
+            })
+          ),
+        )
         
-      //   return concat(requests).pipe(
-      //       zipAll(),
-      //       map((a) => a),
-      //       finalize(() => {
-      //         this.loading = false;
-      //       })
-      //     );
-      // })
+        return concat(requests).pipe(
+            zipAll(),
+            map((a) => a),
+            finalize(() => {
+              this.loading = false;
+            })
+          );
+      })
     ).subscribe((activities: Activity[]) => {
       this.loading = false; // to delete
       if(activities.length === this.lastFilters.limit) {
