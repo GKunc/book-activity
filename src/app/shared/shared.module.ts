@@ -29,6 +29,7 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzResultModule } from 'ng-zorro-antd/result';
+import { NzSegmentedModule } from 'ng-zorro-antd/segmented';
 
 import { SocialLoginModule } from '@abacritt/angularx-social-login';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -88,6 +89,7 @@ import { ErrorComponent } from './error/error.component';
     NzDrawerModule,
     NzCardModule,
     NzResultModule,
+    NzSegmentedModule,
 
     ReactiveFormsModule,
     FormsModule,
@@ -134,6 +136,7 @@ import { ErrorComponent } from './error/error.component';
     NzDrawerModule,
     NzCardModule,
     NzResultModule,
+    NzSegmentedModule,
     
     ReactiveFormsModule,
     FormsModule,

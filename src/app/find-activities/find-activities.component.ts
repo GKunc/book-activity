@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
 import { catchError, concat, finalize, map, of, switchMap, zipAll } from 'rxjs';
 import { ActivitiesService, Activity } from '../common/services/activities/activities.service';
 import { ResizeService } from '../common/services/resize/resize.service';
-import { ActivityFilters, ACTIVITY_FILTERS } from '../shared/activity-filters/activity-filters.component';
+import { ActivityFilters, ACTIVITY_FILTERS, ViewType } from '../shared/activity-filters/activity-filters.component';
 
 @Component({
   selector: 'app-find-activities',
@@ -19,6 +19,9 @@ export class FindActivitiesComponent implements AfterViewInit {
   hasMoreData: boolean = false;
   error: boolean = false;
 
+  viewTypes: typeof ViewType = ViewType;
+  openView: ViewType = ViewType.List;
+
   constructor(
     private activitiesService: ActivitiesService,
     private cdr: ChangeDetectorRef,
@@ -27,6 +30,7 @@ export class FindActivitiesComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.lastFilters = JSON.parse(localStorage.getItem(ACTIVITY_FILTERS));
+    this.openView = this.lastFilters.viewType;
     this.onSubmitFilters(this.lastFilters);
     this.cdr.detectChanges();
   }
@@ -34,6 +38,10 @@ export class FindActivitiesComponent implements AfterViewInit {
   loadMore(): void {
     this.lastFilters.page = this.lastFilters.page + 1;
     this.onSubmitFilters(this.lastFilters);
+  }
+
+  changeView(viewType: ViewType): void {
+    this.openView = viewType;
   }
 
   onSubmitFilters(filters: Partial<ActivityFilters>): void {

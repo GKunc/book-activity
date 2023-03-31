@@ -32,7 +32,7 @@ import { NotAuthorizedComponent } from './not-authorized/not-authorized.componen
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { ActivityBoxComponent } from './find-activities/activity-card/activity-box.component';
 import { FindActivitiesComponent } from './find-activities/find-activities.component';
-import { ActivityMapComponent } from './activity-map/activity-map.component';
+import { ActivityMapComponent } from './find-activities/activity-map/activity-map.component';
 import { CategoryPipe } from './common/pipes/category.pipe';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { GlobalErrorInterceptor } from './common/interceptors/error/global-error-interceptor.service';
@@ -42,6 +42,7 @@ import { RegisterPageComponent } from './sign/register-page/register-page.compon
 import { SignComponent } from './sign/sign.component';
 import { LoginPageComponent } from './sign/login-page/login-page.component';
 import { HttpRequestInterceptor } from './common/interceptors/auth/auth.interceptor';
+import { ActivityListComponent } from './find-activities/activity-list/activity-list.component';
 
 registerLocaleData(en);
 
@@ -67,6 +68,7 @@ registerLocaleData(en);
     LoginPageComponent,
     RegisterPageComponent,
     SignComponent,
+    ActivityListComponent,
   ],
   imports: [
     BrowserModule,

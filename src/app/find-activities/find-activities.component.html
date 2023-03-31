@@ -5,6 +5,7 @@
   >
     <activity-filters
       (submitFilters)="onSubmitFilters($event)"
+      (submitView)="changeView($event)"
     ></activity-filters>
   </nz-sider>
 
@@ -12,25 +13,22 @@
     <activity-filters
       *ngIf="resizeService.isSmall$ | async"
       (submitFilters)="onSubmitFilters($event)"
+      (submitView)="changeView($event)"
     ></activity-filters>
 
     <nz-content class="content-container" style="position: relative">
-      <ng-container *ngIf="!loading && !noData">
-        <div class="find-activities">
-          <div
-            *ngFor="let activity of activities"
-            routerLink="/detail/{{ activity.guid }}"
-          >
-            <activity-box [activity]="activity"></activity-box>
-          </div>
-        </div>
-      </ng-container>
+      <activity-list
+        *ngIf="openView === viewTypes.List"
+        [activities]="activities"
+        [hasMoreData]="hasMoreData"
+        (loadMore)="loadMore()"
+      ></activity-list>
 
-      <hub-button
-        *ngIf="hasMoreData"
-        text="Załaduj wiecej"
-        (click)="loadMore()"
-      ></hub-button>
+      <activity-map
+        *ngIf="openView === viewTypes.Map"
+        [activities]="activities"
+      ></activity-map>
+
       <loader *ngIf="loading" [inlineStyle]="true"></loader>
       <no-data *ngIf="noData"></no-data>
       <error

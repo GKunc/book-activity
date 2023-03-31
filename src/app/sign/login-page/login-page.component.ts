@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ModalService } from 'src/app/common/services/modal/modal.service';
 import { LoginService } from '../../common/services/login-service/login.service';
 import { NotificationsService } from '../../common/services/notifications/notifications.service';
@@ -24,6 +25,7 @@ export class LoginPageComponent implements OnInit {
     private loginService: LoginService,
     private notificationService: NotificationsService,
     private modalService: ModalService,
+    private router: Router,
     ) {}
 
   ngOnInit(): void {
@@ -37,6 +39,7 @@ export class LoginPageComponent implements OnInit {
         () => {
         this.notificationService.success('Pomyślnie zalogowano uzytkownika', '');
         this.modalService.close();
+        this.router.navigate(['/your-activities']);
       },
       (error) => {
         const errorMessage = JSON.parse(error.error);

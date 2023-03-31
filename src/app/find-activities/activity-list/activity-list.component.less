@@ -1,9 +1,8 @@
-@import '../../styles.less';
+@import '../../../styles.less';
 
 :host {
     display: block;
-    margin-bottom: 90px;
-    margin-top: 70px;
+    margin-bottom: 16px;
 }
 
 .flex-contaier {
@@ -22,21 +21,6 @@
     }
 }
 
-.activity-map {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 20px;
-
-    &__container {
-        width: 100%;
-        height: 100%;
-        width: 800px;
-        height: 550px;
-    }
-}
-
-
 nz-header {
     background: @background-color;
     padding: 0;
@@ -48,6 +32,12 @@ nz-header {
     text-align: center;
 }
 
+.find-activities {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(3, minmax(100px, 1fr));
+    padding: 0 20px;
+}
 
 @media (max-width: 575px) {
     :host {
@@ -65,13 +55,5 @@ nz-header {
         gap: 8px;
         flex-direction: column;
         padding: 0;
-    }
-
-    .activity-map {
-        padding: 0;
-    
-        &__container {
-            height: 500px;
-        }
     }
 }

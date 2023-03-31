@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ActivityMapComponent } from './activity-map.component';
+import { ActivityListComponent } from './activity-list.component';
 
-describe('ActivityMapComponent', () => {
-  let component: ActivityMapComponent;
-  let fixture: ComponentFixture<ActivityMapComponent>;
+describe('ActivityListComponent', () => {
+  let component: ActivityListComponent;
+  let fixture: ComponentFixture<ActivityListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ActivityMapComponent ]
+      declarations: [ ActivityListComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ActivityMapComponent);
+    fixture = TestBed.createComponent(ActivityListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

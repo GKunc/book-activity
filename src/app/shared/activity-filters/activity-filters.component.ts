@@ -17,6 +17,9 @@ export class ActivityFiltersComponent implements OnInit {
   @Output()
   submitFilters: EventEmitter<ActivityFilters> = new EventEmitter<ActivityFilters>();
 
+  @Output()
+  submitView: EventEmitter<ViewType> = new EventEmitter<ViewType>();
+
   showFilters: boolean = false;
   minPrice$: Subject<number> = new Subject();
   maxPrice$: Subject<number> = new Subject();
@@ -32,8 +35,16 @@ export class ActivityFiltersComponent implements OnInit {
   priceRange: number[] = [0, MAX_PRICE];
   page: number;
   limit: number;
-  
-  constructor(public resizeService: ResizeService) {}
+  viewType: ViewType;
+
+  options = [
+    { label: 'Lista', value: ViewType.List, icon: 'bars' },
+    { label: 'Mapa', value: ViewType.Map, icon: 'environment' }
+  ];
+
+  constructor(
+    public resizeService: ResizeService,
+    ) {}
   
   ngOnInit(): void {
     const filters = JSON.parse(localStorage.getItem(ACTIVITY_FILTERS));
@@ -46,6 +57,8 @@ export class ActivityFiltersComponent implements OnInit {
       this.priceRange = [this.minPrice, this.maxPrice];
       this.page = 1;
       this.limit = 10;
+      this.viewType = filters.viewType;
+
     } else {
       this.clearAllFilters();
     }
@@ -61,6 +74,17 @@ export class ActivityFiltersComponent implements OnInit {
     ).subscribe(price => {
       this.priceRange = [this.minPrice, price]
     })
+  }
+
+  changeView(value: number): void {
+    if(value === 0) {
+      this.viewType = ViewType.List;
+    } else {
+      this.viewType = ViewType.Map;
+    }
+    this.submitView.emit(this.viewType);
+    const filters = this.createFilters()
+    localStorage.setItem(ACTIVITY_FILTERS, JSON.stringify(filters))
   }
 
   openFilters(): void {
@@ -90,7 +114,7 @@ export class ActivityFiltersComponent implements OnInit {
     this.priceRange = [this.minPrice, this.maxPrice];
     this.page = 1;
     this.limit = 10;
-
+    
     const filters = this.createFilters()
     this.showFilters = false;
     localStorage.setItem(ACTIVITY_FILTERS, JSON.stringify(filters))
@@ -112,6 +136,7 @@ export class ActivityFiltersComponent implements OnInit {
       maxPrice: this.maxPrice,
       page: this.page,
       limit: this.limit,
+      viewType: this.viewType,
     };
   }
 }
@@ -124,4 +149,10 @@ export interface ActivityFilters {
   maxPrice: number;
   page: number;
   limit: number;
+  viewType: ViewType;
+}
+
+export enum ViewType {
+  List,
+  Map,
 }

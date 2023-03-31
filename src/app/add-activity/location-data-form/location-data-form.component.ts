@@ -72,7 +72,6 @@ export class LocationDataFormComponent implements OnInit, AfterViewInit {
   private renderMap(value: string): void {
     this.map = null;
     this.mapDiv.nativeElement.innerHTML = '';
-    console.log(value);
     
     const { lat, lng } = this.getCoordinates(value);
     

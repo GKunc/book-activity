@@ -99,9 +99,13 @@
 
 <ng-template #largeScreenFilters>
   <div class="find-activities__filters">
-    <div class="find-activities__filters-row">
-      <h2>Filtruj:</h2>
-    </div>
+    <nz-segmented
+      [nzOptions]="options"
+      nzSize="large"
+      [ngModel]="viewType"
+      (nzValueChange)="changeView($event)"
+      style="margin: 0 auto"
+    ></nz-segmented>
 
     <nz-input-group [nzSuffix]="suffixIconSearch">
       <input type="text" nz-input placeholder="Szukaj" [(ngModel)]="phrase" />

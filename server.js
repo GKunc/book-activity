@@ -26,14 +26,6 @@ app.use(cors({}));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use(
-  cookieSession({
-    name: "book-activity__session",
-    secret: process.env.AUTH_SECRET, // should use as secret environment variable
-    httpOnly: true
-  })
-);
-
 // routes
 require('./server/routes/auth.routes')(app);
 require('./server/routes/activity.routes')(app);

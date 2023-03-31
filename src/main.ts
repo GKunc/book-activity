@@ -13,10 +13,13 @@ function bootstrap() {
   .catch(err => console.error(err));
 }
 
-
-if (document.readyState === 'complete') {
-  bootstrap();
+if(environment.production) {
+  if (document.readyState === 'complete') {
+    bootstrap();
+  } else {
+    document.addEventListener('DOMContentLoaded', bootstrap);
+  }
 } else {
-  document.addEventListener('DOMContentLoaded', bootstrap);
+  bootstrap();
 }
 

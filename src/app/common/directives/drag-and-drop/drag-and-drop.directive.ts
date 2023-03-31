@@ -33,7 +33,6 @@ export class DragAndDropDirective {
     evt.stopPropagation();
     this.fileOver = false;
     const files = evt.dataTransfer.files;
-    console.log(files);
 
     if (files.length > 0) {
       this.fileDropped.emit(files);
