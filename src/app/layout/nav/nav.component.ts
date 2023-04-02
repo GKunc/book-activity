@@ -1,12 +1,10 @@
-import { WeekDay } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ACTIVITY_CATEGORIES, Category } from 'src/app/add-activity/category.consts';
-import { WEEK_DAYS } from 'src/app/add-activity/week-days.consts';
+import { ACTIVITY_CATEGORIES, Category } from 'src/app/common/consts/category.consts';
+import { ACTIVITY_FILTERS } from 'src/app/common/consts/local-storage.consts';
 import { InternalUser, LoginService } from 'src/app/common/services/login-service/login.service';
 import { ModalService } from 'src/app/common/services/modal/modal.service';
 import { ResizeService } from 'src/app/common/services/resize/resize.service';
-import { ACTIVITY_FILTERS } from 'src/app/shared/activity-filters/activity-filters.component';
 import { SignComponent } from 'src/app/sign/sign.component';
 
 @Component({

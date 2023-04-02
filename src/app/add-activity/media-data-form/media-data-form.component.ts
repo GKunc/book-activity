@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { finalize, forkJoin, map } from 'rxjs';
-import { ActivitiesService, Activity } from 'src/app/common/services/activities/activities.service';
+import { Activity } from 'src/app/common/services/activities/activities.model';
+import { ActivitiesService } from 'src/app/common/services/activities/activities.service';
 import { getUUID } from '../add-activity.component';
 
 @Component({

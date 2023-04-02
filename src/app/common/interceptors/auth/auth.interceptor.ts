@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HTTP_INTERCEPTORS, HttpErrorResponse } from '@angular/common/http';
-
-
+import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-import { ACCESS_TOKEN, LoginService } from '../../services/login-service/login.service';
+import { LoginService } from '../../services/login-service/login.service';
 import { Router } from '@angular/router';
 import { ModalService } from '../../services/modal/modal.service';
+import { ACCESS_TOKEN } from '../../consts/local-storage.consts';
 
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {

@@ -6,8 +6,22 @@
 </nz-card>
 
 <ng-template #coverTemplate>
-  <img class="activity-box__background" [src]="activity.coverPhoto | safeUrl" />
+  <img
+    routerLink="/detail/{{ activity.guid }}"
+    class="activity-box__background"
+    [src]="activity.coverPhoto | safeUrl"
+  />
 </ng-template>
 <ng-template #description>
-  <div>{{ activity.category | category }}</div>
+  <div class="activity-box__description">
+    {{ activity.category | category }}
+    <span
+      *ngIf="loginService._user$ | async"
+      (click)="addToFavourite()"
+      class="fav-icon"
+      nz-icon
+      nzType="heart"
+      [nzTheme]="activity.favourite ? 'fill' : 'outline'"
+    ></span>
+  </div>
 </ng-template>

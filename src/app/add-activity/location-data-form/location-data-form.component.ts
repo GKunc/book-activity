@@ -1,9 +1,14 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Activity } from 'src/app/common/services/activities/activities.service';
+import { City } from 'src/app/common/consts/city.consts';
+import { Activity } from 'src/app/common/services/activities/activities.model';
 import { environment } from 'src/environments/environment';
 
-
+const CITIES: { value: City, label: string }[] = [
+  {
+      value: City.Krakow, label: 'Kraków',
+  },
+];
 
 @Component({
   selector: 'location-data-form',
@@ -140,13 +145,3 @@ export interface LocationData {
 export function instanceOfLocationData(object: any): object is LocationData {
   return ('street' in object && 'city' in object);
 }
-
-export enum City {
-  Krakow = 'Krakow'
-}
-
-export const CITIES: { value: City, label: string }[] = [
-  {
-      value: City.Krakow, label: 'Kraków',
-  },
-];

@@ -1,15 +1,17 @@
-import { AfterViewInit, ChangeDetectorRef, Component, HostListener } from '@angular/core';
-import { catchError, concat, finalize, map, of, switchMap, zipAll } from 'rxjs';
-import { ActivitiesService, Activity } from '../common/services/activities/activities.service';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { catchError, concat, finalize, map, merge, of, switchMap, zipAll } from 'rxjs';
+import { ACTIVITY_FILTERS } from '../common/consts/local-storage.consts';
+import { Activity } from '../common/services/activities/activities.model';
+import { ActivitiesService } from '../common/services/activities/activities.service';
 import { ResizeService } from '../common/services/resize/resize.service';
-import { ActivityFilters, ACTIVITY_FILTERS, ViewType } from '../shared/activity-filters/activity-filters.component';
+import { ActivityFilters, ViewType } from '../shared/activity-filters/activity-filters.component';
 
 @Component({
   selector: 'app-find-activities',
   templateUrl: './find-activities.component.html',
   styleUrls: ['./find-activities.component.less']
 })
-export class FindActivitiesComponent implements AfterViewInit {
+export class FindActivitiesComponent implements OnInit, AfterViewInit {
   activities: Activity[] = [];
 
   lastFilters: ActivityFilters;
@@ -28,14 +30,19 @@ export class FindActivitiesComponent implements AfterViewInit {
     public resizeService: ResizeService,
   ) { }
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.lastFilters = JSON.parse(localStorage.getItem(ACTIVITY_FILTERS));
     this.openView = this.lastFilters.viewType;
+  }
+
+  ngAfterViewInit(): void {
     this.onSubmitFilters(this.lastFilters);
     this.cdr.detectChanges();
   }
 
   loadMore(): void {
+    console.log("load more");
+    
     if(this.hasMoreData) {
       this.lastFilters.page = this.lastFilters.page + 1;
       this.onSubmitFilters(this.lastFilters, true);
@@ -54,7 +61,7 @@ export class FindActivitiesComponent implements AfterViewInit {
       switchMap((data) => {
         this.noData = this.hasNoData(data);
         const requests = data.map((activity: Activity) => 
-          this.activitiesService.getPhoto(activity.images[0]).pipe(
+          this.activitiesService.getPhoto(activity.coverPhoto).pipe(
             map((photo: Blob) => {
               activity.coverPhoto = URL.createObjectURL(photo)
               return activity;
@@ -75,17 +82,18 @@ export class FindActivitiesComponent implements AfterViewInit {
           );
       })
     ).subscribe((activities: Activity[]) => {
-      this.loading = false; // to delete
       if(activities.length === this.lastFilters.limit) {
         this.hasMoreData = true;
       } else {
         this.hasMoreData = false;
       }
+
       if(loadMore) {
         this.activities = [...this.activities, ...activities];
       } else {
-        this.activities = activities;
+        this.activities = [...activities];
       }
+      this.cdr.detectChanges();
     },
     (error) => {
       if (

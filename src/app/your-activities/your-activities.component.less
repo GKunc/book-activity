@@ -12,6 +12,10 @@
     gap: 8px;
     margin-bottom: 16px;
 
+    &__description {
+        overflow: hidden;
+    }
+    
     &__header {
         display: flex;
         justify-content: space-between;
@@ -53,6 +57,9 @@
     &__details {
         &--name {
             margin-bottom: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
 
         &--category {

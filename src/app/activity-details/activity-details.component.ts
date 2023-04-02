@@ -1,9 +1,9 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NzCarouselComponent } from 'ng-zorro-antd/carousel';
-import { catchError, concat, finalize, map, of, switchMap, tap, zipAll } from 'rxjs';
-import { ActivitiesService, Activity } from '../common/services/activities/activities.service';
+import { catchError, concat, finalize, map, of, switchMap, zipAll } from 'rxjs';
+import { Activity } from '../common/services/activities/activities.model';
+import { ActivitiesService } from '../common/services/activities/activities.service';
 import { MapService } from '../common/services/map-service/map-service.service';
 
 @Component({

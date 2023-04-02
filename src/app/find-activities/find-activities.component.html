@@ -17,15 +17,15 @@
     ></activity-filters>
 
     <nz-content class="content-container" style="position: relative">
-      <activity-list
-        *ngIf="openView === viewTypes.List"
-        [activities]="activities"
-        [hasMoreData]="hasMoreData"
-        (loadMore)="loadMore()"
-      ></activity-list>
+      <ng-template #activityList>
+        <activity-list
+          [activities]="activities"
+          (loadMore)="loadMore()"
+        ></activity-list>
+      </ng-template>
 
       <activity-map
-        *ngIf="openView === viewTypes.Map"
+        *ngIf="openView === viewTypes.Map; else activityList"
         [activities]="activities"
       ></activity-map>
 

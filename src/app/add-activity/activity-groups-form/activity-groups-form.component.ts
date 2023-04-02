@@ -1,8 +1,8 @@
 import { WeekDay } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Activity } from 'src/app/common/services/activities/activities.service';
-import { WEEK_DAYS } from '../week-days.consts';
+import { Activity } from 'src/app/common/services/activities/activities.model';
+import { WEEK_DAYS } from '../../common/consts/week-days.consts';
 
 @Component({
   selector: 'activity-groups-form',

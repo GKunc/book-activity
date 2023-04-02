@@ -1,11 +1,11 @@
 import { ElementRef, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Category } from 'src/app/add-activity/category.consts';
+import { Category } from 'src/app/common/consts/category.consts';
 import { environment } from 'src/environments/environment';
 import { CategoryPipe } from '../../pipes/category.pipe';
-import { Activity } from '../activities/activities.service';
+import { Activity } from '../activities/activities.model';
 
-export const CATEGORY_COLOR_MAP = new Map<Category, { backgroundColor: string, fillColor: string }>([
+const CATEGORY_COLOR_MAP = new Map<Category, { backgroundColor: string, fillColor: string }>([
   [Category.Athletics, { backgroundColor: '#ff5050', fillColor: '#bf0003' }],
   [Category.Football, { backgroundColor: 'green', fillColor: '#54db54' }],
   [Category.GeneralDevelopment, { backgroundColor: 'darkorange', fillColor: 'orange' }],
@@ -13,7 +13,7 @@ export const CATEGORY_COLOR_MAP = new Map<Category, { backgroundColor: string, f
   [Category.Swimming, { backgroundColor: '#0060ae', fillColor: '#008dff' }],
 ])
 
-export const INITIAL_MAP_ZOOM = 13;
+const INITIAL_MAP_ZOOM = 13;
 
 @Injectable({
   providedIn: 'root'

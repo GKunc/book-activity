@@ -1,10 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { GroupDetails } from 'src/app/add-activity/activity-groups-form/activity-groups-form.component';
-import { Category } from 'src/app/add-activity/category.consts';
-import { City } from 'src/app/add-activity/location-data-form/location-data-form.component';
 import { ActivityFilters } from 'src/app/shared/activity-filters/activity-filters.component';
+import { Activity } from './activities.model';
 
 @Injectable({
   providedIn: 'root'
@@ -57,22 +55,3 @@ export class ActivitiesService {
   }
 }
 
-export interface Activity {
-  guid: string;
-  createdBy: string;
-  images: string[];
-  name: string;
-  category: Category;
-  description: string;
-  groups: GroupDetails[];
-  street: string;
-  city: City;
-  coordinates: { lng: number, lat: number };
-  email: string;
-  phone: string;
-  facebook?: string;
-  instagram?: string;
-  www?: string;
-  coverPhoto?: string;
-  photos?: string[];
-}

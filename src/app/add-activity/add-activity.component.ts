@@ -1,6 +1,7 @@
 import { SocialUser } from '@abacritt/angularx-social-login';
 import { Component, Input } from '@angular/core';
-import { ActivitiesService, Activity } from '../common/services/activities/activities.service';
+import { Activity } from '../common/services/activities/activities.model';
+import { ActivitiesService } from '../common/services/activities/activities.service';
 import { LoginService } from '../common/services/login-service/login.service';
 import { ModalService } from '../common/services/modal/modal.service';
 import { NotificationsService } from '../common/services/notifications/notifications.service';
@@ -122,6 +123,7 @@ export class AddActivityComponent {
       guid: this.guid,
       createdBy: this.loginService.user?.id,
       images: this.mediaData.images,
+      coverPhoto: this.mediaData.images[0],
       name: this.activityData.name,
       category: this.activityData.category,
       description: this.activityData.description,

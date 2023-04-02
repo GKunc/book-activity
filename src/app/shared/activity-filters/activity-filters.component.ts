@@ -1,12 +1,12 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { debounceTime, Subject } from 'rxjs';
-import { ACTIVITY_CATEGORIES, Category } from 'src/app/add-activity/category.consts';
-import { WeekDay, WEEK_DAYS } from 'src/app/add-activity/week-days.consts';
+import { ACTIVITY_CATEGORIES, Category } from 'src/app/common/consts/category.consts';
+import { ACTIVITY_FILTERS } from 'src/app/common/consts/local-storage.consts';
+import { WeekDay, WEEK_DAYS } from 'src/app/common/consts/week-days.consts';
 import { ResizeService } from 'src/app/common/services/resize/resize.service';
 
 const KEYBOARD_DEBOUND_TIME = 400;
 const MAX_PRICE = 1000;
-export const ACTIVITY_FILTERS = 'activity_filters';
 
 @Component({
   selector: 'activity-filters',

@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import { of } from 'rxjs';
 import { AddActivityComponent } from '../add-activity/add-activity.component';
-import { ActivitiesService, Activity } from '../common/services/activities/activities.service';
+import { Activity } from '../common/services/activities/activities.model';
+import { ActivitiesService } from '../common/services/activities/activities.service';
 import { LoginService } from '../common/services/login-service/login.service';
 import { ModalService } from '../common/services/modal/modal.service';
 import { DeleteModalComponent } from './delete-modal/delete-modal.component';
@@ -40,7 +41,7 @@ export class YourActivitiesComponent implements OnInit {
   }
 
   addActivity(): void {
-    const modal = this.modalService.createModal(AddActivityComponent, 'Dodaj swoje zajęcia', 500, false);
+    const modal = this.modalService.createModal(AddActivityComponent, 'Dodaj swoje zajęcia', 500, {}, false);
     this.refreshActivitiesOnModalClose(modal);
   }
 

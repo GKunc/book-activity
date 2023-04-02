@@ -31,7 +31,7 @@
 <ng-container *ngIf="!loading">
   <div class="your-activities">
     <div *ngFor="let activity of activities" class="your-activities__container">
-      <div>
+      <div class="your-activities__description">
         <h2 class="your-activities__details--name">{{ activity.name }}</h2>
         <div class="your-activities__details--category">
           {{ activity.category | category }}

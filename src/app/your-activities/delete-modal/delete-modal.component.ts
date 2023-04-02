@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { ActivitiesService, Activity } from 'src/app/common/services/activities/activities.service';
+import { Activity } from 'src/app/common/services/activities/activities.model';
+import { ActivitiesService } from 'src/app/common/services/activities/activities.service';
 import { ModalService } from 'src/app/common/services/modal/modal.service';
 import { NotificationsService } from 'src/app/common/services/notifications/notifications.service';
 
@@ -9,7 +10,6 @@ import { NotificationsService } from 'src/app/common/services/notifications/noti
   styleUrls: ['./delete-modal.component.less']
 })
 export class DeleteModalComponent {
-
   @Input()
   activity: Activity;
 

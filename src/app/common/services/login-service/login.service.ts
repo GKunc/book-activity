@@ -4,9 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of, ReplaySubject, tap } from 'rxjs';
 import { from } from 'rxjs';
 import jwt_decode from 'jwt-decode';
-
-export const ACCESS_TOKEN = 'access_token';
-export const REFRESH_TOKEN = 'refresh_token';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from '../../consts/local-storage.consts';
 
 @Injectable({
   providedIn: 'root'

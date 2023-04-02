@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { Activity } from '../../common/services/activities/activities.service';
+import { Activity } from 'src/app/common/services/activities/activities.model';
 import { MapService } from '../../common/services/map-service/map-service.service';
 import { ResizeService } from '../../common/services/resize/resize.service';
 
