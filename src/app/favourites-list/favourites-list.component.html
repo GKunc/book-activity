@@ -1,0 +1,16 @@
+<div class="favourite-activities__header">
+  <h1 class="favourite-activities__title">Ulubione:</h1>
+  <div class="favourite-activities__grid">
+    <div *ngFor="let activity of activities">
+      <activity-box [activity]="activity"></activity-box>
+    </div>
+  </div>
+</div>
+
+<loader *ngIf="loading" [inlineStyle]="true"></loader>
+<no-data *ngIf="noData"></no-data>
+<error
+  *ngIf="error"
+  [retryHandler]="getFavouritesActivities.bind(this)"
+  [inlineStyle]="true"
+></error>

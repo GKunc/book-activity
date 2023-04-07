@@ -3,7 +3,6 @@ import { IconService } from '@ant-design/icons-angular';
 import { PlusOutline } from '@ant-design/icons-angular/icons'
 import { NzConfigService } from 'ng-zorro-antd/core/config';
 
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -20,5 +19,4 @@ export class AppComponent {
     this.iconService.twoToneColor = { primaryColor: '#fff' };
     this.nzConfigService.set('theme', { primaryColor: '#008dff' })
   }
-
 }

@@ -1,4 +1,4 @@
-import { GroupDetails } from "src/app/add-activity/activity-groups-form/activity-groups-form.component";
+import { WeekDay } from "@angular/common";
 import { Category } from "src/app/common/consts/category.consts";
 import { City } from "../../consts/city.consts";
 
@@ -20,5 +20,13 @@ export interface Activity {
   instagram?: string;
   www?: string;
   photos?: string[];
-  favourite?: boolean;
+  isFavourite?: boolean;
+}
+
+export interface GroupDetails {
+  name: string,
+  duration: number;
+  price: number,
+  time: Date,
+  weekDay: WeekDay,
 }

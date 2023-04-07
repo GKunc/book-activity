@@ -18,8 +18,6 @@ export class ActivityListComponent implements OnChanges {
     ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("changes", changes);
-    
     if(!changes['activities']?.firstChange) {
       this.cdr.detectChanges();
     }

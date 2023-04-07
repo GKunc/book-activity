@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ActivityDetailsComponent } from './activity-details/activity-details.component';
+import { FavouritesListComponent } from './favourites-list/favourites-list.component';
 import { ActivityListComponent } from './find-activities/activity-list/activity-list.component';
 import { ActivityMapComponent } from './find-activities/activity-map/activity-map.component';
 import { FindActivitiesComponent } from './find-activities/find-activities.component';
@@ -28,6 +29,10 @@ const routes: Routes = [
   {
     path: 'your-activities',
     component: YourActivitiesComponent,
+  },
+  {
+    path: 'favourites',
+    component: FavouritesListComponent,
   },
   {
     path: 'not-authorized',

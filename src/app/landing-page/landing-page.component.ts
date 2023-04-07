@@ -11,7 +11,7 @@ import { SignComponent } from '../sign/sign.component';
 export class LandingPageComponent {
   constructor(
     private modalService: ModalService,
-    public resizeService: ResizeService
+    public resizeService: ResizeService,
     ) { }
 
     openLoginModal(): void {

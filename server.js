@@ -29,6 +29,7 @@ app.use(cookieParser());
 // routes
 require('./server/routes/auth.routes')(app);
 require('./server/routes/activity.routes')(app);
+require('./server/routes/favourite.routes')(app);
 
 const db = require("./server/models");
 const initializeDb = require("./server/setup/initializeDb");

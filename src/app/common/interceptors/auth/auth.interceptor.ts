@@ -6,16 +6,19 @@ import { LoginService } from '../../services/login-service/login.service';
 import { Router } from '@angular/router';
 import { ModalService } from '../../services/modal/modal.service';
 import { ACCESS_TOKEN } from '../../consts/local-storage.consts';
+import { AuthenticationService } from '../../services/authentication/authentication.service';
 
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
   private isRefreshing = false;
 
   constructor(
-    private loginService: LoginService,
+    private authService: AuthenticationService,
     private modalService: ModalService,
+    private loginService: LoginService,
     private router: Router,
-  ) {}
+  ) {
+  }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     req = req.clone({
@@ -41,7 +44,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
       this.isRefreshing = true;
 
       if (this.loginService.user) {
-        return this.loginService.refreshToken(this.loginService.user.username).pipe(
+        return this.authService.refreshToken(this.loginService.user.username).pipe(
           switchMap(({access_token}) => {
             localStorage.setItem(ACCESS_TOKEN, access_token);
             this.isRefreshing = false;
@@ -51,7 +54,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
             this.isRefreshing = false;
 
             if (error.status == '403') {
-              this.loginService.signOut();
+              this.authService.signOut();
               this.modalService.closeAll();
               this.router.navigate(['/not-authorized'])
             }

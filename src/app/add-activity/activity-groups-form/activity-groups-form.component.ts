@@ -1,7 +1,7 @@
 import { WeekDay } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Activity } from 'src/app/common/services/activities/activities.model';
+import { Activity, GroupDetails } from 'src/app/common/services/activities/activities.model';
 import { WEEK_DAYS } from '../../common/consts/week-days.consts';
 
 @Component({
@@ -95,14 +95,6 @@ export class ActivityGroupsFormComponent implements OnInit {
 
 export interface GroupsData {
   activityGroups: GroupDetails[];
-}
-
-export interface GroupDetails {
-  name: string,
-  duration: number;
-  price: number,
-  time: Date,
-  weekDay: WeekDay,
 }
 
 export function instanceOfGroupsData(object: any): object is GroupsData {

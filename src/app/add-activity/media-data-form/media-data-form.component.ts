@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { finalize, forkJoin, map } from 'rxjs';
 import { Activity } from 'src/app/common/services/activities/activities.model';
 import { ActivitiesService } from 'src/app/common/services/activities/activities.service';
-import { getUUID } from '../add-activity.component';
 
 @Component({
   selector: 'media-data-form',
@@ -173,9 +172,15 @@ export function instanceOfMediaData(object: any): object is MediaData {
   return ('images' in object);
 }
 
-
-
 export interface FileWithUrl {
   file: File;
   url: string;
 }
+
+const getUUID = () =>
+  (String(1e7) + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
+    (
+      Number(c) ^
+      (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (Number(c) / 4)))
+    ).toString(16)
+  );

@@ -44,6 +44,7 @@ import { LoginPageComponent } from './sign/login-page/login-page.component';
 import { HttpRequestInterceptor } from './common/interceptors/auth/auth.interceptor';
 import { ActivityListComponent } from './find-activities/activity-list/activity-list.component';
 import { ScrolledToBottomDirective } from './common/directives/drag-and-drop/scroll.directive';
+import { FavouritesListComponent } from './favourites-list/favourites-list.component';
 
 registerLocaleData(en);
 
@@ -71,6 +72,7 @@ registerLocaleData(en);
     RegisterPageComponent,
     SignComponent,
     ActivityListComponent,
+    FavouritesListComponent,
   ],
   imports: [
     BrowserModule,

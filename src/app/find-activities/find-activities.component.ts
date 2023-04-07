@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { catchError, concat, finalize, map, merge, of, switchMap, zipAll } from 'rxjs';
-import { ACTIVITY_FILTERS } from '../common/consts/local-storage.consts';
+import { ACTIVITY_FILTERS, FAVOURITES } from '../common/consts/local-storage.consts';
 import { Activity } from '../common/services/activities/activities.model';
 import { ActivitiesService } from '../common/services/activities/activities.service';
 import { ResizeService } from '../common/services/resize/resize.service';
@@ -23,6 +23,7 @@ export class FindActivitiesComponent implements OnInit, AfterViewInit {
 
   viewTypes: typeof ViewType = ViewType;
   openView: ViewType = ViewType.List;
+  favouriteIds: string[] = [];
 
   constructor(
     private activitiesService: ActivitiesService,
@@ -41,8 +42,6 @@ export class FindActivitiesComponent implements OnInit, AfterViewInit {
   }
 
   loadMore(): void {
-    console.log("load more");
-    
     if(this.hasMoreData) {
       this.lastFilters.page = this.lastFilters.page + 1;
       this.onSubmitFilters(this.lastFilters, true);
@@ -82,17 +81,39 @@ export class FindActivitiesComponent implements OnInit, AfterViewInit {
           );
       })
     ).subscribe((activities: Activity[]) => {
+      this.favouriteIds = JSON.parse(localStorage.getItem(FAVOURITES));
       if(activities.length === this.lastFilters.limit) {
         this.hasMoreData = true;
       } else {
         this.hasMoreData = false;
       }
 
+      
       if(loadMore) {
         this.activities = [...this.activities, ...activities];
       } else {
         this.activities = [...activities];
       }
+
+      this.activities = this.activities.map(activity => {
+        if(this.favouriteIds.includes(activity.guid)) {
+          console.log("set fav", activity.guid);
+          return {...activity, isFavourite: true}
+        }
+        return {...activity, isFavourite: false}
+      })
+      
+      this.activities = this.activities.sort((a, b) => {
+        if(a.isFavourite && !b.isFavourite) {
+          return -1;
+        }
+
+        if(!a.isFavourite && b.isFavourite) {
+          return 1;
+        }
+
+        return 0;
+      })
       this.cdr.detectChanges();
     },
     (error) => {
