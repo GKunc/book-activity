@@ -1,0 +1,85 @@
+<div class="rate-summary">
+  <div class="rate-summary__overview">
+    <h1 class="rate-summary__avg">{{ avgRate | number : "1.1-1" }} / 5.0</h1>
+    <nz-rate [ngModel]="avgRate" nzAllowHalf nzDisabled></nz-rate>
+    <h3>Liczba opinii: {{ numberOfRates }}</h3>
+  </div>
+
+  <div class="rate-summary__description">
+    <div class="rate-summary__container">
+      5
+      <span
+        class="rate-summary__star"
+        nz-icon
+        nzType="star"
+        nzTheme="fill"
+      ></span>
+      <nz-progress
+        class="rate-summary__bar"
+        [nzPercent]="(starsMap.get(5) / numberOfRates) * 100"
+        [nzShowInfo]="false"
+        nzSize="small"
+      ></nz-progress>
+    </div>
+    <div class="rate-summary__container">
+      4
+      <span
+        class="rate-summary__star"
+        nz-icon
+        nzType="star"
+        nzTheme="fill"
+      ></span>
+      <nz-progress
+        class="rate-summary__bar"
+        [nzPercent]="(starsMap.get(4) / numberOfRates) * 100"
+        [nzShowInfo]="false"
+        nzSize="small"
+      ></nz-progress>
+    </div>
+    <div class="rate-summary__container">
+      3
+      <span
+        class="rate-summary__star"
+        nz-icon
+        nzType="star"
+        nzTheme="fill"
+      ></span>
+      <nz-progress
+        class="rate-summary__bar"
+        [nzPercent]="(starsMap.get(3) / numberOfRates) * 100"
+        [nzShowInfo]="false"
+        nzSize="small"
+      ></nz-progress>
+    </div>
+    <div class="rate-summary__container">
+      2
+      <span
+        class="rate-summary__star"
+        nz-icon
+        nzType="star"
+        nzTheme="fill"
+      ></span>
+      <nz-progress
+        class="rate-summary__bar"
+        [nzPercent]="(starsMap.get(2) / numberOfRates) * 100"
+        [nzShowInfo]="false"
+        nzSize="small"
+      ></nz-progress>
+    </div>
+    <div class="rate-summary__container">
+      1
+      <span
+        class="rate-summary__star"
+        nz-icon
+        nzType="star"
+        nzTheme="fill"
+      ></span>
+      <nz-progress
+        class="rate-summary__bar"
+        [nzPercent]="(starsMap.get(1) / numberOfRates) * 100"
+        [nzShowInfo]="false"
+        nzSize="small"
+      ></nz-progress>
+    </div>
+  </div>
+</div>

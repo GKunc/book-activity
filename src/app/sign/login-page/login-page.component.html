@@ -44,6 +44,7 @@
   <hub-button
     class="button__full-width"
     text="Zaloguj"
+    [isLoading]="isLoading"
     (click)="signIn()"
   ></hub-button>
   <div>Nie masz konta? <a (click)="switchMode.emit()">Zarejestruj się.</a></div>

@@ -20,7 +20,8 @@ export class LoginPageComponent implements OnInit {
   });
 
   passwordVisible: boolean = false;
-  
+  isLoading: boolean = false;
+
   constructor(
     private loginService: LoginService,
     private notificationService: NotificationsService,
@@ -35,16 +36,19 @@ export class LoginPageComponent implements OnInit {
 
   signIn(): void {
     if(this.validateForm()) {
+      this.isLoading = true;
       this.loginService.signIn(this.form.controls.login.value, this.form.controls.password.value).subscribe(
         () => {
         this.notificationService.success('Pomyślnie zalogowano uzytkownika', '');
         this.modalService.close();
         this.router.navigate(['/your-activities']);
+        this.isLoading = false;
       },
       (error) => {
         const errorMessage = JSON.parse(error.error);
         this.form.controls['login'].setErrors({ invalidLogin: errorMessage.message });
         this.notificationService.error('Logowanie', errorMessage.message);
+        this.isLoading = false;
       });
     }
   }

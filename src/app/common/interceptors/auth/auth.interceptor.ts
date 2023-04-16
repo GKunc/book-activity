@@ -3,9 +3,8 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { LoginService } from '../../services/login-service/login.service';
-import { Router } from '@angular/router';
 import { ModalService } from '../../services/modal/modal.service';
-import { ACCESS_TOKEN } from '../../consts/local-storage.consts';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from '../../consts/local-storage.consts';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 
 @Injectable()
@@ -16,7 +15,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     private authService: AuthenticationService,
     private modalService: ModalService,
     private loginService: LoginService,
-    private router: Router,
   ) {
   }
 
@@ -54,9 +52,10 @@ export class HttpRequestInterceptor implements HttpInterceptor {
             this.isRefreshing = false;
 
             if (error.status == '403') {
-              this.authService.signOut();
+              localStorage.removeItem(ACCESS_TOKEN);
+              localStorage.removeItem(REFRESH_TOKEN);
+              this.loginService.signOut();
               this.modalService.closeAll();
-              this.router.navigate(['/not-authorized'])
             }
 
             return throwError(() => error);

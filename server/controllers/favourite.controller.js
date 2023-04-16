@@ -1,5 +1,4 @@
 const db = require("../models");
-const Activity = require("../models/activity.model");
 const Favourite = db.favourite;
 
 exports.getFavourites = async (req, res) => {

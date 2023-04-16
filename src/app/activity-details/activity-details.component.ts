@@ -27,6 +27,8 @@ export class ActivityDetailsComponent implements OnInit {
   mailToHref: string;
   phoneToHref: string;
 
+  avgRate: number;
+
   constructor(
     private route: ActivatedRoute,
     private activitiesService: ActivitiesService,
@@ -64,6 +66,10 @@ export class ActivityDetailsComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  updateAvgRate(rate: number): void{
+    this.avgRate = rate;
   }
 
   nextImg(): void {

@@ -45,6 +45,9 @@ import { HttpRequestInterceptor } from './common/interceptors/auth/auth.intercep
 import { ActivityListComponent } from './find-activities/activity-list/activity-list.component';
 import { ScrolledToBottomDirective } from './common/directives/drag-and-drop/scroll.directive';
 import { FavouritesListComponent } from './favourites-list/favourites-list.component';
+import { CommentsComponent } from './activity-details/comments/comments.component';
+import { RateSummaryComponent } from './activity-details/rate-summary/rate-summary.component';
+import { OpinionsComponent } from './activity-details/opinions/opinions.component';
 
 registerLocaleData(en);
 
@@ -73,6 +76,9 @@ registerLocaleData(en);
     SignComponent,
     ActivityListComponent,
     FavouritesListComponent,
+    CommentsComponent,
+    RateSummaryComponent,
+    OpinionsComponent,
   ],
   imports: [
     BrowserModule,

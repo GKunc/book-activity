@@ -30,6 +30,10 @@ import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzResultModule } from 'ng-zorro-antd/result';
 import { NzSegmentedModule } from 'ng-zorro-antd/segmented';
+import { NzCommentModule } from 'ng-zorro-antd/comment';
+import { NzListModule } from 'ng-zorro-antd/list';
+import { NzRateModule } from 'ng-zorro-antd/rate';
+import { NzProgressModule } from 'ng-zorro-antd/progress';
 
 import { SocialLoginModule } from '@abacritt/angularx-social-login';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -42,6 +46,7 @@ import { DurationMinPipe } from '../common/pipes/duration-min.pipe';
 import { CategoryPipe } from '../common/pipes/category.pipe';
 import { ActivityFiltersComponent } from './activity-filters/activity-filters.component';
 import { ErrorComponent } from './error/error.component';
+import { DateDistancePipe } from '../common/pipes/date-distance.pipe';
 
 
 @NgModule({
@@ -52,6 +57,7 @@ import { ErrorComponent } from './error/error.component';
     PricePlnPipe,
     DurationMinPipe,
     CategoryPipe,
+    DateDistancePipe,
 
     LoaderComponent,
     NoDataComponent,
@@ -90,7 +96,11 @@ import { ErrorComponent } from './error/error.component';
     NzCardModule,
     NzResultModule,
     NzSegmentedModule,
-
+    NzCommentModule,
+    NzListModule,
+    NzRateModule,
+    NzProgressModule,
+    
     ReactiveFormsModule,
     FormsModule,
   ],
@@ -108,6 +118,7 @@ import { ErrorComponent } from './error/error.component';
     PricePlnPipe,
     DurationMinPipe,
     CategoryPipe,
+    DateDistancePipe,
 
     RouterModule,
 
@@ -137,6 +148,10 @@ import { ErrorComponent } from './error/error.component';
     NzCardModule,
     NzResultModule,
     NzSegmentedModule,
+    NzCommentModule,
+    NzListModule,
+    NzRateModule,
+    NzProgressModule,
     
     ReactiveFormsModule,
     FormsModule,

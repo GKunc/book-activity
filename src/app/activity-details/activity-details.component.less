@@ -48,6 +48,17 @@
     position: relative;
 }
 
+.carousel-rate {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    padding: 16px;
+    background-color: @primary-color-transparent;
+    border: 1px solid @primary-color;
+    border-radius: 2px;
+}
+
 .arrow {
     position: absolute;
     top: 40%;
@@ -95,12 +106,16 @@
 .second-column {
     background-color: @secondary-color;
     border-radius: 2px;
+    height: fit-content;
+    position: sticky;
+    top: 60px;
 }
 
 .activity-groups {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: 24px 0;
 
     h2 {
         margin: 0;
@@ -131,6 +146,7 @@
 .info__icon {
     margin-right: 4px;
 }
+
 
 @media (max-width: 575px) {
     .grid-contaier {

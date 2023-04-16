@@ -1,0 +1,15 @@
+<div class="opinions__flex">
+  <h2 class="opinions__header">Opinie:</h2>
+  <rate-summary
+    [avgRate]="avgRate"
+    [starsMap]="starsMap"
+    [numberOfRates]="this.comments.length"
+  ></rate-summary>
+</div>
+
+<activity-comments
+  [activityId]="activity.guid"
+  [comments]="comments"
+  [submitting]="submitting"
+  (addComment)="onAddComment($event)"
+></activity-comments>

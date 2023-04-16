@@ -20,16 +20,15 @@ export class LoginService {
     private socialAuthService: SocialAuthService,
     private authService: AuthenticationService,
   ) {
-    
     const token = localStorage.getItem(ACCESS_TOKEN);
     if(token) {
       const loggedUser: InternalUser = jwt_decode(token);
       this.loggedUser = {id: loggedUser.id, username: loggedUser.username, email: loggedUser.email};
       this._user$.next(this.loggedUser);
-      // get favourites
-      // this.favouriteService.getFavourites(loggedUser?.id).subscribe(responmse =>{
-      //   console.log("FAV:", responmse);
-      // });
+      // get favourites - circular dep
+      this.favouriteService.getFavourites(loggedUser?.id).subscribe((response: Favourite) => {
+        localStorage.setItem(FAVOURITES, JSON.stringify(response.favourites))
+      });
     } else {
       this.socialAuthService.authState.subscribe(
         (user) => {        
@@ -77,12 +76,14 @@ export class LoginService {
       this._user$.next(null);
       from(this.socialAuthService.signOut()).subscribe(
         () => of(null),
-        () => of(null));
+        () => of(null)
+      );
     } catch (e) {
       console.log("Error", e)
     } finally {
       localStorage.removeItem(ACCESS_TOKEN);
       localStorage.removeItem(REFRESH_TOKEN);
+      localStorage.removeItem(FAVOURITES);
     }
   }
 

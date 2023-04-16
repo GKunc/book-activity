@@ -4,7 +4,7 @@
       <div class="info-container">
         <div class="info-container__section">
           <h2>O nas</h2>
-          <p [class.ellipsis]="!descriptionExpanded">
+          <p>
             {{ currentDescription }}
           </p>
           <span *ngIf="descriptionTooLong" (click)="toggleShowMore()">
@@ -62,7 +62,7 @@
               ><span
                 class="info__icon"
                 nz-icon
-                nzType="instagram"
+                nzType="facebook"
                 nzTheme="outline"
               ></span
               >{{ activity.facebook }}</a
@@ -76,7 +76,7 @@
               ><span
                 class="info__icon"
                 nz-icon
-                nzType="facebook"
+                nzType="instagram"
                 nzTheme="outline"
               ></span
               >{{ activity.instagram }}</a
@@ -94,6 +94,7 @@
 
     <div class="column first-column">
       <div *ngIf="!loading" class="carousel-container">
+        <h1 class="carousel-rate">{{ avgRate | number : "1.1-1" || "-" }}</h1>
         <nz-carousel nzEffect="scrollx" #carouselRef>
           <div nz-carousel-content *ngFor="let src of activity.photos">
             <img [src]="src | safeUrl" />
@@ -125,6 +126,8 @@
         </div>
       </div>
 
+      <h2 class="activity-details__header">Grupy:</h2>
+      <nz-divider></nz-divider>
       <div *ngFor="let group of activity.groups">
         <div class="activity-groups">
           <div>
@@ -150,8 +153,12 @@
             </div>
           </div>
         </div>
-        <nz-divider></nz-divider>
       </div>
+
+      <activity-opinions
+        [activity]="activity"
+        (avgRateChanged)="updateAvgRate($event)"
+      ></activity-opinions>
     </div>
   </div>
 </ng-container>
