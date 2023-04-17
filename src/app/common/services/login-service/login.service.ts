@@ -25,10 +25,6 @@ export class LoginService {
       const loggedUser: InternalUser = jwt_decode(token);
       this.loggedUser = {id: loggedUser.id, username: loggedUser.username, email: loggedUser.email};
       this._user$.next(this.loggedUser);
-      // get favourites - circular dep
-      this.favouriteService.getFavourites(loggedUser?.id).subscribe((response: Favourite) => {
-        localStorage.setItem(FAVOURITES, JSON.stringify(response.favourites))
-      });
     } else {
       this.socialAuthService.authState.subscribe(
         (user) => {        

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
@@ -10,15 +10,20 @@ import { AuthenticationService } from '../../services/authentication/authenticat
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
   private isRefreshing = false;
+  private authService: AuthenticationService;
+  private modalService: ModalService;
+  private loginService: LoginService;
 
   constructor(
-    private authService: AuthenticationService,
-    private modalService: ModalService,
-    private loginService: LoginService,
+    private injector: Injector,
   ) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    this.authService = this.injector.get(AuthenticationService);
+    this.modalService = this.injector.get(ModalService);
+    this.loginService = this.injector.get(LoginService);
+    
     req = req.clone({
       withCredentials: true,
     });

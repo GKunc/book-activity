@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostBinding, Input } from '@angular/core';
 
 @Component({
   selector: 'no-data',
@@ -6,4 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./no-data.component.less']
 })
 export class NoDataComponent {
+  @Input()
+  inlineStyle = false;
+  
+  @HostBinding('class.inline')
+  get inline(): boolean {
+    return this.inlineStyle;
+  }
 }

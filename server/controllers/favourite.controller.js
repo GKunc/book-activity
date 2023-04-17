@@ -14,12 +14,17 @@ exports.updateFavourites = async (req, res) => {
   const userId = req.body.favourite.userId;
   const newFavourite = req.body.favourite.favourites[0];
   const favourite = await Favourite.findOne({ userId });
-  const favourites = favourite.favourites;
+  const favourites = favourite?.favourites ?? null;
 
+  if(!favourites) {
+    await Favourite.create({ userId, favourites });
+    res.sendStatus(200);
+    return;
+  }
 
-  if(!favourites.includes(newFavourite) && newFavourite.isNew) {
+  if(!favourites?.includes(newFavourite) && newFavourite.isNew) {
     favourites.push(newFavourite);
-  } else if(favourites.includes(newFavourite) && !newFavourite.isNew) {
+  } else if(favourites?.includes(newFavourite) && !newFavourite.isNew) {
     favourites.filter(item => item !== newFavourite.guid);
   }
   await Favourite.replaceOne({ userId }, { userId, favourites });

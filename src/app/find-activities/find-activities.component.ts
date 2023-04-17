@@ -96,24 +96,12 @@ export class FindActivitiesComponent implements OnInit, AfterViewInit {
       }
 
       this.activities = this.activities.map(activity => {
-        if(this.favouriteIds.includes(activity.guid)) {
-          console.log("set fav", activity.guid);
+        if(this.favouriteIds?.includes(activity.guid)) {
           return {...activity, isFavourite: true}
         }
         return {...activity, isFavourite: false}
       })
       
-      this.activities = this.activities.sort((a, b) => {
-        if(a.isFavourite && !b.isFavourite) {
-          return -1;
-        }
-
-        if(!a.isFavourite && b.isFavourite) {
-          return 1;
-        }
-
-        return 0;
-      })
       this.cdr.detectChanges();
     },
     (error) => {

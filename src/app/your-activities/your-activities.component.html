@@ -54,7 +54,7 @@
 </ng-container>
 
 <loader *ngIf="loading && userLogged" [inlineStyle]="true"></loader>
-<no-data *ngIf="noData && userLogged"></no-data>
+<no-data *ngIf="noData && userLogged" [inlineStyle]="true"></no-data>
 <error
   *ngIf="error"
   [retryHandler]="getUserActivities.bind(this)"

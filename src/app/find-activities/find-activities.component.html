@@ -30,7 +30,7 @@
       ></activity-map>
 
       <loader *ngIf="loading" [inlineStyle]="true"></loader>
-      <no-data *ngIf="noData"></no-data>
+      <no-data *ngIf="noData" [inlineStyle]="true"></no-data>
       <error
         *ngIf="error"
         [inlineStyle]="true"
