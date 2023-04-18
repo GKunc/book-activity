@@ -2,22 +2,15 @@
   <not-authorized></not-authorized>
 </ng-template>
 
-<div
-  class="favourite-activities__header"
-  *ngIf="loginService._user$ | async; else notAuthorized"
->
+<div class="favourite-activities__header" *ngIf="loginService._user$ | async; else notAuthorized">
   <h1 class="favourite-activities__title">Ulubione:</h1>
   <div class="favourite-activities__grid">
     <div *ngFor="let activity of activities">
       <activity-box [activity]="activity"></activity-box>
     </div>
   </div>
-</div>
 
-<loader *ngIf="loading" [inlineStyle]="true"></loader>
-<no-data *ngIf="noData" [inlineStyle]="true"></no-data>
-<error
-  *ngIf="error"
-  [retryHandler]="getFavouritesActivities.bind(this)"
-  [inlineStyle]="true"
-></error>
+  <loader *ngIf="loading" [inlineStyle]="true"></loader>
+  <no-data *ngIf="noData" [inlineStyle]="true"></no-data>
+  <error *ngIf="error" [retryHandler]="getFavouritesActivities.bind(this)" [inlineStyle]="true"></error>
+</div>
