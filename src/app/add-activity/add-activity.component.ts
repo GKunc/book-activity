@@ -10,11 +10,12 @@ import { GroupsData, instanceOfGroupsData } from './activity-groups-form/activit
 import { ClientData, instanceOfClientData } from './client-data-form/client-data-form.component';
 import { instanceOfLocationData, LocationData } from './location-data-form/location-data-form.component';
 import { instanceOfMediaData, MediaData } from './media-data-form/media-data-form.component';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-add-activity',
   templateUrl: './add-activity.component.html',
-  styleUrls: ['./add-activity.component.less']
+  styleUrls: ['./add-activity.component.less'],
 })
 export class AddActivityComponent {
   @Input()
@@ -27,7 +28,7 @@ export class AddActivityComponent {
 
   isLoading = false;
 
-  guid: string = getUUID();
+  guid: string = uuidv4();
 
   currentStep = 0;
   stepOneDone = false;
@@ -43,8 +44,8 @@ export class AddActivityComponent {
     private loginService: LoginService,
     private modalService: ModalService,
     private notificationsService: NotificationsService,
-    private activitiesService: ActivitiesService,
-  ) { }
+    private activitiesService: ActivitiesService
+  ) {}
 
   submit(): void {
     this.isLoading = true;
@@ -66,19 +67,21 @@ export class AddActivityComponent {
       return;
     }
 
-    this.activitiesService.insertActivity(activity).subscribe(() => {
-      this.isLoading = false;
-      this.notificationsService.success('Zajęcia dodane', 'Poczekaj na email potwierdzający weryfijację.');
-      this.modalService.close();
-    },
-    () => {
-      this.isLoading = false;
-      this.notificationsService.error('Wystąpił problem', 'Nie mozna bylo dodac zajec. Sprobuj ponownie');
-    });
+    this.activitiesService.insertActivity(activity).subscribe(
+      () => {
+        this.isLoading = false;
+        this.notificationsService.success('Zajęcia dodane', 'Poczekaj na email potwierdzający weryfijację.');
+        this.modalService.close();
+      },
+      () => {
+        this.isLoading = false;
+        this.notificationsService.error('Wystąpił problem', 'Nie mozna bylo dodac zajec. Sprobuj ponownie');
+      }
+    );
   }
 
   disabledMinutes(): number[] {
-    return [...Array(61).keys()].filter(i => i % 15 !== 0)
+    return [...Array(61).keys()].filter((i) => i % 15 !== 0);
   }
 
   onIndexChange(index: number): void {
@@ -99,20 +102,16 @@ export class AddActivityComponent {
     if (instanceOfActivityData(data)) {
       this.activityData = data;
       console.log('activityData', data);
-    }
-    else if (instanceOfGroupsData(data)) {
+    } else if (instanceOfGroupsData(data)) {
       this.groupsData = data;
       console.log('groupsData', data);
-    }
-    else if (instanceOfClientData(data)) {
+    } else if (instanceOfClientData(data)) {
       this.clientData = data;
       console.log('clientData', data);
-    }
-    else if (instanceOfLocationData(data)) {
+    } else if (instanceOfLocationData(data)) {
       this.locationData = data;
       console.log('locationData', data);
-    }
-    else if (instanceOfMediaData(data)) {
+    } else if (instanceOfMediaData(data)) {
       this.mediaData = data;
       console.log('mediaData', data);
     }
@@ -136,14 +135,6 @@ export class AddActivityComponent {
       instagram: this.clientData.instagram,
       phone: this.clientData.phone,
       www: this.clientData.www,
-    }
+    };
   }
 }
-
-const getUUID = () =>
-  (String(1e7) + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
-    (
-      Number(c) ^
-      (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (Number(c) / 4)))
-    ).toString(16)
-  );
