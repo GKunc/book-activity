@@ -1,75 +1,74 @@
 @import '../../styles.less';
 
 :host {
-    display: block;
-    margin-bottom: 120px;
-    margin-top: 60px;
+  display: block;
+  margin-bottom: 120px;
+  margin-top: 60px;
 }
 
 .your-activities {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+
+  &__description {
+    overflow: hidden;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__title {
+    margin-top: 16px;
+
+    &--actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      z-index: 100;
+
+      &_icon {
+        font-size: 24px;
+        color: @primary-color;
+        cursor: pointer;
+      }
+    }
+  }
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border: 1px solid @primary-color;
+  }
+
+  &__actions {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    margin-bottom: 16px;
+    justify-content: center;
+  }
 
-    &__description {
-        overflow: hidden;
-    }
-    
-    &__header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+  &__details {
+    &--name {
+      margin-bottom: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
 
-    &__title {
-        margin-top: 16px;
-
-        &--actions {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-
-            &_icon {
-                font-size: 24px;
-                color: @primary-color;
-                cursor: pointer;
-            }
-        }
+    &--category {
+      color: @disabled-color;
     }
-
-
-
-    &__container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 16px;
-        border: 1px solid @primary-color;
-    }
-
-    &__actions {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    &__details {
-        &--name {
-            margin-bottom: 0;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
-
-        &--category {
-            color: @disabled-color;
-        }
-    }
+  }
 }
 
 @media (max-width: 575px) {
-    :host {
-        display: block;
-    }
+  :host {
+    display: block;
+  }
 }
