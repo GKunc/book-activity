@@ -7,7 +7,7 @@ import { WEEK_DAYS } from '../../common/consts/week-days.consts';
 @Component({
   selector: 'activity-groups-form',
   templateUrl: './activity-groups-form.component.html',
-  styleUrls: ['./activity-groups-form.component.less']
+  styleUrls: ['./activity-groups-form.component.less'],
 })
 export class ActivityGroupsFormComponent implements OnInit {
   @Input()
@@ -22,7 +22,7 @@ export class ActivityGroupsFormComponent implements OnInit {
   @Output()
   previousForm: EventEmitter<any> = new EventEmitter<any>();
 
-  weekDaysOptions: { value: WeekDay, label: string }[] = WEEK_DAYS;
+  weekDaysOptions: { value: WeekDay; label: string }[] = WEEK_DAYS;
 
   addedGroups: GroupDetails[] = [];
 
@@ -32,7 +32,7 @@ export class ActivityGroupsFormComponent implements OnInit {
     price: new FormControl<number>(null, Validators.required),
     time: new FormControl<Date>(null, Validators.required),
     weekDay: new FormControl<WeekDay>(null, Validators.required),
-  })
+  });
 
   ngOnInit(): void {
     if (this.activity) {
@@ -41,7 +41,7 @@ export class ActivityGroupsFormComponent implements OnInit {
   }
 
   disabledMinutes(): number[] {
-    return [...Array(61).keys()].filter(i => i % 15 !== 0)
+    return [...Array(61).keys()].filter((i) => i % 15 !== 0);
   }
 
   addNewGroup(): void {
@@ -70,25 +70,25 @@ export class ActivityGroupsFormComponent implements OnInit {
     if (this.addedGroups.length > 0) {
       this.formSubmitted.emit({
         activityGroups: this.addedGroups,
-      })
+      });
     } else if (this.validateForm()) {
       this.addNewGroup();
       this.formSubmitted.emit({
         activityGroups: this.addedGroups,
-      })
+      });
     }
   }
 
   private validateForm(): boolean {
-    // if (!this.form.valid) {
-    //   Object.values(this.form.controls).forEach(control => {
-    //     if (control.invalid) {
-    //       control.markAsDirty();
-    //       control.updateValueAndValidity({ onlySelf: true });
-    //     }
-    //   });
-    //   return false;
-    // }
+    if (!this.form.valid) {
+      Object.values(this.form.controls).forEach((control) => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+      return false;
+    }
     return true;
   }
 }
@@ -98,5 +98,5 @@ export interface GroupsData {
 }
 
 export function instanceOfGroupsData(object: any): object is GroupsData {
-  return ('activityGroups' in object);
+  return 'activityGroups' in object;
 }

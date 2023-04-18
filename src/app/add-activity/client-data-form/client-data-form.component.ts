@@ -31,11 +31,11 @@ export class ClientDataFormComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.activity) {
-      this.form.controls.email.setValue(this.activity.email)
-      this.form.controls.phone.setValue(this.activity.phone)
-      this.form.controls.www.setValue(this.activity.www)
-      this.form.controls.facebook.setValue(this.activity.facebook)
-      this.form.controls.instagram.setValue(this.activity.instagram)
+      this.form.controls.email.setValue(this.activity.email);
+      this.form.controls.phone.setValue(this.activity.phone);
+      this.form.controls.www.setValue(this.activity.www);
+      this.form.controls.facebook.setValue(this.activity.facebook);
+      this.form.controls.instagram.setValue(this.activity.instagram);
     }
   }
 
@@ -51,20 +51,20 @@ export class ClientDataFormComponent implements OnInit {
         instagram: this.form.controls['instagram'].value,
         phone: this.form.controls['phone'].value,
         www: this.form.controls['www'].value,
-      })
+      });
     }
   }
 
   private validateForm(): boolean {
-    // if (!this.form.valid) {
-    //   Object.values(this.form.controls).forEach(control => {
-    //     if (control.invalid) {
-    //       control.markAsDirty();
-    //       control.updateValueAndValidity({ onlySelf: true });
-    //     }
-    //   });
-    //   return false;
-    // }
+    if (!this.form.valid) {
+      Object.values(this.form.controls).forEach((control) => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+      return false;
+    }
     return true;
   }
 }
@@ -78,9 +78,5 @@ export interface ClientData {
 }
 
 export function instanceOfClientData(object: any): object is ClientData {
-  return ('email' in object &&
-    'facebook' in object &&
-    'instagram' in object &&
-    'phone' in object &&
-    'www' in object);
+  return 'email' in object && 'facebook' in object && 'instagram' in object && 'phone' in object && 'www' in object;
 }

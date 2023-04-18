@@ -105,8 +105,9 @@ export class MediaDataFormComponent implements OnInit {
     if (this.imagesToDelete.length > 0) {
       for (let i = 0; i < this.imagesToDelete.length; i++) {
         this.activitiesService.deletePhoto(this.imagesToDelete[i]).subscribe(
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
-          () => {},
+          () => {
+            return;
+          },
           () => {
             this.isLoading = false;
           },
@@ -133,8 +134,9 @@ export class MediaDataFormComponent implements OnInit {
 
         this.newImages[i] = rename;
         this.activitiesService.insertPhoto(formData).subscribe(
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
-          () => {},
+          () => {
+            return;
+          },
           () => {
             this.loadingImages = false;
             this.isLoading = false;
@@ -146,15 +148,15 @@ export class MediaDataFormComponent implements OnInit {
   }
 
   private validateForm(): boolean {
-    // if (!this.form.valid) {
-    //   Object.values(this.form.controls).forEach(control => {
-    //     if (control.invalid) {
-    //       control.markAsDirty();
-    //       control.updateValueAndValidity({ onlySelf: true });
-    //     }
-    //   });
-    //   return false;
-    // }
+    //   if (!this.form.valid) {
+    //     Object.values(this.form.controls).forEach((control) => {
+    //       if (control.invalid) {
+    //         control.markAsDirty();
+    //         control.updateValueAndValidity({ onlySelf: true });
+    //       }
+    //     });
+    //     return false;
+    //   }
     return true;
   }
 }

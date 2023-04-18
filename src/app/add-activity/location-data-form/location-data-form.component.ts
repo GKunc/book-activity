@@ -4,16 +4,17 @@ import { City } from 'src/app/common/consts/city.consts';
 import { Activity } from 'src/app/common/services/activities/activities.model';
 import { environment } from 'src/environments/environment';
 
-const CITIES: { value: City, label: string }[] = [
+const CITIES: { value: City; label: string }[] = [
   {
-      value: City.Krakow, label: 'Kraków',
+    value: City.Krakow,
+    label: 'Kraków',
   },
 ];
 
 @Component({
   selector: 'location-data-form',
   templateUrl: './location-data-form.component.html',
-  styleUrls: ['./location-data-form.component.less']
+  styleUrls: ['./location-data-form.component.less'],
 })
 export class LocationDataFormComponent implements OnInit, AfterViewInit {
   @ViewChild('map') mapDiv?: ElementRef;
@@ -27,7 +28,7 @@ export class LocationDataFormComponent implements OnInit, AfterViewInit {
   @Output()
   previousForm: EventEmitter<any> = new EventEmitter<any>();
 
-  cities:{ value: City, label: string }[] = CITIES;
+  cities: { value: City; label: string }[] = CITIES;
 
   coordinatesString = '';
 
@@ -44,21 +45,20 @@ export class LocationDataFormComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     if (this.activity) {
-      this.form.controls.street.setValue(this.activity.street)
-      this.form.controls.city.setValue(this.activity.city)
-      if(this.activity.coordinates.lat && this.activity.coordinates.lng) {
-      this.coordinatesString = `${this.activity.coordinates.lat}, ${this.activity.coordinates.lng}`;
+      this.form.controls.street.setValue(this.activity.street);
+      this.form.controls.city.setValue(this.activity.city);
+      if (this.activity.coordinates.lat && this.activity.coordinates.lng) {
+        this.coordinatesString = `${this.activity.coordinates.lat}, ${this.activity.coordinates.lng}`;
       }
     }
   }
 
   ngAfterViewInit(): void {
-    if(this.coordinatesString) {
+    if (this.coordinatesString) {
       this.renderMap(this.coordinatesString);
     }
   }
-  
-  
+
   previous(): void {
     this.previousForm.emit();
   }
@@ -69,7 +69,7 @@ export class LocationDataFormComponent implements OnInit, AfterViewInit {
         street: this.form.controls['street'].value,
         city: this.form.controls['city'].value,
         coordinates: this.getCoordinates(this.coordinatesString),
-      })
+      });
     }
   }
 
@@ -81,27 +81,23 @@ export class LocationDataFormComponent implements OnInit, AfterViewInit {
   private renderMap(value: string): void {
     this.map = null;
     this.mapDiv.nativeElement.innerHTML = '';
-    
+
     const { lat, lng } = this.getCoordinates(value);
-    
+
     if (!this.map && this.mapDiv && lat && lng) {
       this.platform = new H.service.Platform({
-        'apikey': environment.HERE_MAPS_API_KEY
+        apikey: environment.HERE_MAPS_API_KEY,
       });
 
       this.layers = this.platform.createDefaultLayers();
-      this.map = new H.Map(
-        this.mapDiv.nativeElement,
-        this.layers.vector.normal.map,
-        {
-          pixelRatio: window.devicePixelRatio,
-          center: { lat, lng },
-          zoom: 13,
-        },
-      );
+      this.map = new H.Map(this.mapDiv.nativeElement, this.layers.vector.normal.map, {
+        pixelRatio: window.devicePixelRatio,
+        center: { lat, lng },
+        zoom: 13,
+      });
 
       window.addEventListener('resize', () => {
-        this.map.getViewPort().resize()
+        this.map.getViewPort().resize();
       });
 
       const fillColor = '#bf0003';
@@ -118,19 +114,19 @@ export class LocationDataFormComponent implements OnInit, AfterViewInit {
   }
 
   private validateForm(): boolean {
-    // if (!this.form.valid) {
-    //   Object.values(this.form.controls).forEach(control => {
-    //     if (control.invalid) {
-    //       control.markAsDirty();
-    //       control.updateValueAndValidity({ onlySelf: true });
-    //     }
-    //   });
-    //   return false;
-    // }
+    if (!this.form.valid) {
+      Object.values(this.form.controls).forEach((control) => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+      return false;
+    }
     return true;
   }
 
-  private getCoordinates(value: string): { lat: number, lng: number } {
+  private getCoordinates(value: string): { lat: number; lng: number } {
     const coordinates = value.trim().split(' ');
     return { lat: parseFloat(coordinates[0]), lng: parseFloat(coordinates[1]) };
   }
@@ -139,9 +135,9 @@ export class LocationDataFormComponent implements OnInit, AfterViewInit {
 export interface LocationData {
   street: string;
   city: City;
-  coordinates: { lng: number, lat: number };
+  coordinates: { lng: number; lat: number };
 }
 
 export function instanceOfLocationData(object: any): object is LocationData {
-  return ('street' in object && 'city' in object);
+  return 'street' in object && 'city' in object;
 }

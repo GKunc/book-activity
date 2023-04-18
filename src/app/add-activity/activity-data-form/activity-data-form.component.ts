@@ -16,20 +16,24 @@ export class ActivityDataFormComponent implements OnInit {
   @Output()
   formSubmitted: EventEmitter<ActivityData> = new EventEmitter<ActivityData>();
 
-  weekDaysOptions: { value: WeekDay, label: string }[] = WEEK_DAYS;
-  acitivyCategories: { value: Category, label: string }[] = ACTIVITY_CATEGORIES;
+  weekDaysOptions: { value: WeekDay; label: string }[] = WEEK_DAYS;
+  acitivyCategories: { value: Category; label: string }[] = ACTIVITY_CATEGORIES;
 
   form = new FormGroup({
     name: new FormControl<string>('', Validators.required),
     category: new FormControl<Category>(null, Validators.required),
-    description: new FormControl<string>('', [Validators.required, Validators.minLength(30), Validators.maxLength(200)]),
+    description: new FormControl<string>('', [
+      Validators.required,
+      Validators.minLength(30),
+      Validators.maxLength(200),
+    ]),
   });
 
   ngOnInit(): void {
     if (this.activity) {
-      this.form.controls.name.setValue(this.activity.name)
-      this.form.controls.category.setValue(this.activity.category)
-      this.form.controls.description.setValue(this.activity.description)
+      this.form.controls.name.setValue(this.activity.name);
+      this.form.controls.category.setValue(this.activity.category);
+      this.form.controls.description.setValue(this.activity.description);
     }
   }
 
@@ -39,20 +43,20 @@ export class ActivityDataFormComponent implements OnInit {
         name: this.form.controls.name.value,
         category: this.form.controls.category.value,
         description: this.form.controls.description.value,
-      })
+      });
     }
   }
 
   private validateForm(): boolean {
-    // if (!this.form.valid) {
-    //   Object.values(this.form.controls).forEach(control => {
-    //     if (control.invalid) {
-    //       control.markAsDirty();
-    //       control.updateValueAndValidity({ onlySelf: true });
-    //     }
-    //   });
-    //   return false;
-    // }
+    if (!this.form.valid) {
+      Object.values(this.form.controls).forEach((control) => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+      return false;
+    }
     return true;
   }
 }
@@ -70,9 +74,5 @@ export interface Details {
 }
 
 export function instanceOfActivityData(object: any): object is ActivityData {
-  return (
-    'name' in object &&
-    'category' in object &&
-    'description' in object
-  );
+  return 'name' in object && 'category' in object && 'description' in object;
 }
