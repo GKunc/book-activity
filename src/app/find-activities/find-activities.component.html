@@ -1,12 +1,6 @@
 <nz-layout>
-  <nz-sider
-    *ngIf="(resizeService.isSmall$ | async) === false"
-    class="slider__filters"
-  >
-    <activity-filters
-      (submitFilters)="onSubmitFilters($event)"
-      (submitView)="changeView($event)"
-    ></activity-filters>
+  <nz-sider *ngIf="(resizeService.isSmall$ | async) === false" class="slider__filters">
+    <activity-filters (submitFilters)="onSubmitFilters($event)" (submitView)="changeView($event)"></activity-filters>
   </nz-sider>
 
   <nz-layout>
@@ -18,24 +12,14 @@
 
     <nz-content class="content-container" style="position: relative">
       <ng-template #activityList>
-        <activity-list
-          [activities]="activities"
-          (loadMore)="loadMore()"
-        ></activity-list>
+        <activity-list [activities]="activities" (loadMore)="loadMore()"></activity-list>
       </ng-template>
 
-      <activity-map
-        *ngIf="openView === viewTypes.Map; else activityList"
-        [activities]="activities"
-      ></activity-map>
+      <activity-map *ngIf="openView === viewTypes.Map; else activityList" [activities]="activities"></activity-map>
 
       <loader *ngIf="loading" [inlineStyle]="true"></loader>
       <no-data *ngIf="noData" [inlineStyle]="true"></no-data>
-      <error
-        *ngIf="error"
-        [inlineStyle]="true"
-        [retryHandler]="onSubmitFilters.bind(this)"
-      ></error>
+      <error *ngIf="error" [inlineStyle]="true" [retryHandler]="onSubmitFilters.bind(this)"></error>
     </nz-content>
   </nz-layout>
 </nz-layout>

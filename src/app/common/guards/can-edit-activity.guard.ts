@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { map, Observable, tap } from 'rxjs';
+import { ActivatedRouteSnapshot, CanActivate, Router, UrlTree } from '@angular/router';
+import { map, Observable } from 'rxjs';
 import { ActivitiesService } from '../services/activities/activities.service';
 import { LoginService } from '../services/login-service/login.service';
 
@@ -14,9 +14,7 @@ export class CanEditActivityGuard implements CanActivate {
     private router: Router,
   ) { }
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    _state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  canActivate(route: ActivatedRouteSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const guid = route.params['id'];
     const userId = this.loginService.loggedUser?.id;
     return this.activitiesService.checkPermission(guid, userId).pipe(

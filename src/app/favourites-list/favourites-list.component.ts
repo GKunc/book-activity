@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError, concat, finalize, map, of, switchMap, zipAll } from 'rxjs';
+import { catchError, map, of, switchMap } from 'rxjs';
 import { FAVOURITES } from '../common/consts/local-storage.consts';
 import { Activity } from '../common/services/activities/activities.model';
 import { ActivitiesService } from '../common/services/activities/activities.service';
@@ -28,7 +28,7 @@ export class FavouritesListComponent implements OnInit {
   }
 
   getFavouritesActivities(): void {
-    if(this.favouriteIds.length === 0) {
+    if(!this.favouriteIds || this.favouriteIds?.length === 0) {
       this.noData = true;
       return
     }

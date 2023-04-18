@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivityComment } from 'src/app/common/services/comments/comments.model';
 import { LoginService } from 'src/app/common/services/login-service/login.service';
-import { formatDistance } from 'date-fns';
-import { pl } from 'date-fns/locale';
 
 @Component({
   selector: 'activity-comments',

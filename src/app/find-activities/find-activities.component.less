@@ -1,62 +1,62 @@
 @import '../../styles.less';
 
 :host {
-    display: block;
-    margin-bottom: 120px;
-    margin-top: 70px;
+  display: block;
+  margin-bottom: 120px;
+  margin-top: 70px;
 }
 
 .flex-contaier {
-    display: flex;
+  display: flex;
 }
 
 .layout {
-    min-height: 100%;
+  min-height: 100%;
 }
 
 .multiple-select {
-    height: 32px;
+  height: 32px;
 
-    ::ng-deep .ant-select-selector {
-        height: 32px;
-    }
+  ::ng-deep .ant-select-selector {
+    height: 32px;
+  }
 }
 
 nz-header {
-    background: @background-color;
-    padding: 0;
+  background: @background-color;
+  padding: 0;
 }
 
 .inner-content {
-    padding: 24px;
-    background: @background-color;
-    text-align: center;
+  padding: 24px;
+  background: @background-color;
+  text-align: center;
 }
 
 .load-more_container {
-    width: 100%;
-          display: flex;
-          align-items: center;
-          margin-top: 24px;
-          justify-content: center;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-top: 24px;
+  justify-content: center;
 }
 
 @media (max-width: 575px) {
-    :host {
-        margin-top: 60px;
-        margin-bottom: 0;
-        height: 100%;
-    }
+  :host {
+    margin-top: 60px;
+    margin-bottom: 0;
+    height: 100%;
+  }
 
-    .content-container {
-        border-left: none;
-        padding-left: 0;
-    }
+  .content-container {
+    border-left: none;
+    padding-left: 0;
+  }
 
-    .find-activities {
-        display: flex;
-        gap: 8px;
-        flex-direction: column;
-        padding: 0;
-    }
+  .find-activities {
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+    padding: 0;
+  }
 }

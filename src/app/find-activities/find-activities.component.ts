@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { catchError, concat, finalize, map, merge, of, switchMap, zipAll } from 'rxjs';
+import { catchError, concat, finalize, map, of, switchMap, zipAll } from 'rxjs';
 import { ACTIVITY_FILTERS, FAVOURITES } from '../common/consts/local-storage.consts';
 import { Activity } from '../common/services/activities/activities.model';
 import { ActivitiesService } from '../common/services/activities/activities.service';

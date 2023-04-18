@@ -1,5 +1,5 @@
 import { SocialAuthService } from '@abacritt/angularx-social-login';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable, of, ReplaySubject, tap } from 'rxjs';
 import { from } from 'rxjs';
 import jwt_decode from 'jwt-decode';
@@ -13,8 +13,8 @@ import { Favourite } from '../favourites/favourites.model';
 })
 export class LoginService {
   _user$ = new ReplaySubject<InternalUser>(null);
-  loggedUser: InternalUser = null;
-
+     loggedUser: InternalUser = null;
+ 
   constructor(
     private favouriteService: FavouriteService,
     private socialAuthService: SocialAuthService,
