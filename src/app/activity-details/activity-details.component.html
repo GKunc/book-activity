@@ -8,12 +8,8 @@
             {{ currentDescription }}
           </p>
           <span *ngIf="descriptionTooLong" (click)="toggleShowMore()">
-            <a *ngIf="!descriptionExpanded"
-              >Rozwiń <span nz-icon nzType="down" nzTheme="outline"></span
-            ></a>
-            <a *ngIf="descriptionExpanded"
-              >Zwiń <span nz-icon nzType="up" nzTheme="outline"></span
-            ></a>
+            <a *ngIf="!descriptionExpanded">Rozwiń <span nz-icon nzType="down" nzTheme="outline"></span></a>
+            <a *ngIf="descriptionExpanded">Zwiń <span nz-icon nzType="up" nzTheme="outline"></span></a>
           </span>
         </div>
 
@@ -23,63 +19,27 @@
           <h2>Kontakt</h2>
           <div class="ellipsis">
             <a [href]="phoneToHref"
-              ><span
-                class="info__icon"
-                nz-icon
-                nzType="mobile"
-                nzTheme="outline"
-              ></span
-              >{{ activity.phone }}</a
+              ><span class="info__icon" nz-icon nzType="mobile" nzTheme="outline"></span>{{ activity.phone }}</a
             >
           </div>
           <div class="ellipsis">
             <a target="_blank" [href]="mailToHref"
-              ><span
-                class="info__icon"
-                nz-icon
-                nzType="mail"
-                nzTheme="outline"
-              ></span
-              >{{ activity.email }}</a
+              ><span class="info__icon" nz-icon nzType="mail" nzTheme="outline"></span>{{ activity.email }}</a
             >
           </div>
           <div class="ellipsis">
             <a target="_blank" [href]="activity.www" *ngIf="activity.www"
-              ><span
-                class="info__icon"
-                nz-icon
-                nzType="global"
-                nzTheme="outline"
-              ></span
-              >{{ activity.www }}</a
+              ><span class="info__icon" nz-icon nzType="global" nzTheme="outline"></span>{{ activity.www }}</a
             >
           </div>
           <div class="ellipsis">
-            <a
-              target="_blank"
-              [href]="activity.facebook"
-              *ngIf="activity.facebook"
-              ><span
-                class="info__icon"
-                nz-icon
-                nzType="facebook"
-                nzTheme="outline"
-              ></span
-              >{{ activity.facebook }}</a
+            <a target="_blank" [href]="activity.facebook" *ngIf="activity.facebook"
+              ><span class="info__icon" nz-icon nzType="facebook" nzTheme="outline"></span>{{ activity.facebook }}</a
             >
           </div>
           <div class="ellipsis">
-            <a
-              target="_blank"
-              [href]="activity.instagram"
-              *ngIf="activity.instagram"
-              ><span
-                class="info__icon"
-                nz-icon
-                nzType="instagram"
-                nzTheme="outline"
-              ></span
-              >{{ activity.instagram }}</a
+            <a target="_blank" [href]="activity.instagram" *ngIf="activity.instagram"
+              ><span class="info__icon" nz-icon nzType="instagram" nzTheme="outline"></span>{{ activity.instagram }}</a
             >
           </div>
         </div>
@@ -94,25 +54,17 @@
 
     <div class="column first-column">
       <div *ngIf="!loading" class="carousel-container">
-        <h1 class="carousel-rate">{{ avgRate | number : "1.1-1" || "-" }}</h1>
+        <h1 class="carousel-rate">{{ avgRate | number : '1.1-1' || '-' }}</h1>
         <nz-carousel nzEffect="scrollx" #carouselRef>
           <div nz-carousel-content *ngFor="let src of activity.photos">
             <img [src]="src | safeUrl" />
           </div>
         </nz-carousel>
 
-        <div
-          *ngIf="activity.photos?.length > 1"
-          class="arrow arrow-left"
-          (click)="previousImg()"
-        >
+        <div *ngIf="activity.photos?.length > 1" class="arrow arrow-left" (click)="previousImg()">
           <span nz-icon nzType="left-circle" nzTheme="outline"></span>
         </div>
-        <div
-          *ngIf="activity.photos?.length > 1"
-          class="arrow arrow-right"
-          (click)="nextImg()"
-        >
+        <div *ngIf="activity.photos?.length > 1" class="arrow arrow-right" (click)="nextImg()">
           <span nz-icon nzType="right-circle" nzTheme="outline"></span>
         </div>
       </div>
@@ -120,9 +72,7 @@
       <div class="info-container">
         <div class="info-container__section">
           <h1 class="info-container__header">{{ activity.name }}</h1>
-          <p class="info-container__description">
-            {{ activity.city }}, {{ activity.street }}
-          </p>
+          <p class="info-container__description">{{ activity.city }}, {{ activity.street }}</p>
         </div>
       </div>
 
@@ -140,34 +90,25 @@
             </div>
             <div class="activity-groups__details--column">
               <div>
-                <h3>{{ group.time | date : "HH:mm" }}</h3>
+                <h3>{{ group.time | date : 'HH:mm' }}</h3>
               </div>
               <div class="info-container__description">
                 {{ group.weekDay | weekDay }}
               </div>
             </div>
-            <div
-              class="activity-groups__details--column activity-groups__price"
-            >
+            <div class="activity-groups__details--column activity-groups__price">
               {{ group.price | pricePLN }}
             </div>
           </div>
         </div>
       </div>
 
-      <activity-opinions
-        [activity]="activity"
-        (avgRateChanged)="updateAvgRate($event)"
-      ></activity-opinions>
+      <activity-opinions [activity]="activity" (avgRateChanged)="updateAvgRate($event)"></activity-opinions>
     </div>
   </div>
 </ng-container>
 
 <ng-template #loadingState>
   <loader *ngIf="loading" [inlineStyle]="true"></loader>
-  <error
-    *ngIf="error"
-    [inlineStyle]="true"
-    [retryHandler]="downloadDetails.bind(this)"
-  ></error>
+  <error *ngIf="error" [inlineStyle]="true" [retryHandler]="downloadDetails.bind(this)"></error>
 </ng-template>

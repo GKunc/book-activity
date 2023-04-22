@@ -1,54 +1,39 @@
-<nz-list
-  *ngIf="comments.length"
-  [nzDataSource]="comments"
-  [nzRenderItem]="item"
-  [nzItemLayout]="'horizontal'"
->
+<nz-list *ngIf="comments.length" [nzDataSource]="comments" [nzRenderItem]="item" [nzItemLayout]="'horizontal'">
   <ng-template #item let-item>
-    <nz-comment
-      [nzAuthor]="item.userName"
-      [nzDatetime]="item.addedDate | dateDistance"
-    >
-      <nz-avatar
-        nz-comment-avatar
-        [nzText]="item.userName.charAt(0).toUpperCase()"
-      ></nz-avatar>
-
+    <nz-comment [nzAuthor]="item.userName" [nzDatetime]="item.addedDate | dateDistance">
+      <nz-avatar nz-comment-avatar [nzText]="item.userName.charAt(0).toUpperCase()"></nz-avatar>
       <nz-comment-content>
         <p>
           {{ item.content }}
         </p>
       </nz-comment-content>
       <nz-comment-action>
-        <nz-rate [ngModel]="item.rate" nzAllowHalf nzDisabled></nz-rate>
+        <nz-rate class="rate" [ngModel]="item.rate" nzAllowHalf disabled></nz-rate>
       </nz-comment-action>
     </nz-comment>
   </ng-template>
 </nz-list>
+
 <nz-comment *ngIf="loginService.loggedUser">
-  <nz-avatar
-    nz-comment-avatar
-    [nzText]="loginService.loggedUser.username.charAt(0).toUpperCase()"
-  ></nz-avatar>
+  <nz-avatar nz-comment-avatar [nzText]="loginService.loggedUser.username.charAt(0).toUpperCase()"></nz-avatar>
   <nz-comment-content>
     <nz-form-item>
-      <nz-rate
-        class="comments__new-rate"
-        [(ngModel)]="rate"
-        nzAllowHalf
-      ></nz-rate>
-      <textarea [(ngModel)]="inputValue" nz-input rows="4"></textarea>
+      <nz-rate [disabled]="!enableCommenting" class="comments__new-rate" [(ngModel)]="rate" nzAllowHalf></nz-rate>
+      <textarea [disabled]="!enableCommenting" [(ngModel)]="inputValue" nz-input rows="4"></textarea>
     </nz-form-item>
     <nz-form-item>
-      <button
-        nz-button
-        nzType="primary"
-        [nzLoading]="submitting"
-        [disabled]="!inputValue || rate < 0.5"
-        (click)="createComment()"
-      >
-        Dodaj komentarz
-      </button>
+      <span nz-tooltip="Dodałeś juz komentarz.">
+        <button
+          nz-button
+          nzType="primary"
+          [nzLoading]="submitting"
+          [disabled]="!inputValue || rate < 0.5"
+          (click)="createComment()"
+          [disabled]="!enableCommenting"
+        >
+          Dodaj komentarz
+        </button>
+      </span>
     </nz-form-item>
   </nz-comment-content>
 </nz-comment>

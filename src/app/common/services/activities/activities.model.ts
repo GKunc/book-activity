@@ -1,6 +1,6 @@
-import { WeekDay } from "@angular/common";
-import { Category } from "src/app/common/consts/category.consts";
-import { City } from "../../consts/city.consts";
+import { WeekDay } from '@angular/common';
+import { Category } from 'src/app/common/consts/category.consts';
+import { City } from '../../consts/city.consts';
 
 export interface Activity {
   guid: string;
@@ -13,7 +13,7 @@ export interface Activity {
   groups: GroupDetails[];
   street: string;
   city: City;
-  coordinates: { lng: number, lat: number };
+  coordinates: { lng: number; lat: number };
   email: string;
   phone: string;
   facebook?: string;
@@ -21,12 +21,13 @@ export interface Activity {
   www?: string;
   photos?: string[];
   isFavourite?: boolean;
+  comments?: string[];
 }
 
 export interface GroupDetails {
-  name: string,
+  name: string;
   duration: number;
-  price: number,
-  time: Date,
-  weekDay: WeekDay,
+  price: number;
+  time: Date;
+  weekDay: WeekDay;
 }

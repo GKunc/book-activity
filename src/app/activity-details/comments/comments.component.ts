@@ -5,7 +5,7 @@ import { LoginService } from 'src/app/common/services/login-service/login.servic
 @Component({
   selector: 'activity-comments',
   templateUrl: './comments.component.html',
-  styleUrls: ['./comments.component.less']
+  styleUrls: ['./comments.component.less'],
 })
 export class CommentsComponent {
   @Input()
@@ -17,15 +17,16 @@ export class CommentsComponent {
   @Input()
   submitting: boolean;
 
+  @Input()
+  enableCommenting: boolean;
+
   @Output()
   addComment: EventEmitter<ActivityComment> = new EventEmitter();
 
   inputValue: string = '';
   rate: number = 0;
-  
-  constructor(
-    public loginService: LoginService,
-  ) {}
+
+  constructor(public loginService: LoginService) {}
 
   createComment(): void {
     this.addComment.emit({
@@ -38,5 +39,6 @@ export class CommentsComponent {
     });
     this.inputValue = '';
     this.rate = 0;
- }
+    this.enableCommenting = false;
+  }
 }
