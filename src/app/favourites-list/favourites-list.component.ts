@@ -8,7 +8,7 @@ import { LoginService } from '../common/services/login-service/login.service';
 @Component({
   selector: 'app-favourites-list',
   templateUrl: './favourites-list.component.html',
-  styleUrls: ['./favourites-list.component.less']
+  styleUrls: ['./favourites-list.component.less'],
 })
 export class FavouritesListComponent implements OnInit {
   loading: boolean = false;
@@ -17,50 +17,54 @@ export class FavouritesListComponent implements OnInit {
   favouriteIds: string[] = [];
   activities: Activity[] = [];
 
-  constructor(
-    private activityService: ActivitiesService,
-    public loginService: LoginService,
-  ) {}
+  constructor(private activityService: ActivitiesService, public loginService: LoginService) {}
 
   ngOnInit(): void {
+    this.noData = false;
     this.favouriteIds = JSON.parse(localStorage.getItem(FAVOURITES));
     this.getFavouritesActivities();
+
+    this.loginService._favourites$.subscribe((favourites) => {
+      this.favouriteIds = favourites;
+      this.getFavouritesActivities();
+    });
   }
 
   getFavouritesActivities(): void {
-    if(!this.favouriteIds || this.favouriteIds?.length === 0) {
+    this.activities = [];
+    if (!this.favouriteIds || this.favouriteIds?.length === 0) {
       this.noData = true;
-      return
+      return;
     }
 
     this.loading = true;
-    this.favouriteIds?.forEach(id => {
+    this.favouriteIds?.forEach((id) => {
       this.noData = false;
       this.loading = true;
 
-      this.activityService.getActivityDetails(id).pipe(
-        switchMap((activity: Activity) => this.downloadPhotos(activity)),
-      ).subscribe(
-        (activity: Activity) => {
-        this.activities.push({...activity, isFavourite: true });
-        this.loading = false;
-      },
-      () => this.loading = false,
-      );
-    })
+      this.activityService
+        .getActivityDetails(id)
+        .pipe(switchMap((activity: Activity) => this.downloadPhotos(activity)))
+        .subscribe(
+          (activity: Activity) => {
+            this.activities.push({ ...activity, isFavourite: true });
+            this.loading = false;
+          },
+          () => (this.loading = false)
+        );
+    });
   }
 
-  private downloadPhotos(activity: Activity): any {    
-      return this.activityService.getPhoto(activity.coverPhoto)
-      .pipe(
-        map((photo: Blob) => {
-          activity.coverPhoto = URL.createObjectURL(photo)
-          return activity;
-        }),
-        catchError((error) => {
-          console.error(error);
-          return of(activity);
-        })
-      );
+  private downloadPhotos(activity: Activity): any {
+    return this.activityService.getPhoto(activity.coverPhoto).pipe(
+      map((photo: Blob) => {
+        activity.coverPhoto = URL.createObjectURL(photo);
+        return activity;
+      }),
+      catchError((error) => {
+        console.error(error);
+        return of(activity);
+      })
+    );
   }
 }

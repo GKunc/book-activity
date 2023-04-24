@@ -9,47 +9,45 @@ import { AuthenticationService } from '../authentication/authentication.service'
 import { Favourite } from '../favourites/favourites.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoginService {
   _user$ = new ReplaySubject<InternalUser>(null);
-     loggedUser: InternalUser = null;
- 
+  _favourites$ = new ReplaySubject<string[]>(null);
+  loggedUser: InternalUser = null;
+
   constructor(
     private favouriteService: FavouriteService,
     private socialAuthService: SocialAuthService,
-    private authService: AuthenticationService,
+    private authService: AuthenticationService
   ) {
     const token = localStorage.getItem(ACCESS_TOKEN);
-    if(token) {
+    if (token) {
       const loggedUser: InternalUser = jwt_decode(token);
-      this.loggedUser = {id: loggedUser.id, username: loggedUser.username, email: loggedUser.email};
+      this.loggedUser = { id: loggedUser.id, username: loggedUser.username, email: loggedUser.email };
       this._user$.next(this.loggedUser);
     } else {
       this.socialAuthService.authState.subscribe(
-        (user) => {        
-          if(user) {
+        (user) => {
+          if (user) {
             this.authService.signUp(user.name, user.email, '').subscribe(
               () => of(null),
-              () => of(null),
+              () => of(null)
             );
 
             this.signIn(user.name, '', true).subscribe();
           }
-      },
-      (error) => {
-        console.log("LOGIN ERROR", error)
-      });
+        },
+        (error) => {
+          console.log('LOGIN ERROR', error);
+        }
+      );
     }
   }
 
   signIn(username: string, password: string, googleLogIn: boolean = false): Observable<any> {
-    return this.authService.signIn(
-      username,
-      password,
-      googleLogIn,
-    ).pipe(
-      tap(result => {        
+    return this.authService.signIn(username, password, googleLogIn).pipe(
+      tap((result) => {
         const { access_token, refresh_token } = JSON.parse(result);
         localStorage.setItem(ACCESS_TOKEN, access_token);
         localStorage.setItem(REFRESH_TOKEN, refresh_token);
@@ -59,11 +57,12 @@ export class LoginService {
         this._user$.next(loggedUser);
         // get favourites
         this.favouriteService.getFavourites(loggedUser?.id).subscribe((response: Favourite) => {
-          localStorage.setItem(FAVOURITES, JSON.stringify(response.favourites))
+          localStorage.setItem(FAVOURITES, JSON.stringify(response.favourites));
+          this._favourites$.next(response.favourites);
         });
       })
     );
-  } 
+  }
 
   signOut(): void {
     try {
@@ -75,7 +74,7 @@ export class LoginService {
         () => of(null)
       );
     } catch (e) {
-      console.log("Error", e)
+      console.log('Error', e);
     } finally {
       localStorage.removeItem(ACCESS_TOKEN);
       localStorage.removeItem(REFRESH_TOKEN);
@@ -87,7 +86,6 @@ export class LoginService {
     return this.loggedUser;
   }
 }
-
 
 export interface InternalUser {
   id: string;
