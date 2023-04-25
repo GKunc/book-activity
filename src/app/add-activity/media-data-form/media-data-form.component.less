@@ -1,69 +1,76 @@
 @import '../../../styles.less';
 
 .images-container {
-    display: grid; 
-    grid-template-columns: 1fr 1fr 1fr; 
-    gap: 8px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
 }
 
 .added-files {
-    border: 1px solid @primary-color;
-    width: 100%;
+  border: 1px solid @primary-color;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+
+  &:hover .remove-icon {
+    display: block;
+  }
+
+  &:hover .added-files__image {
+    filter: brightness(50%);
+    background-color: gray;
+    cursor: pointer;
+  }
+
+  .remove-icon {
+    display: none;
+    cursor: pointer;
+    color: white;
+    font-size: 24px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &__image {
     height: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    
-    &:hover .remove-icon {
-        display: block;
-    }
-
-    &:hover .added-files__image {
-        filter: brightness(50%);
-        background-color: gray;
-        cursor: pointer;
-    }
-
-    .remove-icon {
-        display: none;
-        cursor: pointer;
-        color: white;
-        font-size: 24px;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%,-50%);
-    }
-
-    &__image {
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
-    }
+    width: 100%;
+    object-fit: cover;
+  }
 }
 
-.ant-form input[type="file"] {
-    display: none !important;
+.ant-form input[type='file'] {
+  display: none !important;
+}
+
+.error {
+  border-color: #ff4d4f !important;
 }
 
 .custom-file-upload {
-    border: 1px solid @gray-border-color;
-    display: inline-block;
-    padding: 20px 12px;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  border: 1px solid @gray-border-color;
+  padding: 20px 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
-    .upload-icon {
-        font-size: 40px;
-        color: @primary-color;
-        margin-bottom: 8px;
-    }
+  .upload-icon {
+    font-size: 40px;
+    color: @primary-color;
+    margin-bottom: 8px;
+  }
 }
 
 .modal__action-container {
-    margin-top: 16px;
+  margin-top: 16px;
+}
+
+.validation-error {
+  color: #ff4d4f;
 }

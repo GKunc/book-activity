@@ -1,5 +1,5 @@
 <form nz-form style="position: relative; min-height: 110px">
-  <form class="mt-4" enctype="multipart/form-data">
+  <form enctype="multipart/form-data">
     <ng-template #loaderImages>
       <loader></loader>
     </ng-template>
@@ -8,16 +8,11 @@
       <label
         for="file-upload"
         class="custom-file-upload"
+        [class.error]="showError"
         dragAndDrop
         (fileDropped)="onFileDropped($event)"
       >
-        <span
-          class="upload-icon"
-          nz-icon
-          nzType="upload"
-          nzTheme="outline"
-        ></span>
-
+        <span class="upload-icon" nz-icon nzType="upload" nzTheme="outline"></span>
         <span>
           <span
             nz-icon
@@ -42,15 +37,12 @@
         multiple
       />
     </div>
+    <span *ngIf="showError" class="validation-error">Musisz dodac conajmniej jedno zdjecie</span>
   </form>
 </form>
 
 <div class="images-container" *ngIf="!loadingImages">
-  <div
-    class="added-files"
-    *ngFor="let image of images; let i = index"
-    (click)="deleteFile(i, image.file)"
-  >
+  <div class="added-files" *ngFor="let image of images; let i = index" (click)="deleteFile(i, image.file)">
     <img class="added-files__image" [src]="image.url | safeUrl" />
     <span class="remove-icon" nz-icon nzType="delete" nzTheme="outline"></span>
   </div>
@@ -58,21 +50,5 @@
 
 <div class="modal__action-container">
   <hub-button text="Poprzednie" (click)="previous()"></hub-button>
-  <hub-button
-    [isLoading]="isLoading"
-    [text]="submitLabel"
-    (click)="submit()"
-  ></hub-button>
+  <hub-button [isLoading]="isLoading" [text]="submitLabel" (click)="submit()"></hub-button>
 </div>
-
-<ng-template #errorDescription let-control>
-  <ng-container *ngIf="control.hasError('required')"
-    >To pole jest wymagane</ng-container
-  >
-  <ng-container *ngIf="control.hasError('minlength')"
-    >Minimalna wymagana ilość znaków</ng-container
-  >
-  <ng-container *ngIf="control.hasError('maxlength')"
-    >Przekroczono dopuszczalną ilość znaków</ng-container
-  >
-</ng-template>

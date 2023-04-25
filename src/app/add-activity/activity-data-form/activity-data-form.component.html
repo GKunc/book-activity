@@ -22,13 +22,7 @@
   <nz-form-item>
     <nz-form-label nzFor="description" nzRequired>Opis</nz-form-label>
     <nz-form-control [nzErrorTip]="errorDescription">
-      <textarea
-        id="description"
-        formControlName="description"
-        nz-input
-        placeholder="Opis"
-        rows="4"
-      ></textarea>
+      <textarea id="description" formControlName="description" nz-input placeholder="Opis" rows="4"></textarea>
     </nz-form-control>
   </nz-form-item>
 </form>
@@ -38,13 +32,7 @@
 </div>
 
 <ng-template #errorDescription let-control>
-  <ng-container *ngIf="control.hasError('required')"
-    >To pole jest wymagane</ng-container
-  >
-  <ng-container *ngIf="control.hasError('minlength')"
-    >Minimalna wymagana ilość znaków</ng-container
-  >
-  <ng-container *ngIf="control.hasError('maxlength')"
-    >Przekroczono dopuszczalną ilość znaków</ng-container
-  >
+  <ng-container *ngIf="control.hasError('required')">To pole jest wymagane</ng-container>
+  <ng-container *ngIf="control.hasError('minlength')">Minimalna wymagana ilość znaków</ng-container>
+  <ng-container *ngIf="control.hasError('maxlength')">Przekroczono dopuszczalną ilość znaków</ng-container>
 </ng-template>

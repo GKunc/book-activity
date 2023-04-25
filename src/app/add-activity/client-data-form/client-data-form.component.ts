@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Activity } from 'src/app/common/services/activities/activities.model';
 
 const URL_REGX = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
+const PHONE_REGX = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{3})/;
 
 @Component({
   selector: 'client-data-form',
@@ -23,11 +24,27 @@ export class ClientDataFormComponent implements OnInit {
 
   form = new FormGroup({
     email: new FormControl<string>('', [Validators.required, Validators.email]),
-    phone: new FormControl<string>('', [Validators.required]),
-    www: new FormControl<string>('', [Validators.minLength(30), Validators.maxLength(200)]),
+    phone: new FormControl<string>('', [Validators.required, Validators.pattern(PHONE_REGX)]),
+    www: new FormControl<string>('', [Validators.pattern(URL_REGX)]),
     facebook: new FormControl<string>('', [Validators.pattern(URL_REGX)]),
     instagram: new FormControl<string>('', [Validators.pattern(URL_REGX)]),
   });
+
+  get phone() {
+    return this.form.controls.phone;
+  }
+
+  get www() {
+    return this.form.controls.www;
+  }
+
+  get facebook() {
+    return this.form.controls.facebook;
+  }
+
+  get instagram() {
+    return this.form.controls.instagram;
+  }
 
   ngOnInit(): void {
     if (this.activity) {

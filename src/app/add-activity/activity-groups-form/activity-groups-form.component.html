@@ -8,9 +8,7 @@
 
   <div class="form__two-columns">
     <nz-form-item class="width__full">
-      <nz-form-label nzFor="duration" nzRequired
-        >Czas trwania (min)</nz-form-label
-      >
+      <nz-form-label nzFor="duration" nzRequired>Czas trwania (min)</nz-form-label>
       <nz-form-control [nzErrorTip]="errorDescription">
         <nz-input-number
           id="duration"
@@ -24,10 +22,7 @@
     <nz-form-item class="width__full">
       <nz-form-label nzFor="weekDay" nzRequired>Dzień tygodnia</nz-form-label>
       <nz-form-control [nzErrorTip]="errorDescription">
-        <nz-select
-          formControlName="weekDay"
-          nzPlaceHolder="Wybierz dzień tygodnia"
-        >
+        <nz-select formControlName="weekDay" nzPlaceHolder="Wybierz dzień tygodnia">
           <nz-option
             *ngFor="let option of weekDaysOptions"
             [nzLabel]="option.label"
@@ -57,12 +52,7 @@
     <nz-form-item class="width__full">
       <nz-form-label nzFor="price" nzRequired>Cena</nz-form-label>
       <nz-form-control [nzErrorTip]="errorDescription">
-        <nz-input-number
-          id="price"
-          nz-input
-          nzPlaceHolder="Cena"
-          formControlName="price"
-        ></nz-input-number>
+        <nz-input-number id="price" nz-input nzPlaceHolder="Cena" formControlName="price"></nz-input-number>
       </nz-form-control>
     </nz-form-item>
   </div>
@@ -76,38 +66,39 @@
 ></hub-button>
 <nz-divider></nz-divider>
 
-<div
-  *ngFor="let group of addedGroups; let i = index"
-  class="added-group__container"
->
-  <div class="added-group__info">
-    <div>{{ group.name }}</div>
-    <div>{{ group.duration | durationMin }}</div>
-    <div>{{ group.price | pricePLN }}</div>
-    <div>{{ group.time | date : "HH:mm" }}</div>
-    <div>{{ group.weekDay | weekDay }}</div>
+<div *ngFor="let group of addedGroups; let i = index">
+  <div class="activity-groups">
+    <div>
+      <h2>{{ group.name }}</h2>
+    </div>
+
+    <div class="activity-groups__details">
+      <div class="activity-groups__details--column">
+        <div>{{ group.duration | durationMin }}</div>
+      </div>
+      <div class="activity-groups__details--column">
+        <div>
+          <h3>{{ group.time | date : 'HH:mm' }}</h3>
+        </div>
+        <div class="info-container__description">
+          {{ group.weekDay | weekDay }}
+        </div>
+      </div>
+      <div class="activity-groups__details--column activity-groups__price">
+        {{ group.price | pricePLN }}
+      </div>
+      <div class="clickable" (click)="removeActivity(i)" nz-icon nzType="delete" nzTheme="outline"></div>
+    </div>
   </div>
-  <div
-    class="clickable"
-    (click)="removeActivity(i)"
-    nz-icon
-    nzType="delete"
-    nzTheme="outline"
-  ></div>
 </div>
 
 <div class="modal__action-container">
+  <hub-button text="Dalej" (click)="previous()"></hub-button>
   <hub-button text="Dalej" (click)="submit()"></hub-button>
 </div>
 
 <ng-template #errorDescription let-control>
-  <ng-container *ngIf="control.hasError('required')"
-    >To pole jest wymagane</ng-container
-  >
-  <ng-container *ngIf="control.hasError('minlength')"
-    >Minimalna wymagana ilość znaków</ng-container
-  >
-  <ng-container *ngIf="control.hasError('maxlength')"
-    >Przekroczono dopuszczalną ilość znaków</ng-container
-  >
+  <ng-container *ngIf="control.hasError('required')">To pole jest wymagane</ng-container>
+  <ng-container *ngIf="control.hasError('minlength')">Minimalna wymagana ilość znaków</ng-container>
+  <ng-container *ngIf="control.hasError('maxlength')">Przekroczono dopuszczalną ilość znaków</ng-container>
 </ng-template>

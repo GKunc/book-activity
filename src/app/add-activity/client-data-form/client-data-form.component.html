@@ -1,66 +1,36 @@
 <form nz-form [formGroup]="form" nzLayout="vertical">
   <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="email" nzRequired
-      >E-mail</nz-form-label
-    >
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="email" nzRequired>E-mail</nz-form-label>
     <nz-form-control [nzErrorTip]="errorDescription">
-      <input
-        type="email"
-        nz-input
-        placeholder="Email"
-        formControlName="email"
-      />
+      <input type="email" nz-input placeholder="Email" formControlName="email" />
     </nz-form-control>
   </nz-form-item>
 
   <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber" nzRequired
-      >Telefon</nz-form-label
-    >
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber" nzRequired>Telefon</nz-form-label>
     <nz-form-control [nzErrorTip]="errorDescription">
-      <input
-        id="phoneNumber"
-        nz-input
-        placeholder="Telefon"
-        formControlName="phone"
-      />
+      <input id="phoneNumber" nz-input placeholder="Telefon XXX XXX XXX" formControlName="phone" />
     </nz-form-control>
   </nz-form-item>
 
   <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="strona"
-      >Twoj strona</nz-form-label
-    >
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="strona">Twoj strona</nz-form-label>
     <nz-form-control [nzErrorTip]="errorDescription">
       <input type="url" nz-input placeholder="Strona" formControlName="www" />
     </nz-form-control>
   </nz-form-item>
 
   <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="facebook"
-      >Facebook</nz-form-label
-    >
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="facebook">Facebook</nz-form-label>
     <nz-form-control [nzErrorTip]="errorDescription">
-      <input
-        type="url"
-        nz-input
-        placeholder="Facebook"
-        formControlName="facebook"
-      />
+      <input type="url" nz-input placeholder="Facebook" formControlName="facebook" />
     </nz-form-control>
   </nz-form-item>
 
   <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="instagram"
-      >Instagram</nz-form-label
-    >
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="instagram">Instagram</nz-form-label>
     <nz-form-control [nzErrorTip]="errorDescription">
-      <input
-        type="url"
-        nz-input
-        placeholder="Instagram"
-        formControlName="instagram"
-      />
+      <input type="url" nz-input placeholder="Instagram" formControlName="instagram" />
     </nz-form-control>
   </nz-form-item>
 </form>
@@ -71,13 +41,12 @@
 </div>
 
 <ng-template #errorDescription let-control>
-  <ng-container *ngIf="control.hasError('required')"
-    >To pole jest wymagane</ng-container
+  <ng-container *ngIf="control.hasError('email')">Podaj poprawny adres email</ng-container>
+  <ng-container *ngIf="control === phone && control.errors?.['pattern']"
+    >Podaj telefon w formacie XXX XXX XXX</ng-container
   >
-  <ng-container *ngIf="control.hasError('minlength')"
-    >Minimalna wymagana ilość znaków</ng-container
-  >
-  <ng-container *ngIf="control.hasError('maxlength')"
-    >Przekroczono dopuszczalną ilość znaków</ng-container
+  <ng-container
+    *ngIf="(control === www || control === facebook || control === instagram) && control.errors?.['pattern']"
+    >Podaj poprawny adres url</ng-container
   >
 </ng-template>

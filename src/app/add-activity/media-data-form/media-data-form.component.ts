@@ -29,7 +29,7 @@ export class MediaDataFormComponent implements OnInit {
   previousForm: EventEmitter<any> = new EventEmitter<any>();
 
   submitLabel = 'Wyślij';
-
+  showError = false;
   uploading: boolean = false;
   loadingImages = false;
 
@@ -148,15 +148,11 @@ export class MediaDataFormComponent implements OnInit {
   }
 
   private validateForm(): boolean {
-    //   if (!this.form.valid) {
-    //     Object.values(this.form.controls).forEach((control) => {
-    //       if (control.invalid) {
-    //         control.markAsDirty();
-    //         control.updateValueAndValidity({ onlySelf: true });
-    //       }
-    //     });
-    //     return false;
-    //   }
+    if (this.images.length === 0) {
+      this.showError = true;
+      return false;
+    }
+    this.showError = false;
     return true;
   }
 }
