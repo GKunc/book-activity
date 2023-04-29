@@ -61,8 +61,10 @@ export class OpinionsComponent implements OnInit {
   }
 
   updateAvgRate(): void {
-    if (this.comments.length === 0) {
+    if (!this.comments || this.comments.length === 0) {
       this.avgRate = 0;
+      this.avgRateChanged.emit(this.avgRate);
+      return;
     }
 
     this.avgRate =
@@ -89,6 +91,7 @@ export class OpinionsComponent implements OnInit {
         this.comments = [...this.comments, comment];
         this.submitting = false;
         this.updateAvgRate();
+        this.updateRatesStars();
       });
   }
 }

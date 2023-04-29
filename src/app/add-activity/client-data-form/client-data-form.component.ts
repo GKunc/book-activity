@@ -25,9 +25,9 @@ export class ClientDataFormComponent implements OnInit {
   form = new FormGroup({
     email: new FormControl<string>('', [Validators.required, Validators.email]),
     phone: new FormControl<string>('', [Validators.required, Validators.pattern(PHONE_REGX)]),
-    www: new FormControl<string>('', [Validators.pattern(URL_REGX)]),
-    facebook: new FormControl<string>('', [Validators.pattern(URL_REGX)]),
-    instagram: new FormControl<string>('', [Validators.pattern(URL_REGX)]),
+    www: new FormControl<string>('', [Validators.minLength(5)]),
+    facebook: new FormControl<string>('', [Validators.minLength(5)]),
+    instagram: new FormControl<string>('', [Validators.minLength(5)]),
   });
 
   get phone() {

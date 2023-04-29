@@ -2,23 +2,13 @@
   <not-authorized></not-authorized>
 </ng-template>
 
-<div
-  class="your-activities__header"
-  *ngIf="loginService._user$ | async; else notAuthorized"
->
+<div class="your-activities__header" *ngIf="loginService._user$ | async; else notAuthorized">
   <h1 class="your-activities__title">Twoje zajęcia:</h1>
-  <div class="your-activities__title--actions">
-    <span
-      class="your-activities__title--actions_icon"
-      *ngIf="userLogged"
-      (click)="getUserActivities()"
-      nz-icon
-      nzType="sync"
-      nzTheme="outline"
-    ></span>
+  <div class="your-activities__title--actions" nz-tooltip="Przekroczona limit zajec dla tego konta">
     <button
       *ngIf="userLogged"
       (click)="addActivity()"
+      [disabled]="loading || activities.length > 2"
       nz-button
       nzType="primary"
       nzShape="circle"
@@ -55,8 +45,4 @@
 
 <loader *ngIf="loading && userLogged" [inlineStyle]="true"></loader>
 <no-data *ngIf="noData && userLogged" [inlineStyle]="true"></no-data>
-<error
-  *ngIf="error"
-  [retryHandler]="getUserActivities.bind(this)"
-  [inlineStyle]="true"
-></error>
+<error *ngIf="error" [retryHandler]="getUserActivities.bind(this)" [inlineStyle]="true"></error>
