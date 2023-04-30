@@ -148,7 +148,7 @@ export class MediaDataFormComponent implements OnInit {
   }
 
   private validateForm(): boolean {
-    if (this.images.length === 0) {
+    if (this.images.length < 1 || this.images.length > 5) {
       this.showError = true;
       return false;
     }
