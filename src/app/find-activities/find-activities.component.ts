@@ -9,7 +9,7 @@ import { ActivityFilters, ViewType } from '../shared/activity-filters/activity-f
 @Component({
   selector: 'app-find-activities',
   templateUrl: './find-activities.component.html',
-  styleUrls: ['./find-activities.component.less']
+  styleUrls: ['./find-activities.component.less'],
 })
 export class FindActivitiesComponent implements OnInit, AfterViewInit {
   activities: Activity[] = [];
@@ -28,8 +28,8 @@ export class FindActivitiesComponent implements OnInit, AfterViewInit {
   constructor(
     private activitiesService: ActivitiesService,
     private cdr: ChangeDetectorRef,
-    public resizeService: ResizeService,
-  ) { }
+    public resizeService: ResizeService
+  ) {}
 
   ngOnInit(): void {
     this.lastFilters = JSON.parse(localStorage.getItem(ACTIVITY_FILTERS));
@@ -42,8 +42,9 @@ export class FindActivitiesComponent implements OnInit, AfterViewInit {
   }
 
   loadMore(): void {
-    if(this.hasMoreData) {
-      this.lastFilters.page = this.lastFilters.page + 1;
+    this.lastFilters.page = this.lastFilters.page + 1;
+    if (this.hasMoreData) {
+      console.log('LOAD MORE');
       this.onSubmitFilters(this.lastFilters, true);
     }
   }
@@ -56,65 +57,72 @@ export class FindActivitiesComponent implements OnInit, AfterViewInit {
     this.loading = true;
     this.noData = false;
     this.error = false;
-    this.activitiesService.filterActivities(filters).pipe(
-      switchMap((data) => {
-        this.noData = this.hasNoData(data);
-        const requests = data.map((activity: Activity) => 
-          this.activitiesService.getPhoto(activity.coverPhoto).pipe(
-            map((photo: Blob) => {
-              activity.coverPhoto = URL.createObjectURL(photo)
-              return activity;
-            }),
-            catchError((error) => {
-              console.error(error);
-              return of(activity);
-            })
-          ),
-        )
-        
-        return concat(requests).pipe(
+    this.activitiesService
+      .filterActivities(filters)
+      .pipe(
+        switchMap((data) => {
+          this.noData = this.hasNoData(data);
+          if (data.length === this.lastFilters.limit && data.length !== 0) {
+            this.hasMoreData = true;
+          } else {
+            this.hasMoreData = false;
+          }
+
+          const requests = data.map((activity: Activity) =>
+            this.activitiesService.getPhoto(activity.coverPhoto).pipe(
+              map((photo: Blob) => {
+                activity.coverPhoto = URL.createObjectURL(photo);
+                return activity;
+              }),
+              catchError((error) => {
+                console.error(error);
+                return of(activity);
+              })
+            )
+          );
+
+          return concat(requests).pipe(
             zipAll(),
             map((a) => a),
             finalize(() => {
               this.loading = false;
             })
           );
-      })
-    ).subscribe((activities: Activity[]) => {
-      this.favouriteIds = JSON.parse(localStorage.getItem(FAVOURITES));
-      if(activities.length === this.lastFilters.limit) {
-        this.hasMoreData = true;
-      } else {
-        this.hasMoreData = false;
-      }
+        })
+      )
+      .subscribe(
+        (activities: Activity[]) => {
+          this.favouriteIds = JSON.parse(localStorage.getItem(FAVOURITES));
+          console.log(activities.length, this.lastFilters.limit);
 
-      
-      if(loadMore) {
-        this.activities = [...this.activities, ...activities];
-      } else {
-        this.activities = [...activities];
-      }
+          if (loadMore) {
+            this.activities = [...this.activities, ...activities];
+          } else {
+            this.activities = [...activities];
+          }
 
-      this.activities = this.activities.map(activity => {
-        if(this.favouriteIds?.includes(activity.guid)) {
-          return {...activity, isFavourite: true}
+          this.activities = this.activities.map((activity) => {
+            if (this.favouriteIds?.includes(activity.guid)) {
+              return { ...activity, isFavourite: true };
+            }
+            return { ...activity, isFavourite: false };
+          });
+
+          this.cdr.detectChanges();
+        },
+        (error) => {
+          if (error.status !== 403) {
+            this.error = true;
+            this.loading = false;
+          }
         }
-        return {...activity, isFavourite: false}
-      })
-      
-      this.cdr.detectChanges();
-    },
-    (error) => {
-      if (
-        error.status !== 403
-      ) {
-        this.error = true;
-        this.loading = false;
-      }
-    });
+      );
   }
 
   private hasNoData(data: Activity[]): boolean {
-    return data.length === 0 ? true : false;
+    console.log('1', data);
+    console.log('2', this.activities);
+
+    return data.length === 0 && this.activities.length === 0 ? true : false;
   }
 }
