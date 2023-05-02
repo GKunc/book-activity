@@ -4,7 +4,7 @@ import { ACTIVITY_FILTERS, FAVOURITES } from '../common/consts/local-storage.con
 import { Activity } from '../common/services/activities/activities.model';
 import { ActivitiesService } from '../common/services/activities/activities.service';
 import { ResizeService } from '../common/services/resize/resize.service';
-import { ActivityFilters, ViewType } from '../shared/activity-filters/activity-filters.component';
+import { ActivityFilters, ViewType } from '../shared/activity-filters/activity-filters.model';
 
 @Component({
   selector: 'app-find-activities',

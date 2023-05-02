@@ -1,15 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ActivityFilters } from 'src/app/shared/activity-filters/activity-filters.component';
+import { ActivityFilters } from 'src/app/shared/activity-filters/activity-filters.model';
 import { Activity } from './activities.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ActivitiesService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getUserActivities(id: string): Observable<Activity[]> {
     return this.http.get<Activity[]>(`/api/user-activities?id=${id}`);
@@ -20,7 +19,10 @@ export class ActivitiesService {
   }
 
   checkPermission(guid: string, userId: string): Observable<any> {
-    return this.http.get(`/api/activities/check-permissions?guid=${guid}&userId=${userId}`, { responseType: 'text', observe: 'response' });
+    return this.http.get(`/api/activities/check-permissions?guid=${guid}&userId=${userId}`, {
+      responseType: 'text',
+      observe: 'response',
+    });
   }
 
   getActivityDetails(id: string): Observable<Activity> {
@@ -33,8 +35,8 @@ export class ActivitiesService {
 
   insertPhoto(fileList: FormData): Observable<any> {
     const headers = new HttpHeaders({
-      'Accept': 'application/json'
-    })
+      Accept: 'application/json',
+    });
     return this.http.post('/api/activities/photos', fileList, { headers, responseType: 'text' });
   }
 
@@ -47,11 +49,10 @@ export class ActivitiesService {
   }
 
   deleteActivity(id: string): Observable<any> {
-    return this.http.delete(`/api/activities?id=${id}`,  { responseType: 'text' });
+    return this.http.delete(`/api/activities?id=${id}`, { responseType: 'text' });
   }
 
   editActivity(activity: Partial<Activity>): Observable<any> {
     return this.http.put(`/api/activities?id=${activity.guid}`, activity, { responseType: 'text' });
   }
 }
-

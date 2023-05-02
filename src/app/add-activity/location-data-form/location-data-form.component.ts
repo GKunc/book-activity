@@ -44,10 +44,10 @@ export class LocationDataFormComponent implements OnInit, AfterViewInit {
   private layers?: H.service.DefaultLayers;
 
   ngOnInit(): void {
-    if (this.activity) {
+    if (this.activity.street) {
       this.form.controls.street.setValue(this.activity.street);
       this.form.controls.city.setValue(this.activity.city);
-      if (this.activity.coordinates.lat && this.activity.coordinates.lng) {
+      if (this.activity.coordinates?.lat && this.activity.coordinates?.lng) {
         this.coordinatesString = `${this.activity.coordinates.lat}, ${this.activity.coordinates.lng}`;
       }
     }

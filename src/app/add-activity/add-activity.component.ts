@@ -96,6 +96,7 @@ export class AddActivityComponent {
     this.currentStep += 1;
     if (this.currentStep === 1) this.stepOneDone = true;
     if (this.currentStep === 2) this.stepTwoDone = true;
+    // todo
   }
 
   saveData(data: ActivityData | GroupsData | ClientData | LocationData | MediaData): void {
@@ -115,26 +116,27 @@ export class AddActivityComponent {
       this.mediaData = data;
       console.log('mediaData', data);
     }
+    this.activity = this.createActivity();
   }
 
   private createActivity(): Activity {
     return {
       guid: this.guid,
       createdBy: this.loginService.user?.id,
-      images: this.mediaData.images,
-      coverPhoto: this.mediaData.images[0],
-      name: this.activityData.name,
-      category: this.activityData.category,
-      description: this.activityData.description,
-      groups: this.groupsData.activityGroups,
-      street: this.locationData.street,
-      city: this.locationData.city,
-      coordinates: this.locationData.coordinates,
-      email: this.clientData.email,
-      facebook: this.clientData.facebook,
-      instagram: this.clientData.instagram,
-      phone: this.clientData.phone,
-      www: this.clientData.www,
+      images: this.mediaData?.images,
+      coverPhoto: this.mediaData?.images[0],
+      name: this.activityData?.name,
+      category: this.activityData?.category,
+      description: this.activityData?.description,
+      groups: this.groupsData?.activityGroups,
+      street: this.locationData?.street,
+      city: this.locationData?.city,
+      coordinates: this.locationData?.coordinates,
+      email: this.clientData?.email,
+      facebook: this.clientData?.facebook,
+      instagram: this.clientData?.instagram,
+      phone: this.clientData?.phone,
+      www: this.clientData?.www,
     };
   }
 }

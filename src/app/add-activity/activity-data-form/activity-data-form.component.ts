@@ -30,7 +30,7 @@ export class ActivityDataFormComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    if (this.activity) {
+    if (this.activity?.name) {
       this.form.controls.name.setValue(this.activity.name);
       this.form.controls.category.setValue(this.activity.category);
       this.form.controls.description.setValue(this.activity.description);

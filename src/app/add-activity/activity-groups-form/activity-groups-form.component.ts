@@ -35,7 +35,7 @@ export class ActivityGroupsFormComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    if (this.activity) {
+    if (this.activity.groups) {
       this.addedGroups = this.activity.groups;
     }
   }

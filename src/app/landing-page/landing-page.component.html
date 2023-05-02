@@ -10,27 +10,15 @@
       >
       </hub-button>
 
-      <div
-        *ngIf="(resizeService.isSmall$ | async) === false"
-        class="landing-page__section--content"
-      >
-        Witaj na naszej stronie, która pomaga w wyszukiwaniu grupowych zajęć
-        sportowych! Nasza strona oferuje narzędzie wyszukiwania, które pozwala
-        znaleźć grupowe zajęcia sportowe w Twojej okolicy.
+      <div *ngIf="(resizeService.isSmall$ | async) === false" class="landing-page__section--content">
+        Witaj na naszej stronie, która pomaga w wyszukiwaniu grupowych zajęć sportowych! Nasza strona oferuje narzędzie
+        wyszukiwania, które pozwala znaleźć grupowe zajęcia sportowe w Twojej okolicy.
         <!-- Dzięki temu narzędziu, możesz łatwo przeglądać dostępne opcje, porównać je pod kątem ceny, lokalizacji i rodzaju zajęć, oraz znaleźć zajęcia, które będą odpowiednie dla Twojego dziecka. -->
 
-        <hub-button
-          class="landing-page__action-button"
-          text="Szukaj zajęć"
-          routerLink="/find-activities"
-        >
-        </hub-button>
+        <hub-button class="landing-page__action-button" text="Szukaj zajęć" routerLink="/find-activities"> </hub-button>
       </div>
     </div>
-    <img
-      class="landing-page__section--image"
-      src="../../assets/group_photo.png"
-    />
+    <img class="landing-page__section--image" src="../../assets/group_photo.png" />
 
     <!-- <div *ngIf="(resizeService.isSmall$ | async) === false" class="landing-page__section--image kids-image">
         </div> -->
@@ -41,12 +29,7 @@
   <div class="landing-page__section">
     <div class="landing-page__cards-container">
       <div class="landing-page__card">
-        <span
-          class="landing-page__card-icon"
-          nz-icon
-          nzType="clock-circle"
-          nzTheme="outline"
-        ></span>
+        <span class="landing-page__card-icon" nz-icon nzType="clock-circle" nzTheme="outline"></span>
         <div class="landing-page_card--info">
           Oszczędzisz czas i wysiłek
           <!-- Zamiast spędzać godziny na przeglądaniu różnych stron internetowych w poszukiwaniu odpowiednich zajęć sportowych dla dzieci, nasza strona pozwoli Ci zaoszczędzić czas i wysiłek. Wszystkie potrzebne informacje i narzędzia do wyszukiwania zajęć znajdziesz na naszej stronie w jednym miejscu. -->
@@ -54,12 +37,7 @@
       </div>
 
       <div class="landing-page__card">
-        <span
-          class="landing-page__card-icon"
-          nz-icon
-          nzType="search"
-          nzTheme="outline"
-        ></span>
+        <span class="landing-page__card-icon" nz-icon nzType="search" nzTheme="outline"></span>
         <div class="landing-page_card--info">
           Znajdziesz najlepsze zajęcia
           <!-- Dzięki narzędziu wyszukiwania na naszej stronie, znajdziesz szeroki wybór zajęć sportowych dla dzieci w Twojej okolicy. Możesz przeglądać różne opcje, porównać je pod kątem ceny, lokalizacji i rodzaju zajęć, a także przeczytać opinie innych rodziców. Dzięki temu, znajdziesz zajęcia, które będą najlepsze dla Twojego dziecka. -->
@@ -67,12 +45,7 @@
       </div>
 
       <div class="landing-page__card">
-        <span
-          class="landing-page__card-icon"
-          nz-icon
-          nzType="like"
-          nzTheme="outline"
-        ></span>
+        <span class="landing-page__card-icon" nz-icon nzType="like" nzTheme="outline"></span>
         <div class="landing-page_card--info">
           Wiesz co wybierasz
           <!-- Dzięki opinii innych rodziców, którzy uczestniczyli w zajęciach na danym klubie lub treningu, zyskasz pewność, że wybierasz dobre zajęcia. Opinie te pomogą Ci ocenić jakość zajęć i instruktorów, co pozwoli Ci podjąć dobrą decyzję i zapewnić Twojemu dziecku najlepsze doświadczenia sportowe. -->
@@ -80,12 +53,7 @@
       </div>
 
       <div class="landing-page__card">
-        <span
-          class="landing-page__card-icon"
-          nz-icon
-          nzType="aim"
-          nzTheme="outline"
-        ></span>
+        <span class="landing-page__card-icon" nz-icon nzType="aim" nzTheme="outline"></span>
         <div class="landing-page_card--info">
           Znajdziesz zajęcia dla każdego
           <!-- Niezależnie od wieku, poziomu zaawansowania lub zainteresowań Twojego dziecka, na naszej stronie znajdziesz zajęcia sportowe, które będą dla niego odpowiednie. Możesz przeglądać różne opcje i wybrać zajęcia, które najlepiej odpowiadają potrzebom Twojego dziecka. -->
@@ -104,26 +72,16 @@
         <br />
         Filtruj kategorie i dni tygodnia
 
-        <hub-button
-          class="landing-page__action-button"
-          text="Znajdź na mapie"
-          routerLink="/activity-map"
-        ></hub-button>
+        <hub-button class="landing-page__action-button" text="Znajdź na mapie" (click)="goToActivityMap()"></hub-button>
       </div>
     </div>
-    <img
-      class="landing-page__section--image"
-      src="../../assets/group_sport.png"
-    />
+    <img class="landing-page__section--image" src="../../assets/group_sport.png" />
   </div>
 
   <nz-divider></nz-divider>
 
   <div class="landing-page__section">
-    <img
-      class="landing-page__section--image"
-      src="../../assets/earn_photo.png"
-    />
+    <img class="landing-page__section--image" src="../../assets/earn_photo.png" />
 
     <div class="landing-page__section--text">
       <h1 class="landing-page__section--title">Chcesz dodać swoje zajęcia?</h1>
@@ -134,12 +92,7 @@
         <br />
         Pozyskaj nowych klientów.
 
-        <hub-button
-          class="landing-page__action-button"
-          text="Załóż konto"
-          (click)="openLoginModal()"
-        >
-        </hub-button>
+        <hub-button class="landing-page__action-button" text="Załóż konto" (click)="openLoginModal()"> </hub-button>
       </div>
     </div>
   </div>

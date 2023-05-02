@@ -42,7 +42,7 @@ export class MediaDataFormComponent implements OnInit {
   constructor(private activitiesService: ActivitiesService) {}
 
   ngOnInit(): void {
-    if (this.activity) {
+    if (this.activity.images) {
       this.loadingImages = true;
       forkJoin(
         Array.from(this.activity.images).map((image) =>
@@ -54,7 +54,12 @@ export class MediaDataFormComponent implements OnInit {
           )
         )
       )
-        .pipe(finalize(() => (this.loadingImages = false)))
+        .pipe(
+          finalize(() => {
+            this.isLoading = false;
+            this.loadingImages = false;
+          })
+        )
         .subscribe((images) => {
           this.images = images;
         });
@@ -110,6 +115,7 @@ export class MediaDataFormComponent implements OnInit {
           },
           () => {
             this.isLoading = false;
+            this.loadingImages = false;
           },
           () => (this.loadingImages = false)
         );

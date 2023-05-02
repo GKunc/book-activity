@@ -4,6 +4,7 @@ import { ACTIVITY_CATEGORIES, Category } from 'src/app/common/consts/category.co
 import { ACTIVITY_FILTERS } from 'src/app/common/consts/local-storage.consts';
 import { WeekDay, WEEK_DAYS } from 'src/app/common/consts/week-days.consts';
 import { ResizeService } from 'src/app/common/services/resize/resize.service';
+import { ActivityFilters, ViewType } from './activity-filters.model';
 
 const KEYBOARD_DEBOUND_TIME = 400;
 const MAX_PRICE = 1000;
@@ -11,7 +12,7 @@ const MAX_PRICE = 1000;
 @Component({
   selector: 'activity-filters',
   templateUrl: './activity-filters.component.html',
-  styleUrls: ['./activity-filters.component.less']
+  styleUrls: ['./activity-filters.component.less'],
 })
 export class ActivityFiltersComponent implements OnInit {
   @Output()
@@ -24,8 +25,8 @@ export class ActivityFiltersComponent implements OnInit {
   minPrice$: Subject<number> = new Subject();
   maxPrice$: Subject<number> = new Subject();
 
-  acitivyCategories: { value: Category, label: string }[] = ACTIVITY_CATEGORIES;
-  weekDaysOptions: { value: WeekDay, label: string }[] = WEEK_DAYS;
+  acitivyCategories: { value: Category; label: string }[] = ACTIVITY_CATEGORIES;
+  weekDaysOptions: { value: WeekDay; label: string }[] = WEEK_DAYS;
 
   phrase: string;
   weekDays: WeekDay[];
@@ -39,16 +40,14 @@ export class ActivityFiltersComponent implements OnInit {
 
   options = [
     { label: 'Lista', value: ViewType.List, icon: 'bars' },
-    { label: 'Mapa', value: ViewType.Map, icon: 'environment' }
+    { label: 'Mapa', value: ViewType.Map, icon: 'environment' },
   ];
 
-  constructor(
-    public resizeService: ResizeService,
-    ) {}
-  
+  constructor(public resizeService: ResizeService) {}
+
   ngOnInit(): void {
     const filters = JSON.parse(localStorage.getItem(ACTIVITY_FILTERS));
-    if(filters) {
+    if (filters) {
       this.phrase = filters.phrase;
       this.weekDays = filters.weekDays;
       this.categories = filters.categories;
@@ -58,33 +57,28 @@ export class ActivityFiltersComponent implements OnInit {
       this.page = 1;
       this.limit = 10;
       this.viewType = filters.viewType;
-
     } else {
       this.clearAllFilters();
     }
 
-    this.minPrice$.pipe(
-      debounceTime(KEYBOARD_DEBOUND_TIME)
-    ).subscribe(price => {
-      this.priceRange = [price, this.maxPrice]
-    })
+    this.minPrice$.pipe(debounceTime(KEYBOARD_DEBOUND_TIME)).subscribe((price) => {
+      this.priceRange = [price, this.maxPrice];
+    });
 
-    this.maxPrice$.pipe(
-      debounceTime(KEYBOARD_DEBOUND_TIME)
-    ).subscribe(price => {
-      this.priceRange = [this.minPrice, price]
-    })
+    this.maxPrice$.pipe(debounceTime(KEYBOARD_DEBOUND_TIME)).subscribe((price) => {
+      this.priceRange = [this.minPrice, price];
+    });
   }
 
   changeView(value: number): void {
-    if(value === 0) {
+    if (value === 0) {
       this.viewType = ViewType.List;
     } else {
       this.viewType = ViewType.Map;
     }
     this.submitView.emit(this.viewType);
-    const filters = this.createFilters()
-    localStorage.setItem(ACTIVITY_FILTERS, JSON.stringify(filters))
+    const filters = this.createFilters();
+    localStorage.setItem(ACTIVITY_FILTERS, JSON.stringify(filters));
   }
 
   openFilters(): void {
@@ -100,7 +94,6 @@ export class ActivityFiltersComponent implements OnInit {
     this.minPrice$.next(value);
   }
 
-
   maxPriceChanged(value: number): void {
     this.maxPrice$.next(value);
   }
@@ -114,21 +107,21 @@ export class ActivityFiltersComponent implements OnInit {
     this.priceRange = [this.minPrice, this.maxPrice];
     this.page = 1;
     this.limit = 10;
-    
-    const filters = this.createFilters()
+
+    const filters = this.createFilters();
     this.showFilters = false;
-    localStorage.setItem(ACTIVITY_FILTERS, JSON.stringify(filters))
+    localStorage.setItem(ACTIVITY_FILTERS, JSON.stringify(filters));
   }
 
   submit(): void {
-    const filters = this.createFilters()
+    const filters = this.createFilters();
     this.submitFilters.emit(filters);
     this.showFilters = false;
-    localStorage.setItem(ACTIVITY_FILTERS, JSON.stringify(filters))
+    localStorage.setItem(ACTIVITY_FILTERS, JSON.stringify(filters));
   }
 
   private createFilters(): ActivityFilters {
-   return {
+    return {
       phrase: this.phrase,
       weekDays: this.weekDays,
       categories: this.categories,
@@ -139,20 +132,4 @@ export class ActivityFiltersComponent implements OnInit {
       viewType: this.viewType,
     };
   }
-}
-
-export interface ActivityFilters {
-  phrase: string;
-  weekDays: WeekDay[];
-  categories: Category[];
-  minPrice: number;
-  maxPrice: number;
-  page: number;
-  limit: number;
-  viewType: ViewType;
-}
-
-export enum ViewType {
-  List,
-  Map,
 }
