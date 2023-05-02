@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError, map, of, switchMap } from 'rxjs';
+import { catchError, forkJoin, map, of, tap, switchMap, finalize } from 'rxjs';
 import { FAVOURITES } from '../common/consts/local-storage.consts';
 import { Activity } from '../common/services/activities/activities.model';
 import { ActivitiesService } from '../common/services/activities/activities.service';
@@ -38,21 +38,25 @@ export class FavouritesListComponent implements OnInit {
     }
 
     this.loading = true;
-    this.favouriteIds?.forEach((id) => {
-      this.noData = false;
-      this.loading = true;
-
-      this.activityService
+    const requests = this.favouriteIds?.map((id) => {
+      return this.activityService
         .getActivityDetails(id)
-        .pipe(switchMap((activity: Activity) => this.downloadPhotos(activity)))
-        .subscribe(
-          (activity: Activity) => {
-            this.activities.push({ ...activity, isFavourite: true });
-            this.loading = false;
-          },
-          () => (this.loading = false)
-        );
+        .pipe(switchMap((activity: Activity) => this.downloadPhotos(activity)));
     });
+
+    forkJoin(requests)
+      .pipe(
+        tap((activities: Activity[]) => {
+          return activities.map((activity) => ({
+            ...activity,
+            isFavourite: true,
+          }));
+        }),
+        finalize(() => (this.loading = false))
+      )
+      .subscribe((activities) => {
+        this.activities = activities;
+      });
   }
 
   private downloadPhotos(activity: Activity): any {

@@ -10,7 +10,7 @@ import { SignComponent } from 'src/app/sign/sign.component';
 @Component({
   selector: 'hub-nav',
   templateUrl: './nav.component.html',
-  styleUrls: ['./nav.component.less']
+  styleUrls: ['./nav.component.less'],
 })
 export class NavComponent implements OnInit {
   visible = false;
@@ -19,7 +19,7 @@ export class NavComponent implements OnInit {
   userInitials: string;
   categories: Category[];
 
-  categoriesOptions: { value: Category, label: string }[] = ACTIVITY_CATEGORIES;
+  categoriesOptions: { value: Category; label: string }[] = ACTIVITY_CATEGORIES;
 
   phrase = '';
 
@@ -27,22 +27,33 @@ export class NavComponent implements OnInit {
     public loginService: LoginService,
     public resizeService: ResizeService,
     private modalService: ModalService,
-    private router: Router,
-  ) {
-  }
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.loginService._user$?.subscribe(data => {
+    this.loginService._user$?.subscribe((data) => {
       if (data) {
         this.user = data;
         this.userInitials = this.user.username.charAt(0).toUpperCase();
         this.modalService.close();
       }
-    })
+    });
   }
 
   searchActivities(): void {
-    localStorage.setItem(ACTIVITY_FILTERS, JSON.stringify({ phrase: this.phrase, categories: this.categories, minPrice: 0, maxPrice: 1000, page: 1, limit: 10 }))
+    localStorage.setItem(
+      ACTIVITY_FILTERS,
+      JSON.stringify({
+        phrase: this.phrase,
+        categories: this.categories,
+        minPrice: 0,
+        maxPrice: 1000,
+        page: 1,
+        limit: 10,
+      })
+    );
+    this.phrase = '';
+    this.categories = [];
     this.router.navigate(['find-activities']);
   }
 
