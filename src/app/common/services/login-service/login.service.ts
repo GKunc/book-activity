@@ -26,23 +26,23 @@ export class LoginService {
       const loggedUser: InternalUser = jwt_decode(token);
       this.loggedUser = { id: loggedUser.id, username: loggedUser.username, email: loggedUser.email };
       this._user$.next(this.loggedUser);
-    } else {
-      this.socialAuthService.authState.subscribe(
-        (user) => {
-          if (user) {
-            this.authService.signUp(user.name, user.email, '').subscribe(
-              () => of(null),
-              () => of(null)
-            );
-
-            this.signIn(user.name, '', true).subscribe();
-          }
-        },
-        (error) => {
-          console.log('LOGIN ERROR', error);
-        }
-      );
     }
+
+    this.socialAuthService.authState.subscribe(
+      (user) => {
+        if (user) {
+          this.authService.signUp(user.name, user.email, '').subscribe(
+            () => of(null),
+            () => of(null)
+          );
+
+          this.signIn(user.name, '', true).subscribe();
+        }
+      },
+      (error) => {
+        console.log('LOGIN ERROR', error);
+      }
+    );
   }
 
   signIn(username: string, password: string, googleLogIn: boolean = false): Observable<any> {
