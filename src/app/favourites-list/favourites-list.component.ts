@@ -56,6 +56,7 @@ export class FavouritesListComponent implements OnInit {
       )
       .subscribe((activities) => {
         this.activities = activities;
+        this.activities.forEach((activity) => (activity.isFavourite = true));
       });
   }
 
