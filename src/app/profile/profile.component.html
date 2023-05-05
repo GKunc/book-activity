@@ -1,0 +1,11 @@
+<ng-template #notAuthorized>
+  <not-authorized></not-authorized>
+</ng-template>
+
+<div class="your-activities__header" *ngIf="loginService._user$ | async; else notAuthorized"></div>
+
+<ng-container *ngIf="!loading">
+  <h1>Profile</h1>
+</ng-container>
+
+<loader *ngIf="loading && userLogged" [inlineStyle]="true"></loader>

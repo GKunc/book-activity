@@ -6,6 +6,7 @@ import { ActivityMapComponent } from './find-activities/activity-map/activity-ma
 import { FindActivitiesComponent } from './find-activities/find-activities.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { NotAuthorizedComponent } from './not-authorized/not-authorized.component';
+import { ProfileComponent } from './profile/profile.component';
 import { YourActivitiesComponent } from './your-activities/your-activities.component';
 
 const routes: Routes = [
@@ -28,6 +29,10 @@ const routes: Routes = [
   {
     path: 'favourites',
     component: FavouritesListComponent,
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent,
   },
   {
     path: 'not-authorized',

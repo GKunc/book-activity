@@ -48,6 +48,7 @@ import { FavouritesListComponent } from './favourites-list/favourites-list.compo
 import { CommentsComponent } from './activity-details/comments/comments.component';
 import { RateSummaryComponent } from './activity-details/rate-summary/rate-summary.component';
 import { OpinionsComponent } from './activity-details/opinions/opinions.component';
+import { ProfileComponent } from './profile/profile.component';
 
 registerLocaleData(en);
 
@@ -79,6 +80,7 @@ registerLocaleData(en);
     CommentsComponent,
     RateSummaryComponent,
     OpinionsComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
