@@ -1,8 +1,8 @@
-const express = require("express");
-const cors = require('cors')
-const { MongoClient, GridFSBucket } = require("mongodb");
-const upload = require("./upload");
-const cookieSession = require("cookie-session");
+const express = require('express');
+const cors = require('cors');
+const { MongoClient, GridFSBucket } = require('mongodb');
+const upload = require('./upload');
+const cookieSession = require('cookie-session');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 
@@ -16,7 +16,7 @@ const options = {
   index: false,
   maxAge: '1y',
   redirect: true,
-}
+};
 
 // create app
 const app = express();
@@ -31,24 +31,24 @@ require('./server/routes/auth.routes')(app);
 require('./server/routes/activity.routes')(app);
 require('./server/routes/favourite.routes')(app);
 require('./server/routes/comment.routes')(app);
+require('./server/routes/mail.routes')(app);
 
-const db = require("./server/models");
-const initializeDb = require("./server/setup/initializeDb");
+const db = require('./server/models');
+const initializeDb = require('./server/setup/initializeDb');
 
 db.mongoose
   .connect(`${process.env.MANGO_DB_CONNECTION_STRING_PHOTOS}`, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
   })
   .then(() => {
-    console.log("Successfully connect to MongoDB.");
+    console.log('Successfully connect to MongoDB.');
     initializeDb();
   })
-  .catch(err => {
-    console.error("Connection error", err);
+  .catch((err) => {
+    console.error('Connection error', err);
     process.exit();
   });
-
 
 // serve angular paths
 app.get('/', function (req, res) {
@@ -57,7 +57,7 @@ app.get('/', function (req, res) {
 
 // start listening
 app.listen(port, function () {
-  console.log("Node Express server for " + app.name + " listening on http://localhost:" + port);
+  console.log('Node Express server for ' + app.name + ' listening on http://localhost:' + port);
 });
 
 // ========================================================
@@ -79,11 +79,11 @@ app.get('/api/activities/check-permissions', async function (req, res) {
     const activities = database.collection('activities');
     const result = await activities.findOne(query);
     if (result.createdBy === userId) {
-      res.status(200).send('OK')
-      console.log("Permission granted.");
+      res.status(200).send('OK');
+      console.log('Permission granted.');
     } else {
-      res.status(401).json({ error: 'No permission' })
-      console.log("No permission.");
+      res.status(401).json({ error: 'No permission' });
+      console.log('No permission.');
     }
   } finally {
     await client.close();
@@ -96,22 +96,21 @@ app.post('/api/activities/photos', async function (req, res) {
 
     if (req.file == undefined) {
       return res.send({
-        message: "You must select a file.",
+        message: 'You must select a file.',
       });
     }
 
     return res.send({
-      message: "File has been uploaded.",
+      message: 'File has been uploaded.',
     });
   } catch (error) {
     console.log(error);
 
     return res.send({
-      message: "Error when trying upload image: ${error}",
+      message: 'Error when trying upload image: ${error}',
     });
   }
 });
-
 
 app.get('/api/activities/photos', async function (req, res) {
   const id = req.query.id;
@@ -125,15 +124,15 @@ app.get('/api/activities/photos', async function (req, res) {
 
     let downloadStream = bucket.openDownloadStreamByName(id);
 
-    downloadStream.on("data", function (data) {
+    downloadStream.on('data', function (data) {
       return res.status(200).write(data);
     });
 
-    downloadStream.on("error", function (err) {
-      return res.status(404).send({ message: "Cannot download the Image!" + err });
+    downloadStream.on('error', function (err) {
+      return res.status(404).send({ message: 'Cannot download the Image!' + err });
     });
 
-    downloadStream.on("end", () => {
+    downloadStream.on('end', () => {
       return res.end();
     });
   } catch (error) {
@@ -154,11 +153,9 @@ app.delete('/api/activities/photos', async function (req, res) {
       bucketName: 'photos',
     });
 
-    const image = bucket.find({filename: id});
-    image.forEach(async doc =>  await bucket.delete(doc._id));
+    const image = bucket.find({ filename: id });
+    image.forEach(async (doc) => await bucket.delete(doc._id));
 
-   
-   
     return res.status(200);
   } catch (error) {
     console.log(error);
@@ -167,4 +164,3 @@ app.delete('/api/activities/photos', async function (req, res) {
     });
   }
 });
-
