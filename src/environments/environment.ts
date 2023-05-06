@@ -5,6 +5,9 @@ export const environment = {
   HERE_MAPS_API_KEY: '',
   MEASUREMENT_ID: '',
   API_URL: 'hhtp://localhost:8080',
+  EMAIL_USER: '',
+  EMAIL_PASSWORD: '',
+  CONFRIMATION_URL: '',
   appVersion: '0.0.0',
   production: true,
 };
