@@ -1,14 +1,5 @@
-<div
-  *ngIf="resizeService.isSmall$ | async; else largeScreenFilters"
-  class="filters-mobile"
->
-  <button
-    (click)="openFilters()"
-    nz-button
-    nzType="default"
-    nzSize="default"
-    nzShape="round"
-  >
+<div *ngIf="resizeService.isSmall$ | async; else largeScreenFilters" class="filters-mobile">
+  <button (click)="openFilters()" nz-button nzType="default" nzSize="default" nzShape="round">
     Pokaz filtry
     <span nz-icon nzType="down" nzTheme="outline"></span>
   </button>
@@ -56,19 +47,11 @@
         nzMode="multiple"
         [nzMaxTagCount]="1"
       >
-        <nz-option
-          *ngFor="let option of weekDaysOptions"
-          [nzLabel]="option.label"
-          [nzValue]="option.value"
-        ></nz-option>
+        <nz-option *ngFor="let option of weekDaysOptions" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
       </nz-select>
 
       <div class="filters__label">Cena:</div>
-      <nz-slider
-        nzRange
-        (ngModelChange)="rangePriceChanged($event)"
-        [(ngModel)]="priceRange"
-      ></nz-slider>
+      <nz-slider nzRange (ngModelChange)="rangePriceChanged($event)" [(ngModel)]="priceRange"></nz-slider>
 
       <div class="find-activities__filters-row">
         <nz-input-number
@@ -89,9 +72,7 @@
     </ng-template>
 
     <ng-template #modalFooter>
-      <button nz-button nzType="default" (click)="clearAllFilters()">
-        Wyczyść
-      </button>
+      <button nz-button nzType="default" (click)="clearAllFilters()">Wyczyść</button>
       <button nz-button nzType="primary" (click)="submit()">Szukaj</button>
     </ng-template>
   </nz-modal>
@@ -122,11 +103,7 @@
       nzMode="multiple"
       [nzMaxTagCount]="1"
     >
-      <nz-option
-        *ngFor="let option of acitivyCategories"
-        [nzLabel]="option.label"
-        [nzValue]="option.value"
-      ></nz-option>
+      <nz-option *ngFor="let option of acitivyCategories" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
     </nz-select>
 
     <nz-select
@@ -136,18 +113,10 @@
       nzMode="multiple"
       [nzMaxTagCount]="1"
     >
-      <nz-option
-        *ngFor="let option of weekDaysOptions"
-        [nzLabel]="option.label"
-        [nzValue]="option.value"
-      ></nz-option>
+      <nz-option *ngFor="let option of weekDaysOptions" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
     </nz-select>
 
-    <nz-slider
-      nzRange
-      (ngModelChange)="rangePriceChanged($event)"
-      [(ngModel)]="priceRange"
-    ></nz-slider>
+    <nz-slider nzRange (ngModelChange)="rangePriceChanged($event)" [(ngModel)]="priceRange"></nz-slider>
 
     <div class="find-activities__filters-row">
       <nz-input-number
@@ -171,17 +140,8 @@
     </div>
 
     <div class="find-activities__filters-row">
-      <hub-button
-        class="action-button"
-        text="Wyczyść"
-        type="default"
-        (click)="clearAllFilters()"
-      ></hub-button>
-      <hub-button
-        class="action-button"
-        text="Szukaj"
-        (click)="submit()"
-      ></hub-button>
+      <hub-button class="action-button" text="Wyczyść" type="default" (click)="clearAllFilters()"></hub-button>
+      <hub-button class="action-button" text="Szukaj" (click)="submit()"></hub-button>
     </div>
   </div>
 </ng-template>

@@ -1,7 +1,13 @@
 const nodemailer = require('nodemailer');
 const templates = require('../assets/email-template.js');
 
-exports.sendConfirmationEmail = async (req, res) => {
+exports.sendConfirmationEmail = async (req) => {
+  const userId = req.userId;
+  const confirmationSecret = req.confirmationSecret;
+
+  console.log(process.env.EMAIL_USER);
+  console.log(process.env.EMAIL_PASSWORD);
+
   let transporter = nodemailer.createTransport({
     host: 'smtp.office365.com',
     port: 587,
@@ -13,6 +19,7 @@ exports.sendConfirmationEmail = async (req, res) => {
   });
 
   const message = 'Potwierdz adres email';
+  const redirectURL = process.env.CONFRIMATION_URL + '?confirmationSecret=' + confirmationSecret + '&userId=' + userId;
 
   // send mail with defined transport object
   let info = await transporter.sendMail({
@@ -20,9 +27,8 @@ exports.sendConfirmationEmail = async (req, res) => {
     to: 'gregson0307@gmail.com', // list of receivers
     subject: 'Book Activity - Potwierdzenie rejestracji', // Subject line
     text: message,
-    html: templates.HTML_TEMPLATE(message),
+    html: templates.HTML_TEMPLATE(redirectURL),
   });
 
   console.log('Message sent: %s', info.messageId);
-  res.sendStatus(200);
 };

@@ -57,8 +57,8 @@ export class LoginService {
         this._user$.next(loggedUser);
         // get favourites
         this.favouriteService.getFavourites(loggedUser?.id).subscribe((response: Favourite) => {
-          localStorage.setItem(FAVOURITES, JSON.stringify(response.favourites));
-          this._favourites$.next(response.favourites);
+          localStorage.setItem(FAVOURITES, JSON.stringify(response?.favourites));
+          this._favourites$.next(response?.favourites);
         });
       })
     );
