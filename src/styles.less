@@ -8,76 +8,76 @@
 
 html,
 body {
-    margin: 0;
-    min-height: 100vh;
-    width: 100%;
-    background-color: white;
-    box-sizing: border-box;
+  margin: 0;
+  min-height: 100vh;
+  width: 100%;
+  background-color: white;
+  box-sizing: border-box;
 }
 
 body {
-    padding: 16px 40px;
+  padding: 16px 40px;
 }
 
 a {
-    color: @primary-color !important;
+  color: @primary-color !important;
 }
 
 .logo-icon {
-    width: 50px;
-    height: 50px;
+  width: 50px;
+  height: 50px;
 }
 
 .modal__action-container {
-    display: flex;
-    justify-content: flex-end;
-    gap: 8px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
 }
 
 .ant-form-item {
-    margin-bottom: 8px !important;
+  margin-bottom: 8px !important;
 }
 
 .ant-form {
-    margin: 8px 0 !important;
+  margin: 8px 0 !important;
 }
 
 .ant-layout {
-    height: 100%;
-    background-color: @background-color;
+  height: 100%;
+  background-color: @background-color;
 }
 
 .ant-layout-sider {
-    background-color: @background-color;
+  background-color: @background-color;
 }
 
 .ant-layout-sider-children {
-    position: fixed;
-    padding: 0 8px;
-    width: 220px;
-    background-color: @background-color;
-    // height: auto !important;
+  position: fixed;
+  padding: 0 8px;
+  width: 220px;
+  background-color: @background-color;
+  // height: auto !important;
 }
 
 ::ng-deep .ant-carousel .slick-dots button {
-    background-color: @primary-color !important;
+  background-color: @primary-color !important;
 }
 
 ::ng-deep .ant-divider {
-    border-top: 1px solid @gray-border-color !important;
-    margin: 16px 0 !important;
+  border-top: 1px solid @gray-border-color !important;
+  margin: 16px 0 !important;
 }
 
 ::ng-deep .ant-input-number {
-    width: 100%;
+  width: 100%;
 }
 
-::ng-deep  .ant-result {
-    padding: 80px 32px !important;
+::ng-deep .ant-result {
+  padding: 50px 32px !important;
 }
 
 .clickable {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 // @media (max-width: 1200px) {
@@ -87,17 +87,16 @@ a {
 // }
 
 @media (max-width: 575px) {
+  html,
+  body {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    box-sizing: border-box;
+  }
 
-    html,
-    body {
-        margin: 0;
-        height: 100%;
-        width: 100%;
-        background-color: white;
-        box-sizing: border-box;
-    }
-
-    body {
-        padding: 16px;
-    }
+  body {
+    padding: 16px;
+  }
 }

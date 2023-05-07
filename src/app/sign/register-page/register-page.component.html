@@ -29,11 +29,7 @@
       <nz-form-label nzFor="password" nzRequired>Hasło</nz-form-label>
       <nz-form-control [nzErrorTip]="errorDescription">
         <nz-input-group [nzSuffix]="suffixTemplate">
-          <input
-            [type]="passwordVisible ? 'text' : 'password'"
-            nz-input
-            formControlName="password"
-          />
+          <input [type]="passwordVisible ? 'text' : 'password'" nz-input formControlName="password" />
         </nz-input-group>
         <ng-template #suffixTemplate>
           <span
@@ -47,39 +43,25 @@
     </nz-form-item>
   </form>
 
-  <hub-button
-    class="button__full-width"
-    text="Zarejestruj"
-    (click)="signUp()"
-  ></hub-button>
+  <hub-button class="button__full-width" text="Zarejestruj" [isLoading]="isLoading" (click)="signUp()"></hub-button>
   <div>Masz juz konto? <a (click)="switchMode.emit()">Zaloguj się.</a></div>
 </div>
 
 <ng-template #errorDescription let-control>
-  <ng-container *ngIf="control.hasError('required')"
-    >To pole jest wymagane</ng-container
-  >
-  <ng-container *ngIf="control.hasError('minlength')"
-    ><div>Minimalna wymagana ilość znaków</div></ng-container
-  >
-  <ng-container *ngIf="control.hasError('hasUpperCase')"
-    ><div>Hasło musi posiadac jedną duzą literę</div></ng-container
-  >
+  <ng-container *ngIf="control.hasError('required')">To pole jest wymagane</ng-container>
+  <ng-container *ngIf="control.hasError('minlength')"><div>Minimalna wymagana ilość znaków</div></ng-container>
+  <ng-container *ngIf="control.hasError('hasUpperCase')"><div>Hasło musi posiadac jedną duzą literę</div></ng-container>
   <ng-container *ngIf="control.hasError('hasLowerCase')"
     ><div>Hasło musi przynajmniej jedną małą literę</div></ng-container
   >
-  <ng-container *ngIf="control.hasError('hasNumeric')"
-    ><div>Hasło musi przynajmniej jedną liczbę</div></ng-container
-  >
+  <ng-container *ngIf="control.hasError('hasNumeric')"><div>Hasło musi przynajmniej jedną liczbę</div></ng-container>
   <ng-container *ngIf="control.hasError('uniqueUser')"
     >Uytkownik z podanym loginem jest juz zarejestrowany</ng-container
   >
   <ng-container *ngIf="control.hasError('uniqueEmail')"
     >Uytkownik z podanym emailem jest juz zarejestrowany</ng-container
   >
-  <ng-container *ngIf="control.hasError('email')"
-    >Podany email jest nieprawidlowy</ng-container
-  >
+  <ng-container *ngIf="control.hasError('email')">Podany email jest nieprawidlowy</ng-container>
   <ng-container *ngIf="control.hasError('credentialNotCorrect')"
     >Podany login lub hasło jest nieprawidłowe</ng-container
   >

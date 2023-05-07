@@ -1,0 +1,45 @@
+@import '../../styles.less';
+
+.packages {
+  display: flex;
+  gap: 16px;
+
+  &__card {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    border-radius: 2px;
+    border: 1px solid @primary-color;
+    height: 480px;
+    width: 100%;
+
+    &--selected {
+      background-color: @primary-color;
+      color: white;
+
+      .packages__card--name {
+        color: white;
+      }
+
+      .packages__card--price {
+        color: white;
+      }
+    }
+
+    &--name {
+      font-size: 32px;
+      padding: 16px;
+    }
+
+    &--price {
+      padding: 16px;
+      font-size: 48px;
+      font-weight: 800;
+    }
+
+    &--list {
+      font-size: 20px;
+      padding: 16px;
+    }
+  }
+}

@@ -17,4 +17,5 @@ module.exports = function (app) {
   app.get('/api/auth/refresh', controller.refreshAccessToken);
   app.post('/api/auth/signout', controller.signout);
   app.post('/api/auth/confirmEmail', controller.confirmEmail);
+  app.get('/api/auth/getUser', controller.getUser);
 };

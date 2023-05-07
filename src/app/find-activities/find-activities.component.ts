@@ -92,8 +92,9 @@ export class FindActivitiesComponent implements OnInit, AfterViewInit {
       )
       .subscribe(
         (activities: Activity[]) => {
-          this.favouriteIds = JSON.parse(localStorage.getItem(FAVOURITES));
-          console.log(activities.length, this.lastFilters.limit);
+          if (localStorage.getItem(FAVOURITES) && localStorage.getItem(FAVOURITES) !== 'undefined') {
+            this.favouriteIds = JSON.parse(localStorage.getItem(FAVOURITES));
+          }
 
           if (loadMore) {
             this.activities = [...this.activities, ...activities];
@@ -120,9 +121,6 @@ export class FindActivitiesComponent implements OnInit, AfterViewInit {
   }
 
   private hasNoData(data: Activity[]): boolean {
-    console.log('1', data);
-    console.log('2', this.activities);
-
     return data.length === 0 && this.activities.length === 0 ? true : false;
   }
 }

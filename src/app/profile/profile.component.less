@@ -1,5 +1,33 @@
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   margin-bottom: 80px;
   margin-top: 60px;
+  height: calc(100vh - 160px);
+}
+
+.profile {
+  &__action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  &__container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__form {
+    flex: 1;
+  }
+
+  &__package-tooltip {
+    align-items: center;
+    display: flex;
+    margin-left: 8px;
+    cursor: pointer;
+  }
 }

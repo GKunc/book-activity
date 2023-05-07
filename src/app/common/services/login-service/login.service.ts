@@ -7,6 +7,7 @@ import { ACCESS_TOKEN, FAVOURITES, REFRESH_TOKEN } from '../../consts/local-stor
 import { FavouriteService } from '../favourites/favourites.service';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { Favourite } from '../favourites/favourites.model';
+import { Package } from 'src/app/profile/profile.models';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +25,14 @@ export class LoginService {
     const token = localStorage.getItem(ACCESS_TOKEN);
     if (token) {
       const loggedUser: InternalUser = jwt_decode(token);
-      this.loggedUser = { id: loggedUser.id, username: loggedUser.username, email: loggedUser.email };
+      this.loggedUser = {
+        id: loggedUser.id,
+        username: loggedUser.username,
+        email: loggedUser.email,
+        createdAt: loggedUser.createdAt,
+        package: loggedUser.package,
+        packageTill: loggedUser.packageTill,
+      };
       this._user$.next(this.loggedUser);
     }
 
@@ -82,6 +90,10 @@ export class LoginService {
     }
   }
 
+  getUser(userId: string): Observable<InternalUser> {
+    return this.authService.getUser(userId);
+  }
+
   get user(): InternalUser {
     return this.loggedUser;
   }
@@ -91,4 +103,7 @@ export interface InternalUser {
   id: string;
   username: string;
   email: string;
+  createdAt: Date;
+  package: Package;
+  packageTill: Date;
 }

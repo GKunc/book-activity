@@ -2,10 +2,65 @@
   <not-authorized></not-authorized>
 </ng-template>
 
-<div class="your-activities__header" *ngIf="loginService._user$ | async; else notAuthorized"></div>
+<div class="profile__container" *ngIf="loginService._user$ | async; else notAuthorized">
+  <ng-container *ngIf="!loading">
+    <form class="profile__form" nz-form [formGroup]="form">
+      <h1>Profil:</h1>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="5">Login</nz-form-label>
+        <nz-form-control nzHasFeedback [nzSpan]="18" nzErrorTip="Input is required">
+          <input nz-input formControlName="userName" name="userName" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="5">E-mail</nz-form-label>
+        <nz-form-control nzHasFeedback [nzSpan]="18" nzErrorTip="MaxLength is 6">
+          <input nz-input formControlName="email" name="email" email />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="5">Konto od</nz-form-label>
+        <nz-form-control nzHasFeedback [nzSpan]="18" nzErrorTip="MinLength is 6">
+          <input nz-input formControlName="createdAt" name="createdAt" minlength="6" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="5">Powiadomienia</nz-form-label>
+        <nz-form-control nzHasFeedback [nzSpan]="18" nzErrorTip="Pattern not match">
+          <nz-switch formControlName="notificationsEnabled" name="notificationsEnabled"></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="5">Opłacone do</nz-form-label>
+        <nz-form-control nzHasFeedback [nzSpan]="18" nzErrorTip="Pattern not match">
+          <input nz-input formControlName="packageTill" name="packageTill" minlength="6" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="5">Obecny pakiet</nz-form-label>
+        <nz-form-control [nzSpan]="18">
+          <nz-select formControlName="currentPackage" name="currentPackage" nzPlaceHolder="Pakiet">
+            <nz-option
+              *ngFor="let option of packagesOptions"
+              [nzLabel]="option.label"
+              [nzValue]="option.value"
+            ></nz-option>
+          </nz-select>
+        </nz-form-control>
+        <span
+          class="profile__package-tooltip"
+          nz-icon
+          nzType="info-circle"
+          nzTheme="outline"
+          (click)="showAvailablePackages()"
+        ></span>
+      </nz-form-item>
+    </form>
 
-<ng-container *ngIf="!loading">
-  <h1>Profile</h1>
-</ng-container>
-
+    <div class="profile__action-buttons" *ngIf="hasSomeChanges">
+      <hub-button (click)="resetForm()" text="Wyczyść" type="default"></hub-button>
+      <hub-button text="Zapisz"></hub-button>
+    </div>
+  </ng-container>
+</div>
 <loader *ngIf="loading && userLogged" [inlineStyle]="true"></loader>

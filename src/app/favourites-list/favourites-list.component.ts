@@ -21,7 +21,9 @@ export class FavouritesListComponent implements OnInit {
 
   ngOnInit(): void {
     this.noData = false;
-    this.favouriteIds = JSON.parse(localStorage.getItem(FAVOURITES));
+    if (localStorage.getItem(FAVOURITES) && localStorage.getItem(FAVOURITES) !== 'undefined') {
+      this.favouriteIds = JSON.parse(localStorage.getItem(FAVOURITES));
+    }
     this.getFavouritesActivities();
 
     this.loginService._favourites$.subscribe((favourites) => {

@@ -34,6 +34,7 @@ import { NzCommentModule } from 'ng-zorro-antd/comment';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzRateModule } from 'ng-zorro-antd/rate';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
 
 import { SocialLoginModule } from '@abacritt/angularx-social-login';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -47,7 +48,6 @@ import { CategoryPipe } from '../common/pipes/category.pipe';
 import { ActivityFiltersComponent } from './activity-filters/activity-filters.component';
 import { ErrorComponent } from './error/error.component';
 import { DateDistancePipe } from '../common/pipes/date-distance.pipe';
-
 
 @NgModule({
   declarations: [
@@ -100,7 +100,8 @@ import { DateDistancePipe } from '../common/pipes/date-distance.pipe';
     NzListModule,
     NzRateModule,
     NzProgressModule,
-    
+    NzSwitchModule,
+
     ReactiveFormsModule,
     FormsModule,
   ],
@@ -112,7 +113,7 @@ import { DateDistancePipe } from '../common/pipes/date-distance.pipe';
     NoDataComponent,
     ActivityFiltersComponent,
     ErrorComponent,
-    
+
     SafeUrlPipe,
     WeekDayPipe,
     PricePlnPipe,
@@ -152,9 +153,10 @@ import { DateDistancePipe } from '../common/pipes/date-distance.pipe';
     NzListModule,
     NzRateModule,
     NzProgressModule,
-    
+    NzSwitchModule,
+
     ReactiveFormsModule,
     FormsModule,
-  ]
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}

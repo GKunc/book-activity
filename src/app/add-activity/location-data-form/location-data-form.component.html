@@ -1,33 +1,16 @@
 <form nz-form [formGroup]="form" nzLayout="vertical">
   <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="street" nzRequired
-      >Adres</nz-form-label
-    >
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="street" nzRequired>Adres</nz-form-label>
     <nz-form-control [nzErrorTip]="errorDescription">
-      <input
-        id="street"
-        nz-input
-        placeholder="Adres"
-        formControlName="street"
-      />
+      <input id="street" nz-input placeholder="Adres" formControlName="street" />
     </nz-form-control>
   </nz-form-item>
 
   <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="city" nzRequired
-      >Miasto</nz-form-label
-    >
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="city" nzRequired>Miasto</nz-form-label>
     <nz-form-control [nzErrorTip]="errorDescription">
-      <nz-select
-        formControlName="city"
-        nzPlaceHolder="Miast"
-        [nzDisabled]="true"
-      >
-        <nz-option
-          *ngFor="let option of cities"
-          [nzLabel]="option.label"
-          [nzValue]="option.value"
-        ></nz-option>
+      <nz-select formControlName="city" nzPlaceHolder="Miast" [nzDisabled]="true">
+        <nz-option *ngFor="let option of cities" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
       </nz-select>
     </nz-form-control>
   </nz-form-item>
@@ -66,10 +49,7 @@
   </ng-template>
 </div>
 
-<div
-  [style.height]="!coordinatesString ? '0px' : '400px'"
-  style="position: relative"
->
+<div [style.height]="!coordinatesString ? '0px' : '400px'" style="position: relative">
   <div class="activity-map">
     <div class="activity-map__container" #map id="map"></div>
   </div>
@@ -82,13 +62,7 @@
 </div>
 
 <ng-template #errorDescription let-control>
-  <ng-container *ngIf="control.hasError('required')"
-    >To pole jest wymagane</ng-container
-  >
-  <ng-container *ngIf="control.hasError('minlength')"
-    >Minimalna wymagana ilość znaków</ng-container
-  >
-  <ng-container *ngIf="control.hasError('maxlength')"
-    >Przekroczono dopuszczalną ilość znaków</ng-container
-  >
+  <ng-container *ngIf="control.hasError('required')">To pole jest wymagane</ng-container>
+  <ng-container *ngIf="control.hasError('minlength')">Minimalna wymagana ilość znaków</ng-container>
+  <ng-container *ngIf="control.hasError('maxlength')">Przekroczono dopuszczalną ilość znaków</ng-container>
 </ng-template>

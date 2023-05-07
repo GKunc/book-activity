@@ -8,6 +8,7 @@ const User = mongoose.model(
     password: String,
     guid: String,
     isConfirmed: Boolean,
+    createdAt: Date,
     confirmationSecret: String,
     roles: [
       {

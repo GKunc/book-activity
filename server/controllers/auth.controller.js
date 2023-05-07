@@ -29,6 +29,7 @@ exports.signup = async (req, res) => {
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, 8),
     isConfirmed: false,
+    createdAt: new Date(),
     confirmationSecret,
   });
 
@@ -42,7 +43,7 @@ exports.signup = async (req, res) => {
     const newUser = await user.save();
     if (newUser) {
       console.log(newUser);
-      await mailController.sendConfirmationEmail({ userId: user.id, confirmationSecret });
+      mailController.sendConfirmationEmail({ userId: user.id, confirmationSecret });
       console.log('Poprawnie zarejestrowano uzytkownika!');
       res.send({ message: 'Poprawnie zarejestrowano uzytkownika!' });
     } else {
@@ -162,6 +163,24 @@ exports.refreshAccessToken = async (req, res, next) => {
     res.status(200).json({
       access_token,
     });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getUser = async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      _id: req.query.userId,
+    });
+
+    console.log('getUser', user);
+
+    if (!user) {
+      return next(new Error(message, 403));
+    }
+
+    res.status(200).json(user);
   } catch (err) {
     next(err);
   }

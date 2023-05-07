@@ -9,7 +9,7 @@ import { SharedModule } from './shared/shared.module';
 import { HubLayoutModule } from './layout/layout.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
-import { en_US } from 'ng-zorro-antd/i18n';
+import { pl_PL } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { FormsModule } from '@angular/forms';
@@ -50,6 +50,7 @@ import { RateSummaryComponent } from './activity-details/rate-summary/rate-summa
 import { OpinionsComponent } from './activity-details/opinions/opinions.component';
 import { ProfileComponent } from './profile/profile.component';
 import { EmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
+import { PackagesComponent } from './packages/packages.component';
 
 registerLocaleData(en);
 
@@ -83,6 +84,7 @@ registerLocaleData(en);
     OpinionsComponent,
     ProfileComponent,
     EmailConfirmationComponent,
+    PackagesComponent,
   ],
   imports: [
     BrowserModule,
@@ -111,7 +113,7 @@ registerLocaleData(en);
       useClass: GlobalErrorInterceptor,
     },
     { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true },
-    { provide: NZ_I18N, useValue: en_US },
+    { provide: NZ_I18N, useValue: pl_PL },
     {
       provide: 'SocialAuthServiceConfig',
       useValue: {
