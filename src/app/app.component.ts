@@ -12,6 +12,7 @@ import { environment } from 'src/environments/environment';
 })
 export class AppComponent implements OnInit {
   title = 'book-activity';
+  pageId = environment.FACEBOOK_APP_ID;
 
   constructor(
     private iconService: IconService,
@@ -30,6 +31,5 @@ export class AppComponent implements OnInit {
   private initFacebookService(): void {
     const initParams: InitParams = { xfbml: true, version: 'v16.0' };
     this.facebookService.init(initParams);
-    document.querySelector('#facebook-messanger').setAttribute('page_id', environment.FACEBOOK_APP_ID);
   }
 }
