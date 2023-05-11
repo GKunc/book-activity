@@ -11,6 +11,18 @@
   margin-right: 45px;
 }
 
+@media (max-width: 575px) {
+  ::ng-deep .ant-input-wrapper {
+    display: block;
+  }
+}
+
+@media (max-width: 500px) {
+  ::ng-deep .ant-input-wrapper {
+    display: table;
+  }
+}
+
 .navigation {
   &__container {
     position: fixed;
