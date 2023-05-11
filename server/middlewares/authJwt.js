@@ -1,34 +1,30 @@
-const jwt = require("jsonwebtoken");
-const config = require("../config/auth.config.js");
+const jwt = require('jsonwebtoken');
+const config = require('../config/auth.config.js');
 
 signJwt = (payload, key, options) => {
-  const privateKey = Buffer.from(config[key], 'base64').toString(
-    'ascii'
-  );
+  const privateKey = Buffer.from(config[key], 'base64').toString('ascii');
   return jwt.sign(payload, privateKey, {
     ...(options && options),
-    algorithm: 'RS256',
+    algorithm: 'ES256',
   });
 };
 
 verifyToken = (req, res, next) => {
   let token = req.cookies.access_token;
 
-  console.log("token", token);
+  console.log('token', token);
   if (!token) {
-    return res.status(403).send({ message: "No token provided!" });
+    return res.status(403).send({ message: 'No token provided!' });
   }
 
   try {
-    const publicKey = Buffer.from(config.auth_public_token, 'base64').toString(
-      'ascii'
-    );
+    const publicKey = Buffer.from(config.auth_public_token, 'base64').toString('ascii');
     const verifyResult = jwt.verify(token, publicKey);
-    console.log("verifyResult", verifyResult);
+    console.log('verifyResult', verifyResult);
     next();
   } catch (error) {
-    console.log('error', error)
-    return res.status(401).send({ message: "Unauthorized!" });
+    console.log('error', error);
+    return res.status(401).send({ message: 'Unauthorized!' });
   }
 };
 
@@ -36,17 +32,15 @@ verifyRefreshToken = (req, res, next) => {
   let token = req.cookies.refresh_token;
 
   if (!token) {
-    return res.status(403).send({ message: "No token provided!" });
+    return res.status(403).send({ message: 'No token provided!' });
   }
 
   try {
-    const publicKey = Buffer.from(config.refresh_public_token, 'base64').toString(
-      'ascii'
-    );
+    const publicKey = Buffer.from(config.refresh_public_token, 'base64').toString('ascii');
     return jwt.verify(token, publicKey);
   } catch (error) {
-    console.log('error', error)
-    return res.status(401).send({ message: "Unauthorized!" });
+    console.log('error', error);
+    return res.status(401).send({ message: 'Unauthorized!' });
   }
 };
 
@@ -72,4 +66,3 @@ const authJwt = {
   verifyRefreshToken,
 };
 module.exports = authJwt;
-
