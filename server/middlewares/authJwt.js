@@ -6,6 +6,7 @@ signJwt = (payload, key, options) => {
   return jwt.sign(payload, privateKey, {
     ...(options && options),
     algorithm: 'ES256',
+    allowInsecureKeySizes: true,
   });
 };
 
