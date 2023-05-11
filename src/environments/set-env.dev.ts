@@ -1,0 +1,38 @@
+const setEnv = () => {
+  const fs = require('fs');
+  const writeFile = fs.writeFile;
+  // Configure Angular `environment.ts` file path
+  const targetPath = './src/environments/environment.ts';
+  // Load node modules
+  const appVersion = require('../../package.json').version;
+  require('dotenv').config({
+    path: 'src/environments/.env',
+  });
+  // `environment.ts` file structure
+  const envConfigFile = `export const environment = {
+  GOOGLE_CLIENT_ID: '${process.env['GOOGLE_CLIENT_ID']}',
+  GOOGLE_SECRET: '${process.env['GOOGLE_SECRET']}',
+  MANGO_DB_CONNECTION_STRING: '${process.env['MANGO_DB_CONNECTION_STRING']}',
+  MANGO_DB_CONNECTION_STRING_PHOTOS: '${process.env['MANGO_DB_CONNECTION_STRING_PHOTOS']}',
+  HERE_MAPS_API_KEY: '${process.env['HERE_MAPS_API_KEY']}',
+  MEASUREMENT_ID: '${process.env['MEASUREMENT_ID']}',
+  FACEBOOK_APP_ID: '${process.env['FACEBOOK_APP_ID']}',
+  API_URL: 'http://localhost:8080',
+  EMAIL_USER: '${process.env['EMAIL_USER']}',
+  EMAIL_PASSWORD: '${process.env['EMAIL_PASSWORD']}',
+  appVersion: '${appVersion}',
+  production: true,
+};
+`;
+  console.log('The file `environment.ts` will be written with the following content: \n');
+  writeFile(targetPath, envConfigFile, (err) => {
+    if (err) {
+      console.error(err);
+      throw err;
+    } else {
+      console.log(`Angular environment.ts file generated correctly at ${targetPath} \n`);
+    }
+  });
+};
+
+setEnv();
