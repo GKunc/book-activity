@@ -52,6 +52,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { EmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
 import { PackagesComponent } from './packages/packages.component';
 
+import { FacebookModule } from 'ngx-facebook';
+
 registerLocaleData(en);
 
 @NgModule({
@@ -98,6 +100,7 @@ registerLocaleData(en);
     BrowserAnimationsModule,
     SocialLoginModule,
     IconModule,
+    FacebookModule.forRoot(),
     NgxGoogleAnalyticsModule.forRoot(environment.MEASUREMENT_ID),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
