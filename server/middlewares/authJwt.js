@@ -5,7 +5,7 @@ signJwt = (payload, key, options) => {
   const privateKey = Buffer.from(config[key], 'base64').toString('ascii');
   return jwt.sign(payload, privateKey, {
     ...(options && options),
-    algorithm: 'ES256',
+    algorithm: 'RS256',
     allowInsecureKeySizes: true,
   });
 };
