@@ -4,20 +4,14 @@ import { NotificationsService } from '../../services/notifications/notifications
 
 @Injectable()
 export class GlobalErrorInterceptor implements ErrorHandler {
-  constructor(
-    private notificationsService: NotificationsService,
-    private zone: NgZone
-  ) {}
+  constructor(private notificationsService: NotificationsService, private zone: NgZone) {}
 
   handleError(error: any) {
     if (!environment.production) {
       this.zone.run(() => {
-          console.log(error);
-        
-          this.notificationsService.error(
-            `${environment.production}`,
-            error?.message || 'Undefined client error',
-          )
+        console.log('GlobalErrorInterceptor', error);
+
+        this.notificationsService.error(`${environment.production}`, error?.message || 'Undefined client error');
       });
     }
   }

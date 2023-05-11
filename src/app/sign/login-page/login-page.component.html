@@ -1,4 +1,4 @@
-<div class="login-container">
+<div class="login-container" (keyup.enter)="signIn()">
   <asl-google-signin-button
     #googleSingInButton
     theme="filled_blue"
@@ -37,7 +37,7 @@
     </nz-form-item>
   </form>
 
-  <hub-button class="button__full-width" text="Zaloguj" [isLoading]="isLoading" (click)="signIn()"></hub-button>
+  <hub-button class="button__full-width" text="Zaloguj się" [isLoading]="isLoading" (click)="signIn()"></hub-button>
   <div>Nie masz konta? <a (click)="switchMode.emit()">Zarejestruj się.</a></div>
 </div>
 

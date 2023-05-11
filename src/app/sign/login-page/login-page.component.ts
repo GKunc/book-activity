@@ -46,10 +46,10 @@ export class LoginPageComponent implements OnInit {
             this.notificationService.success('Pomyślnie zalogowano uzytkownika', '');
             this.modalService.close();
           },
-          (error) => {
-            const errorMessage = JSON.parse(error?.error);
-            this.form.controls['login'].setErrors({ invalidLogin: errorMessage.message });
-            this.notificationService.error('Logowanie', errorMessage.message);
+          (e) => {
+            const error = e?.error;
+            this.form.controls['login'].setErrors({ invalidLogin: error.message });
+            this.notificationService.error('Logowanie', error.message);
           }
         );
     }

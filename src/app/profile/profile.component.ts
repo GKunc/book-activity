@@ -21,9 +21,9 @@ export class ProfileComponent implements OnInit {
     userName: new FormControl<string>({ value: null, disabled: true }),
     email: new FormControl<string>({ value: null, disabled: true }),
     createdAt: new FormControl<string>({ value: null, disabled: true }),
-    notificationsEnabled: new FormControl<boolean>(true),
+    notificationsEnabled: new FormControl<boolean>({ value: true, disabled: true }),
     packageTill: new FormControl<Date>({ value: null, disabled: true }),
-    currentPackage: new FormControl<Package>(null),
+    currentPackage: new FormControl<Package>({ value: null, disabled: true }),
   });
 
   packagesOptions = PACKAGES;

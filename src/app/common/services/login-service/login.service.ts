@@ -1,6 +1,6 @@
 import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { Injectable } from '@angular/core';
-import { Observable, of, ReplaySubject, tap } from 'rxjs';
+import { catchError, Observable, of, ReplaySubject, tap, throwError } from 'rxjs';
 import { from } from 'rxjs';
 import jwt_decode from 'jwt-decode';
 import { ACCESS_TOKEN, FAVOURITES, REFRESH_TOKEN } from '../../consts/local-storage.consts';
@@ -8,6 +8,7 @@ import { FavouriteService } from '../favourites/favourites.service';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { Favourite } from '../favourites/favourites.model';
 import { Package } from 'src/app/profile/profile.models';
+import { HttpBaseResponse } from '../../models/http-base-response.model';
 
 @Injectable({
   providedIn: 'root',
@@ -53,28 +54,40 @@ export class LoginService {
     );
   }
 
-  signIn(username: string, password: string, googleLogIn: boolean = false): Observable<any> {
+  signIn(username: string, password: string, googleLogIn: boolean = false): Observable<HttpBaseResponse> {
     return this.authService.signIn(username, password, googleLogIn).pipe(
       tap((result) => {
-        const { access_token, refresh_token } = JSON.parse(result);
-        localStorage.setItem(ACCESS_TOKEN, access_token);
-        localStorage.setItem(REFRESH_TOKEN, refresh_token);
+        if (result.data) {
+          const { access_token, refresh_token } = result.data;
+          localStorage.setItem(ACCESS_TOKEN, access_token);
+          localStorage.setItem(REFRESH_TOKEN, refresh_token);
 
-        const loggedUser: InternalUser = jwt_decode(access_token);
-        this.loggedUser = loggedUser;
-        this._user$.next(loggedUser);
-        // get favourites
-        this.favouriteService.getFavourites(loggedUser?.id).subscribe((response: Favourite) => {
-          localStorage.setItem(FAVOURITES, JSON.stringify(response?.favourites));
-          this._favourites$.next(response?.favourites);
-        });
+          const loggedUser: InternalUser = jwt_decode(access_token);
+          this.loggedUser = loggedUser;
+          this._user$.next(loggedUser);
+          // get favourites
+          this.favouriteService.getFavourites(loggedUser?.id).subscribe((response: Favourite) => {
+            localStorage.setItem(FAVOURITES, JSON.stringify(response?.favourites));
+            this._favourites$.next(response?.favourites);
+          });
+        }
+      }),
+      catchError((e) => {
+        if (e.status === 401) {
+          return throwError(e.error.message);
+        }
+        return of(e);
       })
     );
   }
 
   signOut(): void {
     try {
-      this.authService.signOut();
+      this.authService.signOut().subscribe((response) => {
+        if (response?.isSuccess) {
+          throw new Error(response?.message);
+        }
+      });
       this.loggedUser = null;
       this._user$.next(null);
       from(this.socialAuthService.signOut()).subscribe(

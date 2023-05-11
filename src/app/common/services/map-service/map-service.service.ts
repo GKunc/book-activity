@@ -5,57 +5,54 @@ import { environment } from 'src/environments/environment';
 import { CategoryPipe } from '../../pipes/category.pipe';
 import { Activity } from '../activities/activities.model';
 
-const CATEGORY_COLOR_MAP = new Map<Category, { backgroundColor: string, fillColor: string }>([
+const CATEGORY_COLOR_MAP = new Map<Category, { backgroundColor: string; fillColor: string }>([
   [Category.Athletics, { backgroundColor: '#ff5050', fillColor: '#bf0003' }],
   [Category.Football, { backgroundColor: 'green', fillColor: '#54db54' }],
   [Category.GeneralDevelopment, { backgroundColor: 'darkorange', fillColor: 'orange' }],
   [Category.Gymnastics, { backgroundColor: '#c8c834', fillColor: 'yellow' }],
   [Category.Swimming, { backgroundColor: '#0060ae', fillColor: '#008dff' }],
-])
+]);
 
 const INITIAL_MAP_ZOOM = 13;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MapService {
-  constructor(
-    private router: Router,
-    private categoryPipe: CategoryPipe,
-    ) {}
+  constructor(private router: Router, private categoryPipe: CategoryPipe) {}
 
   lat = 50.04;
   lng = 19.94;
-  loadMap(mapDiv: ElementRef, lat: number = 50.04, lng: number = 19.94): { map: H.Map, ui: H.ui.UI, platform: H.service.Platform } {
-    mapDiv.nativeElement.innerHTML = '';
-    
+  loadMap(
+    mapDiv: ElementRef,
+    lat: number = 50.04,
+    lng: number = 19.94
+  ): { map: H.Map; ui: H.ui.UI; platform: H.service.Platform } {
     if (mapDiv) {
+      mapDiv.nativeElement.innerHTML = '';
+
       const platform = new H.service.Platform({
-        'apikey': environment.HERE_MAPS_API_KEY
+        apikey: environment.HERE_MAPS_API_KEY,
       });
 
       const layers = platform.createDefaultLayers();
-      const map = new H.Map(
-        mapDiv.nativeElement,
-        layers.vector.normal.map,
-        {
-          pixelRatio: window.devicePixelRatio,
-          center: { lat, lng },
-          zoom: INITIAL_MAP_ZOOM,
-        },
-      );
+      const map = new H.Map(mapDiv.nativeElement, layers.vector.normal.map, {
+        pixelRatio: window.devicePixelRatio,
+        center: { lat, lng },
+        zoom: INITIAL_MAP_ZOOM,
+      });
       const ui = H.ui.UI.createDefault(map, layers);
       const mapEvents = new H.mapevents.MapEvents(map);
       new H.mapevents.Behavior(mapEvents);
 
       window.addEventListener('resize', () => {
-        map.getViewPort().resize()
+        map.getViewPort().resize();
       });
 
       return { map, ui, platform };
     }
 
-    throw new Error('Error przy tworzeniu mapy')
+    throw new Error('Error przy tworzeniu mapy');
   }
 
   private addMarkerToGroup(group, coordinate, html, activity: Activity) {
@@ -74,38 +71,46 @@ export class MapService {
     group.addObject(marker);
   }
 
-
   removeAllBubbles(map: H.Map): void {
-    map.removeObjects(map.getObjects ());
+    map.removeObjects(map.getObjects());
   }
 
   addInfoBubble(activity: Activity, map: H.Map, ui: H.ui.UI) {
     const group = new H.map.Group();
     map.addObject(group);
 
-    group.addEventListener('tap', (evt) => {
-      const bubble = new H.ui.InfoBubble({ lat: activity.coordinates.lat, lng: activity.coordinates.lng }, {
-        content: (evt.target as any).getData(),
-      });
-      ui.getBubbles().forEach(bub => ui.removeBubble(bub));
-      ui.addBubble(bubble);
-      document.getElementById(`details-${activity.guid}`).addEventListener('click', () => {
-        this.navigateToDetials(activity);
-      })
-    }, false);
+    group.addEventListener(
+      'tap',
+      (evt) => {
+        const bubble = new H.ui.InfoBubble(
+          { lat: activity.coordinates.lat, lng: activity.coordinates.lng },
+          {
+            content: (evt.target as any).getData(),
+          }
+        );
+        ui.getBubbles().forEach((bub) => ui.removeBubble(bub));
+        ui.addBubble(bubble);
+        document.getElementById(`details-${activity.guid}`).addEventListener('click', () => {
+          this.navigateToDetials(activity);
+        });
+      },
+      false
+    );
 
     if (activity.coordinates) {
-      this.addMarkerToGroup(group, { lat: activity.coordinates?.lat, lng: activity.coordinates?.lng },
+      this.addMarkerToGroup(
+        group,
+        { lat: activity.coordinates?.lat, lng: activity.coordinates?.lng },
         `<div style='width: 200px;'><h2 style='margin-bottom: 0;'>${activity.name}</h2></div>` +
-        `<div style='color: rgba(0,0,0,.45);'>${this.categoryPipe.transform(activity.category)}</div>` +
-        `<div>${activity.street}</div>` +
-        `<div id='details-${activity.guid}' (click)='navigateToDetials(${activity})' style='color: purple; cursor: pointer;'>Zobacz</div>`,
+          `<div style='color: rgba(0,0,0,.45);'>${this.categoryPipe.transform(activity.category)}</div>` +
+          `<div>${activity.street}</div>` +
+          `<div id='details-${activity.guid}' (click)='navigateToDetials(${activity})' style='color: purple; cursor: pointer;'>Zobacz</div>`,
         activity
       );
     }
   }
 
   private navigateToDetials(activity: Activity): void {
-    this.router.navigate(['/detail/', activity.guid])
+    this.router.navigate(['/detail/', activity.guid]);
   }
 }

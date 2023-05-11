@@ -1,4 +1,13 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { Activity } from 'src/app/common/services/activities/activities.model';
 import { MapService } from '../../common/services/map-service/map-service.service';
 import { ResizeService } from '../../common/services/resize/resize.service';
@@ -6,9 +15,9 @@ import { ResizeService } from '../../common/services/resize/resize.service';
 @Component({
   selector: 'activity-map',
   templateUrl: './activity-map.component.html',
-  styleUrls: ['./activity-map.component.less']
+  styleUrls: ['./activity-map.component.less'],
 })
-export class ActivityMapComponent implements OnInit , AfterViewInit, OnChanges {
+export class ActivityMapComponent implements OnInit, AfterViewInit, OnChanges {
   @ViewChild('map') mapDiv?: ElementRef;
 
   @Input()
@@ -24,28 +33,25 @@ export class ActivityMapComponent implements OnInit , AfterViewInit, OnChanges {
   private map?: H.Map;
   private ui?: H.ui.UI;
   private platform?: H.service.Platform;
-   
-  constructor(
-    public resizeService: ResizeService,
-    private mapService: MapService,
-  ) { }
+
+  constructor(public resizeService: ResizeService, private mapService: MapService) {}
 
   ngAfterViewInit(): void {
     this.resizeMapToFitScreen();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(!changes['activities']?.firstChange) {
+    if (!changes['activities']?.firstChange) {
       this.mapService.removeAllBubbles(this.map);
-      this.activities.forEach(activity => {
-        this.mapService.addInfoBubble(activity, this.map, this.ui); 
-      })
+      this.activities.forEach((activity) => {
+        this.mapService.addInfoBubble(activity, this.map, this.ui);
+      });
     }
   }
 
   ngOnInit(): void {
     window.addEventListener('resize', () => this.resizeMapToFitScreen());
-    
+
     this.loading = true;
     this.error = false;
     navigator.geolocation.getCurrentPosition((position) => {
@@ -57,18 +63,20 @@ export class ActivityMapComponent implements OnInit , AfterViewInit, OnChanges {
       this.platform = platform;
 
       this.mapService.removeAllBubbles(this.map);
-      this.activities.forEach(activity => {
-        this.mapService.addInfoBubble(activity, this.map, this.ui); 
-      })
+      this.activities.forEach((activity) => {
+        this.mapService.addInfoBubble(activity, this.map, this.ui);
+      });
     });
   }
 
   private resizeMapToFitScreen(): void {
-    this.mapDiv.nativeElement.style.height = window.innerHeight - 250 + "px";
-    if(this.resizeService._isSmall$.getValue()) {
-    this.mapDiv.nativeElement.style.width = window.innerWidth + "px";
-    } else {
-      this.mapDiv.nativeElement.style.width = window.innerWidth - 280 + "px";
+    if (this.mapDiv) {
+      this.mapDiv.nativeElement.style.height = window.innerHeight - 250 + 'px';
+      if (this.resizeService._isSmall$.getValue()) {
+        this.mapDiv.nativeElement.style.width = window.innerWidth + 'px';
+      } else {
+        this.mapDiv.nativeElement.style.width = window.innerWidth - 280 + 'px';
+      }
     }
   }
 }

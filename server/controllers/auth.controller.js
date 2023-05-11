@@ -64,14 +64,17 @@ exports.signin = async (req, res) => {
     .exec();
 
   if (!user) {
-    return res.status(401).send({ message: 'Niepoprawny email lub hasło' });
+    return res.status(401).json({ isSuccess: false, message: 'Niepoprawny email lub hasło' });
+    // return res.status(401).json({ isSuccess: false, message: 'Niepoprawny email lub hasło', data: null });
   }
 
   if (!req.body.googleLogin) {
     const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
 
     if (!passwordIsValid) {
-      return res.status(401).send({ message: 'Niepoprawny email lub hasło' });
+      return res.status(401).send({ isSuccess: false, message: 'Niepoprawny email lub hasło' });
+
+      // return res.status(401).json({ isSuccess: false, message: 'Niepoprawny email lub hasło', data: null });
     }
   }
 
@@ -91,9 +94,10 @@ exports.signin = async (req, res) => {
   });
 
   // Send Access Token
-  res.status(200).json({
-    access_token,
-    refresh_token,
+  return res.status(200).json({
+    isSuccess: true,
+    message: 'Poprawnie zalogowano',
+    data: { access_token, refresh_token },
   });
 };
 
@@ -104,7 +108,7 @@ exports.signout = async (req, res) => {
     res.cookie('logged_in', '', {
       maxAge: 1,
     });
-    return res.status(200).send({ message: 'Pomyślnie wylogowano!' });
+    return res.send(JSON.stringify({ isSuccess: true, message: 'Pomyślnie wylogowano!' }));
   } catch (err) {
     this.next(err);
   }

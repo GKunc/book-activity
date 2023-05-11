@@ -18,7 +18,7 @@
       <activity-map *ngIf="openView === viewTypes.Map; else activityList" [activities]="activities"></activity-map>
 
       <loader *ngIf="loading" [inlineStyle]="true"></loader>
-      <no-data *ngIf="noData" [inlineStyle]="true"></no-data>
+      <no-data *ngIf="noData && openView !== viewTypes.Map" [inlineStyle]="true"></no-data>
       <error *ngIf="error" [inlineStyle]="true" [retryHandler]="onSubmitFilters.bind(this)"></error>
     </nz-content>
   </nz-layout>

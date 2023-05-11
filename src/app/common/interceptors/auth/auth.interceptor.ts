@@ -14,26 +14,20 @@ export class HttpRequestInterceptor implements HttpInterceptor {
   private modalService: ModalService;
   private loginService: LoginService;
 
-  constructor(
-    private injector: Injector,
-  ) {
-  }
+  constructor(private injector: Injector) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.authService = this.injector.get(AuthenticationService);
     this.modalService = this.injector.get(ModalService);
     this.loginService = this.injector.get(LoginService);
-    
+
     req = req.clone({
       withCredentials: true,
     });
 
     return next.handle(req).pipe(
       catchError((error) => {
-        if (
-          error instanceof HttpErrorResponse &&
-          error.status === 403
-        ) {
+        if (error instanceof HttpErrorResponse && error.status === 403) {
           return this.handle403Error(req, next);
         }
 
@@ -48,7 +42,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
       if (this.loginService.user) {
         return this.authService.refreshToken(this.loginService.user.username).pipe(
-          switchMap(({access_token}) => {
+          switchMap(({ access_token }) => {
             localStorage.setItem(ACCESS_TOKEN, access_token);
             this.isRefreshing = false;
             return next.handle(request);
