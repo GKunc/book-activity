@@ -17,9 +17,12 @@ const setEnv = () => {
   HERE_MAPS_API_KEY: '${process.env['HERE_MAPS_API_KEY']}',
   MEASUREMENT_ID: '${process.env['MEASUREMENT_ID']}',
   FACEBOOK_APP_ID: '${process.env['FACEBOOK_APP_ID']}',
-  API_URL: 'http://localhost:8080',
   EMAIL_USER: '${process.env['EMAIL_USER']}',
   EMAIL_PASSWORD: '${process.env['EMAIL_PASSWORD']}',
+  REFRESH_PRIVATE_KEY: '${process.env['REFRESH_PRIVATE_KEY']}',
+  REFRESH_PUBLIC_KEY: '${process.env['REFRESH_PUBLIC_KEY']}',
+  AUTH_PRIVATE_KEY: '${process.env['AUTH_PRIVATE_KEY']}',
+  AUTH_PUBLIC_KEY: '${process.env['AUTH_PUBLIC_KEY']}',
   appVersion: '${appVersion}',
   production: true,
 };
