@@ -3,6 +3,7 @@ import { IconService } from '@ant-design/icons-angular';
 import { PlusOutline } from '@ant-design/icons-angular/icons';
 import { NzConfigService } from 'ng-zorro-antd/core/config';
 import { FacebookService, InitParams } from 'ngx-facebook';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -27,7 +28,7 @@ export class AppComponent implements OnInit {
   }
 
   private initFacebookService(): void {
-    const initParams: InitParams = { xfbml: true, version: 'v16.0' };
+    const initParams: InitParams = { appId: environment.FACEBOOK_APP_ID, xfbml: true, version: 'v16.0' };
     this.facebookService.init(initParams);
   }
 }
