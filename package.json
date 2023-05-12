@@ -9,7 +9,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "heroku-postbuild": "npm run config && npm run config-dev && ng build",
+    "heroku-postbuild": "npm run config && npm run config-dev && npm run build:ssr",
     "config": "node src/environments/set-env.ts",
     "config-dev": "node src/environments/set-env.dev.ts",
     "lint": "ng lint",
