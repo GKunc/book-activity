@@ -116,7 +116,6 @@ exports.signout = async (req, res) => {
 
 exports.confirmEmail = async (req, res) => {
   try {
-    const x = await User.findById(req.body.userId);
     const result = await User.updateOne({ _id: req.body.userId }, { $set: { isConfirmed: true } });
 
     if (result.modifiedCount > 0) {

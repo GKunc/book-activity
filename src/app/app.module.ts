@@ -89,7 +89,7 @@ registerLocaleData(en);
     PackagesComponent,
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     RouterModule,
     SharedModule,

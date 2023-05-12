@@ -2,9 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const { MongoClient, GridFSBucket } = require('mongodb');
 const upload = require('./upload');
-const cookieSession = require('cookie-session');
 const cookieParser = require('cookie-parser');
-const mongoose = require('mongoose');
 
 // config
 const port = process.env.PORT || 8080;
