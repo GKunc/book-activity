@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "node server.js",
+    "start": "node dist/book-activity/server/main.js",
     "start-dev": "ng serve",
     "serve": "ng serve --proxy-config src/proxy.conf.json",
     "build": "ng build",
