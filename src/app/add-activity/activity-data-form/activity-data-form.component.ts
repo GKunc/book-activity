@@ -14,7 +14,7 @@ export class ActivityDataFormComponent implements OnInit {
   activity: Activity;
 
   @Output()
-  formSubmitted: EventEmitter<ActivityData> = new EventEmitter<ActivityData>();
+  formSubmitted: EventEmitter<Partial<Activity>> = new EventEmitter<Partial<Activity>>();
 
   weekDaysOptions: { value: WeekDay; label: string }[] = WEEK_DAYS;
   acitivyCategories: { value: Category; label: string }[] = ACTIVITY_CATEGORIES;
@@ -40,6 +40,7 @@ export class ActivityDataFormComponent implements OnInit {
   submit(): void {
     if (this.validateForm()) {
       this.formSubmitted.emit({
+        ...this.activity,
         name: this.form.controls.name.value,
         category: this.form.controls.category.value,
         description: this.form.controls.description.value,
@@ -61,18 +62,8 @@ export class ActivityDataFormComponent implements OnInit {
   }
 }
 
-export interface ActivityData {
-  name: string;
-  category: Category;
-  description: string;
-}
-
 export interface Details {
   price: number;
   time: string;
   weekDay: WeekDay;
-}
-
-export function instanceOfActivityData(object: any): object is ActivityData {
-  return 'name' in object && 'category' in object && 'description' in object;
 }

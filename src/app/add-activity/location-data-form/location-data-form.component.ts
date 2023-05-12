@@ -23,7 +23,7 @@ export class LocationDataFormComponent implements OnInit, AfterViewInit {
   activity: Activity;
 
   @Output()
-  formSubmitted: EventEmitter<LocationData> = new EventEmitter<LocationData>();
+  formSubmitted: EventEmitter<Partial<Activity>> = new EventEmitter<Partial<Activity>>();
 
   @Output()
   previousForm: EventEmitter<any> = new EventEmitter<any>();
@@ -130,14 +130,4 @@ export class LocationDataFormComponent implements OnInit, AfterViewInit {
     const coordinates = value.trim().split(' ');
     return { lat: parseFloat(coordinates[0]), lng: parseFloat(coordinates[1]) };
   }
-}
-
-export interface LocationData {
-  street: string;
-  city: City;
-  coordinates: { lng: number; lat: number };
-}
-
-export function instanceOfLocationData(object: any): object is LocationData {
-  return 'street' in object && 'city' in object;
 }

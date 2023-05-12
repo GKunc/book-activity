@@ -17,7 +17,7 @@ export class ClientDataFormComponent implements OnInit {
   isLoading: boolean;
 
   @Output()
-  formSubmitted: EventEmitter<ClientData> = new EventEmitter<ClientData>();
+  formSubmitted: EventEmitter<Partial<Activity>> = new EventEmitter<Partial<Activity>>();
 
   @Output()
   previousForm: EventEmitter<any> = new EventEmitter<any>();
@@ -47,6 +47,8 @@ export class ClientDataFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('XDDD');
+
     if (this.activity) {
       this.form.controls.email.setValue(this.activity.email);
       this.form.controls.phone.setValue(this.activity.phone);
@@ -84,16 +86,4 @@ export class ClientDataFormComponent implements OnInit {
     }
     return true;
   }
-}
-
-export interface ClientData {
-  email: string;
-  facebook: string;
-  instagram: string;
-  phone: string;
-  www: string;
-}
-
-export function instanceOfClientData(object: any): object is ClientData {
-  return 'email' in object && 'facebook' in object && 'instagram' in object && 'phone' in object && 'www' in object;
 }

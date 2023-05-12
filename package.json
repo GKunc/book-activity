@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "node dist/book-activity/server/main.js",
-    "start-dev": "ng serve",
+    "start-dev": "node server.js",
     "serve": "ng serve --proxy-config src/proxy.conf.json",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",

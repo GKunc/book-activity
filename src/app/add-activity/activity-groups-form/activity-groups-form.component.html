@@ -37,15 +37,7 @@
     <nz-form-item class="width__full">
       <nz-form-label nzFor="time" nzRequired>Godzina</nz-form-label>
       <nz-form-control [nzErrorTip]="errorDescription">
-        <nz-time-picker
-          [nzHideDisabledOptions]="true"
-          [nzDisabledMinutes]="disabledMinutes"
-          style="width: 100%"
-          id="time"
-          formControlName="time"
-          nzFormat="HH:mm"
-          nzPlaceHolder="Wybierz godzinę"
-        ></nz-time-picker>
+        <input type="time" id="time" nz-input placeHolder="Podaj godzinę (HH:mm)" formControlName="time" />
       </nz-form-control>
     </nz-form-item>
 
@@ -93,7 +85,7 @@
 </div>
 
 <div class="modal__action-container">
-  <hub-button text="Dalej" (click)="previous()"></hub-button>
+  <hub-button text="Wstecz" (click)="previous()"></hub-button>
   <hub-button text="Dalej" (click)="submit()"></hub-button>
 </div>
 

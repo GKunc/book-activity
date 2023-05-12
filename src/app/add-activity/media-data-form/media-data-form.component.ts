@@ -23,7 +23,7 @@ export class MediaDataFormComponent implements OnInit {
   guid: string;
 
   @Output()
-  formSubmitted: EventEmitter<MediaData> = new EventEmitter<MediaData>();
+  formSubmitted: EventEmitter<Partial<Activity>> = new EventEmitter<Partial<Activity>>();
 
   @Output()
   previousForm: EventEmitter<any> = new EventEmitter<any>();
@@ -80,7 +80,6 @@ export class MediaDataFormComponent implements OnInit {
       this.deleteFiles();
       this.formSubmitted.emit({
         images: this.images.map((image) => image.file.name),
-        isEditing: this.isEditing,
       });
     }
   }
@@ -161,15 +160,6 @@ export class MediaDataFormComponent implements OnInit {
     this.showError = false;
     return true;
   }
-}
-
-export interface MediaData {
-  images: string[];
-  isEditing: boolean;
-}
-
-export function instanceOfMediaData(object: any): object is MediaData {
-  return 'images' in object;
 }
 
 export interface FileWithUrl {

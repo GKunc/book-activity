@@ -1,10 +1,10 @@
 <div class="form-container">
   <nz-steps [nzCurrent]="currentStep" (nzIndexChange)="onIndexChange($event)">
     <nz-step></nz-step>
-    <nz-step [nzDisabled]="!activityData"></nz-step>
-    <nz-step [nzDisabled]="!groupsData"></nz-step>
-    <nz-step [nzDisabled]="!locationData"></nz-step>
-    <nz-step [nzDisabled]="!clientData"></nz-step>
+    <nz-step [nzDisabled]="!groupsDataEnabled"></nz-step>
+    <nz-step [nzDisabled]="!locationDataEnabled"></nz-step>
+    <nz-step [nzDisabled]="!clientDataEnabled"></nz-step>
+    <nz-step [nzDisabled]="!mediaDataEnabled"></nz-step>
   </nz-steps>
 
   <div class="steps-content form-container">

@@ -1,15 +1,9 @@
 import { SocialUser } from '@abacritt/angularx-social-login';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Activity } from '../common/services/activities/activities.model';
 import { ActivitiesService } from '../common/services/activities/activities.service';
-import { LoginService } from '../common/services/login-service/login.service';
 import { ModalService } from '../common/services/modal/modal.service';
 import { NotificationsService } from '../common/services/notifications/notifications.service';
-import { ActivityData, instanceOfActivityData } from './activity-data-form/activity-data-form.component';
-import { GroupsData, instanceOfGroupsData } from './activity-groups-form/activity-groups-form.component';
-import { ClientData, instanceOfClientData } from './client-data-form/client-data-form.component';
-import { instanceOfLocationData, LocationData } from './location-data-form/location-data-form.component';
-import { instanceOfMediaData, MediaData } from './media-data-form/media-data-form.component';
 import { v4 as uuidv4 } from 'uuid';
 
 @Component({
@@ -17,7 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
   templateUrl: './add-activity.component.html',
   styleUrls: ['./add-activity.component.less'],
 })
-export class AddActivityComponent {
+export class AddActivityComponent implements OnInit {
   @Input()
   activity: Activity;
 
@@ -31,29 +25,34 @@ export class AddActivityComponent {
   guid: string = uuidv4();
 
   currentStep = 0;
-  stepOneDone = false;
-  stepTwoDone = false;
 
-  activityData: ActivityData;
-  groupsData: GroupsData;
-  locationData: LocationData;
-  clientData: ClientData;
-  mediaData: MediaData;
+  groupsDataEnabled = false;
+  locationDataEnabled = false;
+  clientDataEnabled = false;
+  mediaDataEnabled = false;
 
   constructor(
-    private loginService: LoginService,
     private modalService: ModalService,
     private notificationsService: NotificationsService,
     private activitiesService: ActivitiesService
   ) {}
 
+  ngOnInit(): void {
+    if (this.activity) {
+      this.groupsDataEnabled = true;
+      this.locationDataEnabled = true;
+      this.clientDataEnabled = true;
+      this.mediaDataEnabled = true;
+    }
+  }
+
   submit(): void {
     this.isLoading = true;
-    const activity = this.createActivity();
+    const activity = this.activity;
 
-    if (this.mediaData.isEditing) {
+    if (this.isEditing) {
       activity.guid = this.activity.guid;
-      this.activitiesService.editActivity(activity).subscribe(
+      this.activitiesService.editActivity(this.activity).subscribe(
         () => {
           this.isLoading = false;
           this.notificationsService.success('Sukces', 'Zajęcia edytowano poprawnie.');
@@ -94,49 +93,38 @@ export class AddActivityComponent {
 
   next(): void {
     this.currentStep += 1;
-    if (this.currentStep === 1) this.stepOneDone = true;
-    if (this.currentStep === 2) this.stepTwoDone = true;
-    // todo
-  }
 
-  saveData(data: ActivityData | GroupsData | ClientData | LocationData | MediaData): void {
-    if (instanceOfActivityData(data)) {
-      this.activityData = data;
-      console.log('activityData', data);
-    } else if (instanceOfGroupsData(data)) {
-      this.groupsData = data;
-      console.log('groupsData', data);
-    } else if (instanceOfClientData(data)) {
-      this.clientData = data;
-      console.log('clientData', data);
-    } else if (instanceOfLocationData(data)) {
-      this.locationData = data;
-      console.log('locationData', data);
-    } else if (instanceOfMediaData(data)) {
-      this.mediaData = data;
-      console.log('mediaData', data);
+    switch (this.currentStep) {
+      case 1:
+        this.groupsDataEnabled = true;
+        break;
+      case 2:
+        this.locationDataEnabled = true;
+        break;
+      case 3:
+        this.clientDataEnabled = true;
+        break;
+      case 4:
+        this.mediaDataEnabled = true;
+        break;
     }
-    this.activity = this.createActivity();
   }
 
-  private createActivity(): Activity {
+  saveData(data: Partial<Activity>): void {
+    console.log('ACTIVITY:', this.activity, data);
+    this.activity = this.updateActivity(data);
+  }
+
+  get disableGroupsStep(): boolean {
+    console.log(!!this.activity || !this.activity.description.length || !this.activity.name || !this.activity.category);
+
+    return !!this.activity || !this.activity.description.length || !this.activity.name || !this.activity.category;
+  }
+
+  private updateActivity(data: Partial<Activity>): Activity {
     return {
-      guid: this.guid,
-      createdBy: this.loginService.user?.id,
-      images: this.mediaData?.images,
-      coverPhoto: this.mediaData?.images[0],
-      name: this.activityData?.name,
-      category: this.activityData?.category,
-      description: this.activityData?.description,
-      groups: this.groupsData?.activityGroups,
-      street: this.locationData?.street,
-      city: this.locationData?.city,
-      coordinates: this.locationData?.coordinates,
-      email: this.clientData?.email,
-      facebook: this.clientData?.facebook,
-      instagram: this.clientData?.instagram,
-      phone: this.clientData?.phone,
-      www: this.clientData?.www,
+      ...this.activity,
+      ...data,
     };
   }
 }

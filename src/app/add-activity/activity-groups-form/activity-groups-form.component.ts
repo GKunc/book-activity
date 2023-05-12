@@ -17,7 +17,7 @@ export class ActivityGroupsFormComponent implements OnInit {
   isLoading: boolean;
 
   @Output()
-  formSubmitted: EventEmitter<GroupsData> = new EventEmitter<GroupsData>();
+  formSubmitted: EventEmitter<Partial<Activity>> = new EventEmitter<Partial<Activity>>();
 
   @Output()
   previousForm: EventEmitter<any> = new EventEmitter<any>();
@@ -35,6 +35,8 @@ export class ActivityGroupsFormComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    console.log(this.activity);
+
     if (this.activity.groups) {
       this.addedGroups = this.activity.groups;
     }
@@ -69,12 +71,12 @@ export class ActivityGroupsFormComponent implements OnInit {
   submit(): void {
     if (this.addedGroups.length > 0) {
       this.formSubmitted.emit({
-        activityGroups: this.addedGroups,
+        groups: this.addedGroups,
       });
     } else if (this.validateForm()) {
       this.addNewGroup();
       this.formSubmitted.emit({
-        activityGroups: this.addedGroups,
+        groups: this.addedGroups,
       });
     }
   }
@@ -91,12 +93,4 @@ export class ActivityGroupsFormComponent implements OnInit {
     }
     return true;
   }
-}
-
-export interface GroupsData {
-  activityGroups: GroupDetails[];
-}
-
-export function instanceOfGroupsData(object: any): object is GroupsData {
-  return 'activityGroups' in object;
 }
