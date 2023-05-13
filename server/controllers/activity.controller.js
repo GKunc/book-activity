@@ -27,10 +27,9 @@ exports.filter = async (req, res) => {
 
   const skip = (body.page - 1) * body.limit;
   const activity = await Activity.find(query).skip(skip).limit(body.limit);
-  res.setHeader('Content-Type', 'application/json');
   console.log('body: ', body);
   console.log('Filter activities', query, ',skip: ', skip, ',limit: ', body.limit, 'result: ', activity.length);
-  res.send(JSON.stringify(activity));
+  return res.send(JSON.stringify(activity));
 };
 
 exports.getUserActivities = async (req, res) => {
@@ -41,22 +40,20 @@ exports.getUserActivities = async (req, res) => {
   }
 
   const activity = await Activity.find(query);
-  res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify(activity));
+  return res.send(JSON.stringify(activity));
 };
 
 exports.details = async (req, res) => {
   const id = req.query.id;
   const activity = await Activity.findOne({ guid: id });
-  res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify(activity));
+  return res.send(JSON.stringify(activity));
 };
 
 exports.insertActivity = async (req, res) => {
   let data = req.body;
   console.log('insertActivity', data);
   await Activity.create(data);
-  res.sendStatus(200);
+  return res.sendStatus(200);
 };
 
 exports.replaceActivity = async (req, res) => {
@@ -68,7 +65,7 @@ exports.replaceActivity = async (req, res) => {
 
   await Activity.replaceOne(query, req.body);
   console.log('Successfully modified ${result.modifiedCount} document.');
-  res.sendStatus(200);
+  return res.sendStatus(200);
 };
 
 exports.deleteActivity = async (req, res) => {
@@ -93,10 +90,10 @@ exports.deleteActivity = async (req, res) => {
 
   const result = await Activity.deleteOne(query);
   if (result.deletedCount === 1) {
-    res.sendStatus(200);
     console.log('Successfully deleted one document.');
+    return res.sendStatus(200);
   } else {
-    res.sendStatus(404);
     console.log('No documents matched the query. Deleted 0 documents.');
+    return res.sendStatus(404);
   }
 };

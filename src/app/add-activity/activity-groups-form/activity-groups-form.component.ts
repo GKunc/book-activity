@@ -35,8 +35,6 @@ export class ActivityGroupsFormComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    console.log(this.activity);
-
     if (this.activity.groups) {
       this.addedGroups = this.activity.groups;
     }
@@ -83,6 +81,7 @@ export class ActivityGroupsFormComponent implements OnInit {
 
   private validateForm(): boolean {
     if (!this.form.valid) {
+      this.form.controls.name.setValue(this.form.controls.name.value.trim());
       Object.values(this.form.controls).forEach((control) => {
         if (control.invalid) {
           control.markAsDirty();

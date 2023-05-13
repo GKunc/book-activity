@@ -12,7 +12,7 @@ import 'localstorage-polyfill';
 global.localStorage; // now has your in memory localStorage
 
 import { MongoClient, GridFSBucket } from 'mongodb';
-import { upload } from './upload';
+import * as uploadFilesMiddleware from './upload';
 import * as cookieParser from 'cookie-parser';
 import * as cors from 'cors';
 
@@ -83,11 +83,11 @@ export function app(): express.Express {
       const activities = database.collection('activities');
       const result = await activities.findOne(query);
       if (result['createdBy'] === userId) {
-        res.status(200).send('OK');
         console.log('Permission granted.');
+        return res.status(200).send('OK');
       } else {
-        res.status(401).json({ error: 'No permission' });
         console.log('No permission.');
+        return res.status(401).json({ error: 'No permission' });
       }
     } finally {
       await client.close();
@@ -96,7 +96,7 @@ export function app(): express.Express {
 
   server.post('/api/activities/photos', async function (req, res) {
     try {
-      await upload(req, res);
+      await uploadFilesMiddleware(req, res);
 
       if (req['file'] == undefined) {
         return res.send({
@@ -139,7 +139,6 @@ export function app(): express.Express {
       downloadStream.on('end', () => {
         return res.end();
       });
-      return res.end();
     } catch (error) {
       console.log(error);
       return res.status(500).send({

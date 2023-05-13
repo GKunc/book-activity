@@ -1,5 +1,9 @@
 <nz-card nzHoverable [nzCover]="coverTemplate">
-  <nz-card-meta [nzTitle]="activity.name" [nzDescription]="description"></nz-card-meta>
+  <nz-card-meta
+    routerLink="/detail/{{ activity.guid }}"
+    [nzTitle]="activity.name"
+    [nzDescription]="description"
+  ></nz-card-meta>
 </nz-card>
 
 <ng-template #coverTemplate>
@@ -11,10 +15,11 @@
 </ng-template>
 <ng-template #description>
   <div class="activity-box__description">
-    {{ activity.category | category }}
+    <span>{{ activity.category | category }}</span>
     <span
+      style="z-index: 1000"
       *ngIf="loginService._user$ | async"
-      (click)="addToFavourite()"
+      (click)="addToFavourite(); $event.stopPropagation()"
       class="fav-icon"
       nz-icon
       nzType="heart"

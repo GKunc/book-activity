@@ -50,7 +50,7 @@ db.mongoose
 
 // serve angular paths
 app.get('/', function (req, res) {
-  res.status(200).sendFile(`/`, { root: app_folder });
+  return res.status(200).sendFile(`/`, { root: app_folder });
 });
 
 // start listening
@@ -77,11 +77,11 @@ app.get('/api/activities/check-permissions', async function (req, res) {
     const activities = database.collection('activities');
     const result = await activities.findOne(query);
     if (result.createdBy === userId) {
-      res.status(200).send('OK');
       console.log('Permission granted.');
+      return res.status(200).send('OK');
     } else {
-      res.status(401).json({ error: 'No permission' });
       console.log('No permission.');
+      return res.status(401).json({ error: 'No permission' });
     }
   } finally {
     await client.close();

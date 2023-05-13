@@ -37,7 +37,7 @@ exports.signup = async (req, res) => {
     const roles = await Role.find({ name: { $in: req.body.roles } });
     user.roles = roles.map((role) => role._id);
     if (!roles) {
-      res.status(500).send({ message: 'Rola nie istnieje' });
+      return res.status(500).send({ message: 'Rola nie istnieje' });
     }
 
     const newUser = await user.save();
@@ -45,13 +45,12 @@ exports.signup = async (req, res) => {
       console.log(newUser);
       mailController.sendConfirmationEmail({ userId: user.id, confirmationSecret });
       console.log('Poprawnie zarejestrowano uzytkownika!');
-      res.send({ message: 'Poprawnie zarejestrowano uzytkownika!' });
+      return res.send({ message: 'Poprawnie zarejestrowano uzytkownika!' });
     } else {
-      res.status(500).send({ message: 'Nie mozna zarejestrowac uzytkownika' });
-      return;
+      return res.status(500).send({ message: 'Nie mozna zarejestrowac uzytkownika' });
     }
   } else {
-    res.status(500).send({ message: 'Nie podano zadnej roli' });
+    return res.status(500).send({ message: 'Nie podano zadnej roli' });
   }
 };
 
@@ -65,7 +64,6 @@ exports.signin = async (req, res) => {
 
   if (!user) {
     return res.status(401).json({ isSuccess: false, message: 'Niepoprawny email lub hasło' });
-    // return res.status(401).json({ isSuccess: false, message: 'Niepoprawny email lub hasło', data: null });
   }
 
   if (!req.body.googleLogin) {
@@ -73,8 +71,6 @@ exports.signin = async (req, res) => {
 
     if (!passwordIsValid) {
       return res.status(401).send({ isSuccess: false, message: 'Niepoprawny email lub hasło' });
-
-      // return res.status(401).json({ isSuccess: false, message: 'Niepoprawny email lub hasło', data: null });
     }
   }
 

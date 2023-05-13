@@ -5,8 +5,7 @@ exports.getFavourites = async (req, res) => {
   const id = req.query.id;
   console.log('getFavourites', id);
   const favourites = await Favourite.findOne({ userId: id });
-  res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify(favourites));
+  return res.send(JSON.stringify(favourites));
 };
 
 exports.updateFavourites = async (req, res) => {
@@ -17,8 +16,7 @@ exports.updateFavourites = async (req, res) => {
   const favourite = await Favourite.findOne({ userId: userId });
   if (!favourite) {
     await Favourite.create({ userId, favourites: [newFavourite] });
-    res.sendStatus(200);
-    return;
+    return res.sendStatus(200);
   }
 
   let favourites = favourite?.favourites ?? [];
@@ -28,5 +26,5 @@ exports.updateFavourites = async (req, res) => {
     favourites = favourites.filter((item) => item !== newFavourite);
   }
   await Favourite.replaceOne({ userId }, { userId, favourites });
-  res.sendStatus(200);
+  return res.sendStatus(200);
 };
