@@ -1,24 +1,24 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { Category } from '../consts/category.consts';
 
 @Pipe({
-  name: 'category'
+  name: 'category',
 })
 export class CategoryPipe implements PipeTransform {
-
-  transform(value: unknown): unknown {
+  transform(value: Category): unknown {
     switch (value) {
-      case 0:
-        return 'Lekkoateltyka'
-      case 1:
-        return 'Pływanie'
-      case 2:
-        return 'Piłka nożna'
-      case 3:
-        return 'Gimnastyka'
-      case 4:
-        return 'Zajęcia ogólnorozwojowe'
+      case Category.Athletics:
+        return 'Lekkoateltyka';
+      case Category.Swimming:
+        return 'Pływanie';
+      case Category.Football:
+        return 'Piłka nożna';
+      case Category.Gymnastics:
+        return 'Gimnastyka';
+      case Category.GeneralDevelopment:
+        return 'Zajęcia ogólnorozwojowe';
       default:
-        return ''
+        return '';
     }
   }
 }

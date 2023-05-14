@@ -1,6 +1,7 @@
 import { WeekDay } from '@angular/common';
 import { Category } from 'src/app/common/consts/category.consts';
 import { City } from '../../consts/city.consts';
+import { PaymentPeriod } from '../../consts/pay-options.consts';
 
 export interface Activity {
   guid: string;
@@ -30,4 +31,5 @@ export interface GroupDetails {
   price: number;
   time: Date;
   weekDay: WeekDay;
+  paymentPeriod: PaymentPeriod;
 }

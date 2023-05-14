@@ -1,27 +1,30 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const Activity = mongoose.model(
-  "Activity",
+  'Activity',
   new mongoose.Schema({
     name: String,
     guid: String,
     createdBy: String,
     coverPhoto: String,
     images: [String],
-    category: Number, 
+    category: Number,
     description: String,
-    groups: [{
+    groups: [
+      {
         name: String,
         duration: Number,
         price: Number,
         time: String,
-        weekDay: Number, 
-    }],
+        weekDay: Number,
+        paymentPeriod: Number,
+      },
+    ],
     street: String,
-    city: String, 
+    city: String,
     coordinates: {
-        lat: Number,
-        lng: Number,
+      lat: Number,
+      lng: Number,
     },
     email: String,
     facebook: String,

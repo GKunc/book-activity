@@ -1,29 +1,28 @@
+import { WeekDay } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'weekDay'
+  name: 'weekDay',
 })
 export class WeekDayPipe implements PipeTransform {
-
-  transform(value: unknown): unknown {
+  transform(value: WeekDay): unknown {
     switch (value) {
-      case 0:
-        return 'Poniedziałek'
-      case 1:
-        return 'Wtorek'
-      case 2:
-        return 'Środa'
-      case 3:
-        return 'Czwartek'
-      case 4:
-        return 'Piątek'
-      case 5:
-        return 'Sobota'
-      case 6:
-        return 'Niedziela'
+      case WeekDay.Monday:
+        return 'Poniedziałek';
+      case WeekDay.Tuesday:
+        return 'Wtorek';
+      case WeekDay.Wednesday:
+        return 'Środa';
+      case WeekDay.Thursday:
+        return 'Czwartek';
+      case WeekDay.Friday:
+        return 'Piątek';
+      case WeekDay.Saturday:
+        return 'Sobota';
+      case WeekDay.Sunday:
+        return 'Niedziela';
       default:
-        return ''
+        return '';
     }
   }
-
 }

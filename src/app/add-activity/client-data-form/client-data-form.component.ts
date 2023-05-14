@@ -73,11 +73,11 @@ export class ClientDataFormComponent implements OnInit {
   }
 
   private validateForm(): boolean {
-    this.form.controls.email.setValue(this.form.controls.email.value.trim());
-    this.form.controls.facebook.setValue(this.form.controls.facebook.value.trim());
-    this.form.controls.instagram.setValue(this.form.controls.instagram.value.trim());
-    this.form.controls.phone.setValue(this.form.controls.phone.value.trim());
-    this.form.controls.www.setValue(this.form.controls.www.value.trim());
+    this.form.controls.email.setValue(this.form.controls.email.value?.trim());
+    this.form.controls.facebook.setValue(this.form.controls.facebook.value?.trim());
+    this.form.controls.instagram.setValue(this.form.controls.instagram.value?.trim());
+    this.form.controls.phone.setValue(this.form.controls.phone.value?.trim());
+    this.form.controls.www.setValue(this.form.controls.www.value?.trim());
 
     if (!this.form.valid) {
       Object.values(this.form.controls).forEach((control) => {

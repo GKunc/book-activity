@@ -80,8 +80,8 @@
       <nz-divider></nz-divider>
       <div *ngFor="let group of activity.groups">
         <div class="activity-groups">
-          <div>
-            <h2>{{ group.name }}</h2>
+          <div class="activity-groups__name">
+            {{ group.name }}
           </div>
 
           <div class="activity-groups__details">
@@ -96,8 +96,11 @@
                 {{ group.weekDay | weekDay }}
               </div>
             </div>
-            <div class="activity-groups__details--column activity-groups__price">
-              {{ group.price | pricePLN }}
+            <div class="activity-groups__details--column activity-groups__price-container">
+              <span class="text">{{ group.paymentPeriod | paymentPeriod }}</span>
+              <div class="activity-groups__price">
+                {{ group.price | pricePLN }}
+              </div>
             </div>
           </div>
         </div>

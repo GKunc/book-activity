@@ -1,12 +1,11 @@
 <form nz-form [formGroup]="form" nzLayout="vertical">
-  <nz-form-item>
-    <nz-form-label nzFor="name" nzRequired>Nazwa grupy</nz-form-label>
-    <nz-form-control [nzErrorTip]="errorDescription">
-      <input id="name" nz-input placeholder="Nazwa" formControlName="name" />
-    </nz-form-control>
-  </nz-form-item>
-
   <div class="form__two-columns">
+    <nz-form-item class="width__full">
+      <nz-form-label nzFor="name" nzRequired>Nazwa grupy</nz-form-label>
+      <nz-form-control [nzErrorTip]="errorDescription">
+        <input id="name" nz-input placeholder="Nazwa" formControlName="name" />
+      </nz-form-control>
+    </nz-form-item>
     <nz-form-item class="width__full">
       <nz-form-label nzFor="duration" nzRequired>Czas trwania (min)</nz-form-label>
       <nz-form-control [nzErrorTip]="errorDescription">
@@ -18,7 +17,9 @@
         ></nz-input-number>
       </nz-form-control>
     </nz-form-item>
+  </div>
 
+  <div class="form__two-columns">
     <nz-form-item class="width__full">
       <nz-form-label nzFor="weekDay" nzRequired>Dzień tygodnia</nz-form-label>
       <nz-form-control [nzErrorTip]="errorDescription">
@@ -31,20 +32,29 @@
         </nz-select>
       </nz-form-control>
     </nz-form-item>
-  </div>
 
-  <div class="form__two-columns">
     <nz-form-item class="width__full">
       <nz-form-label nzFor="time" nzRequired>Godzina</nz-form-label>
       <nz-form-control [nzErrorTip]="errorDescription">
         <input type="time" id="time" nz-input placeHolder="Podaj godzinę (HH:mm)" formControlName="time" />
       </nz-form-control>
     </nz-form-item>
+  </div>
 
+  <div class="form__two-columns">
     <nz-form-item class="width__full">
       <nz-form-label nzFor="price" nzRequired>Cena</nz-form-label>
       <nz-form-control [nzErrorTip]="errorDescription">
         <nz-input-number id="price" nz-input nzPlaceHolder="Cena" formControlName="price"></nz-input-number>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item class="width__full">
+      <nz-form-label nzFor="paymentPeriod" nzRequired>Rozliczenie</nz-form-label>
+      <nz-form-control [nzErrorTip]="errorDescription">
+        <nz-select formControlName="paymentPeriod" nzPlaceHolder="Rozliczenie">
+          <nz-option *ngFor="let option of payOptions" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
+        </nz-select>
       </nz-form-control>
     </nz-form-item>
   </div>
@@ -60,8 +70,8 @@
 
 <div *ngFor="let group of addedGroups; let i = index">
   <div class="activity-groups">
-    <div>
-      <h2>{{ group.name }}</h2>
+    <div class="activity-groups__name" [nz-tooltip]="group.name">
+      {{ group.name }}
     </div>
 
     <div class="activity-groups__details">
@@ -76,8 +86,11 @@
           {{ group.weekDay | weekDay }}
         </div>
       </div>
-      <div class="activity-groups__details--column activity-groups__price">
-        {{ group.price | pricePLN }}
+      <div class="activity-groups__details--column activity-groups__price-container">
+        <span class="text">{{ group.paymentPeriod | paymentPeriod }}</span>
+        <div class="activity-groups__price">
+          {{ group.price | pricePLN }}
+        </div>
       </div>
       <div class="clickable" (click)="removeActivity(i)" nz-icon nzType="delete" nzTheme="outline"></div>
     </div>

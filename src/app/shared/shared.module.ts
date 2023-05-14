@@ -48,12 +48,14 @@ import { CategoryPipe } from '../common/pipes/category.pipe';
 import { ActivityFiltersComponent } from './activity-filters/activity-filters.component';
 import { ErrorComponent } from './error/error.component';
 import { DateDistancePipe } from '../common/pipes/date-distance.pipe';
+import { PaymentPeriodPipe } from '../common/pipes/payment-period.pipe';
 
 @NgModule({
   declarations: [
     ButtonComponent,
     SafeUrlPipe,
     WeekDayPipe,
+    PaymentPeriodPipe,
     PricePlnPipe,
     DurationMinPipe,
     CategoryPipe,
@@ -116,6 +118,7 @@ import { DateDistancePipe } from '../common/pipes/date-distance.pipe';
 
     SafeUrlPipe,
     WeekDayPipe,
+    PaymentPeriodPipe,
     PricePlnPipe,
     DurationMinPipe,
     CategoryPipe,
