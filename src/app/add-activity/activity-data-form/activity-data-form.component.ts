@@ -49,6 +49,9 @@ export class ActivityDataFormComponent implements OnInit {
   }
 
   private validateForm(): boolean {
+    this.form.controls.name.setValue(this.form.controls.name.value.trim());
+    this.form.controls.description.setValue(this.form.controls.description.value.trim());
+
     if (!this.form.valid) {
       Object.values(this.form.controls).forEach((control) => {
         if (control.invalid) {

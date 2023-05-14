@@ -64,17 +64,19 @@ export class LocationDataFormComponent implements OnInit, AfterViewInit {
   }
 
   submit(): void {
+    this.form.controls.street.setValue(this.form.controls.street.value.trim());
+
     if (this.validateForm()) {
       this.formSubmitted.emit({
-        street: this.form.controls['street'].value,
-        city: this.form.controls['city'].value,
+        street: this.form.controls.street.value,
+        city: this.form.controls.city.value,
         coordinates: this.getCoordinates(this.coordinatesString),
       });
     }
   }
 
   coordinatesChanges(value: string): void {
-    this.coordinatesString = value;
+    this.coordinatesString = value.trim();
     this.renderMap(value);
   }
 

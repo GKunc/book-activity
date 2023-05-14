@@ -45,6 +45,8 @@ export class ActivityGroupsFormComponent implements OnInit {
   }
 
   addNewGroup(): void {
+    this.form.controls.name.setValue(this.form.controls.name.value.trim());
+
     if (this.validateForm()) {
       this.addedGroups.push({
         name: this.form.controls.name.value,
@@ -80,8 +82,9 @@ export class ActivityGroupsFormComponent implements OnInit {
   }
 
   private validateForm(): boolean {
+    this.form.controls.name.setValue(this.form.controls.name.value.trim());
+
     if (!this.form.valid) {
-      this.form.controls.name.setValue(this.form.controls.name.value.trim());
       Object.values(this.form.controls).forEach((control) => {
         if (control.invalid) {
           control.markAsDirty();
