@@ -49,9 +49,8 @@ export class LoginPageComponent implements OnInit {
             this.modalService.close();
           },
           (e) => {
-            const error = e?.error;
-            this.form.controls['login'].setErrors({ invalidLogin: error.message });
-            this.notificationService.error('Logowanie', error.message);
+            this.form.controls['login'].setErrors({ invalidLogin: e });
+            this.notificationService.error('Logowanie', e);
           }
         );
     }
