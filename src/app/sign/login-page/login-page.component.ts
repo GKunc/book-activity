@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { ModalService } from 'src/app/common/services/modal/modal.service';
+import { ResizeService } from 'src/app/common/services/resize/resize.service';
 import { LoginService } from '../../common/services/login-service/login.service';
 import { NotificationsService } from '../../common/services/notifications/notifications.service';
 
@@ -27,7 +28,8 @@ export class LoginPageComponent implements OnInit {
     private loginService: LoginService,
     private notificationService: NotificationsService,
     private modalService: ModalService,
-    private router: Router
+    private router: Router,
+    public resizeService: ResizeService
   ) {}
 
   ngOnInit(): void {

@@ -62,7 +62,8 @@ export class NavComponent implements OnInit {
   }
 
   openLoginScreen(): void {
-    this.modalService.createModal(SignComponent, 'Login', 440);
+    this.router.navigate(['sign']);
+    // this.modalService.createModal(SignComponent, 'Login', 440);
   }
 
   openMobileMenu(): void {

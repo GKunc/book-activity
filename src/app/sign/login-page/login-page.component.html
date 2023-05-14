@@ -1,16 +1,8 @@
+<div class="login-container__image-container" *ngIf="(resizeService.isSmall$ | async) === false">
+  <img class="login-container__image" src="../../../assets/login_photo.png" />
+</div>
+
 <div class="login-container" (keyup.enter)="signIn()">
-  <asl-google-signin-button
-    #googleSingInButton
-    theme="filled_blue"
-    logo_alignment="left"
-    type="standard"
-    width="392px"
-    text="signin_with"
-    shape="square"
-  ></asl-google-signin-button>
-
-  <nz-divider></nz-divider>
-
   <form nz-form *ngIf="form" [formGroup]="form" nzLayout="vertical">
     <nz-form-item>
       <nz-form-label nzFor="login" nzRequired>Login</nz-form-label>
@@ -39,9 +31,26 @@
 
   <hub-button class="button__full-width" text="Zaloguj się" [isLoading]="isLoading" (click)="signIn()"></hub-button>
   <div>Nie masz konta? <a (click)="switchMode.emit()">Zarejestruj się.</a></div>
+
+  <nz-divider></nz-divider>
+
+  <asl-google-signin-button
+    #googleSingInButton
+    theme="filled_blue"
+    logo_alignment="left"
+    type="standard"
+    width="392px"
+    text="signin_with"
+    shape="square"
+  ></asl-google-signin-button>
 </div>
 
 <ng-template #errorDescription let-control>
   <ng-container *ngIf="control.hasError('required')">To pole jest wymagane</ng-container>
   <ng-container *ngIf="control.hasError('invalidLogin')">Niepoprawny login lub hasło</ng-container>
 </ng-template>
+
+<!-- 
+  1. ADD ALREADY LOGGED
+  2. CHANGE SIGN UP
+ -->
