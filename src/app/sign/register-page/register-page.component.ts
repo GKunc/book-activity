@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from 'src/app/common/services/authentication/authentication.service';
 import { ModalService } from 'src/app/common/services/modal/modal.service';
+import { ResizeService } from 'src/app/common/services/resize/resize.service';
 import { NotificationsService } from '../../common/services/notifications/notifications.service';
 import { hasLowerCase, hasNumber, hasUpperCase } from '../../common/validators/strong-password.validator';
 
@@ -32,7 +33,8 @@ export class RegisterPageComponent {
   constructor(
     private authService: AuthenticationService,
     private notificationService: NotificationsService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    public resizeService: ResizeService
   ) {}
 
   signUp(): void {

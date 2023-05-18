@@ -1,15 +1,8 @@
+<div class="login-container__image-container" *ngIf="(resizeService.isSmall$ | async) === false">
+  <img class="login-container__image" src="../../../assets/login_photo.png" />
+</div>
+
 <div class="login-container">
-  <asl-google-signin-button
-    theme="filled_blue"
-    logo_alignment="left"
-    type="standard"
-    width="392px"
-    text="signup_with"
-    shape="square"
-  ></asl-google-signin-button>
-
-  <nz-divider></nz-divider>
-
   <form nz-form *ngIf="form" [formGroup]="form" nzLayout="vertical">
     <nz-form-item>
       <nz-form-label nzFor="login" nzRequired>Login</nz-form-label>
@@ -45,6 +38,17 @@
 
   <hub-button class="button__full-width" text="Zarejestruj" [isLoading]="isLoading" (click)="signUp()"></hub-button>
   <div>Masz juz konto? <a (click)="switchMode.emit()">Zaloguj się.</a></div>
+
+  <nz-divider></nz-divider>
+
+  <asl-google-signin-button
+    theme="filled_blue"
+    logo_alignment="left"
+    type="standard"
+    width="392px"
+    text="signup_with"
+    shape="square"
+  ></asl-google-signin-button>
 </div>
 
 <ng-template #errorDescription let-control>
