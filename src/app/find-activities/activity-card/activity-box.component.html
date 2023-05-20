@@ -10,6 +10,7 @@
   <img
     routerLink="/detail/{{ activity.guid }}"
     class="activity-box__background"
+    [alt]="activity.name"
     [src]="activity.coverPhoto | safeUrl"
   />
 </ng-template>
