@@ -124,7 +124,7 @@ registerLocaleData(en);
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(environment.GOOGLE_CLIENT_ID),
+            provider: new GoogleLoginProvider(environment.GOOGLE_CLIENT_ID, { oneTapEnabled: false }),
           },
         ],
         onError: (err) => {
