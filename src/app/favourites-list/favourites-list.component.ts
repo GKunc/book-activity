@@ -27,7 +27,7 @@ export class FavouritesListComponent implements OnInit {
     this.getFavouritesActivities();
 
     this.loginService._favourites$.subscribe((favourites) => {
-      this.favouriteIds = favourites;
+      this.favouriteIds = favourites.filter((item) => !!item);
       this.getFavouritesActivities();
     });
   }
