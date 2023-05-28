@@ -49,6 +49,7 @@ import { ActivityFiltersComponent } from './activity-filters/activity-filters.co
 import { ErrorComponent } from './error/error.component';
 import { DateDistancePipe } from '../common/pipes/date-distance.pipe';
 import { PaymentPeriodPipe } from '../common/pipes/payment-period.pipe';
+import { AllowCookiesComponent } from './allow-cookies/allow-cookies.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { PaymentPeriodPipe } from '../common/pipes/payment-period.pipe';
     NoDataComponent,
     ActivityFiltersComponent,
     ErrorComponent,
+    AllowCookiesComponent,
   ],
   imports: [
     SocialLoginModule,
@@ -115,6 +117,7 @@ import { PaymentPeriodPipe } from '../common/pipes/payment-period.pipe';
     NoDataComponent,
     ActivityFiltersComponent,
     ErrorComponent,
+    AllowCookiesComponent,
 
     SafeUrlPipe,
     WeekDayPipe,

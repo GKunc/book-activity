@@ -31,18 +31,6 @@
 
   <hub-button class="button__full-width" text="Zaloguj się" [isLoading]="isLoading" (click)="signIn()"></hub-button>
   <div>Nie masz konta? <a (click)="switchMode.emit()">Zarejestruj się.</a></div>
-
-  <nz-divider></nz-divider>
-
-  <asl-google-signin-button
-    #googleSingInButton
-    theme="filled_blue"
-    logo_alignment="left"
-    type="standard"
-    width="392px"
-    text="signin_with"
-    shape="square"
-  ></asl-google-signin-button>
 </div>
 
 <ng-template #errorDescription let-control>

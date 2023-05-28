@@ -1,7 +1,5 @@
 <hub-nav></hub-nav>
 <router-outlet></router-outlet>
-<a href="#" onclick="window.displayPreferenceModal();return false;" id="termly-consent-preferences"
-  >Consent Preferences</a
->
 <div id="facebook-messanger" [attr.page_id]="pageId" class="fb-customerchat"></div>
+<allow-cookies *ngIf="showCookies" (cookiesConfirmed)="showCookies = false"></allow-cookies>
 <hub-footer></hub-footer>

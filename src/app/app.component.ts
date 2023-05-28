@@ -4,6 +4,7 @@ import { PlusOutline } from '@ant-design/icons-angular/icons';
 import { NzConfigService } from 'ng-zorro-antd/core/config';
 import { FacebookService, InitParams } from 'ngx-facebook';
 import { environment } from 'src/environments/environment';
+import { ALLOW_COOKIES } from './common/consts/local-storage.consts';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ import { environment } from 'src/environments/environment';
 export class AppComponent implements OnInit {
   title = 'book-activity';
   pageId = environment.FACEBOOK_APP_ID;
+  showCookies: boolean = false;
 
   constructor(
     private iconService: IconService,
@@ -26,6 +28,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.initFacebookService();
+    console.log('xx', localStorage.getItem(ALLOW_COOKIES) == null ?? true);
+    this.showCookies = localStorage.getItem(ALLOW_COOKIES) == null ?? true;
   }
 
   private initFacebookService(): void {
