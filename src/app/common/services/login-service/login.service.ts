@@ -9,6 +9,7 @@ import { AuthenticationService } from '../authentication/authentication.service'
 import { Favourite } from '../favourites/favourites.model';
 import { Package } from 'src/app/profile/profile.models';
 import { HttpBaseResponse } from '../../models/http-base-response.model';
+import { LocalStorageService } from '../local-storage/local-storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -21,9 +22,10 @@ export class LoginService {
   constructor(
     private favouriteService: FavouriteService,
     private socialAuthService: SocialAuthService,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private localStorageService: LocalStorageService
   ) {
-    const token = localStorage.getItem(ACCESS_TOKEN);
+    const token = this.localStorageService.getItem<string>(ACCESS_TOKEN);
     if (token) {
       const loggedUser: InternalUser = jwt_decode(token);
       this.loggedUser = {
@@ -59,15 +61,15 @@ export class LoginService {
       tap((result) => {
         if (result.data) {
           const { access_token, refresh_token } = result.data;
-          localStorage.setItem(ACCESS_TOKEN, access_token);
-          localStorage.setItem(REFRESH_TOKEN, refresh_token);
+          this.localStorageService.setItem(ACCESS_TOKEN, access_token);
+          this.localStorageService.setItem(REFRESH_TOKEN, refresh_token);
 
           const loggedUser: InternalUser = jwt_decode(access_token);
           this.loggedUser = loggedUser;
           this._user$.next(loggedUser);
           // get favourites
           this.favouriteService.getFavourites(loggedUser?.id).subscribe((response: Favourite) => {
-            localStorage.setItem(FAVOURITES, JSON.stringify(response?.favourites));
+            this.localStorageService.setItem(FAVOURITES, response?.favourites);
             this._favourites$.next(response?.favourites);
           });
         }
@@ -97,9 +99,9 @@ export class LoginService {
     } catch (e) {
       console.log('Error', e);
     } finally {
-      localStorage.removeItem(ACCESS_TOKEN);
-      localStorage.removeItem(REFRESH_TOKEN);
-      localStorage.removeItem(FAVOURITES);
+      this.localStorageService.removeItem(ACCESS_TOKEN);
+      this.localStorageService.removeItem(REFRESH_TOKEN);
+      this.localStorageService.removeItem(FAVOURITES);
     }
   }
 

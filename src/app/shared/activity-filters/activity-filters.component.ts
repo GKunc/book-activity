@@ -3,6 +3,7 @@ import { debounceTime, Subject } from 'rxjs';
 import { ACTIVITY_CATEGORIES, Category } from 'src/app/common/consts/category.consts';
 import { ACTIVITY_FILTERS } from 'src/app/common/consts/local-storage.consts';
 import { WeekDay, WEEK_DAYS } from 'src/app/common/consts/week-days.consts';
+import { LocalStorageService } from 'src/app/common/services/local-storage/local-storage.service';
 import { ResizeService } from 'src/app/common/services/resize/resize.service';
 import { ActivityFilters, ViewType } from './activity-filters.model';
 
@@ -43,10 +44,10 @@ export class ActivityFiltersComponent implements OnInit {
     { label: 'Mapa', value: ViewType.Map, icon: 'environment' },
   ];
 
-  constructor(public resizeService: ResizeService) {}
+  constructor(private localStorageService: LocalStorageService, public resizeService: ResizeService) {}
 
   ngOnInit(): void {
-    const filters = JSON.parse(localStorage.getItem(ACTIVITY_FILTERS));
+    const filters = this.localStorageService.getItem<ActivityFilters>(ACTIVITY_FILTERS);
     if (filters) {
       this.phrase = filters.phrase;
       this.weekDays = filters.weekDays;
@@ -78,7 +79,7 @@ export class ActivityFiltersComponent implements OnInit {
     }
     this.submitView.emit(this.viewType);
     const filters = this.createFilters();
-    localStorage.setItem(ACTIVITY_FILTERS, JSON.stringify(filters));
+    this.localStorageService.setItem(ACTIVITY_FILTERS, filters);
   }
 
   openFilters(): void {
@@ -110,14 +111,14 @@ export class ActivityFiltersComponent implements OnInit {
 
     const filters = this.createFilters();
     this.showFilters = false;
-    localStorage.setItem(ACTIVITY_FILTERS, JSON.stringify(filters));
+    this.localStorageService.setItem(ACTIVITY_FILTERS, filters);
   }
 
   submit(): void {
     const filters = this.createFilters();
     this.submitFilters.emit(filters);
     this.showFilters = false;
-    localStorage.setItem(ACTIVITY_FILTERS, JSON.stringify(filters));
+    this.localStorageService.setItem(ACTIVITY_FILTERS, filters);
   }
 
   private createFilters(): ActivityFilters {

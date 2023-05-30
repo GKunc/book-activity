@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ACTIVITY_CATEGORIES, Category } from 'src/app/common/consts/category.consts';
 import { ACTIVITY_FILTERS } from 'src/app/common/consts/local-storage.consts';
+import { LocalStorageService } from 'src/app/common/services/local-storage/local-storage.service';
 import { InternalUser, LoginService } from 'src/app/common/services/login-service/login.service';
 import { ModalService } from 'src/app/common/services/modal/modal.service';
 import { ResizeService } from 'src/app/common/services/resize/resize.service';
@@ -27,7 +28,8 @@ export class NavComponent implements OnInit {
     public loginService: LoginService,
     public resizeService: ResizeService,
     private modalService: ModalService,
-    private router: Router
+    private router: Router,
+    private localStorageService: LocalStorageService
   ) {}
 
   ngOnInit(): void {
@@ -41,17 +43,14 @@ export class NavComponent implements OnInit {
   }
 
   searchActivities(): void {
-    localStorage.setItem(
-      ACTIVITY_FILTERS,
-      JSON.stringify({
-        phrase: this.phrase,
-        categories: this.categories,
-        minPrice: 0,
-        maxPrice: 1000,
-        page: 1,
-        limit: 10,
-      })
-    );
+    this.localStorageService.setItem(ACTIVITY_FILTERS, {
+      phrase: this.phrase,
+      categories: this.categories,
+      minPrice: 0,
+      maxPrice: 1000,
+      page: 1,
+      limit: 10,
+    });
     this.phrase = '';
     this.categories = [];
     this.router.navigate(['find-activities']);

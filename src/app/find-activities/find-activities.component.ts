@@ -3,6 +3,7 @@ import { catchError, concat, finalize, map, of, switchMap, zipAll } from 'rxjs';
 import { ACTIVITY_FILTERS, FAVOURITES } from '../common/consts/local-storage.consts';
 import { Activity } from '../common/services/activities/activities.model';
 import { ActivitiesService } from '../common/services/activities/activities.service';
+import { LocalStorageService } from '../common/services/local-storage/local-storage.service';
 import { ResizeService } from '../common/services/resize/resize.service';
 import { ActivityFilters, ViewType } from '../shared/activity-filters/activity-filters.model';
 
@@ -28,11 +29,12 @@ export class FindActivitiesComponent implements OnInit, AfterViewInit {
   constructor(
     private activitiesService: ActivitiesService,
     private cdr: ChangeDetectorRef,
+    private localStorageService: LocalStorageService,
     public resizeService: ResizeService
   ) {}
 
   ngOnInit(): void {
-    this.lastFilters = JSON.parse(localStorage.getItem(ACTIVITY_FILTERS));
+    this.lastFilters = this.localStorageService.getItem<ActivityFilters>(ACTIVITY_FILTERS);
     this.openView = this.lastFilters.viewType;
   }
 
@@ -92,8 +94,8 @@ export class FindActivitiesComponent implements OnInit, AfterViewInit {
       )
       .subscribe(
         (activities: Activity[]) => {
-          if (localStorage.getItem(FAVOURITES) && localStorage.getItem(FAVOURITES) !== 'undefined') {
-            this.favouriteIds = JSON.parse(localStorage.getItem(FAVOURITES));
+          if (this.localStorageService.getItem<string[]>(FAVOURITES)) {
+            this.favouriteIds = this.localStorageService.getItem<string[]>(FAVOURITES);
           }
 
           if (loadMore) {

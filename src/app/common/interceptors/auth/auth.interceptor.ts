@@ -6,6 +6,7 @@ import { LoginService } from '../../services/login-service/login.service';
 import { ModalService } from '../../services/modal/modal.service';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../../consts/local-storage.consts';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { LocalStorageService } from '../../services/local-storage/local-storage.service';
 
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
@@ -13,6 +14,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
   private authService: AuthenticationService;
   private modalService: ModalService;
   private loginService: LoginService;
+  private localStorageService: LocalStorageService;
 
   constructor(private injector: Injector) {}
 
@@ -20,6 +22,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     this.authService = this.injector.get(AuthenticationService);
     this.modalService = this.injector.get(ModalService);
     this.loginService = this.injector.get(LoginService);
+    this.localStorageService = this.injector.get(LocalStorageService);
 
     req = req.clone({
       withCredentials: true,
@@ -43,7 +46,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
       if (this.loginService.user) {
         return this.authService.refreshToken(this.loginService.user.username).pipe(
           switchMap(({ access_token }) => {
-            localStorage.setItem(ACCESS_TOKEN, access_token);
+            this.localStorageService.setItem(ACCESS_TOKEN, access_token);
             this.isRefreshing = false;
             return next.handle(request);
           }),
@@ -51,8 +54,8 @@ export class HttpRequestInterceptor implements HttpInterceptor {
             this.isRefreshing = false;
 
             if (error.status == '403') {
-              localStorage.removeItem(ACCESS_TOKEN);
-              localStorage.removeItem(REFRESH_TOKEN);
+              this.localStorageService.removeItem(ACCESS_TOKEN);
+              this.localStorageService.removeItem(REFRESH_TOKEN);
               this.loginService.signOut();
               this.modalService.closeAll();
             }

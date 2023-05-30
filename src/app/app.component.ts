@@ -5,6 +5,7 @@ import { NzConfigService } from 'ng-zorro-antd/core/config';
 import { FacebookService, InitParams } from 'ngx-facebook';
 import { environment } from 'src/environments/environment';
 import { ALLOW_COOKIES } from './common/consts/local-storage.consts';
+import { LocalStorageService } from './common/services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,8 @@ export class AppComponent implements OnInit {
   constructor(
     private iconService: IconService,
     private nzConfigService: NzConfigService,
-    private facebookService: FacebookService
+    private facebookService: FacebookService,
+    private localStorageService: LocalStorageService
   ) {
     this.iconService.addIcon(...[PlusOutline]);
     this.iconService.twoToneColor = { primaryColor: '#fff' };
@@ -28,8 +30,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.initFacebookService();
-    console.log('xx', localStorage.getItem(ALLOW_COOKIES) == null ?? true);
-    this.showCookies = localStorage.getItem(ALLOW_COOKIES) == null ?? true;
+    this.showCookies = this.localStorageService.getItem<boolean>(ALLOW_COOKIES) == null ?? true;
   }
 
   private initFacebookService(): void {

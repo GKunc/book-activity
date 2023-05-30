@@ -3,6 +3,7 @@ import { catchError, forkJoin, map, of, tap, switchMap, finalize } from 'rxjs';
 import { FAVOURITES } from '../common/consts/local-storage.consts';
 import { Activity } from '../common/services/activities/activities.model';
 import { ActivitiesService } from '../common/services/activities/activities.service';
+import { LocalStorageService } from '../common/services/local-storage/local-storage.service';
 import { LoginService } from '../common/services/login-service/login.service';
 
 @Component({
@@ -17,12 +18,16 @@ export class FavouritesListComponent implements OnInit {
   favouriteIds: string[] = [];
   activities: Activity[] = [];
 
-  constructor(private activityService: ActivitiesService, public loginService: LoginService) {}
+  constructor(
+    private activityService: ActivitiesService,
+    private localStorageService: LocalStorageService,
+    public loginService: LoginService
+  ) {}
 
   ngOnInit(): void {
     this.noData = false;
-    if (localStorage.getItem(FAVOURITES) && localStorage.getItem(FAVOURITES) !== 'undefined') {
-      this.favouriteIds = JSON.parse(localStorage.getItem(FAVOURITES)).filter((item) => !!item);
+    if (this.localStorageService.getItem<string[]>(FAVOURITES)) {
+      this.favouriteIds = this.localStorageService.getItem<string[]>(FAVOURITES).filter((item) => !!item);
     }
     this.getFavouritesActivities();
 
