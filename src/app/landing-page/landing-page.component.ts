@@ -15,13 +15,12 @@ import { SignComponent } from '../sign/sign.component';
 export class LandingPageComponent {
   constructor(
     public resizeService: ResizeService,
-    private modalService: ModalService,
     private router: Router,
     private localStorageService: LocalStorageService
   ) {}
 
   openLoginModal(): void {
-    this.modalService.createModal(SignComponent, 'Login', 440, { showLogin: false });
+    this.router.navigate(['sign'], { queryParams: { showLogin: false } });
   }
 
   goToActivityMap(): void {

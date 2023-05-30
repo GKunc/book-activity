@@ -14,5 +14,9 @@ export class GlobalErrorInterceptor implements ErrorHandler {
         this.notificationsService.error(`${environment.production}`, error?.message || 'Undefined client error');
       });
     }
+
+    if (environment.production) {
+      return;
+    }
   }
 }

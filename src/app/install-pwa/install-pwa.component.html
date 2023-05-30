@@ -1,0 +1,16 @@
+<div class="install-pwa">
+  <ng-container *ngIf="system === 'iOS'; else iosInstruction">
+    <p>1) Otworz strone w stafari</p>
+    <p>2) Kliknij przycisk "Share"</p>
+    <p>3) Dodaj do ekranu początkowego</p>
+    <hub-button text="Schowaj" type="default" (click)="addCookieAndClosePrompt()"></hub-button>
+  </ng-container>
+
+  <ng-template #iosInstruction>
+    <h3>Zainstaluj aplikacje, aby byc na bieząco!</h3>
+    <div class="action-buttons">
+      <hub-button text="Anuluj" type="default" (click)="addCookieAndClosePrompt()"></hub-button>
+      <hub-button text="Zainstaluj" (click)="installPWA()"></hub-button>
+    </div>
+  </ng-template>
+</div>

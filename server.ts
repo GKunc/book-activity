@@ -5,7 +5,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import * as express from 'express';
 import { existsSync } from 'fs';
-import { join } from 'path';
+import { join, resolve } from 'path';
 
 import { AppServerModule } from './src/main.server';
 import 'localstorage-polyfill';
@@ -28,6 +28,10 @@ export function app(): express.Express {
   server.use(cookieParser());
   const distFolder = join(process.cwd(), 'dist/book-activity/browser');
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
+
+  server.get('/service-worker.js', (req, res) => {
+    res.sendFile(resolve(__dirname, 'public', 'service-worker.js'));
+  });
 
   // routes
   require('./server/routes/auth.routes')(server);

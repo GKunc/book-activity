@@ -23,7 +23,14 @@
         </nz-select>
       </nz-input-group>
       <ng-template #suffixButton>
-        <button (click)="searchActivities()" class="search__suffix" nz-button nzType="primary" nzSearch>
+        <button
+          title="Szukaj zajec"
+          (click)="searchActivities()"
+          class="search__suffix"
+          nz-button
+          nzType="primary"
+          nzSearch
+        >
           <span nz-icon nzType="search"></span>
         </button>
       </ng-template>

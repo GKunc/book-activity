@@ -53,6 +53,7 @@ import { EmailConfirmationComponent } from './email-confirmation/email-confirmat
 import { PackagesComponent } from './packages/packages.component';
 
 import { FacebookModule } from 'ngx-facebook';
+import { InstallPwaComponent } from './install-pwa/install-pwa.component';
 
 registerLocaleData(en);
 
@@ -87,6 +88,7 @@ registerLocaleData(en);
     ProfileComponent,
     EmailConfirmationComponent,
     PackagesComponent,
+    InstallPwaComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -102,11 +104,8 @@ registerLocaleData(en);
     IconModule,
     FacebookModule.forRoot(),
     NgxGoogleAnalyticsModule.forRoot(environment.MEASUREMENT_ID),
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: !isDevMode(),
-      // Register the ServiceWorker as soon as the application is stable
-      // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000',
+    ServiceWorkerModule.register('./ngsw-worker.js', {
+      enabled: environment.production,
     }),
   ],
   providers: [

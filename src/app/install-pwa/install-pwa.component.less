@@ -1,0 +1,30 @@
+@import '../../styles.less';
+
+.install-pwa {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  z-index: 1000;
+  width: 100%;
+  padding: 24px;
+  border-top: 1px solid @primary-color;
+
+  h3 {
+    text-align: center;
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 8px;
+
+    hub-button {
+      width: 100%;
+    }
+  }
+
+  ::ng-deep .hub-button {
+    width: 100%;
+  }
+}
