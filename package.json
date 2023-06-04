@@ -15,7 +15,7 @@
     "lint": "ng lint",
     "dev:ssr": "ng run book-activity:serve-ssr",
     "serve:ssr": "node dist/book-activity/server/main.js",
-    "build:ssr": "ng build && ng run book-activity:server",
+    "build:ssr": "ng build && ng run book-activity:server && gzipper compress --verbose ./dist",
     "prerender": "ng run book-activity:prerender"
   },
   "private": true,
@@ -78,6 +78,7 @@
     "eslint": "^8.33.0",
     "eslint-config-prettier": "^8.7.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "gzipper": "^7.2.0",
     "jasmine-core": "~4.0.0",
     "karma": "~6.3.0",
     "karma-chrome-launcher": "~3.1.0",

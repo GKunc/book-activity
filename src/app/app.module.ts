@@ -104,7 +104,7 @@ registerLocaleData(en);
     IconModule,
     FacebookModule.forRoot(),
     NgxGoogleAnalyticsModule.forRoot(environment.MEASUREMENT_ID),
-    ServiceWorkerModule.register('./ngsw-worker.js', {
+    ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
     }),
   ],
