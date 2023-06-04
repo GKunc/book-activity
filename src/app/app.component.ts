@@ -7,7 +7,6 @@ import { environment } from 'src/environments/environment';
 import { ALLOW_COOKIES, INSTALL_PWA } from './common/consts/local-storage.consts';
 import { getCookie, LocalStorageService } from './common/services/local-storage/local-storage.service';
 import { Platform } from '@angular/cdk/platform';
-import { ModalService } from './common/services/modal/modal.service';
 
 @Component({
   selector: 'app-root',
@@ -27,8 +26,7 @@ export class AppComponent implements OnInit {
     private nzConfigService: NzConfigService,
     private facebookService: FacebookService,
     private localStorageService: LocalStorageService,
-    private platform: Platform,
-    private modal: ModalService
+    private platform: Platform
   ) {
     this.iconService.addIcon(...[PlusOutline]);
     this.iconService.twoToneColor = { primaryColor: '#fff' };
@@ -52,10 +50,7 @@ export class AppComponent implements OnInit {
   }
 
   private installPWA(): void {
-    console.log('installPWA fn new');
     window.addEventListener('beforeinstallprompt', (event) => {
-      console.log('Install PWA event', event);
-
       this.promptEvent = event;
       this.showInstallPWA = true;
       if (this.platform.IOS) {
