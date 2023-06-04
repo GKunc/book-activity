@@ -34,7 +34,9 @@
                 "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
                 "output": "/assets/"
               },
-              "src/manifest.webmanifest"
+              "src/manifest.webmanifest",
+              "src/sitemap.xml",
+              "src/robots.txt"
             ],
             "styles": ["src/styles.less", "node_modules/ng-zorro-antd/ng-zorro-antd.variable.min.css"],
             "scripts": [],
