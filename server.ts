@@ -15,6 +15,7 @@ import { MongoClient, GridFSBucket } from 'mongodb';
 import * as uploadFilesMiddleware from './upload';
 import * as cookieParser from 'cookie-parser';
 import * as cors from 'cors';
+import * as compression from 'compression';
 
 const db = require('./server/models');
 const initializeDb = require('./server/setup/initializeDb');
@@ -26,6 +27,7 @@ export function app(): express.Express {
   server.use(cors({}));
   server.use(express.urlencoded({ extended: true }));
   server.use(cookieParser());
+  server.use(compression());
   const distFolder = join(process.cwd(), 'dist/book-activity/browser');
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
 
