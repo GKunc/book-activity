@@ -16,12 +16,9 @@ import * as uploadFilesMiddleware from './upload';
 import * as cookieParser from 'cookie-parser';
 import * as cors from 'cors';
 import * as compression from 'compression';
-import spdy from 'spdy';
 
 const db = require('./server/models');
 const initializeDb = require('./server/setup/initializeDb');
-const fs = require('fs');
-const path = require('path');
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
@@ -199,19 +196,10 @@ export function app(): express.Express {
 function run(): void {
   const port = process.env['PORT'] || 4000;
 
-  const options = {
-    key: fs.readFileSync(path.join(__dirname, '../../../server.key')),
-    cert: fs.readFileSync(path.join(__dirname, '../../../server.crt')),
-  };
-
   // Start up the Node server
-  spdy.createServer(options, app).listen(port, (error) => {
-    if (error) {
-      console.error(error);
-      return process.exit(1);
-    } else {
-      console.log('Listening on port: ' + port + '.');
-    }
+  const server = app();
+  server.listen(port, () => {
+    console.log(`Node Express server listening on http://localhost:${port}`);
   });
 }
 

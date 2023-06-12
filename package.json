@@ -40,7 +40,6 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "http2-express-bridge": "^1.0.7",
     "jsonwebtoken": "^9.0.0",
     "jwt-decode": "^3.1.2",
     "localstorage-polyfill": "^1.0.1",
@@ -54,7 +53,6 @@
     "ngx-google-analytics": "^14.0.1",
     "nodemailer": "^6.9.1",
     "rxjs": "~7.5.0",
-    "spdy": "^4.0.2",
     "tslib": "^2.3.0",
     "uuid": "^9.0.0",
     "zone.js": "~0.11.4"
