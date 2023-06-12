@@ -135,6 +135,10 @@
           },
           "configurations": {
             "production": {
+              "optimization": true,
+              "sourceMap": true,
+              "extractLicenses": false,
+              "vendorChunk": true,
               "outputHashing": "media",
               "fileReplacements": [
                 {
