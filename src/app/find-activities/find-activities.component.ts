@@ -46,7 +46,6 @@ export class FindActivitiesComponent implements OnInit, AfterViewInit {
   loadMore(): void {
     this.lastFilters.page = this.lastFilters.page + 1;
     if (this.hasMoreData) {
-      console.log('LOAD MORE');
       this.onSubmitFilters(this.lastFilters, true);
     }
   }
@@ -70,6 +69,7 @@ export class FindActivitiesComponent implements OnInit, AfterViewInit {
             this.hasMoreData = false;
           }
 
+          console.log();
           const requests = data.map((activity: Activity) =>
             this.activitiesService.getPhoto(activity.coverPhoto).pipe(
               map((photo: Blob) => {
@@ -123,6 +123,6 @@ export class FindActivitiesComponent implements OnInit, AfterViewInit {
   }
 
   private hasNoData(data: Activity[]): boolean {
-    return data.length === 0 && this.activities.length === 0 ? true : false;
+    return data.length === 0 && this.activities?.length === 0 ? true : false;
   }
 }
