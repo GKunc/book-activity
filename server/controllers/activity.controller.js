@@ -22,11 +22,13 @@ exports.filter = async (req, res) => {
   }
 
   query['groups.price'] = {};
-  query['groups.price'].$gte = body.minPrice;
-  query['groups.price'].$lte = body.maxPrice;
+  query['groups.price'].$gte = body.minPrice ?? 0;
+  query['groups.price'].$lte = body.maxPrice ?? 1000;
 
   const skip = (body.page - 1) * body.limit;
-  const activity = await Activity.find(query).skip(skip).limit(body.limit);
+  const activity = await Activity.find(query)
+    .skip(skip ?? 0)
+    .limit(body.limit ?? 20);
   console.log('body: ', body);
   console.log('Filter activities', query, ',skip: ', skip, ',limit: ', body.limit, 'result: ', activity.length);
   return res.send(JSON.stringify(activity));
