@@ -1,14 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ActivityDetailsComponent } from './activity-details/activity-details.component';
-import { EmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
-import { FavouritesListComponent } from './favourites-list/favourites-list.component';
-import { FindActivitiesComponent } from './find-activities/find-activities.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
-import { NotAuthorizedComponent } from './not-authorized/not-authorized.component';
-import { ProfileComponent } from './profile/profile.component';
-import { SignComponent } from './sign/sign.component';
-import { YourActivitiesComponent } from './your-activities/your-activities.component';
 
 const routes: Routes = [
   {
@@ -17,35 +9,37 @@ const routes: Routes = [
   },
   {
     path: 'find-activities',
-    component: FindActivitiesComponent,
+    loadComponent: () => import('./find-activities/find-activities.component').then((x) => x.FindActivitiesComponent),
   },
   {
     path: 'detail/:id',
-    component: ActivityDetailsComponent,
+    loadComponent: () =>
+      import('./activity-details/activity-details.component').then((x) => x.ActivityDetailsComponent),
   },
   {
     path: 'your-activities',
-    component: YourActivitiesComponent,
+    loadComponent: () => import('./your-activities/your-activities.component').then((x) => x.YourActivitiesComponent),
   },
   {
     path: 'favourites',
-    component: FavouritesListComponent,
+    loadComponent: () => import('./favourites-list/favourites-list.component').then((x) => x.FavouritesListComponent),
   },
   {
     path: 'profile',
-    component: ProfileComponent,
+    loadComponent: () => import('./profile/profile.component').then((x) => x.ProfileComponent),
   },
   {
     path: 'email-confirmation',
-    component: EmailConfirmationComponent,
+    loadComponent: () =>
+      import('./email-confirmation/email-confirmation.component').then((x) => x.EmailConfirmationComponent),
   },
   {
     path: 'sign',
-    component: SignComponent,
+    loadComponent: () => import('./sign/sign.component').then((x) => x.SignComponent),
   },
   {
     path: 'not-authorized',
-    component: NotAuthorizedComponent,
+    loadComponent: () => import('./not-authorized/not-authorized.component').then((x) => x.NotAuthorizedComponent),
   },
 ];
 
