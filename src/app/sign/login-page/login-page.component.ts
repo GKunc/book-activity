@@ -46,6 +46,7 @@ export class LoginPageComponent implements OnInit {
         .subscribe(
           () => {
             this.notificationService.success('Pomyślnie zalogowano uzytkownika', '');
+            this.router.navigate(['/your-activities']);
             this.modalService.close();
           },
           (e) => {
