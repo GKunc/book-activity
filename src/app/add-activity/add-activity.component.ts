@@ -48,6 +48,10 @@ export class AddActivityComponent implements OnInit {
     }
   }
 
+  isMobile(): boolean {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  }
+
   submit(): void {
     this.isLoading = true;
     const activity = this.activity;

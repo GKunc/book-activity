@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import { of } from 'rxjs';
 import { AddActivityComponent } from '../add-activity/add-activity.component';
@@ -24,6 +25,7 @@ export class YourActivitiesComponent implements OnInit {
   constructor(
     private activitiesService: ActivitiesService,
     private modalService: ModalService,
+    private router: Router,
     public loginService: LoginService
   ) {}
 
@@ -42,19 +44,28 @@ export class YourActivitiesComponent implements OnInit {
   }
 
   addActivity(): void {
-    const modal = this.modalService.createModal(AddActivityComponent, 'Dodaj swoje zajęcia', 500, {}, false);
-    this.refreshActivitiesOnModalClose(modal);
+    if (this.isMobile()) {
+      this.router.navigate(['add-activity']);
+    } else {
+      // false for not mobile device
+      const modal = this.modalService.createModal(AddActivityComponent, 'Dodaj swoje zajęcia', 500, {}, false);
+      this.refreshActivitiesOnModalClose(modal);
+    }
   }
 
   editActivity(activity: Activity): void {
-    const modal = this.modalService.createModal(
-      AddActivityComponent,
-      'Dodaj swoje zajęcia',
-      500,
-      { activity, isEditing: true },
-      false
-    );
-    this.refreshActivitiesOnModalClose(modal);
+    if (this.isMobile()) {
+      this.router.navigate(['add-activity'], { queryParams: { activity, isEditing: true } });
+    } else {
+      const modal = this.modalService.createModal(
+        AddActivityComponent,
+        'Dodaj swoje zajęcia',
+        500,
+        { activity, isEditing: true },
+        false
+      );
+      this.refreshActivitiesOnModalClose(modal);
+    }
   }
 
   deleteActivity(activity: Activity): void {
@@ -96,5 +107,9 @@ export class YourActivitiesComponent implements OnInit {
         this.getUserActivities();
       }
     });
+  }
+
+  private isMobile(): boolean {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   }
 }

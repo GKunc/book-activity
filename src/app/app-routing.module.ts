@@ -34,6 +34,10 @@ const routes: Routes = [
       import('./email-confirmation/email-confirmation.component').then((x) => x.EmailConfirmationComponent),
   },
   {
+    path: 'add-activity',
+    loadComponent: () => import('./add-activity/add-activity.component').then((x) => x.AddActivityComponent),
+  },
+  {
     path: 'sign',
     loadComponent: () => import('./sign/sign.component').then((x) => x.SignComponent),
   },

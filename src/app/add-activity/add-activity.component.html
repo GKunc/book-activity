@@ -1,4 +1,4 @@
-<div class="form-container">
+<div class="form-container" [class.mobile]="isMobile()">
   <nz-steps [nzCurrent]="currentStep" (nzIndexChange)="onIndexChange($event)">
     <nz-step></nz-step>
     <nz-step [nzDisabled]="!groupsDataEnabled"></nz-step>
