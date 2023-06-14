@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../common/services/authentication/authentication.service';
-import { ModalService } from '../common/services/modal/modal.service';
 import { SignComponent } from '../sign/sign.component';
 
 @Component({
@@ -13,11 +12,7 @@ export class EmailConfirmationComponent implements OnInit {
   success: boolean = false;
   loading: boolean = true;
 
-  constructor(
-    private route: ActivatedRoute,
-    private authSerice: AuthenticationService,
-    private modalService: ModalService
-  ) {}
+  constructor(private route: ActivatedRoute, private authSerice: AuthenticationService, private router: Router) {}
 
   ngOnInit(): void {
     const confirmationSecret = this.route.snapshot.queryParamMap.get('confirmationSecret');
@@ -29,6 +24,6 @@ export class EmailConfirmationComponent implements OnInit {
   }
 
   login(): void {
-    this.modalService.createModal(SignComponent, 'Login', 440);
+    this.router.navigate(['signin']);
   }
 }

@@ -69,7 +69,6 @@ export class FindActivitiesComponent implements OnInit, AfterViewInit {
             this.hasMoreData = false;
           }
 
-          console.log();
           const requests = data.map((activity: Activity) =>
             this.activitiesService.getPhoto(activity.coverPhoto).pipe(
               map((photo: Blob) => {
