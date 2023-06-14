@@ -80,6 +80,7 @@ export class MediaDataFormComponent implements OnInit {
       this.deleteFiles();
       this.formSubmitted.emit({
         images: this.images.map((image) => image.file.name),
+        coverPhoto: this.images[0].file.name,
       });
     }
   }
