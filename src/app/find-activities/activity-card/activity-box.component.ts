@@ -33,7 +33,9 @@ export class ActivityBoxComponent {
       .subscribe();
     let favourites: string[] = this.localStorageService.getItem<string[]>(FAVOURITES) || [];
     if (!favourites?.includes(this.activity.guid) && this.activity.isFavourite) {
-      this.localStorageService.setItem(FAVOURITES, [...favourites, this.activity.guid]);
+      if (this.activity.guid) {
+        this.localStorageService.setItem(FAVOURITES, [...favourites, this.activity.guid]);
+      }
     } else if (favourites?.includes(this.activity.guid) && !this.activity.isFavourite) {
       favourites = favourites.filter((item) => item !== this.activity.guid);
       this.localStorageService.setItem(FAVOURITES, [...favourites]);

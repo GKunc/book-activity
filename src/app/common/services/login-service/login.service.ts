@@ -69,8 +69,10 @@ export class LoginService {
           this._user$.next(loggedUser);
           // get favourites
           this.favouriteService.getFavourites(loggedUser?.id).subscribe((response: Favourite) => {
-            this.localStorageService.setItem(FAVOURITES, response?.favourites);
-            this._favourites$.next(response?.favourites);
+            if (response.favourites.length > 0) {
+              this.localStorageService.setItem(FAVOURITES, response?.favourites);
+              this._favourites$.next(response?.favourites);
+            }
           });
         }
       }),
