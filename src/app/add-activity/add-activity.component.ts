@@ -6,6 +6,7 @@ import { ModalService } from '../common/services/modal/modal.service';
 import { NotificationsService } from '../common/services/notifications/notifications.service';
 import { v4 as uuidv4 } from 'uuid';
 import { LoginService } from '../common/services/login-service/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-activity',
@@ -32,19 +33,26 @@ export class AddActivityComponent implements OnInit {
   clientDataEnabled = false;
   mediaDataEnabled = false;
 
+  state: any;
+
   constructor(
     private loginService: LoginService,
     private modalService: ModalService,
     private notificationsService: NotificationsService,
-    private activitiesService: ActivitiesService
-  ) {}
+    private activitiesService: ActivitiesService,
+    private router: Router
+  ) {
+    this.state = this.router.getCurrentNavigation().extras.state;
+  }
 
   ngOnInit(): void {
+    console.log('this.state', this.state);
+
+    this.activity = JSON.parse(history.state.activity) as Activity;
+    this.isEditing = history.state.isEditing;
+
     if (this.activity) {
-      this.groupsDataEnabled = true;
-      this.locationDataEnabled = true;
-      this.clientDataEnabled = true;
-      this.mediaDataEnabled = true;
+      this.enableAllSteps();
     }
   }
 
@@ -126,6 +134,13 @@ export class AddActivityComponent implements OnInit {
     console.log(!!this.activity || !this.activity.description.length || !this.activity.name || !this.activity.category);
 
     return !!this.activity || !this.activity.description.length || !this.activity.name || !this.activity.category;
+  }
+
+  private enableAllSteps(): void {
+    this.groupsDataEnabled = true;
+    this.locationDataEnabled = true;
+    this.clientDataEnabled = true;
+    this.mediaDataEnabled = true;
   }
 
   private updateActivity(data: Partial<Activity>): Activity {

@@ -1,18 +1,15 @@
 import { Component } from '@angular/core';
-import { ModalService } from '../common/services/modal/modal.service';
-import { SignComponent } from '../sign/sign.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'not-authorized',
   templateUrl: './not-authorized.component.html',
-  styleUrls: ['./not-authorized.component.less']
+  styleUrls: ['./not-authorized.component.less'],
 })
 export class NotAuthorizedComponent {
-  constructor(
-    private modalService: ModalService,
-  ) {}
+  constructor(private router: Router) {}
 
   openLoginModal(): void {
-    this.modalService.createModal(SignComponent, 'Login', 440);
+    this.router.navigate(['sign']);
   }
 }

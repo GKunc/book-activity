@@ -55,7 +55,7 @@ export class YourActivitiesComponent implements OnInit {
 
   editActivity(activity: Activity): void {
     if (this.isMobile()) {
-      this.router.navigate(['add-activity'], { queryParams: { activity, isEditing: true } });
+      this.router.navigateByUrl('add-activity', { state: { activity: JSON.stringify(activity), isEditing: true } });
     } else {
       const modal = this.modalService.createModal(
         AddActivityComponent,

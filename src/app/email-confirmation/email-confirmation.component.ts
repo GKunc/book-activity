@@ -24,6 +24,6 @@ export class EmailConfirmationComponent implements OnInit {
   }
 
   login(): void {
-    this.router.navigate(['signin']);
+    this.router.navigate(['sign']);
   }
 }
