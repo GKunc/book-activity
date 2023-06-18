@@ -1,9 +1,16 @@
 .opinions__header {
-    margin-top: 48px;
+  margin-top: 48px;
 }
 
 .opinions__flex {
-    margin-top: 40px;
+  margin-top: 40px;
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (max-width: 575px) {
+  .opinions__flex {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+  }
 }

@@ -1,42 +1,50 @@
 .rate-summary {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  border-radius: 2px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  min-width: 350px;
+
+  &__avg {
+    margin: 0;
+  }
+
+  &__overview {
     display: flex;
     align-items: center;
-    gap: 32px;
-    border-radius: 2px;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    padding: 16px;
-    min-width: 350px;
+    flex-direction: column;
+  }
 
-    &__avg {
-        margin: 0;
-    }
+  &__description {
+    flex: 1;
+  }
 
-    &__overview {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-    }
+  &__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+  }
 
-    &__description {
-        flex: 1
-    }
+  &__star {
+    color: rgb(250, 219, 20);
+  }
 
-    &__container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 4px;
-    }
-
-    &__star {
-        color: rgb(250, 219, 20);
-    }
-
-    &__bar {
-        flex: 1;
-    }
+  &__bar {
+    flex: 1;
+  }
 }
 
-::ng-deep .ant-progress-bg, .ant-progress-success-bg {
-    background-color: rgb(250, 219, 20) !important;
+::ng-deep .ant-progress-bg,
+.ant-progress-success-bg {
+  background-color: rgb(250, 219, 20) !important;
+}
+
+@media (max-width: 575px) {
+  .rate-summary {
+    min-width: auto;
+    max-width: 100%;
+  }
 }
