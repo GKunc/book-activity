@@ -1,11 +1,10 @@
-import { SocialUser } from '@abacritt/angularx-social-login';
 import { Component, Input, OnInit } from '@angular/core';
 import { Activity } from '../common/services/activities/activities.model';
 import { ActivitiesService } from '../common/services/activities/activities.service';
 import { ModalService } from '../common/services/modal/modal.service';
 import { NotificationsService } from '../common/services/notifications/notifications.service';
 import { v4 as uuidv4 } from 'uuid';
-import { LoginService } from '../common/services/login-service/login.service';
+import { InternalUser, LoginService } from '../common/services/login-service/login.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -20,7 +19,7 @@ export class AddActivityComponent implements OnInit {
   @Input()
   isEditing = false;
 
-  user: SocialUser;
+  user: InternalUser;
 
   isLoading = false;
 

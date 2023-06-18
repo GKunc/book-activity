@@ -1,4 +1,3 @@
-import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, of, ReplaySubject, tap, throwError } from 'rxjs';
 import { from } from 'rxjs';
@@ -21,7 +20,6 @@ export class LoginService {
 
   constructor(
     private favouriteService: FavouriteService,
-    private socialAuthService: SocialAuthService,
     private authService: AuthenticationService,
     private localStorageService: LocalStorageService
   ) {
@@ -38,22 +36,6 @@ export class LoginService {
       };
       this._user$.next(this.loggedUser);
     }
-
-    this.socialAuthService.authState.subscribe(
-      (user) => {
-        if (user) {
-          this.authService.signUp(user.name, user.email, '').subscribe(
-            () => of(null),
-            () => of(null)
-          );
-
-          this.signIn(user.name, '', true).subscribe();
-        }
-      },
-      (error) => {
-        console.log('LOGIN ERROR', error);
-      }
-    );
   }
 
   signIn(username: string, password: string, googleLogIn: boolean = false): Observable<HttpBaseResponse> {
@@ -94,10 +76,6 @@ export class LoginService {
       });
       this.loggedUser = null;
       this._user$.next(null);
-      from(this.socialAuthService.signOut()).subscribe(
-        () => of(null),
-        () => of(null)
-      );
     } catch (e) {
       console.log('Error', e);
     } finally {

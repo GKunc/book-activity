@@ -14,8 +14,6 @@ import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
-import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
 import { environment } from 'src/environments/environment';
 import { AddActivityComponent } from './add-activity/add-activity.component';
 import { ActivityDataFormComponent } from './add-activity/activity-data-form/activity-data-form.component';
@@ -52,7 +50,6 @@ import { ProfileComponent } from './profile/profile.component';
 import { EmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
 import { PackagesComponent } from './packages/packages.component';
 
-import { FacebookModule } from 'ngx-facebook';
 import { InstallPwaComponent } from './install-pwa/install-pwa.component';
 
 registerLocaleData(en);
@@ -100,9 +97,7 @@ registerLocaleData(en);
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
-    SocialLoginModule,
     IconModule,
-    FacebookModule.forRoot(),
     NgxGoogleAnalyticsModule.forRoot(environment.MEASUREMENT_ID),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
@@ -116,21 +111,6 @@ registerLocaleData(en);
     },
     { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true },
     { provide: NZ_I18N, useValue: pl_PL },
-    {
-      provide: 'SocialAuthServiceConfig',
-      useValue: {
-        autoLogin: false,
-        providers: [
-          {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(environment.GOOGLE_CLIENT_ID, { oneTapEnabled: false }),
-          },
-        ],
-        onError: (err) => {
-          console.error(err);
-        },
-      } as SocialAuthServiceConfig,
-    },
   ],
   bootstrap: [AppComponent],
 })

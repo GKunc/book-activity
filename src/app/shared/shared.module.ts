@@ -36,7 +36,6 @@ import { NzRateModule } from 'ng-zorro-antd/rate';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 
-import { SocialLoginModule } from '@abacritt/angularx-social-login';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SafeUrlPipe } from '../common/pipes/safe-url.pipe';
 import { LoaderComponent } from './loader/loader/loader.component';
@@ -69,8 +68,6 @@ import { AllowCookiesComponent } from './allow-cookies/allow-cookies.component';
     AllowCookiesComponent,
   ],
   imports: [
-    SocialLoginModule,
-
     CommonModule,
     RouterModule,
 
@@ -110,8 +107,6 @@ import { AllowCookiesComponent } from './allow-cookies/allow-cookies.component';
     FormsModule,
   ],
   exports: [
-    SocialLoginModule,
-
     ButtonComponent,
     LoaderComponent,
     NoDataComponent,
