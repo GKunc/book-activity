@@ -25,7 +25,7 @@ exports.signup = async (req, res) => {
   const confirmationSecret = uuidv4();
 
   const user = new User({
-    username: req.body.username,
+    username: req.body.username.toLowerCase(),
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, 8),
     isConfirmed: false,
@@ -56,7 +56,7 @@ exports.signup = async (req, res) => {
 
 exports.signin = async (req, res) => {
   const user = await User.findOne({
-    username: req.body.username,
+    username: req.body.username.toLowerCase(),
     isConfirmed: true,
   })
     .populate('roles', '-__v')
@@ -139,7 +139,7 @@ exports.refreshAccessToken = async (req, res, next) => {
 
     // Check if the user exist
     const user = await User.findOne({
-      username: req.query.username,
+      username: req.query.username.toLowerCase(),
     });
 
     if (!user) {
@@ -147,9 +147,13 @@ exports.refreshAccessToken = async (req, res, next) => {
     }
 
     // Sign new access token
-    const access_token = signJwt({ id: user._id, username: user.username, email: user.email }, 'auth_private_token', {
-      expiresIn: `${Number(config.accessTokenExpiresIn)}m`,
-    });
+    const access_token = signJwt(
+      { id: user._id, username: user.username.toLowerCase(), email: user.email },
+      'auth_private_token',
+      {
+        expiresIn: `${Number(config.accessTokenExpiresIn)}m`,
+      }
+    );
 
     // Send the access token as cookie
     res.cookie('access_token', access_token, accessTokenCookieOptions);
@@ -172,8 +176,6 @@ exports.getUser = async (req, res, next) => {
     const user = await User.findOne({
       _id: req.query.userId,
     });
-
-    console.log('getUser', user);
 
     if (!user) {
       return next(new Error(message, 403));

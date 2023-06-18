@@ -47,14 +47,22 @@ verifyRefreshToken = (req, res, next) => {
 
 signToken = async (user) => {
   // Sign the access token
-  const access_token = signJwt({ id: user._id, username: user.username, email: user.email }, 'auth_private_token', {
-    expiresIn: `${Number(config.accessTokenExpiresIn)}m`,
-  });
+  const access_token = signJwt(
+    { id: user._id, username: user.username.toLowerCase(), email: user.email },
+    'auth_private_token',
+    {
+      expiresIn: `${Number(config.accessTokenExpiresIn)}m`,
+    }
+  );
 
   // Sign the refresh token
-  const refresh_token = signJwt({ id: user._id, username: user.username, email: user.email }, 'refresh_private_token', {
-    expiresIn: `${Number(config.refreshTokenExpiresIn)}m`,
-  });
+  const refresh_token = signJwt(
+    { id: user._id, username: user.username.toLowerCase(), email: user.email },
+    'refresh_private_token',
+    {
+      expiresIn: `${Number(config.refreshTokenExpiresIn)}m`,
+    }
+  );
 
   // Return access token
   return { access_token, refresh_token };
