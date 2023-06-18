@@ -46,11 +46,12 @@ export class AddActivityComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('this.state', this.state);
+    if (this.state) {
+      console.log('this.state', this.state);
 
-    this.activity = JSON.parse(history.state.activity) as Activity;
-    this.isEditing = history.state.isEditing;
-
+      this.activity = JSON.parse(history.state.activity) as Activity;
+      this.isEditing = history.state.isEditing;
+    }
     if (this.activity) {
       this.enableAllSteps();
     }
