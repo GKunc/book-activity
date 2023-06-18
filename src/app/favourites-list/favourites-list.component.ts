@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError, forkJoin, map, of, tap, switchMap, finalize } from 'rxjs';
+import { catchError, forkJoin, map, of, tap, switchMap, finalize, filter, zipAll, concat } from 'rxjs';
 import { FAVOURITES } from '../common/consts/local-storage.consts';
 import { Activity } from '../common/services/activities/activities.model';
 import { ActivitiesService } from '../common/services/activities/activities.service';
@@ -27,12 +27,14 @@ export class FavouritesListComponent implements OnInit {
   ngOnInit(): void {
     this.noData = false;
     if (this.localStorageService.getItem<string[]>(FAVOURITES)) {
-      this.favouriteIds = this.localStorageService.getItem<string[]>(FAVOURITES).filter((item) => !!item);
+      this.favouriteIds = this.localStorageService
+        .getItem<string[]>(FAVOURITES)
+        .filter((item) => item !== null && item !== undefined);
     }
     this.getFavouritesActivities();
 
     this.loginService._favourites$.subscribe((favourites) => {
-      this.favouriteIds = favourites.filter((item) => !!item);
+      this.favouriteIds = favourites.filter((item) => item !== null && item !== undefined);
       this.getFavouritesActivities();
     });
   }
@@ -46,37 +48,51 @@ export class FavouritesListComponent implements OnInit {
 
     this.loading = true;
     const requests = this.favouriteIds?.map((id) => {
-      return this.activityService
-        .getActivityDetails(id)
-        .pipe(switchMap((activity: Activity) => this.downloadPhotos(activity)));
+      return this.activityService.getActivityDetails(id).pipe(
+        tap((a) => {
+          console.log(a);
+          return a;
+        }),
+        switchMap((activity: Activity) => this.downloadPhotos(activity))
+      );
     });
 
-    forkJoin(requests)
+    concat(requests)
       .pipe(
+        zipAll(),
         tap((activities: Activity[]) => {
           return activities.map((activity) => ({
             ...activity,
             isFavourite: true,
           }));
         }),
-        finalize(() => (this.loading = false))
+        catchError((e) => {
+          return of(this.activities);
+        }),
+
+        finalize(() => {
+          this.loading = false;
+        })
       )
       .subscribe((activities) => {
-        this.activities = activities;
-        this.activities.forEach((activity) => (activity.isFavourite = true));
+        this.activities = activities.filter((a) => a !== null);
       });
   }
 
   private downloadPhotos(activity: Activity): any {
-    return this.activityService.getPhoto(activity.coverPhoto).pipe(
-      map((photo: Blob) => {
-        activity.coverPhoto = URL.createObjectURL(photo);
-        return activity;
-      }),
-      catchError((error) => {
-        console.error(error);
-        return of(activity);
-      })
-    );
+    if (activity.coverPhoto) {
+      return this.activityService.getPhoto(activity.coverPhoto).pipe(
+        map((photo: Blob) => {
+          activity.coverPhoto = URL.createObjectURL(photo);
+          return activity;
+        }),
+        catchError((error) => {
+          console.error(error);
+          return of(activity);
+        })
+      );
+    } else {
+      return of(activity);
+    }
   }
 }

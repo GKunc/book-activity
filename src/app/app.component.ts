@@ -35,7 +35,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.initFacebookService();
-    console.log(`|${getCookie(INSTALL_PWA)}`);
 
     if (getCookie(INSTALL_PWA) === '') {
       this.installPWA();
