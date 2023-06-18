@@ -51,7 +51,7 @@
 
 <div [style.height]="!coordinatesString ? '0px' : '400px'" style="position: relative">
   <div class="activity-map">
-    <div class="activity-map__container" #map id="map"></div>
+    <div class="activity-map__container" [style.height]="!coordinatesString ? '0px' : '400px'" #map id="map"></div>
   </div>
   <loader *ngIf="loading" [inlineStyle]="true"></loader>
 </div>

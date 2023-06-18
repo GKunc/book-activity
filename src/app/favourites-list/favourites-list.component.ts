@@ -48,13 +48,9 @@ export class FavouritesListComponent implements OnInit {
 
     this.loading = true;
     const requests = this.favouriteIds?.map((id) => {
-      return this.activityService.getActivityDetails(id).pipe(
-        tap((a) => {
-          console.log(a);
-          return a;
-        }),
-        switchMap((activity: Activity) => this.downloadPhotos(activity))
-      );
+      return this.activityService
+        .getActivityDetails(id)
+        .pipe(switchMap((activity: Activity) => this.downloadPhotos(activity)));
     });
 
     concat(requests)
@@ -80,7 +76,7 @@ export class FavouritesListComponent implements OnInit {
   }
 
   private downloadPhotos(activity: Activity): any {
-    if (activity.coverPhoto) {
+    if (activity?.coverPhoto) {
       return this.activityService.getPhoto(activity.coverPhoto).pipe(
         map((photo: Blob) => {
           activity.coverPhoto = URL.createObjectURL(photo);
