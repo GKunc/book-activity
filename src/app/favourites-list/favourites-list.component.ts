@@ -71,7 +71,7 @@ export class FavouritesListComponent implements OnInit {
         })
       )
       .subscribe((activities) => {
-        this.activities = activities.filter((a) => a !== null);
+        this.activities = activities.filter((a) => a !== null).map((activity) => ({ ...activity, isFavourite: true }));
       });
   }
 
