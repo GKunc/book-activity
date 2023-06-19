@@ -10,16 +10,37 @@
       (submitView)="changeView($event)"
     ></activity-filters>
 
-    <nz-content class="content-container" style="position: relative">
-      <ng-template #activityList>
-        <activity-list [activities]="activities" (loadMore)="loadMore()"></activity-list>
-      </ng-template>
+    <ng-container *ngIf="(resizeService.isSmall$ | async) === false; else mobileView">
+      <nz-content class="content-container" style="position: relative">
+        <ng-template #activityList>
+          <activity-list [activities]="activities" (loadMore)="loadMore()"></activity-list>
+        </ng-template>
 
-      <activity-map *ngIf="openView === viewTypes.Map; else activityList" [activities]="activities"></activity-map>
+        <activity-map *ngIf="openView === viewTypes.Map; else activityList" [activities]="activities"></activity-map>
 
-      <loader *ngIf="loading" [inlineStyle]="true"></loader>
-      <no-data *ngIf="noData && openView !== viewTypes.Map" [inlineStyle]="true"></no-data>
-      <error *ngIf="error" [inlineStyle]="true" [retryHandler]="onSubmitFilters.bind(this)"></error>
-    </nz-content>
+        <loader *ngIf="loading" [inlineStyle]="true"></loader>
+        <no-data *ngIf="noData && openView !== viewTypes.Map" [inlineStyle]="true"></no-data>
+        <error *ngIf="error" [inlineStyle]="true" [retryHandler]="onSubmitFilters.bind(this)"></error>
+      </nz-content>
+    </ng-container>
   </nz-layout>
 </nz-layout>
+
+<ng-template #mobileView>
+  <nz-tabset>
+    <nz-tab nzTitle="Lista">
+      <ng-template nz-tab>
+        <activity-list [activities]="activities" (loadMore)="loadMore()"></activity-list>
+      </ng-template>
+    </nz-tab>
+    <nz-tab nzTitle="Mapa">
+      <ng-template nz-tab>
+        <activity-map [activities]="activities"></activity-map>
+      </ng-template>
+    </nz-tab>
+
+    <loader *ngIf="loading" [inlineStyle]="true"></loader>
+    <no-data *ngIf="noData && openView !== viewTypes.Map" [inlineStyle]="true"></no-data>
+    <error *ngIf="error" [inlineStyle]="true" [retryHandler]="onSubmitFilters.bind(this)"></error>
+  </nz-tabset>
+</ng-template>

@@ -41,7 +41,7 @@ nz-header {
 
 @media (max-width: 575px) {
   :host {
-    margin-top: 60px;
+    display: block;
     margin-bottom: 60px;
   }
 
@@ -54,7 +54,8 @@ nz-header {
     display: flex;
     gap: 8px;
     flex-direction: column;
-    height: calc(100vh - 230px) !important;
+    height: calc(100vh - 250px) !important;
     padding: 0;
+    overflow: auto;
   }
 }

@@ -1,76 +1,73 @@
 @import '../../../styles.less';
 
 :host {
-    display: block;
-    margin-bottom: 16px;
+  display: block;
+  margin-bottom: 16px;
 }
 
 .flex-contaier {
-    display: flex;
+  display: flex;
 }
 
 .layout {
-    min-height: 100%;
+  min-height: 100%;
 }
 
 .multiple-select {
-    height: 32px;
+  height: 32px;
 
-    ::ng-deep .ant-select-selector {
-        height: 32px;
-    }
+  ::ng-deep .ant-select-selector {
+    height: 32px;
+  }
 }
 
 .activity-map {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
 
-    &__container {
-        width: 100%;
-        height: 100%;
-        width: 800px;
-        height: 550px;
-    }
+  &__container {
+    width: 100%;
+    height: 100%;
+    width: 800px;
+    height: 550px;
+  }
 }
 
-
 nz-header {
-    background: @background-color;
-    padding: 0;
+  background: @background-color;
+  padding: 0;
 }
 
 .inner-content {
-    padding: 24px;
-    background: @background-color;
-    text-align: center;
+  padding: 24px;
+  background: @background-color;
+  text-align: center;
 }
 
-
 @media (max-width: 575px) {
-    :host {
-        margin-top: 60px;
-        height: 100%;
-    }
+  :host {
+    height: 100%;
+  }
 
-    .content-container {
-        border-left: none;
-        padding-left: 0;
-    }
+  .content-container {
+    border-left: none;
+    padding-left: 0;
+  }
 
-    .find-activities {
-        display: flex;
-        gap: 8px;
-        flex-direction: column;
-        padding: 0;
-    }
+  .find-activities {
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+    padding: 0;
+  }
 
-    .activity-map {
-        padding: 0;
-    
-        &__container {
-            height: 500px;
-        }
+  .activity-map {
+    padding: 0;
+
+    &__container {
+      height: 500px;
     }
+  }
 }

@@ -38,22 +38,24 @@
       </nz-form-item> -->
       <nz-form-item>
         <nz-form-label [nzSpan]="5">Obecny pakiet</nz-form-label>
-        <nz-form-control [nzSpan]="18">
-          <nz-select formControlName="currentPackage" name="currentPackage" nzPlaceHolder="Pakiet">
-            <nz-option
-              *ngFor="let option of packagesOptions"
-              [nzLabel]="option.label"
-              [nzValue]="option.value"
-            ></nz-option>
-          </nz-select>
-        </nz-form-control>
-        <span
-          class="profile__package-tooltip"
-          nz-icon
-          nzType="info-circle"
-          nzTheme="outline"
-          (click)="showAvailablePackages()"
-        ></span>
+        <div class="profile__package">
+          <nz-form-control [nzSpan]="18" class="profile__package--select">
+            <nz-select formControlName="currentPackage" name="currentPackage" nzPlaceHolder="Pakiet">
+              <nz-option
+                *ngFor="let option of packagesOptions"
+                [nzLabel]="option.label"
+                [nzValue]="option.value"
+              ></nz-option>
+            </nz-select>
+          </nz-form-control>
+          <span
+            class="profile__package-tooltip"
+            nz-icon
+            nzType="info-circle"
+            nzTheme="outline"
+            (click)="showAvailablePackages()"
+          ></span>
+        </div>
       </nz-form-item>
     </form>
 
