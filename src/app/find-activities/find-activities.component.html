@@ -6,7 +6,7 @@
   <nz-layout>
     <activity-filters
       *ngIf="resizeService.isSmall$ | async"
-      (submitFilters)="onSubmitFilters($event)"
+      (submitFilters)="onSubmitFilters($event, false)"
       (submitView)="changeView($event)"
     ></activity-filters>
 
@@ -31,6 +31,9 @@
     <nz-tab nzTitle="Lista">
       <ng-template nz-tab>
         <activity-list [activities]="activities" (loadMore)="loadMore()"></activity-list>
+        <loader *ngIf="loading" [inlineStyle]="true"></loader>
+        <no-data *ngIf="noData && openView !== viewTypes.Map" [inlineStyle]="true"></no-data>
+        <error *ngIf="error" [inlineStyle]="true" [retryHandler]="onSubmitFilters.bind(this)"></error>
       </ng-template>
     </nz-tab>
     <nz-tab nzTitle="Mapa">
@@ -38,9 +41,5 @@
         <activity-map [activities]="activities"></activity-map>
       </ng-template>
     </nz-tab>
-
-    <loader *ngIf="loading" [inlineStyle]="true"></loader>
-    <no-data *ngIf="noData && openView !== viewTypes.Map" [inlineStyle]="true"></no-data>
-    <error *ngIf="error" [inlineStyle]="true" [retryHandler]="onSubmitFilters.bind(this)"></error>
   </nz-tabset>
 </ng-template>

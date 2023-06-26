@@ -69,6 +69,13 @@ export class FindActivitiesComponent implements OnInit, AfterViewInit {
             this.hasMoreData = false;
           }
 
+          if (this.activities.length === 0 && data.length === 0) {
+            console.log('NO DATA');
+
+            this.noData = true;
+            this.activities = [];
+          }
+
           const requests = data.map((activity: Activity) =>
             this.activitiesService.getPhoto(activity.coverPhoto).pipe(
               map((photo: Blob) => {
@@ -93,6 +100,8 @@ export class FindActivitiesComponent implements OnInit, AfterViewInit {
       )
       .subscribe(
         (activities: Activity[]) => {
+          console.log('GET ACT', loadMore);
+
           if (this.localStorageService.getItem<string[]>(FAVOURITES)) {
             this.favouriteIds = this.localStorageService.getItem<string[]>(FAVOURITES);
           }

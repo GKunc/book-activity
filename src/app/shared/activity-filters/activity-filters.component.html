@@ -18,7 +18,7 @@
     <ng-template #modalContent>
       <div class="filters__label">Nazwa:</div>
       <nz-input-group [nzSuffix]="suffixIconSearch">
-        <input type="text" nz-input placeholder="Szukaj" [(ngModel)]="phrase" />
+        <input (keyup.enter)="submit()" type="text" nz-input placeholder="Szukaj" [(ngModel)]="phrase" />
       </nz-input-group>
       <ng-template #suffixIconSearch>
         <span nz-icon nzType="search"></span>
@@ -55,6 +55,7 @@
 
       <div class="find-activities__filters-row">
         <nz-input-number
+          (keyup.enter)="submit()"
           (ngModelChange)="minPriceChanged($event)"
           [(ngModel)]="minPrice"
           [nzMin]="1"
@@ -62,6 +63,7 @@
           [nzStep]="1"
         ></nz-input-number>
         <nz-input-number
+          (keyup.enter)="submit()"
           (ngModelChange)="maxPriceChanged($event)"
           [(ngModel)]="maxPrice"
           [nzMin]="1"
