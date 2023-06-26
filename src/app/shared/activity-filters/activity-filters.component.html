@@ -74,7 +74,7 @@
     </ng-template>
 
     <ng-template #modalFooter>
-      <button nz-button nzType="default" (click)="clearAllFilters()">Wyczyść</button>
+      <button nz-button nzType="default" (click)="clearAllFilters(); submit()">Wyczyść</button>
       <button nz-button nzType="primary" (click)="submit()">Szukaj</button>
     </ng-template>
   </nz-modal>

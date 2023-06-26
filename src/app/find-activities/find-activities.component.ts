@@ -54,10 +54,14 @@ export class FindActivitiesComponent implements OnInit, AfterViewInit {
     this.openView = viewType;
   }
 
-  onSubmitFilters(filters: Partial<ActivityFilters>, loadMore: boolean = false): void {
+  onSubmitFilters(filters: Partial<ActivityFilters>, loadMore: boolean = false, clearData: boolean = false): void {
     this.loading = true;
     this.noData = false;
     this.error = false;
+    if (clearData) {
+      this.activities = [];
+    }
+
     this.activitiesService
       .filterActivities(filters)
       .pipe(
@@ -70,8 +74,6 @@ export class FindActivitiesComponent implements OnInit, AfterViewInit {
           }
 
           if (this.activities.length === 0 && data.length === 0) {
-            console.log('NO DATA');
-
             this.noData = true;
             this.activities = [];
           }

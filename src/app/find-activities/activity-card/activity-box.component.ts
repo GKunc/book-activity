@@ -22,7 +22,6 @@ export class ActivityBoxComponent {
 
   addToFavourite(): void {
     this.activity = { ...this.activity, isFavourite: !this.activity.isFavourite };
-    console.log(this.activity);
 
     this.favouriteService
       .updateFavourites({

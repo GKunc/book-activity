@@ -41,13 +41,11 @@ export class AddActivityComponent implements OnInit {
     private activitiesService: ActivitiesService,
     private router: Router
   ) {
-    this.state = this.router.getCurrentNavigation().extras.state;
+    this.state = this.router.getCurrentNavigation()?.extras?.state;
   }
 
   ngOnInit(): void {
     if (this.state) {
-      console.log('this.state', this.state);
-
       this.activity = JSON.parse(history.state.activity) as Activity;
       this.isEditing = history.state.isEditing;
     }
@@ -84,7 +82,7 @@ export class AddActivityComponent implements OnInit {
       .subscribe(
         () => {
           this.isLoading = false;
-          this.notificationsService.success('Zajęcia dodane', 'Poczekaj na email potwierdzający weryfijację.');
+          this.notificationsService.success('Zajęcia dodane', 'Poczekaj na email potwierdzający weryfikację.');
           this.modalService.close();
         },
         () => {
@@ -126,13 +124,10 @@ export class AddActivityComponent implements OnInit {
   }
 
   saveData(data: Partial<Activity>): void {
-    console.log('ACTIVITY:', this.activity, data);
     this.activity = this.updateActivity(data);
   }
 
   get disableGroupsStep(): boolean {
-    console.log(!!this.activity || !this.activity.description.length || !this.activity.name || !this.activity.category);
-
     return !!this.activity || !this.activity.description.length || !this.activity.name || !this.activity.category;
   }
 

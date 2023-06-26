@@ -33,6 +33,6 @@
 
 <ng-template #errorDescription let-control>
   <ng-container *ngIf="control.hasError('required')">To pole jest wymagane</ng-container>
-  <ng-container *ngIf="control.hasError('minlength')">Minimalna wymagana ilość znaków</ng-container>
+  <ng-container *ngIf="control.hasError('minlength')">Minimalna ilość znaków 30</ng-container>
   <ng-container *ngIf="control.hasError('maxlength')">Przekroczono dopuszczalną ilość znaków</ng-container>
 </ng-template>

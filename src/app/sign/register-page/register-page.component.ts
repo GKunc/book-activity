@@ -47,6 +47,7 @@ export class RegisterPageComponent {
             this.isLoading = false;
             this.notificationService.success('Poprawnie zarejestrowano uzytkownika', response.message);
             this.modalService.close();
+            this.switchMode.emit();
           },
           (error) => {
             this.isLoading = false;

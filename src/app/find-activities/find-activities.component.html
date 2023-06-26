@@ -1,12 +1,15 @@
 <nz-layout>
   <nz-sider *ngIf="(resizeService.isSmall$ | async) === false" class="slider__filters">
-    <activity-filters (submitFilters)="onSubmitFilters($event)" (submitView)="changeView($event)"></activity-filters>
+    <activity-filters
+      (submitFilters)="onSubmitFilters($event, false, true)"
+      (submitView)="changeView($event)"
+    ></activity-filters>
   </nz-sider>
 
   <nz-layout>
     <activity-filters
       *ngIf="resizeService.isSmall$ | async"
-      (submitFilters)="onSubmitFilters($event, false)"
+      (submitFilters)="onSubmitFilters($event, false, true)"
       (submitView)="changeView($event)"
     ></activity-filters>
 
