@@ -66,6 +66,7 @@ export class ActivityMapComponent implements OnInit, AfterViewInit, OnChanges {
       this.activities.forEach((activity) => {
         this.mapService.addInfoBubble(activity, this.map, this.ui);
       });
+      this.loading = false;
     });
   }
 
