@@ -23,6 +23,8 @@ const setEnv = () => {
   REFRESH_PUBLIC_KEY: '${process.env['REFRESH_PUBLIC_KEY']}',
   AUTH_PRIVATE_KEY: '${process.env['AUTH_PRIVATE_KEY']}',
   AUTH_PUBLIC_KEY: '${process.env['AUTH_PUBLIC_KEY']}',
+  PAYMENT_CONFIRMATION: '${process.env['PAYMENT_CONFIRMATION']}',
+  PAYMENT_CANCELLED: '${process.env['PAYMENT_CANCELLED']}',
   appVersion: '${appVersion}',
   production: true,
 };

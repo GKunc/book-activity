@@ -42,6 +42,22 @@ const routes: Routes = [
     loadComponent: () => import('./sign/sign.component').then((x) => x.SignComponent),
   },
   {
+    path: 'payment',
+    loadComponent: () => import('./payment/payment.component').then((x) => x.PaymentComponent),
+  },
+  {
+    path: 'payment-confirmation',
+    loadComponent: () =>
+      import('./payment/payment-confirmation/payment-confirmation.component').then(
+        (x) => x.PaymentConfirmationComponent
+      ),
+  },
+  {
+    path: 'payment-cancelled',
+    loadComponent: () =>
+      import('./payment/payment-cancelled/payment-cancelled.component').then((x) => x.PaymentCancelledComponent),
+  },
+  {
     path: 'not-authorized',
     loadComponent: () => import('./not-authorized/not-authorized.component').then((x) => x.NotAuthorizedComponent),
   },
