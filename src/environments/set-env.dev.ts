@@ -25,6 +25,8 @@ const setEnv = () => {
   AUTH_PUBLIC_KEY: '${process.env['AUTH_PUBLIC_KEY']}',
   PAYMENT_CONFIRMATION: '${process.env['PAYMENT_CONFIRMATION']}',
   PAYMENT_CANCELLED: '${process.env['PAYMENT_CANCELLED']}',
+  PAYMENT_API_KEY: '${process.env['PAYMENT_API_KEY']}',
+  WEBHOOK_SECRET: '${process.env['WEBHOOK_SECRET']}',
   appVersion: '${appVersion}',
   production: true,
 };

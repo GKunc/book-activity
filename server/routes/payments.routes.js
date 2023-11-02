@@ -7,5 +7,6 @@ module.exports = function (app) {
     next();
   });
 
-  app.post('/api/payment/subscribe', [authJwt.verifyToken], controller.createSubscription);
+  app.post('/api/payment/subscribe', controller.createSubscription);
+  app.post('/api/payment/webhook', controller.listenForSubscriptionEvents);
 };

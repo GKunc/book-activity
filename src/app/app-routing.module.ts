@@ -42,8 +42,8 @@ const routes: Routes = [
     loadComponent: () => import('./sign/sign.component').then((x) => x.SignComponent),
   },
   {
-    path: 'payment',
-    loadComponent: () => import('./payment/payment.component').then((x) => x.PaymentComponent),
+    path: 'packages',
+    loadComponent: () => import('./packages/packages.component').then((x) => x.PackagesComponent),
   },
   {
     path: 'payment-confirmation',

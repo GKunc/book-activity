@@ -1,9 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/common/services/authentication/authentication.service';
-import { ModalService } from 'src/app/common/services/modal/modal.service';
 import { ResizeService } from 'src/app/common/services/resize/resize.service';
-import { NotificationsService } from '../../common/services/notifications/notifications.service';
 import { hasLowerCase, hasNumber, hasUpperCase } from '../../common/validators/strong-password.validator';
 
 @Component({
@@ -32,8 +31,7 @@ export class RegisterPageComponent {
 
   constructor(
     private authService: AuthenticationService,
-    private notificationService: NotificationsService,
-    private modalService: ModalService,
+    private router: Router,
     public resizeService: ResizeService
   ) {}
 
@@ -43,17 +41,14 @@ export class RegisterPageComponent {
       this.authService
         .signUp(this.form.controls.login.value, this.form.controls.email.value, this.form.controls.password.value)
         .subscribe(
-          (response) => {
+          () => {
             this.isLoading = false;
-            this.notificationService.success('Poprawnie zarejestrowano uzytkownika', response.message);
-            this.modalService.close();
-            this.switchMode.emit();
+            this.router.navigate(['packages']);
           },
           (error) => {
             this.isLoading = false;
             const errorMessage = JSON.parse(error.error);
             this.form.controls[errorMessage.field].setErrors({ [errorMessage.errorType]: errorMessage.message });
-            this.notificationService.error('Rejestracja', errorMessage.message);
           }
         );
     }

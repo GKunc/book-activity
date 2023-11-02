@@ -1,68 +1,109 @@
 <div class="packages">
-  <div class="packages__card">
-    <div>
-      <h3 class="packages__card--name">Starter</h3>
-      <h1 class="packages__card--price">10 zł</h1>
-      <div class="packages__card--list">
-        <div>
-          <span nz-icon nzType="check" nzTheme="outline"></span>
-          2 zajecia
+  <div class="packages__container">
+    <div
+      class="packages__card"
+      [class.packages__card--selected]="selectedPackage === availablePackages.Free"
+      (click)="selectedPackage = availablePackages.Free"
+    >
+      <div>
+        <h3 class="packages__card--name">Darmowy</h3>
+        <h1 class="packages__card--price">0 zł</h1>
+        <div class="packages__card--list">
+          <div>
+            <span nz-icon nzType="check" nzTheme="outline"></span>
+            0 zajecia
+          </div>
+          <div>
+            <span nz-icon nzType="check" nzTheme="outline"></span>
+            mozliwosc dodania 0 zdjecia do zajec
+          </div>
+          <div>
+            <span nz-icon nzType="check" nzTheme="outline"></span>
+            support droga mailowa
+          </div>
         </div>
-        <div>
-          <span nz-icon nzType="check" nzTheme="outline"></span>
-          mozliwosc dodania 1 zdjecia do zajec
+      </div>
+    </div>
+
+    <div
+      class="packages__card"
+      [class.packages__card--selected]="selectedPackage === availablePackages.Starter"
+      (click)="selectedPackage = availablePackages.Starter"
+    >
+      <div>
+        <h3 class="packages__card--name">Starter</h3>
+        <h1 class="packages__card--price">10 zł</h1>
+        <div class="packages__card--list">
+          <div>
+            <span nz-icon nzType="check" nzTheme="outline"></span>
+            2 zajecia
+          </div>
+          <div>
+            <span nz-icon nzType="check" nzTheme="outline"></span>
+            mozliwosc dodania 1 zdjecia do zajec
+          </div>
+          <div>
+            <span nz-icon nzType="check" nzTheme="outline"></span>
+            support droga mailowa
+          </div>
         </div>
-        <div>
-          <span nz-icon nzType="check" nzTheme="outline"></span>
-          support droga mailowa
+      </div>
+    </div>
+
+    <div
+      class="packages__card"
+      [class.packages__card--selected]="selectedPackage === availablePackages.Standard"
+      (click)="selectedPackage = availablePackages.Standard"
+    >
+      <div>
+        <h3 class="packages__card--name">Standard</h3>
+        <h1 class="packages__card--price">20 zł</h1>
+        <div class="packages__card--list">
+          <div>
+            <span nz-icon nzType="check" nzTheme="outline"></span>
+            5 zajęc
+          </div>
+          <div>
+            <span nz-icon nzType="check" nzTheme="outline"></span>
+            mozliwosc dodania 5 zdjecia do zajec
+          </div>
+          <div>
+            <span nz-icon nzType="check" nzTheme="outline"></span>
+            support droga mailowa oraz czatu
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="packages__card"
+      [class.packages__card--selected]="selectedPackage === availablePackages.Premium"
+      (click)="selectedPackage = availablePackages.Premium"
+    >
+      <div>
+        <h3 class="packages__card--name">Premium</h3>
+        <h1 class="packages__card--price">50 zł</h1>
+        <div class="packages__card--list">
+          <div>
+            <span nz-icon nzType="check" nzTheme="outline"></span>
+            nielimitiowane zajęcia
+          </div>
+          <div>
+            <span nz-icon nzType="check" nzTheme="outline"></span>
+            nielimitowana liczba zajęc
+          </div>
+          <div>
+            <span nz-icon nzType="check" nzTheme="outline"></span>
+            support droga mailowa oraz czatu
+          </div>
+          <div>
+            <span nz-icon nzType="check" nzTheme="outline"></span>
+            notyfikacje o nowych ocenach i komentarzach
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="packages__card packages__card--selected">
-    <div>
-      <h3 class="packages__card--name">Standard</h3>
-      <h1 class="packages__card--price">20 zł</h1>
-      <div class="packages__card--list">
-        <div>
-          <span nz-icon nzType="check" nzTheme="outline"></span>
-          5 zajęc
-        </div>
-        <div>
-          <span nz-icon nzType="check" nzTheme="outline"></span>
-          mozliwosc dodania 5 zdjecia do zajec
-        </div>
-        <div>
-          <span nz-icon nzType="check" nzTheme="outline"></span>
-          support droga mailowa oraz czatu
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="packages__card">
-    <div>
-      <h3 class="packages__card--name">Premium</h3>
-      <h1 class="packages__card--price">50 zł</h1>
-      <div class="packages__card--list">
-        <div>
-          <span nz-icon nzType="check" nzTheme="outline"></span>
-          nielimitiowane zajęcia
-        </div>
-        <div>
-          <span nz-icon nzType="check" nzTheme="outline"></span>
-          nielimitowana liczba zajęc
-        </div>
-        <div>
-          <span nz-icon nzType="check" nzTheme="outline"></span>
-          support droga mailowa oraz czatu
-        </div>
-        <div>
-          <span nz-icon nzType="check" nzTheme="outline"></span>
-          notyfikacje o nowych ocenach i komentarzach
-        </div>
-      </div>
-    </div>
-  </div>
+  <hub-button text="Zapłac teraz" [isLoading]="isLoading" (click)="navigateToPayment()"></hub-button>
 </div>
