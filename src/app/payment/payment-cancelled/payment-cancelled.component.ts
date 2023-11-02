@@ -12,6 +12,6 @@ export class PaymentCancelledComponent {
   constructor(private router: Router) {}
 
   payAgain(): void {
-    this.router.navigate(['payment']);
+    this.router.navigate(['packages']);
   }
 }

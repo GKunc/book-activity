@@ -23,7 +23,13 @@ const initializeDb = require('./server/setup/initializeDb');
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
-  server.use(express.json());
+  server.use((req, res, next) => {
+    if (req.originalUrl === '/api/payment/webhook') {
+      next();
+    } else {
+      express.json()(req, res, next);
+    }
+  });
   server.use(cors({}));
   server.use(express.urlencoded({ extended: true }));
   server.use(cookieParser());

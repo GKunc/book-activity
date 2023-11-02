@@ -19,32 +19,55 @@ exports.createSubscription = async (req, res) => {
     cancel_url: `${process.env.PAYMENT_CANCELLED}`,
   });
 
-  console.log(session);
   return res.send(JSON.stringify(session.url));
 };
 
 exports.listenForSubscriptionEvents = async (req, res) => {
-  console.log('listenForSubscriptionEvents');
-  const sig = request.headers['stripe-signature'];
   let event;
 
   try {
-    event = stripe.webhooks.constructEvent(request.body, sig, process.env.WEBHOOK_SECRET);
+    event = stripe.webhooks.constructEvent(req.body, req.headers['stripe-signature'], process.env.WEBHOOK_SECRET);
   } catch (err) {
-    response.status(400).send(`Webhook Error: ${err.message}`);
+    console.log('Webhook Error', err);
+    res.status(400).send(`Webhook Error: ${err.message}`);
     return;
   }
 
   // Handle the event
   switch (event.type) {
-    case 'payment_intent.succeeded':
-      const paymentIntentSucceeded = event.data.object;
-      // Then define and call a function to handle the event payment_intent.succeeded
+    case 'checkout.session.completed':
+      console.log('completed', event);
+      // Payment is successful and the subscription is created.
+      // You should provision the subscription and save the customer to your database.
+      // save:
+      // 1) customer
+      // 2) when next payment
       break;
-    // ... handle other event types
+    case 'invoice.paid':
+      console.log('paid', event);
+      // save:
+      // 1) customer
+      // 2) when next payment
+      // 3) update user to allow actions
+      // =====
+      // Continue to provision the subscription as payments continue to be made.
+      // Store the status in your database and check when a user accesses your service.
+      // This approach helps you avoid hitting rate limits.
+      break;
+    case 'invoice.payment_failed':
+      console.log('payment_failed', event);
+      // save:
+      // 1) customer not paid
+      // 2) warning
+      // =====
+      // The payment failed or the customer does not have a valid payment method.
+      // The subscription becomes past_due. Notify your customer and send them to the
+      // customer portal to update their payment information.
+      break;
     default:
+      // Unhandled event type
       console.log(`Unhandled event type ${event.type}`);
   }
 
-  response.send();
+  res.send();
 };

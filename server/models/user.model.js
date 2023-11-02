@@ -10,6 +10,7 @@ const User = mongoose.model(
     isConfirmed: Boolean,
     createdAt: Date,
     confirmationSecret: String,
+    priceId: String,
     roles: [
       {
         type: mongoose.Schema.Types.ObjectId,
