@@ -28,7 +28,7 @@ const setEnv = () => {
   PAYMENT_API_KEY: '${process.env['PAYMENT_API_KEY']}',
   WEBHOOK_SECRET: '${process.env['WEBHOOK_SECRET']}',
   appVersion: '${appVersion}',
-  production: true,
+  production: false,
 };
 `;
   console.log('The file `environment.ts` will be written with the following content: \n');

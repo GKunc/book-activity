@@ -22,8 +22,9 @@ export class ProfileComponent implements OnInit {
     email: new FormControl<string>({ value: null, disabled: true }),
     createdAt: new FormControl<string>({ value: null, disabled: true }),
     notificationsEnabled: new FormControl<boolean>({ value: true, disabled: true }),
-    packageTill: new FormControl<Date>({ value: null, disabled: true }),
+    paymentEndDate: new FormControl<string>({ value: null, disabled: true }),
     currentPackage: new FormControl<Package>({ value: null, disabled: true }),
+    isTrail: new FormControl<boolean>({ value: null, disabled: true }),
   });
 
   packagesOptions = PACKAGES;
@@ -41,7 +42,8 @@ export class ProfileComponent implements OnInit {
           this.form.controls.email.setValue(user.email);
           this.form.controls.createdAt.setValue(new Date(user.createdAt).toLocaleDateString() ?? null);
           this.form.controls.currentPackage.setValue(user.package ?? Package.Free);
-          this.form.controls.packageTill.setValue(user.packageTill ?? null);
+          this.form.controls.paymentEndDate.setValue(new Date(user.paymentEndDate).toLocaleDateString() ?? null);
+          this.form.controls.isTrail.setValue(user.isTrail ?? false);
 
           this.initialForm = this.form.getRawValue();
         } else {
@@ -59,7 +61,7 @@ export class ProfileComponent implements OnInit {
   }
 
   showAvailablePackages(): void {
-    this.modalService.createModal(PackagesComponent, 'Pakiety', 900);
+    this.modalService.createModal(PackagesComponent, 'Pakiety', 900, { edit: true });
   }
 
   resetForm(): void {

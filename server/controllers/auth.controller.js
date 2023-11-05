@@ -6,6 +6,7 @@ const { v4: uuidv4 } = require('uuid');
 
 var bcrypt = require('bcryptjs');
 const mailController = require('./mail.controller');
+const stripe = require('stripe')(process.env.PAYMENT_API_KEY);
 
 const accessTokenCookieOptions = {
   expires: new Date(Date.now() + Number(config.accessTokenExpiresIn) * 60 * 1000),
@@ -21,17 +22,41 @@ const refreshTokenCookieOptions = {
   sameSite: 'lax',
 };
 
+exports.verifyToken = async (req, res) => {
+  try {
+    return res.status(200);
+  } catch (e) {
+    // no token
+  }
+};
+
 exports.signup = async (req, res) => {
   const confirmationSecret = uuidv4();
+  const email = req.body.email;
+  const username = req.body.username.toLowerCase();
+
+  console.log('signup email', email);
+  customerInfo = await stripe.customers.create({
+    email,
+    description: username,
+  });
+  console.log('signup customerInfo', customerInfo);
 
   const user = new User({
-    username: req.body.username.toLowerCase(),
-    email: req.body.email,
+    username,
+    email,
     password: bcrypt.hashSync(req.body.password, 8),
-    isConfirmed: false,
+    isConfirmed: !process.env.production,
     createdAt: new Date(),
     confirmationSecret,
+    // payment info
+    billingId: customerInfo.id,
+    paymentEndDate: null,
+    package: 'Free',
+    isTrail: false,
   });
+
+  console.log('signup user', user);
 
   if (req.body.roles) {
     const roles = await Role.find({ name: { $in: req.body.roles } });
@@ -42,8 +67,9 @@ exports.signup = async (req, res) => {
 
     const newUser = await user.save();
     if (newUser) {
-      console.log(newUser);
-      mailController.sendConfirmationEmail({ userId: user.id, confirmationSecret });
+      if (process.env.production) {
+        mailController.sendConfirmationEmail({ userId: user.id, confirmationSecret });
+      }
       console.log('Poprawnie zarejestrowano uzytkownika!');
       return res.send({ message: 'Poprawnie zarejestrowano uzytkownika!' });
     } else {

@@ -1,24 +1,43 @@
 const stripe = require('stripe')(process.env.PAYMENT_API_KEY);
 const db = require('../models');
-const Package = db.package;
+const User = require('../models/user.model');
+
+const packageToPriceMap = {
+  Free: 'price_1O84GEDtchbgKw9RJbLm5f3j',
+  Starter: 'price_1NP402DtchbgKw9Rp2ThXcZh',
+  Standard: 'price_1NP41JDtchbgKw9RXRjncKgY',
+  Premium: 'price_1NP41gDtchbgKw9RMFIE58uF',
+};
 
 exports.createSubscription = async (req, res) => {
   const packageId = req.body.packageId;
-  const package = await Package.findOne({ id: packageId });
+  const user = await User.findOne({ _id: req.body.userId });
+  console.log('createSubscription', user);
 
-  console.log('createSubscription', package.priceId);
+  console.log('createSubscription', packageId);
+  const priceId = packageToPriceMap[packageId];
+
+  console.log('createSubscription', user);
   const session = await stripe.checkout.sessions.create({
+    customer: user.billingId,
     mode: 'subscription',
     line_items: [
       {
-        price: package.priceId,
+        price: priceId,
         quantity: 1,
       },
     ],
+    metadata: {
+      priceId,
+    },
+    subscription_data: {
+      trial_period_days: 7,
+    },
     success_url: `${process.env.PAYMENT_CONFIRMATION}?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${process.env.PAYMENT_CANCELLED}`,
   });
 
+  console.log('session', session);
   return res.send(JSON.stringify(session.url));
 };
 
@@ -34,14 +53,31 @@ exports.listenForSubscriptionEvents = async (req, res) => {
   }
 
   // Handle the event
+  const data = event.data.object;
+
   switch (event.type) {
+    case 'customer.subscription.created':
+      console.log('created', data);
+      const user = await User.findOne({ billingId: data.customer });
+
+      if (data.plan.id === packageToPriceMap.Starter) {
+        user.package = 'Starter';
+      }
+      if (data.plan.id === packageToPriceMap.Standard) {
+        user.package = 'Standard';
+      }
+      if (data.plan.id === packageToPriceMap.Premium) {
+        user.package = 'Premium';
+      }
+      user.isTrail = true;
+      user.paymentEndDate = new Date(data.current_period_end * 1000);
+      await user.save();
+
+      break;
+
     case 'checkout.session.completed':
-      console.log('completed', event);
-      // Payment is successful and the subscription is created.
-      // You should provision the subscription and save the customer to your database.
-      // save:
-      // 1) customer
-      // 2) when next payment
+      console.log('completed', data);
+
       break;
     case 'invoice.paid':
       console.log('paid', event);

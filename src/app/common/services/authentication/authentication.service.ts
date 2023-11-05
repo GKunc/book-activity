@@ -9,6 +9,10 @@ import { HttpBaseResponse } from '../../models/http-base-response.model';
 export class AuthenticationService {
   constructor(private http: HttpClient) {}
 
+  verifyToken(): Observable<any> {
+    return this.http.post('/api/auth/verifyToken', {});
+  }
+
   signUp(username: string, email: string, password: string): Observable<any> {
     return this.http.post(
       '/api/auth/signup',

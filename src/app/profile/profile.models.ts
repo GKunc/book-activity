@@ -29,6 +29,7 @@ export interface ProfileForm {
   email: string;
   createdAt: string;
   notificationsEnabled: boolean;
-  packageTill: Date;
   currentPackage: Package;
+  paymentEndDate: string;
+  isTrail: boolean;
 }

@@ -1,4 +1,4 @@
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule, ErrorHandler, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { LayoutModule } from '@angular/cdk/layout';
 
@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from './shared/shared.module';
 import { HubLayoutModule } from './layout/layout.module';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { pl_PL } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
@@ -51,6 +51,8 @@ import { EmailConfirmationComponent } from './email-confirmation/email-confirmat
 import { PackagesComponent } from './packages/packages.component';
 
 import { InstallPwaComponent } from './install-pwa/install-pwa.component';
+import { AppInitializer, appInitializerFactory } from './app-initializer';
+import { AuthenticationService } from './common/services/authentication/authentication.service';
 
 registerLocaleData(en);
 
@@ -111,6 +113,12 @@ registerLocaleData(en);
     },
     { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true },
     { provide: NZ_I18N, useValue: pl_PL },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitializerFactory,
+      deps: [AppInitializer, AuthenticationService, HttpClient],
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })

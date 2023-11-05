@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/common/services/authentication/authentication.service';
+import { LoginService } from 'src/app/common/services/login-service/login.service';
 import { ResizeService } from 'src/app/common/services/resize/resize.service';
 import { hasLowerCase, hasNumber, hasUpperCase } from '../../common/validators/strong-password.validator';
 
@@ -32,6 +33,7 @@ export class RegisterPageComponent {
   constructor(
     private authService: AuthenticationService,
     private router: Router,
+    private loginService: LoginService,
     public resizeService: ResizeService
   ) {}
 
@@ -42,8 +44,13 @@ export class RegisterPageComponent {
         .signUp(this.form.controls.login.value, this.form.controls.email.value, this.form.controls.password.value)
         .subscribe(
           () => {
-            this.isLoading = false;
-            this.router.navigate(['packages']);
+            this.loginService
+              .signIn(this.form.controls.login.value, this.form.controls.password.value)
+              .subscribe(() => {
+                console.log('Signin');
+                this.isLoading = false;
+                this.router.navigate(['packages']);
+              });
           },
           (error) => {
             this.isLoading = false;

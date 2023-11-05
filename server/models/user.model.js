@@ -10,7 +10,11 @@ const User = mongoose.model(
     isConfirmed: Boolean,
     createdAt: Date,
     confirmationSecret: String,
-    priceId: String,
+
+    billingId: String,
+    paymentEndDate: Date,
+    package: { type: String, enum: ['Free', 'Starter', 'Standard', 'Premium'], default: 'Free' },
+    isTrail: Boolean,
     roles: [
       {
         type: mongoose.Schema.Types.ObjectId,

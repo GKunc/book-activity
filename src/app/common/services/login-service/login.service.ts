@@ -32,7 +32,8 @@ export class LoginService {
         email: loggedUser.email,
         createdAt: loggedUser.createdAt,
         package: loggedUser.package,
-        packageTill: loggedUser.packageTill,
+        paymentEndDate: loggedUser.paymentEndDate,
+        isTrail: loggedUser.isTrail,
       };
       this._user$.next(this.loggedUser);
     }
@@ -100,5 +101,6 @@ export interface InternalUser {
   email: string;
   createdAt: Date;
   package: Package;
-  packageTill: Date;
+  paymentEndDate: Date;
+  isTrail: boolean;
 }

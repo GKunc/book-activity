@@ -105,5 +105,5 @@
     </div>
   </div>
 
-  <hub-button text="Zapłac teraz" [isLoading]="isLoading" (click)="navigateToPayment()"></hub-button>
+  <hub-button *ngIf="!edit" text="Zapłac teraz" [isLoading]="isLoading" (click)="navigateToPayment()"></hub-button>
 </div>

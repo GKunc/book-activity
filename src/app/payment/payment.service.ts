@@ -9,7 +9,9 @@ import { PackageOption } from '../packages/packages.component';
 export class PaymentService {
   constructor(private http: HttpClient) {}
 
-  createSubscription(packageId: PackageOption): Observable<string> {
-    return this.http.post<string>('/api/payment/subscribe', { packageId });
+  createSubscription(packageId: PackageOption, userId: string): Observable<string> {
+    console.log('createSubscription', userId);
+
+    return this.http.post<string>('/api/payment/subscribe', { packageId, userId });
   }
 }
