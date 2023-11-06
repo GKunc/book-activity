@@ -10,7 +10,7 @@ export class AuthenticationService {
   constructor(private http: HttpClient) {}
 
   verifyToken(): Observable<any> {
-    return this.http.post('/api/auth/verifyToken', {});
+    return this.http.post('/api/auth/verifyToken', {}, { responseType: 'text' });
   }
 
   signUp(username: string, email: string, password: string): Observable<any> {

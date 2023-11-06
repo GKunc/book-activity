@@ -27,6 +27,7 @@ const setEnv = () => {
   PAYMENT_CANCELLED: '${process.env['PAYMENT_CANCELLED']}',
   PAYMENT_API_KEY: '${process.env['PAYMENT_API_KEY']}',
   WEBHOOK_SECRET: '${process.env['WEBHOOK_SECRET']}',
+  PAYMENT_UPDATED_URL: '${process.env['PAYMENT_UPDATED_URL']}',
   appVersion: '${appVersion}',
   production: true,
 };

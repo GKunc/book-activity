@@ -9,15 +9,25 @@ const packageToPriceMap = {
   Premium: 'price_1NP41gDtchbgKw9RMFIE58uF',
 };
 
+exports.editSubscription = async (req, res) => {
+  const user = await User.findOne({ _id: req.body.userId });
+
+  console.log('editSubscription', req.body.packageId);
+  const session = await stripe.billingPortal.sessions.create({
+    customer: user.billingId,
+    return_url: `${process.env.PAYMENT_UPDATED_URL}`,
+  });
+
+  return res.send(JSON.stringify(session.url));
+};
+
 exports.createSubscription = async (req, res) => {
+  console.log('createSubscription', req.body.packageId);
   const packageId = req.body.packageId;
   const user = await User.findOne({ _id: req.body.userId });
-  console.log('createSubscription', user);
 
-  console.log('createSubscription', packageId);
   const priceId = packageToPriceMap[packageId];
 
-  console.log('createSubscription', user);
   const session = await stripe.checkout.sessions.create({
     customer: user.billingId,
     mode: 'subscription',
@@ -37,7 +47,6 @@ exports.createSubscription = async (req, res) => {
     cancel_url: `${process.env.PAYMENT_CANCELLED}`,
   });
 
-  console.log('session', session);
   return res.send(JSON.stringify(session.url));
 };
 

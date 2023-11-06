@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, filter, map, Observable, of, switchMap, take } from 'rxjs';
+import { BehaviorSubject, catchError, filter, map, mergeMap, Observable, of, switchMap, take, tap } from 'rxjs';
 import { AuthenticationService } from './common/services/authentication/authentication.service';
 
 export function appInitializerFactory(appInitializerService: AppInitializer): () => Observable<boolean> {
@@ -21,9 +21,10 @@ export class AppInitializer {
     console.log('APP_INITIALIZER');
     return this.configReady$.pipe(
       filter((_) => _),
-      switchMap(() => this.authService.verifyToken()),
+      mergeMap(() => this.authService.verifyToken()),
+      tap(() => console.log('tap')),
       map(() => true),
-      catchError(() => {
+      catchError((e) => {
         return of<boolean>(false);
       }),
       take(1)

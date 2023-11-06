@@ -61,7 +61,11 @@ export class ProfileComponent implements OnInit {
   }
 
   showAvailablePackages(): void {
-    this.modalService.createModal(PackagesComponent, 'Pakiety', 900, { edit: true });
+    console.log();
+    this.modalService.createModal(PackagesComponent, 'Pakiety', 900, {
+      edit: true,
+      selectedPackage: this.form.controls.currentPackage.value,
+    });
   }
 
   resetForm(): void {

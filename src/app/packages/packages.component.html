@@ -105,5 +105,13 @@
     </div>
   </div>
 
-  <hub-button *ngIf="!edit" text="Zapłac teraz" [isLoading]="isLoading" (click)="navigateToPayment()"></hub-button>
+  <hub-button
+    *ngIf="!edit; else editSub"
+    text="Zapłac teraz"
+    [isLoading]="isLoading"
+    (click)="navigateToPayment()"
+  ></hub-button>
+  <ng-template #editSub>
+    <hub-button text="Zmien pakiet" [isLoading]="isLoading" (click)="navigateToEditPayment()"></hub-button>
+  </ng-template>
 </div>

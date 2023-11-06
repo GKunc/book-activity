@@ -12,8 +12,10 @@ export class PackagesComponent {
   @Input()
   edit: boolean = false;
 
-  isLoading: boolean = false;
+  @Input()
   selectedPackage: PackageOption = PackageOption.Standard;
+
+  isLoading: boolean = false;
   availablePackages: typeof PackageOption = PackageOption;
 
   constructor(private paymentService: PaymentService, private loginService: LoginService) {}
@@ -21,6 +23,16 @@ export class PackagesComponent {
   navigateToPayment(): void {
     this.paymentService
       .createSubscription(this.selectedPackage, this.loginService.loggedUser.id)
+      .pipe(tap(() => (this.isLoading = true)))
+      .subscribe((data) => {
+        this.isLoading = false;
+        window.location.href = data;
+      });
+  }
+
+  navigateToEditPayment(): void {
+    this.paymentService
+      .editSubscription(this.selectedPackage, this.loginService.loggedUser.id)
       .pipe(tap(() => (this.isLoading = true)))
       .subscribe((data) => {
         this.isLoading = false;
