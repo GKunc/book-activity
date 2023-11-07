@@ -13,9 +13,45 @@
     <link rel="apple-touch-icon" sizes="128x128" href="assets/icons/icon-128x128.png" />
     <link rel="apple-touch-icon" sizes="152x152" href="assets/icons/icon-152x152.png" />
     <meta name="theme-color" content="#1976d2" />
+
+    <style>
+      #loader {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .app-loader {
+        border: 16px solid #f3f3f3; /* Light grey */
+        border-top: 16px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        animation: spin 2s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      #app {
+        display: none;
+      }
+    </style>
   </head>
   <body>
-    <app-root></app-root>
+    <div id="loader">
+      <div class="app-loader"></div>
+    </div>
+
+    <app-root id="app"></app-root>
     <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js" type="text/javascript" charset="utf-8"></script>
     <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js" type="text/javascript" charset="utf-8"></script>
     <script src="https://js.api.here.com/v3/3.1/mapsjs-ui.js" type="text/javascript" charset="utf-8"></script>

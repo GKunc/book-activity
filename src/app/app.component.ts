@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, Renderer2 } from '@angular/core';
 import { IconService } from '@ant-design/icons-angular';
 import { PlusOutline } from '@ant-design/icons-angular/icons';
 import { NzConfigService } from 'ng-zorro-antd/core/config';
@@ -13,7 +13,7 @@ import { Platform } from '@angular/cdk/platform';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.less'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   title = 'book-activity';
   pageId = environment.FACEBOOK_APP_ID;
   showCookies: boolean = false;
@@ -26,7 +26,8 @@ export class AppComponent implements OnInit {
     private nzConfigService: NzConfigService,
     private facebookService: FacebookService,
     private localStorageService: LocalStorageService,
-    private platform: Platform
+    private platform: Platform,
+    private renderer: Renderer2
   ) {
     this.iconService.addIcon(...[PlusOutline]);
     this.iconService.twoToneColor = { primaryColor: '#fff' };
@@ -41,6 +42,13 @@ export class AppComponent implements OnInit {
     } else {
       this.showCookies = this.localStorageService.getItem<boolean>(ALLOW_COOKIES) == null ?? true;
     }
+  }
+
+  ngAfterViewInit(): void {
+    const loader = document.getElementById('loader');
+    loader.style.display = 'none'; //hide loader
+    const app = document.getElementById('app');
+    app.style.display = 'block'; //hide loader
   }
 
   private initFacebookService(): void {

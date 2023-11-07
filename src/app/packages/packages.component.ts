@@ -39,6 +39,13 @@ export class PackagesComponent {
         window.location.href = data;
       });
   }
+
+  selectPackage(selectedPackage: PackageOption): void {
+    if (this.edit) {
+      return;
+    }
+    this.selectedPackage = selectedPackage;
+  }
 }
 
 export enum PackageOption {

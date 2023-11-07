@@ -24,11 +24,10 @@ const refreshTokenCookieOptions = {
 
 exports.verifyToken = async (req, res) => {
   try {
-    console.log('verifyToken ctr');
     return res.status(200).send({ message: 'Sesja przywrocona' });
   } catch (e) {
-    return res.status(503).send({ message: 'Nie mozna odnowic sesji' });
     // no token
+    return res.status(503).send({ message: 'Nie mozna odnowic sesji' });
   }
 };
 

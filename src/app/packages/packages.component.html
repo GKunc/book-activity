@@ -2,8 +2,9 @@
   <div class="packages__container">
     <div
       class="packages__card"
+      [class.packages__card--active]="!edit"
       [class.packages__card--selected]="selectedPackage === availablePackages.Free"
-      (click)="selectedPackage = availablePackages.Free"
+      (click)="selectPackage(availablePackages.Free)"
     >
       <div>
         <h3 class="packages__card--name">Darmowy</h3>
@@ -27,8 +28,9 @@
 
     <div
       class="packages__card"
+      [class.packages__card--active]="!edit"
       [class.packages__card--selected]="selectedPackage === availablePackages.Starter"
-      (click)="selectedPackage = availablePackages.Starter"
+      (click)="selectPackage(availablePackages.Starter)"
     >
       <div>
         <h3 class="packages__card--name">Starter</h3>
@@ -52,8 +54,9 @@
 
     <div
       class="packages__card"
+      [class.packages__card--active]="!edit"
       [class.packages__card--selected]="selectedPackage === availablePackages.Standard"
-      (click)="selectedPackage = availablePackages.Standard"
+      (click)="selectPackage(availablePackages.Standard)"
     >
       <div>
         <h3 class="packages__card--name">Standard</h3>
@@ -77,8 +80,9 @@
 
     <div
       class="packages__card"
+      [class.packages__card--active]="!edit"
       [class.packages__card--selected]="selectedPackage === availablePackages.Premium"
-      (click)="selectedPackage = availablePackages.Premium"
+      (click)="selectPackage(availablePackages.Premium)"
     >
       <div>
         <h3 class="packages__card--name">Premium</h3>

@@ -63,11 +63,12 @@ exports.listenForSubscriptionEvents = async (req, res) => {
 
   // Handle the event
   const data = event.data.object;
+  let user;
 
   switch (event.type) {
     case 'customer.subscription.created':
-      console.log('created', data);
-      const user = await User.findOne({ billingId: data.customer });
+      console.log('customer.subscription.created', data);
+      user = await User.findOne({ billingId: data.customer });
 
       if (data.plan.id === packageToPriceMap.Starter) {
         user.package = 'Starter';
@@ -79,6 +80,24 @@ exports.listenForSubscriptionEvents = async (req, res) => {
         user.package = 'Premium';
       }
       user.isTrail = true;
+      user.paymentEndDate = new Date(data.current_period_end * 1000);
+      await user.save();
+
+      break;
+
+    case 'customer.subscription.updated':
+      console.log('customer.subscription.updated', data);
+      user = await User.findOne({ billingId: data.customer });
+
+      if (data.plan.id === packageToPriceMap.Starter) {
+        user.package = 'Starter';
+      }
+      if (data.plan.id === packageToPriceMap.Standard) {
+        user.package = 'Standard';
+      }
+      if (data.plan.id === packageToPriceMap.Premium) {
+        user.package = 'Premium';
+      }
       user.paymentEndDate = new Date(data.current_period_end * 1000);
       await user.save();
 
