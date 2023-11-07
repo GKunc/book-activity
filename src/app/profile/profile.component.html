@@ -1,8 +1,8 @@
-<!-- <ng-template #notAuthorized>
+<ng-template #notAuthorized>
   <not-authorized></not-authorized>
-</ng-template> -->
+</ng-template>
 
-<div class="profile__container" *ngIf="loginService._user$ | async">
+<div class="profile__container" *ngIf="loginService._user$ | async; else notAuthorized">
   <ng-container *ngIf="!loading">
     <form class="profile__form" nz-form [formGroup]="form">
       <h1>Profil:</h1>
