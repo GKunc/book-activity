@@ -57,8 +57,7 @@ exports.listenForSubscriptionEvents = async (req, res) => {
     event = stripe.webhooks.constructEvent(req.body, req.headers['stripe-signature'], process.env.WEBHOOK_SECRET);
   } catch (err) {
     console.log('Webhook Error', err);
-    res.status(400).send(`Webhook Error: ${err.message}`);
-    return;
+    return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
   // Handle the event
@@ -81,6 +80,8 @@ exports.listenForSubscriptionEvents = async (req, res) => {
       }
       user.isTrail = true;
       user.paymentEndDate = new Date(data.current_period_end * 1000);
+      user.trailEnds = new Date(data.current_period_end * 1000);
+
       await user.save();
 
       break;
@@ -98,15 +99,27 @@ exports.listenForSubscriptionEvents = async (req, res) => {
       if (data.plan.id === packageToPriceMap.Premium) {
         user.package = 'Premium';
       }
-      user.paymentEndDate = new Date(data.current_period_end * 1000);
+
+      const isOnTrial = data.status === 'trialing';
+      if (isOnTrial) {
+        user.isTrail = true;
+        user.trailEnds = new Date(data.current_period_end * 1000);
+      } else if (data.status === 'active') {
+        user.isTrail = false;
+        user.endDate = new Date(data.current_period_end * 1000);
+        user.trailEnds = null;
+      }
+
+      if (data.canceled_at) {
+        user.package = 'Free';
+        user.isTrail = false;
+        user.paymentEndDate = null;
+        user.trailEnds = null;
+      }
+
       await user.save();
-
       break;
 
-    case 'checkout.session.completed':
-      console.log('completed', data);
-
-      break;
     case 'invoice.paid':
       console.log('paid', event);
       // save:
@@ -133,5 +146,5 @@ exports.listenForSubscriptionEvents = async (req, res) => {
       console.log(`Unhandled event type ${event.type}`);
   }
 
-  res.send();
+  return res.send();
 };

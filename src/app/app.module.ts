@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from './shared/shared.module';
 import { HubLayoutModule } from './layout/layout.module';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { pl_PL } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
@@ -116,7 +116,7 @@ registerLocaleData(en);
     {
       provide: APP_INITIALIZER,
       useFactory: appInitializerFactory,
-      deps: [AppInitializer, AuthenticationService],
+      deps: [AppInitializer, AuthenticationService, HttpClient],
       multi: true,
     },
   ],

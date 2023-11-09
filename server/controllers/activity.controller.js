@@ -29,13 +29,13 @@ exports.filter = async (req, res) => {
   const activity = await Activity.find(query)
     .skip(skip ?? 0)
     .limit(body.limit ?? 20);
-  console.log('body: ', body);
   console.log('Filter activities', query, ',skip: ', skip, ',limit: ', body.limit, 'result: ', activity.length);
   return res.send(JSON.stringify(activity));
 };
 
 exports.getUserActivities = async (req, res) => {
-  const id = req.query.id;
+  console.log('getUserActivities', req?.query);
+  const id = req?.query?.id;
   let query = {};
   if (id) {
     query.createdBy = id;

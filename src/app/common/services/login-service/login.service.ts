@@ -15,6 +15,7 @@ import { LocalStorageService } from '../local-storage/local-storage.service';
 })
 export class LoginService {
   _user$ = new ReplaySubject<InternalUser>(null);
+  _userLoggedOut$ = new ReplaySubject<void>(null);
   _favourites$ = new ReplaySubject<string[]>(null);
   loggedUser: InternalUser = null;
 
@@ -34,6 +35,7 @@ export class LoginService {
         package: loggedUser.package,
         paymentEndDate: loggedUser.paymentEndDate,
         isTrail: loggedUser.isTrail,
+        trailEnds: loggedUser.trailEnds,
       };
       this._user$.next(this.loggedUser);
     }
@@ -70,6 +72,7 @@ export class LoginService {
 
   signOut(): void {
     try {
+      this._userLoggedOut$.next(null);
       this.authService.signOut().subscribe((response) => {
         if (response?.isSuccess) {
           throw new Error(response?.message);
@@ -103,4 +106,5 @@ export interface InternalUser {
   package: Package;
   paymentEndDate: Date;
   isTrail: boolean;
+  trailEnds: Date;
 }

@@ -32,4 +32,5 @@ export interface ProfileForm {
   currentPackage: Package;
   paymentEndDate: string;
   isTrail: boolean;
+  trailEndDate: string;
 }

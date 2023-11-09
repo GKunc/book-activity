@@ -9,6 +9,18 @@ export class ModalService {
 
   constructor(private modalService: NzModalService) {}
 
+  confirmationModal(title: string, text: string, okText: string, okDanger: boolean): NzModalRef {
+    this.modal = this.modalService.confirm({
+      nzTitle: title,
+      nzContent: `<div>${text}</div>`,
+      nzOkText: okText,
+      nzOkDanger: okDanger,
+      nzCancelText: 'Anuluj',
+    });
+
+    return this.modal;
+  }
+
   createModal(component: any, title: string, width = 400, params?: any, maskClosable: boolean = true): NzModalRef {
     this.modal = this.modalService.create({
       nzTitle: title,

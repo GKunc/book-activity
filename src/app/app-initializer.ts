@@ -18,11 +18,9 @@ export class AppInitializer {
   }
 
   load(): Observable<boolean> {
-    console.log('APP_INITIALIZER');
     return this.configReady$.pipe(
       filter((_) => _),
       mergeMap(() => this.authService.verifyToken()),
-      tap(() => console.log('tap')),
       map(() => true),
       catchError((e) => {
         return of<boolean>(false);

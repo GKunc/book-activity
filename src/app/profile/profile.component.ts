@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthenticationService } from '../common/services/authentication/authentication.service';
 import { LoginService } from '../common/services/login-service/login.service';
 import { ModalService } from '../common/services/modal/modal.service';
 import { PackagesComponent } from '../packages/packages.component';
@@ -25,12 +27,18 @@ export class ProfileComponent implements OnInit {
     paymentEndDate: new FormControl<string>({ value: null, disabled: true }),
     currentPackage: new FormControl<Package>({ value: null, disabled: true }),
     isTrail: new FormControl<boolean>({ value: null, disabled: true }),
+    trailEndDate: new FormControl<string>({ value: null, disabled: true }),
   });
 
   packagesOptions = PACKAGES;
   initialForm: ProfileForm = null;
 
-  constructor(public loginService: LoginService, private modalService: ModalService) {}
+  constructor(
+    public loginService: LoginService,
+    private modalService: ModalService,
+    private authenticationService: AuthenticationService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.userLogged = !!this.loginService.user;
@@ -40,10 +48,15 @@ export class ProfileComponent implements OnInit {
           this.userLogged = true;
           this.form.controls.userName.setValue(user.username);
           this.form.controls.email.setValue(user.email);
-          this.form.controls.createdAt.setValue(new Date(user.createdAt).toLocaleDateString() ?? null);
+          this.form.controls.createdAt.setValue(user.createdAt ? new Date(user.createdAt).toLocaleDateString() : null);
           this.form.controls.currentPackage.setValue(user.package ?? Package.Free);
-          this.form.controls.paymentEndDate.setValue(new Date(user.paymentEndDate).toLocaleDateString() ?? null);
+          this.form.controls.paymentEndDate.setValue(
+            user.paymentEndDate ? new Date(user.paymentEndDate).toLocaleDateString() : null
+          );
           this.form.controls.isTrail.setValue(user.isTrail ?? false);
+          this.form.controls.trailEndDate.setValue(
+            user.trailEnds ? new Date(user.trailEnds).toLocaleDateString() : null
+          );
 
           this.initialForm = this.form.getRawValue();
         } else {
@@ -68,7 +81,11 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  resetForm(): void {
-    this.form.setValue(this.initialForm);
+  deleteAccount(): void {
+    this.modalService.confirmationModal('Usun konto', 'Czy na pewno chcesz usunac konto?', 'Usun', true);
+    this.authenticationService.deleteUser(this.loginService.user.id).subscribe(() => {
+      this.loginService.signOut();
+      this.router.navigate(['sign']);
+    });
   }
 }

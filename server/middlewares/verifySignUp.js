@@ -17,7 +17,7 @@ checkDuplicateUsernameOrEmail = async (req, res, next) => {
   if (userEmail) {
     return res.status(400).send({ field: 'email', errorType: 'uniqueEmail', message: 'Email jest zajety' });
   }
-  next();
+  return next();
 };
 
 checkRolesExisted = (req, res, next) => {
@@ -31,7 +31,7 @@ checkRolesExisted = (req, res, next) => {
     }
   }
 
-  next();
+  return next();
 };
 
 const verifySignUp = {

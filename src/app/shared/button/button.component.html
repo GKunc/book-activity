@@ -1,4 +1,12 @@
-<button nz-button [nzType]="type" [nzSize]="size" [nzLoading]="isLoading" [disabled]="isDisabled" class="hub-button">
+<button
+  nz-button
+  [nzType]="type"
+  [nzDanger]="danger"
+  [nzSize]="size"
+  [nzLoading]="isLoading"
+  [disabled]="isDisabled"
+  class="hub-button"
+>
   {{ text }}
   <span *ngIf="icon" nz-icon [nzType]="icon"></span>
 </button>

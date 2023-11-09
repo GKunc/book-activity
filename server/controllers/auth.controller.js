@@ -41,7 +41,6 @@ exports.signup = async (req, res) => {
     email,
     description: username,
   });
-  console.log('signup customerInfo', customerInfo);
 
   const user = new User({
     username,
@@ -56,8 +55,6 @@ exports.signup = async (req, res) => {
     package: 'Free',
     isTrail: false,
   });
-
-  console.log('signup user', user);
 
   if (req.body.roles) {
     const roles = await Role.find({ name: { $in: req.body.roles } });
@@ -126,6 +123,7 @@ exports.signin = async (req, res) => {
 
 exports.signout = async (req, res) => {
   try {
+    console.log('signout');
     res.cookie('access_token', '', { maxAge: 1 });
     res.cookie('refresh_token', '', { maxAge: 1 });
     res.cookie('logged_in', '', {
@@ -133,7 +131,7 @@ exports.signout = async (req, res) => {
     });
     return res.send(JSON.stringify({ isSuccess: true, message: 'Pomyślnie wylogowano!' }));
   } catch (err) {
-    this.next(err);
+    return this.next(err);
   }
 };
 
@@ -161,7 +159,7 @@ exports.refreshAccessToken = async (req, res, next) => {
 
     const message = 'Could not refresh access token';
     if (!decoded) {
-      return next(new Error(message, 403));
+      return res.status(403).send({ message });
     }
 
     // Check if the user exist
@@ -170,7 +168,7 @@ exports.refreshAccessToken = async (req, res, next) => {
     });
 
     if (!user) {
-      return next(new Error(message, 403));
+      return res.status(403).send({ message });
     }
 
     // Sign new access token
@@ -194,7 +192,7 @@ exports.refreshAccessToken = async (req, res, next) => {
       access_token,
     });
   } catch (err) {
-    next(err);
+    return next(err);
   }
 };
 
@@ -210,6 +208,27 @@ exports.getUser = async (req, res, next) => {
 
     res.status(200).json(user);
   } catch (err) {
-    next(err);
+    return ext(err);
+  }
+};
+
+exports.deleteUser = async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      _id: req.body.userId,
+    });
+
+    const result = await User.deleteOne({
+      _id: req.body.userId,
+    });
+
+    const deleted = await stripe.customers.del(user.billingId);
+
+    if (deleted) {
+      res.status(200).send('OK');
+    }
+    res.status(500).send('Could not remove user');
+  } catch (err) {
+    return next(err);
   }
 };

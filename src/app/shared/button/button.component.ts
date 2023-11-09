@@ -10,6 +10,9 @@ export class ButtonComponent {
   type: NzButtonType = 'primary';
 
   @Input()
+  danger: boolean = false;
+
+  @Input()
   size: NzButtonSize = 'default';
 
   @Input()

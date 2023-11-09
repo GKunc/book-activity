@@ -8,37 +8,31 @@
       <h1>Profil:</h1>
       <nz-form-item>
         <nz-form-label [nzSpan]="5">Login</nz-form-label>
-        <nz-form-control nzHasFeedback [nzSpan]="18" nzErrorTip="Input is required">
+        <nz-form-control nzHasFeedback [nzSpan]="20" nzErrorTip="Input is required">
           <input nz-input formControlName="userName" name="userName" />
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label [nzSpan]="5">E-mail</nz-form-label>
-        <nz-form-control nzHasFeedback [nzSpan]="18" nzErrorTip="MaxLength is 6">
+        <nz-form-control nzHasFeedback [nzSpan]="20" nzErrorTip="MaxLength is 6">
           <input nz-input formControlName="email" name="email" email />
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label [nzSpan]="5">Konto od</nz-form-label>
-        <nz-form-control nzHasFeedback [nzSpan]="18" nzErrorTip="MinLength is 6">
+        <nz-form-control nzHasFeedback [nzSpan]="20" nzErrorTip="MinLength is 6">
           <input nz-input formControlName="createdAt" name="createdAt" minlength="6" />
         </nz-form-control>
       </nz-form-item>
-      <!-- <nz-form-item>
-        <nz-form-label [nzSpan]="5">Powiadomienia</nz-form-label>
-        <nz-form-control nzHasFeedback [nzSpan]="18" nzErrorTip="Pattern not match">
-          <nz-switch formControlName="notificationsEnabled" name="notificationsEnabled"></nz-switch>
-        </nz-form-control>
-      </nz-form-item> -->
       <nz-form-item>
         <nz-form-label [nzSpan]="5">Opłacone do</nz-form-label>
-        <nz-form-control nzHasFeedback [nzSpan]="18" nzErrorTip="Pattern not match">
+        <nz-form-control nzHasFeedback [nzSpan]="20" nzErrorTip="Pattern not match">
           <input nz-input formControlName="paymentEndDate" name="paymentEndDate" minlength="6" />
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label [nzSpan]="5">Obecny pakiet</nz-form-label>
-        <nz-form-control [nzSpan]="18" class="profile__package--select">
+        <nz-form-control [nzSpan]="20" class="profile__package--select">
           <div class="profile__package">
             <nz-select formControlName="currentPackage" name="currentPackage" nzPlaceHolder="Pakiet">
               <nz-option
@@ -57,11 +51,16 @@
           </div>
         </nz-form-control>
       </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="5">Darmowy okres do</nz-form-label>
+        <nz-form-control nzHasFeedback [nzSpan]="20" nzErrorTip="Pattern not match">
+          <input nz-input formControlName="trailEndDate" name="trailEndDate" minlength="6" />
+        </nz-form-control>
+      </nz-form-item>
     </form>
 
-    <div class="profile__action-buttons" *ngIf="hasSomeChanges">
-      <hub-button (click)="resetForm()" text="Wyczyść" type="default"></hub-button>
-      <hub-button text="Zapisz"></hub-button>
+    <div class="profile__action-buttons">
+      <hub-button text="Usun konto" [danger]="true" (click)="deleteAccount()"></hub-button>
     </div>
   </ng-container>
 </div>

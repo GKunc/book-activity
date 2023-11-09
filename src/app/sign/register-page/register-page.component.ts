@@ -47,7 +47,6 @@ export class RegisterPageComponent {
             this.loginService
               .signIn(this.form.controls.login.value, this.form.controls.password.value)
               .subscribe(() => {
-                console.log('Signin');
                 this.isLoading = false;
                 this.router.navigate(['packages']);
               });

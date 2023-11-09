@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzModalRef } from 'ng-zorro-antd/modal';
-import { of } from 'rxjs';
+import { of, takeUntil } from 'rxjs';
 import { AddActivityComponent } from '../add-activity/add-activity.component';
 import { Activity } from '../common/services/activities/activities.model';
 import { ActivitiesService } from '../common/services/activities/activities.service';
@@ -79,22 +79,27 @@ export class YourActivitiesComponent implements OnInit {
     this.loading = true;
     const user = this.loginService.user;
 
-    this.activitiesService.getUserActivities(user?.id).subscribe(
-      (data) => {
-        this.error = false;
-        this.activities = data;
-        this.noData = this.hasNoData(data);
-        this.loading = false;
-      },
-      (error) => {
-        if (error.status !== 403) {
-          this.error = true;
-          this.loading = false;
-          this.activities = [];
-        }
-        return of(null);
-      }
-    );
+    if (user) {
+      this.activitiesService
+        .getUserActivities(user?.id)
+        .pipe(takeUntil(this.loginService._userLoggedOut$))
+        .subscribe(
+          (data) => {
+            this.error = false;
+            this.activities = data;
+            this.noData = this.hasNoData(data);
+            this.loading = false;
+          },
+          (error) => {
+            if (error.status !== 403) {
+              this.error = true;
+              this.loading = false;
+              this.activities = [];
+            }
+            return of(null);
+          }
+        );
+    }
   }
 
   private hasNoData(data: Activity[]): boolean {
