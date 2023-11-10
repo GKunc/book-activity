@@ -44,7 +44,7 @@ export class LoginPageComponent implements OnInit {
         .subscribe(
           () => {
             this.notificationService.success('Pomyślnie zalogowano uzytkownika', '');
-            this.router.navigate(['/your-activities']);
+            this.router.navigate(['/profile']);
           },
           (e) => {
             this.form.controls['login'].setErrors({ invalidLogin: e });

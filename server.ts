@@ -153,7 +153,6 @@ export function app(): express.Express {
         return res.end();
       });
     } catch (error) {
-      console.log(error);
       return res.status(500).send({
         message: error.message,
       });
@@ -177,7 +176,6 @@ export function app(): express.Express {
 
       return res.status(200);
     } catch (error) {
-      console.log(error);
       return res.status(500).send({
         message: error.message,
       });

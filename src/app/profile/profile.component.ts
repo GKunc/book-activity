@@ -74,7 +74,6 @@ export class ProfileComponent implements OnInit {
   }
 
   showAvailablePackages(): void {
-    console.log();
     this.modalService.createModal(PackagesComponent, 'Pakiety', 900, {
       edit: true,
       selectedPackage: this.form.controls.currentPackage.value,
@@ -82,10 +81,24 @@ export class ProfileComponent implements OnInit {
   }
 
   deleteAccount(): void {
-    this.modalService.confirmationModal('Usun konto', 'Czy na pewno chcesz usunac konto?', 'Usun', true);
-    this.authenticationService.deleteUser(this.loginService.user.id).subscribe(() => {
-      this.loginService.signOut();
-      this.router.navigate(['sign']);
-    });
+    const modal = this.modalService.confirmationModal(
+      'Usun konto',
+      'Czy na pewno chcesz usunac konto?',
+      'Usun',
+      true,
+      () => {
+        modal.updateConfig({ nzOkLoading: true });
+        this.authenticationService.deleteUser(this.loginService.user.id).subscribe(
+          () => {
+            modal.updateConfig({ nzOkLoading: false });
+            this.loginService.signOut();
+            this.router.navigate(['sign']);
+          },
+          () => {
+            modal.updateConfig({ nzOkLoading: false });
+          }
+        );
+      }
+    );
   }
 }

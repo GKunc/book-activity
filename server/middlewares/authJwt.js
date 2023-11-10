@@ -12,7 +12,6 @@ signJwt = (payload, key, options) => {
 
 verifyToken = (req, res, next) => {
   let token = req?.cookies?.access_token;
-  console.log('verifyToken', token);
   if (!token) {
     return res.status(403).send({ message: 'No token provided!' });
   }
@@ -20,7 +19,7 @@ verifyToken = (req, res, next) => {
   try {
     const publicKey = Buffer.from(config.auth_public_token, 'base64').toString('ascii');
     jwt.verify(token, publicKey);
-    return next();
+    next();
   } catch (error) {
     console.log('error', error);
     return res.status(401).send({ message: 'Unauthorized!' });
@@ -31,17 +30,15 @@ verifyRefreshToken = (req, res, next) => {
   let token = req?.cookies?.refresh_token;
 
   if (!token) {
-    return res.status(403).send({ message: 'No token provided!' });
+    return null;
   }
 
   try {
     const publicKey = Buffer.from(config.refresh_public_token, 'base64').toString('ascii');
-    const result = jwt.verify(token, publicKey);
-    console.log('jwtverify', result);
-    return next();
+    return jwt.verify(token, publicKey);
   } catch (error) {
     console.log('error', error);
-    return res.status(401).send({ message: 'Unauthorized!' });
+    return null;
   }
 };
 

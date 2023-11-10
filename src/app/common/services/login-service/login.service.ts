@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { catchError, Observable, of, ReplaySubject, tap, throwError } from 'rxjs';
-import { from } from 'rxjs';
 import jwt_decode from 'jwt-decode';
 import { ACCESS_TOKEN, FAVOURITES, REFRESH_TOKEN } from '../../consts/local-storage.consts';
 import { FavouriteService } from '../favourites/favourites.service';
@@ -15,7 +14,6 @@ import { LocalStorageService } from '../local-storage/local-storage.service';
 })
 export class LoginService {
   _user$ = new ReplaySubject<InternalUser>(null);
-  _userLoggedOut$ = new ReplaySubject<void>(null);
   _favourites$ = new ReplaySubject<string[]>(null);
   loggedUser: InternalUser = null;
 
@@ -72,7 +70,6 @@ export class LoginService {
 
   signOut(): void {
     try {
-      this._userLoggedOut$.next(null);
       this.authService.signOut().subscribe((response) => {
         if (response?.isSuccess) {
           throw new Error(response?.message);
@@ -81,7 +78,6 @@ export class LoginService {
       this.loggedUser = null;
       this._user$.next(null);
     } catch (e) {
-      console.log('Error', e);
     } finally {
       this.localStorageService.removeItem(ACCESS_TOKEN);
       this.localStorageService.removeItem(REFRESH_TOKEN);

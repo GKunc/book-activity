@@ -9,13 +9,14 @@ export class ModalService {
 
   constructor(private modalService: NzModalService) {}
 
-  confirmationModal(title: string, text: string, okText: string, okDanger: boolean): NzModalRef {
+  confirmationModal(title: string, text: string, okText: string, okDanger: boolean, OkFn: any): NzModalRef {
     this.modal = this.modalService.confirm({
       nzTitle: title,
       nzContent: `<div>${text}</div>`,
       nzOkText: okText,
       nzOkDanger: okDanger,
       nzCancelText: 'Anuluj',
+      nzOnOk: OkFn,
     });
 
     return this.modal;

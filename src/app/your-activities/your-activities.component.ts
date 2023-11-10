@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzModalRef } from 'ng-zorro-antd/modal';
-import { of, takeUntil } from 'rxjs';
+import { distinctUntilChanged, of } from 'rxjs';
 import { AddActivityComponent } from '../add-activity/add-activity.component';
 import { Activity } from '../common/services/activities/activities.model';
 import { ActivitiesService } from '../common/services/activities/activities.service';
@@ -31,7 +31,7 @@ export class YourActivitiesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserActivities();
-    this.loginService._user$.subscribe((user) => {
+    this.loginService._user$.pipe(distinctUntilChanged()).subscribe((user) => {
       if (user) {
         this.userLogged = true;
         this.getUserActivities();
@@ -80,25 +80,22 @@ export class YourActivitiesComponent implements OnInit {
     const user = this.loginService.user;
 
     if (user) {
-      this.activitiesService
-        .getUserActivities(user?.id)
-        .pipe(takeUntil(this.loginService._userLoggedOut$))
-        .subscribe(
-          (data) => {
-            this.error = false;
-            this.activities = data;
-            this.noData = this.hasNoData(data);
+      this.activitiesService.getUserActivities(user?.id).subscribe(
+        (data) => {
+          this.error = false;
+          this.activities = data;
+          this.noData = this.hasNoData(data);
+          this.loading = false;
+        },
+        (error) => {
+          if (error.status !== 403) {
+            this.error = true;
             this.loading = false;
-          },
-          (error) => {
-            if (error.status !== 403) {
-              this.error = true;
-              this.loading = false;
-              this.activities = [];
-            }
-            return of(null);
+            this.activities = [];
           }
-        );
+          return of(null);
+        }
+      );
     }
   }
 

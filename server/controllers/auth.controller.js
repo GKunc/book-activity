@@ -155,8 +155,7 @@ exports.refreshAccessToken = async (req, res, next) => {
     console.log('REFRESH TOKEN');
 
     // Validate the Refresh token
-    const decoded = verifyRefreshToken(req, res, next);
-
+    const decoded = await verifyRefreshToken(req, res, next);
     const message = 'Could not refresh access token';
     if (!decoded) {
       return res.status(403).send({ message });
@@ -225,9 +224,9 @@ exports.deleteUser = async (req, res, next) => {
     const deleted = await stripe.customers.del(user.billingId);
 
     if (deleted) {
-      res.status(200).send('OK');
+      return res.status(200).json({ message: 'ok' });
     }
-    res.status(500).send('Could not remove user');
+    return res.status(500).send('Could not remove user');
   } catch (err) {
     return next(err);
   }

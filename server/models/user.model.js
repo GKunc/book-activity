@@ -15,7 +15,7 @@ const User = mongoose.model(
     paymentEndDate: Date,
     package: { type: String, enum: ['Free', 'Starter', 'Standard', 'Premium'], default: 'Free' },
     isTrail: Boolean,
-    trailEnd: Date,
+    trailEnds: Date,
     roles: [
       {
         type: mongoose.Schema.Types.ObjectId,

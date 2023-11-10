@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, switchMap, takeUntil } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 import { LoginService } from '../../services/login-service/login.service';
 import { ModalService } from '../../services/modal/modal.service';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../../consts/local-storage.consts';
@@ -50,7 +50,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
             this.isRefreshing = false;
             return next.handle(request);
           }),
-          takeUntil(this.loginService._userLoggedOut$),
           catchError((error) => {
             this.isRefreshing = false;
 

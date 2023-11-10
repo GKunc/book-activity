@@ -34,8 +34,8 @@ export class AuthenticationService {
     return this.http.get(`/api/auth/user?userId=${userId}`);
   }
 
-  deleteUser(userId: string): Observable<void> {
-    return this.http.delete<void>('/api/auth/user', { body: { userId } });
+  deleteUser(userId: string): Observable<any> {
+    return this.http.delete('/api/auth/user', { body: { userId } });
   }
 
   signIn(username: string, password: string, googleLogIn: boolean = false): Observable<HttpBaseResponse> {
