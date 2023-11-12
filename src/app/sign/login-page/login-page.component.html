@@ -31,14 +31,10 @@
 
   <hub-button class="button__full-width" text="Zaloguj się" [isLoading]="isLoading" (click)="signIn()"></hub-button>
   <div>Nie masz konta? <a (click)="switchMode.emit()">Zarejestruj się.</a></div>
+  <div>Zapomniałeś hasła? <a (click)="resetPassword()">Zresetuj hasło.</a></div>
 </div>
 
 <ng-template #errorDescription let-control>
   <ng-container *ngIf="control.hasError('required')">To pole jest wymagane</ng-container>
   <ng-container *ngIf="control.hasError('invalidLogin')">Niepoprawny login lub hasło</ng-container>
 </ng-template>
-
-<!-- 
-  1. ADD ALREADY LOGGED
-  2. CHANGE SIGN UP
- -->

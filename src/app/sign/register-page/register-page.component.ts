@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { tap } from 'rxjs';
 import { AuthenticationService } from 'src/app/common/services/authentication/authentication.service';
 import { LoginService } from 'src/app/common/services/login-service/login.service';
 import { ResizeService } from 'src/app/common/services/resize/resize.service';

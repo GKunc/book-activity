@@ -21,13 +21,11 @@ export class PackagesComponent {
   constructor(private paymentService: PaymentService, private loginService: LoginService) {}
 
   navigateToPayment(): void {
-    this.paymentService
-      .createSubscription(this.selectedPackage, this.loginService.loggedUser.id)
-      .pipe(tap(() => (this.isLoading = true)))
-      .subscribe((data) => {
-        this.isLoading = false;
-        window.location.href = data;
-      });
+    this.isLoading = true;
+    this.paymentService.createSubscription(this.selectedPackage, this.loginService.loggedUser.id).subscribe((data) => {
+      this.isLoading = false;
+      window.location.href = data;
+    });
   }
 
   navigateToEditPayment(): void {

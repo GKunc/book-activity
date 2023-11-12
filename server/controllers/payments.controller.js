@@ -16,6 +16,7 @@ exports.editSubscription = async (req, res) => {
   const session = await stripe.billingPortal.sessions.create({
     customer: user.billingId,
     return_url: `${process.env.PAYMENT_UPDATED_URL}`,
+    locale: 'pl',
   });
 
   return res.send(JSON.stringify(session.url));
@@ -23,6 +24,7 @@ exports.editSubscription = async (req, res) => {
 
 exports.createSubscription = async (req, res) => {
   console.log('createSubscription', req.body.packageId);
+  console.log('createSubscription', req.headers);
   const packageId = req.body.packageId;
   const user = await User.findOne({ _id: req.body.userId });
 
@@ -45,6 +47,7 @@ exports.createSubscription = async (req, res) => {
     },
     success_url: `${process.env.PAYMENT_CONFIRMATION}?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${process.env.PAYMENT_CANCELLED}`,
+    locale: 'pl',
   });
 
   return res.send(JSON.stringify(session.url));

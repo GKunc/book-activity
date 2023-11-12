@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
+import { AuthenticationService } from 'src/app/common/services/authentication/authentication.service';
 import { ResizeService } from 'src/app/common/services/resize/resize.service';
 import { LoginService } from '../../common/services/login-service/login.service';
 import { NotificationsService } from '../../common/services/notifications/notifications.service';
@@ -52,6 +53,11 @@ export class LoginPageComponent implements OnInit {
           }
         );
     }
+  }
+
+  resetPassword(): void {
+    console.log('Reset password');
+    // this.authService.sendResetPasswordMail()
   }
 
   private validateForm(): boolean {
