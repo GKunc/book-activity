@@ -11,6 +11,7 @@ signJwt = (payload, key, options) => {
 };
 
 verifyToken = (req, res, next) => {
+  console.log('verifyToken', req?.cookies?.access_token);
   let token = req?.cookies?.access_token;
   if (!token) {
     return res.status(403).send({ message: 'No token provided!' });
@@ -42,6 +43,29 @@ verifyRefreshToken = (req, res, next) => {
   }
 };
 
+signTokenShort = async (user) => {
+  // Sign the access token
+  const access_token = signJwt(
+    { id: user._id, username: user.username.toLowerCase(), email: user.email },
+    'auth_private_token',
+    {
+      expiresIn: `5m`,
+    }
+  );
+
+  // Sign the refresh token
+  const refresh_token = signJwt(
+    { id: user._id, username: user.username.toLowerCase(), email: user.email },
+    'refresh_private_token',
+    {
+      expiresIn: `5m`,
+    }
+  );
+
+  // Return access token
+  return { access_token, refresh_token };
+};
+
 signToken = async (user) => {
   // Sign the access token
   const access_token = signJwt(
@@ -68,6 +92,7 @@ signToken = async (user) => {
 const authJwt = {
   signJwt,
   signToken,
+  signTokenShort,
   verifyToken,
   verifyRefreshToken,
 };

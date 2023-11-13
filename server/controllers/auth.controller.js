@@ -5,7 +5,6 @@ const Role = db.role;
 const { v4: uuidv4 } = require('uuid');
 
 var bcrypt = require('bcryptjs');
-const mailController = require('./mail.controller');
 const stripe = require('stripe')(process.env.PAYMENT_API_KEY);
 
 const accessTokenCookieOptions = {
@@ -32,11 +31,9 @@ exports.verifyToken = async (req, res) => {
 };
 
 exports.signup = async (req, res) => {
-  const confirmationSecret = uuidv4();
   const email = req.body.email;
   const username = req.body.username.toLowerCase();
 
-  console.log('signup email', email);
   customerInfo = await stripe.customers.create({
     email,
     description: username,
@@ -46,9 +43,8 @@ exports.signup = async (req, res) => {
     username,
     email,
     password: bcrypt.hashSync(req.body.password, 8),
-    isConfirmed: !process.env.production,
+    isConfirmed: false,
     createdAt: new Date(),
-    confirmationSecret,
     // payment info
     billingId: customerInfo.id,
     paymentEndDate: null,
@@ -65,11 +61,18 @@ exports.signup = async (req, res) => {
 
     const newUser = await user.save();
     if (newUser) {
-      if (process.env.production) {
-        mailController.sendConfirmationEmail({ userId: user.id, confirmationSecret });
-      }
       console.log('Poprawnie zarejestrowano uzytkownika!');
-      return res.send({ message: 'Poprawnie zarejestrowano uzytkownika!' });
+
+      const { access_token, refresh_token } = await signTokenShort(user);
+
+      res.cookie('access_token', access_token, accessTokenCookieOptions);
+      res.cookie('refresh_token', refresh_token, refreshTokenCookieOptions);
+      res.cookie('logged_in', true, {
+        ...accessTokenCookieOptions,
+        httpOnly: false,
+      });
+
+      return res.status(200).json({ userId: newUser._id });
     } else {
       return res.status(500).send({ message: 'Nie mozna zarejestrowac uzytkownika' });
     }
@@ -132,21 +135,6 @@ exports.signout = async (req, res) => {
     return res.send(JSON.stringify({ isSuccess: true, message: 'Pomyślnie wylogowano!' }));
   } catch (err) {
     return this.next(err);
-  }
-};
-
-exports.confirmEmail = async (req, res) => {
-  try {
-    const result = await User.updateOne({ _id: req.body.userId }, { $set: { isConfirmed: true } });
-
-    if (result.modifiedCount > 0) {
-      return res.send(JSON.stringify({ isSuccess: true, message: 'Pomyślnie potwierdzono email!' }));
-    } else {
-      return res.send(JSON.stringify({ isSuccess: false, message: 'Email jest juz potwierdzony!' }));
-    }
-  } catch (err) {
-    this.next(err);
-    return res.send(JSON.stringify({ isSuccess: false, message: 'Nie mozna potwierdzic adresu email!' }));
   }
 };
 

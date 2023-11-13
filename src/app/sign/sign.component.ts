@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'app-sign',
   templateUrl: './sign.component.html',
-  styleUrls: ['./sign.component.less']
+  styleUrls: ['./sign.component.less'],
 })
 export class SignComponent {
   @Input()

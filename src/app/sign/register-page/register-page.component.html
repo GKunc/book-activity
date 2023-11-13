@@ -34,9 +34,32 @@
         </ng-template>
       </nz-form-control>
     </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzFor="passwordConfirm" nzRequired>Powtorz Hasło</nz-form-label>
+      <nz-form-control [nzErrorTip]="errorDescription">
+        <nz-input-group [nzSuffix]="suffixTemplate">
+          <input [type]="passwordVisible ? 'text' : 'password'" nz-input formControlName="passwordConfirm" />
+        </nz-input-group>
+        <ng-template #suffixTemplate>
+          <span
+            nz-icon
+            style="cursor: pointer"
+            [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+            (click)="passwordVisible = !passwordVisible"
+          ></span>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
   </form>
 
-  <hub-button class="button__full-width" text="Zarejestruj" [isLoading]="isLoading" (click)="signUp()"></hub-button>
+  <hub-button
+    [isDisabled]="form.invalid"
+    class="button__full-width"
+    text="Zarejestruj"
+    [isLoading]="isLoading"
+    (click)="signUp()"
+  ></hub-button>
   <div>Masz juz konto? <a (click)="switchMode.emit()">Zaloguj się.</a></div>
 </div>
 
@@ -54,8 +77,9 @@
   <ng-container *ngIf="control.hasError('uniqueEmail')"
     >Uytkownik z podanym emailem jest juz zarejestrowany</ng-container
   >
-  <ng-container *ngIf="control.hasError('email')">Podany email jest nieprawidlowy</ng-container>
+  <ng-container *ngIf="control.hasError('pattern')">Podany email jest nieprawidlowy</ng-container>
   <ng-container *ngIf="control.hasError('credentialNotCorrect')"
     >Podany login lub hasło jest nieprawidłowe</ng-container
   >
+  <ng-container *ngIf="control.hasError('matching')">Podane haslo sie nie zgadza</ng-container>
 </ng-template>

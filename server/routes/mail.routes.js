@@ -6,6 +6,4 @@ module.exports = function (app) {
     res.header('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept');
     return next();
   });
-
-  app.post('/api/mail/sendConfirmationEmail', controller.sendConfirmationEmail);
 };

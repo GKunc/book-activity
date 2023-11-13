@@ -84,7 +84,7 @@ exports.listenForSubscriptionEvents = async (req, res) => {
       user.isTrail = true;
       user.paymentEndDate = new Date(data.current_period_end * 1000);
       user.trailEnds = new Date(data.current_period_end * 1000);
-
+      user.isConfirmed = true;
       await user.save();
 
       break;

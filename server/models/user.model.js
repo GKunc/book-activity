@@ -9,7 +9,6 @@ const User = mongoose.model(
     guid: String,
     isConfirmed: Boolean,
     createdAt: Date,
-    confirmationSecret: String,
 
     billingId: String,
     paymentEndDate: Date,

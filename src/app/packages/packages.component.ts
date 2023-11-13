@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { tap } from 'rxjs';
 import { LoginService } from '../common/services/login-service/login.service';
 import { PaymentService } from '../payment/payment.service';
@@ -8,7 +9,10 @@ import { PaymentService } from '../payment/payment.service';
   templateUrl: './packages.component.html',
   styleUrls: ['./packages.component.less'],
 })
-export class PackagesComponent {
+export class PackagesComponent implements OnInit {
+  @Input()
+  userId: string;
+
   @Input()
   edit: boolean = false;
 
@@ -18,11 +22,21 @@ export class PackagesComponent {
   isLoading: boolean = false;
   availablePackages: typeof PackageOption = PackageOption;
 
-  constructor(private paymentService: PaymentService, private loginService: LoginService) {}
+  constructor(
+    private paymentService: PaymentService,
+    private loginService: LoginService,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    if (!this.userId) {
+      this.userId = this.route.snapshot.paramMap.get('userId');
+    }
+  }
 
   navigateToPayment(): void {
     this.isLoading = true;
-    this.paymentService.createSubscription(this.selectedPackage, this.loginService.loggedUser.id).subscribe((data) => {
+    this.paymentService.createSubscription(this.selectedPackage, this.userId).subscribe((data) => {
       this.isLoading = false;
       window.location.href = data;
     });

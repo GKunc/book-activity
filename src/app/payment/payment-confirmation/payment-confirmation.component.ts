@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { LoginService } from 'src/app/common/services/login-service/login.service';
+import { Component } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
 
 @Component({
@@ -9,10 +8,4 @@ import { SharedModule } from '../../shared/shared.module';
   standalone: true,
   imports: [SharedModule],
 })
-export class PaymentConfirmationComponent implements OnInit {
-  constructor(private loginService: LoginService) {}
-
-  ngOnInit(): void {
-    this.loginService.signOut();
-  }
-}
+export class PaymentConfirmationComponent {}

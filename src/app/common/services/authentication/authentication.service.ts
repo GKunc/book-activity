@@ -13,17 +13,13 @@ export class AuthenticationService {
     return this.http.post('/api/auth/verifyToken', {}, { responseType: 'text' });
   }
 
-  signUp(username: string, email: string, password: string): Observable<any> {
-    return this.http.post(
-      '/api/auth/signup',
-      {
-        username,
-        email,
-        password,
-        roles: ['user'],
-      },
-      { responseType: 'text' }
-    );
+  signUp(username: string, email: string, password: string): Observable<{ userId: string }> {
+    return this.http.post<{ userId: string }>('/api/auth/signup', {
+      username,
+      email,
+      password,
+      roles: ['user'],
+    });
   }
 
   refreshToken(username: string): Observable<any> {
@@ -48,12 +44,5 @@ export class AuthenticationService {
 
   signOut(): Observable<HttpBaseResponse> {
     return this.http.post<HttpBaseResponse>('/api/auth/signout', {});
-  }
-
-  confirmEmail(confirmationSecret: string, userId: string): Observable<HttpBaseResponse> {
-    return this.http.post<HttpBaseResponse>('/api/auth/confirmEmail', {
-      confirmationSecret,
-      userId,
-    });
   }
 }
