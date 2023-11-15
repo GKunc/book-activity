@@ -1,19 +1,30 @@
 const db = require('../models');
 const ROLES = db.ROLES;
 const User = db.user;
+var bcrypt = require('bcryptjs');
 
 checkDuplicateUsernameOrEmail = async (req, res, next) => {
   // Username
   const userName = await User.findOne({
     username: req.body.username.toLowerCase(),
-  }).exec();
+  });
+  const userEmail = await User.findOne({ email: req.body.email });
+  const user = await User.findOne({
+    username: req.body.username.toLowerCase(),
+    email: req.body.email,
+  });
+
+  const passwordMatch = bcrypt.compareSync(req.body.password, user.password);
+
+  if (userName && userEmail && passwordMatch) {
+    return next();
+  }
 
   if (userName) {
     return res.status(400).send({ field: 'login', errorType: 'uniqueUser', message: 'Nazwa zajeta' });
   }
 
   // Email
-  const userEmail = await User.findOne({ email: req.body.email });
   if (userEmail) {
     return res.status(400).send({ field: 'email', errorType: 'uniqueEmail', message: 'Email jest zajety' });
   }

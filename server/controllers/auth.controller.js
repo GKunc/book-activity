@@ -2,7 +2,6 @@ const config = require('../config/auth.config');
 const db = require('../models');
 const User = db.user;
 const Role = db.role;
-const { v4: uuidv4 } = require('uuid');
 
 var bcrypt = require('bcryptjs');
 const stripe = require('stripe')(process.env.PAYMENT_API_KEY);
@@ -34,24 +33,32 @@ exports.signup = async (req, res) => {
   const email = req.body.email;
   const username = req.body.username.toLowerCase();
 
-  customerInfo = await stripe.customers.create({
-    email,
-    description: username,
-  });
-
-  const user = new User({
+  let user = await User.findOne({
     username,
     email,
-    password: bcrypt.hashSync(req.body.password, 8),
-    isConfirmed: false,
-    createdAt: new Date(),
-    // payment info
-    billingId: customerInfo.id,
-    paymentEndDate: null,
-    package: 'Free',
-    isTrail: false,
   });
 
+  if (!user) {
+    customerInfo = await stripe.customers.create({
+      email,
+      description: username,
+    });
+
+    user = new User({
+      username,
+      email,
+      password: bcrypt.hashSync(req.body.password, 8),
+      isConfirmed: false,
+      createdAt: new Date(),
+      // payment info
+      billingId: customerInfo.id,
+      paymentEndDate: null,
+      package: 'Free',
+      isTrail: false,
+    });
+  }
+
+  console.log('user', user);
   if (req.body.roles) {
     const roles = await Role.find({ name: { $in: req.body.roles } });
     user.roles = roles.map((role) => role._id);
@@ -82,12 +89,23 @@ exports.signup = async (req, res) => {
 };
 
 exports.signin = async (req, res) => {
-  const user = await User.findOne({
+  let user;
+
+  user = await User.findOne({
     username: req.body.username.toLowerCase(),
     isConfirmed: true,
   })
     .populate('roles', '-__v')
     .exec();
+
+  if (!user) {
+    user = await User.findOne({
+      email: req.body.username.toLowerCase(),
+      isConfirmed: true,
+    })
+      .populate('roles', '-__v')
+      .exec();
+  }
 
   if (!user) {
     return res.status(401).json({ isSuccess: false, message: 'Niepoprawny email lub hasło' });

@@ -53,7 +53,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
           catchError((error) => {
             this.isRefreshing = false;
 
-            if (error.status == '403') {
+            if (error.status == '403' || error.status === '401') {
               this.localStorageService.removeItem(ACCESS_TOKEN);
               this.localStorageService.removeItem(REFRESH_TOKEN);
               this.loginService.signOut();
