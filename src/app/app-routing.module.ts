@@ -41,6 +41,10 @@ const routes: Routes = [
     loadComponent: () => import('./packages/packages.component').then((x) => x.PackagesComponent),
   },
   {
+    path: 'reset-password',
+    loadComponent: () => import('./reset-password/reset-password.component').then((x) => x.ResetPasswordComponent),
+  },
+  {
     path: 'payment-confirmation',
     loadComponent: () =>
       import('./payment/payment-confirmation/payment-confirmation.component').then(

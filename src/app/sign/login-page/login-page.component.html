@@ -31,7 +31,7 @@
 
   <hub-button class="button__full-width" text="Zaloguj się" [isLoading]="isLoading" (click)="signIn()"></hub-button>
   <div>Nie masz konta? <a (click)="switchMode.emit()">Zarejestruj się.</a></div>
-  <div>Zapomniałeś hasła? <a (click)="resetPassword()">Zresetuj hasło.</a></div>
+  <div>Zapomniałeś hasła? <a routerLink="/reset-password">Zresetuj hasło.</a></div>
 </div>
 
 <ng-template #errorDescription let-control>

@@ -20,6 +20,23 @@ const refreshTokenCookieOptions = {
   sameSite: 'lax',
 };
 
+exports.resetPassword = async (req, res) => {
+  console.log('resetPassword', req.body);
+  user = await User.findOne({
+    email: req.body.email,
+  });
+
+  console.log('HASH', bcrypt.hashSync(req.body.newPassword, 8));
+  if (user && bcrypt.compareSync(req.body.oldPassword, user.password)) {
+    user.password = bcrypt.hashSync(req.body.newPassword, 8);
+    console.log('HASH', user.password);
+
+    await user.save();
+    return res.status(200).send({ message: 'Hasło zresetowane' });
+  }
+  return res.status(400).send({ message: 'Stare hasło nieprawidłowe lub email nie istnieje' });
+};
+
 exports.verifyToken = async (req, res) => {
   try {
     return res.status(200).send({ message: 'Sesja przywrocona' });

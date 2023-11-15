@@ -22,6 +22,14 @@ export class AuthenticationService {
     });
   }
 
+  resetPassword(email: string, oldPassword: string, newPassword: string): Observable<any> {
+    return this.http.post<any>('/api/auth/reset-password', {
+      email,
+      oldPassword,
+      newPassword,
+    });
+  }
+
   refreshToken(username: string): Observable<any> {
     return this.http.get(`/api/auth/refresh?username=${username}`);
   }

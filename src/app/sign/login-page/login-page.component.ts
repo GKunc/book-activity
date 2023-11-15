@@ -54,12 +54,6 @@ export class LoginPageComponent implements OnInit {
         );
     }
   }
-
-  resetPassword(): void {
-    console.log('Reset password');
-    // this.authService.sendResetPasswordMail()
-  }
-
   private validateForm(): boolean {
     if (!this.form.valid) {
       Object.values(this.form.controls).forEach((control) => {
