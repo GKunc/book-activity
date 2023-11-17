@@ -1,6 +1,7 @@
 const stripe = require('stripe')(process.env.PAYMENT_API_KEY);
 const db = require('../models');
 const User = require('../models/user.model');
+const Activity = require('../models/activity.model');
 
 const packageToPriceMap = {
   Free: 'price_1O84GEDtchbgKw9RJbLm5f3j',
@@ -90,7 +91,6 @@ exports.listenForSubscriptionEvents = async (req, res) => {
       break;
 
     case 'customer.subscription.updated':
-      console.log('customer.subscription.updated', data);
       user = await User.findOne({ billingId: data.customer });
 
       if (data.plan.id === packageToPriceMap.Starter) {
@@ -124,28 +124,21 @@ exports.listenForSubscriptionEvents = async (req, res) => {
       break;
 
     case 'invoice.paid':
-      console.log('paid', event);
-      // save:
-      // 1) customer
-      // 2) when next payment
-      // 3) update user to allow actions
-      // =====
-      // Continue to provision the subscription as payments continue to be made.
-      // Store the status in your database and check when a user accesses your service.
-      // This approach helps you avoid hitting rate limits.
+      console.log('invoice.paid', event);
+
+      user = await User.findOne({ billingId: data.customer });
+      const active = await Activity.updateMany({ createdBy: user._id }, { $set: { active: true } });
+      console.log('UPDATED paid', active);
+
       break;
     case 'invoice.payment_failed':
       console.log('payment_failed', event);
-      // save:
-      // 1) customer not paid
-      // 2) warning
-      // =====
-      // The payment failed or the customer does not have a valid payment method.
-      // The subscription becomes past_due. Notify your customer and send them to the
-      // customer portal to update their payment information.
+      const user = await User.findOne({ billingId: data.customer });
+      const act2 = await Activity.updateMany({ createdBy: user._id }, { $set: { active: true } });
+      console.log('UPDATE payment_failed', act2);
+
       break;
     default:
-      // Unhandled event type
       console.log(`Unhandled event type ${event.type}`);
   }
 

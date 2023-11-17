@@ -24,6 +24,7 @@ exports.filter = async (req, res) => {
   query['groups.price'] = {};
   query['groups.price'].$gte = body.minPrice ?? 0;
   query['groups.price'].$lte = body.maxPrice ?? 1000;
+  query.active = true;
 
   const skip = (body.page - 1) * body.limit;
   const activity = await Activity.find(query)
@@ -34,7 +35,6 @@ exports.filter = async (req, res) => {
 };
 
 exports.getUserActivities = async (req, res) => {
-  console.log('getUserActivities', req?.query);
   const id = req?.query?.id;
   let query = {};
   if (id) {
@@ -47,7 +47,7 @@ exports.getUserActivities = async (req, res) => {
 
 exports.details = async (req, res) => {
   const id = req.query.id;
-  const activity = await Activity.findOne({ guid: id });
+  const activity = await Activity.findOne({ guid: id, active: true });
   return res.send(JSON.stringify(activity));
 };
 

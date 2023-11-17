@@ -26,7 +26,6 @@ exports.resetPassword = async (req, res) => {
     email: req.body.email,
   });
 
-  console.log('HASH', bcrypt.hashSync(req.body.newPassword, 8));
   if (user && bcrypt.compareSync(req.body.oldPassword, user.password)) {
     user.password = bcrypt.hashSync(req.body.newPassword, 8);
     console.log('HASH', user.password);
