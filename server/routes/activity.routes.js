@@ -7,12 +7,10 @@ module.exports = function (app) {
     return next();
   });
 
-  app.get('/api/activities/details', controller.details);
-
   app.post('/api/activities', [authJwt.verifyToken], controller.insertActivity);
-  app.get('/api/user-activities', [authJwt.verifyToken], controller.getUserActivities);
   app.put('/api/activities', [authJwt.verifyToken], controller.replaceActivity);
   app.delete('/api/activities', [authJwt.verifyToken], controller.deleteActivity);
-
+  app.get('/api/activities/details', controller.details);
   app.post('/api/activities/filter', controller.filter);
+  app.get('/api/activities/:id', [authJwt.verifyToken], controller.getUserActivities);
 };

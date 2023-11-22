@@ -15,6 +15,6 @@ export class PaymentService {
   }
 
   editSubscription(packageId: PackageOption, userId: string): Observable<string> {
-    return this.http.post<string>('/api/payment/edit-subscription', { packageId, userId });
+    return this.http.put<string>('/api/payment/subscription', { packageId, userId });
   }
 }

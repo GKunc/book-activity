@@ -55,15 +55,15 @@ export class ResetPasswordComponent implements OnInit {
           this.form.controls.oldPassword.value,
           this.form.controls.newPassword.value
         )
+        .pipe(finalize(() => (this.isLoading = false)))
         .subscribe(
           () => {
-            this.isLoading = false;
             this.notificationService.success('Pomyślnie zresetowano haslo', '');
             this.router.navigate(['/sign']);
           },
           (e) => {
             this.form.controls['login'].setErrors({ invalidLogin: e });
-            this.notificationService.error('Logowanie', e);
+            this.notificationService.error('Resetowanie hasła nie powiodło się', null);
           }
         );
     }

@@ -6,7 +6,6 @@ import { LocalStorageService } from 'src/app/common/services/local-storage/local
 import { InternalUser, LoginService } from 'src/app/common/services/login-service/login.service';
 import { ModalService } from 'src/app/common/services/modal/modal.service';
 import { ResizeService } from 'src/app/common/services/resize/resize.service';
-import { SignComponent } from 'src/app/sign/sign.component';
 
 @Component({
   selector: 'hub-nav',
@@ -58,11 +57,11 @@ export class NavComponent implements OnInit {
 
   signOut(): void {
     this.loginService.signOut();
+    this.router.navigate(['/sign']);
   }
 
   openLoginScreen(): void {
     this.router.navigate(['sign']);
-    // this.modalService.createModal(SignComponent, 'Login', 440);
   }
 
   openMobileMenu(): void {

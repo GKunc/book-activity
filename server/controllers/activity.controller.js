@@ -35,7 +35,7 @@ exports.filter = async (req, res) => {
 };
 
 exports.getUserActivities = async (req, res) => {
-  const id = req?.query?.id;
+  const id = req?.params?.id;
   let query = {};
   if (id) {
     query.createdBy = id;
