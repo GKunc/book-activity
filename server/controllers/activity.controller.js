@@ -2,7 +2,6 @@ const ActivityService = require('../services/activity.service');
 
 exports.filter = async (req, res) => {
   const activities = await ActivityService.filterActivities(req.body);
-  console.log('Filter activities', activities, ',limit: ', req.body.limit, 'result: ', activities.length);
   return res.send(JSON.stringify(activities));
 };
 
@@ -17,10 +16,7 @@ exports.details = async (req, res) => {
 };
 
 exports.insertActivity = async (req, res) => {
-  console.log('INSERT', req.body);
-
   req.body.active = true;
-  console.log('INSERT after', req.body);
   await ActivityService.createActivity(req.body);
   return res.sendStatus(200);
 };
