@@ -26,11 +26,11 @@ export class ActivitiesService {
   }
 
   getActivityDetails(id: string): Observable<Activity> {
-    return this.http.get<Activity>(`/api/activities/details?id=${id}`);
+    return this.http.get<Activity>(`/api/activity/details?id=${id}`);
   }
 
   insertActivity(activity: Activity): Observable<any> {
-    return this.http.post('/api/activities', activity, { responseType: 'text' });
+    return this.http.post('/api/activity', activity, { responseType: 'text' });
   }
 
   insertPhoto(fileList: FormData): Observable<any> {
@@ -49,10 +49,10 @@ export class ActivitiesService {
   }
 
   deleteActivity(id: string): Observable<any> {
-    return this.http.delete(`/api/activities?id=${id}`, { responseType: 'text' });
+    return this.http.delete(`/api/activity?id=${id}`, { responseType: 'text' });
   }
 
   editActivity(activity: Partial<Activity>): Observable<any> {
-    return this.http.put(`/api/activities?id=${activity.guid}`, activity, { responseType: 'text' });
+    return this.http.put(`/api/activity?id=${activity.guid}`, activity, { responseType: 'text' });
   }
 }
