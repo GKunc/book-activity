@@ -1,6 +1,6 @@
-const { deleteActivity } = require('../controllers/activity.controller');
 const db = require('../models');
 const Activity = db.activity;
+const { MongoClient, GridFSBucket } = require('mongodb');
 
 async function filterActivities(body) {
   let query = {};
@@ -31,14 +31,8 @@ async function filterActivities(body) {
     .limit(body.limit ?? 20);
 }
 
-async function getUserActivities(body) {
-  const id = req?.params?.id;
-  let query = {};
-  if (id) {
-    query.createdBy = id;
-  }
-
-  return Activity.find(query);
+async function getUserActivities(id) {
+  return Activity.find({ createdBy: id });
 }
 
 async function getActivityDetails(id) {
@@ -49,21 +43,11 @@ async function createActivity(data) {
   return Activity.create(data);
 }
 
-async function editActivity(id) {
-  let query = {};
-  if (id) {
-    query.guid = id;
-  }
-
-  return Activity.replaceOne(query, req.body);
+async function editActivity(id, activity) {
+  return Activity.replaceOne({ guid: id }, activity);
 }
 
 async function deleteActivity(id) {
-  let query = {};
-  if (id) {
-    query.guid = id;
-  }
-
   const activity = await Activity.findOne({ guid: id });
   activity.images.forEach((image) => {
     uri = process.env.MANGO_DB_CONNECTION_STRING;

@@ -11,7 +11,6 @@ signJwt = (payload, key, options) => {
 };
 
 verifyToken = (req, res, next) => {
-  console.log('verifyToken', req?.cookies?.access_token);
   let token = req?.cookies?.access_token;
   if (!token) {
     return res.status(403).send({ message: 'No token provided!' });
