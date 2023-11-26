@@ -41,42 +41,6 @@ export function app(): express.Express {
     res.sendFile(resolve(__dirname, 'public', 'service-worker.js'));
   });
 
-  // routes
-  require('./server/routes/auth.routes')(server);
-  require('./server/routes/activity.routes')(server);
-  require('./server/routes/favourite.routes')(server);
-  require('./server/routes/comment.routes')(server);
-  require('./server/routes/mail.routes')(server);
-  require('./server/routes/payments.routes')(server);
-
-  db.mongoose
-    .connect(`${process.env['MANGO_DB_CONNECTION_STRING_PHOTOS']}`)
-    .then(() => {
-      console.log('Successfully connect to MongoDB.');
-      initializeDb();
-    })
-    .catch((err) => {
-      console.error('Connection error', err);
-      process.exit();
-    });
-
-  // Our Universal express-engine (found @ https://github.com/angular/universal/tree/main/modules/express-engine)
-  server.engine(
-    'html',
-    ngExpressEngine({
-      bootstrap: AppServerModule,
-    })
-  );
-
-  server.set('view engine', 'html');
-  server.set('views', distFolder);
-
-  // Example Express Rest API endpoints
-  // server.get('/api/**', (req, res) => { });
-
-  // ========================================================
-  // ========================================================
-  // ========================================================
   server.get('/api/activities/check-permissions', async function (req, res) {
     const uri = process.env['MANGO_DB_CONNECTION_STRING'];
     const query = {};
@@ -126,36 +90,6 @@ export function app(): express.Express {
     }
   });
 
-  server.get('/api/activities/photos', function (req, res) {
-    const id = req.query['id'];
-    const uri = process.env['MANGO_DB_CONNECTION_STRING'];
-    const client = new MongoClient(uri);
-    try {
-      const database = client.db('edds');
-      const bucket = new GridFSBucket(database, {
-        bucketName: 'photos',
-      });
-
-      const downloadStream = bucket.openDownloadStreamByName(id as string);
-
-      downloadStream.on('data', function (data) {
-        return res.status(200).write(data);
-      });
-
-      downloadStream.on('error', function (err) {
-        return res.status(404).send({ message: 'Cannot download the Image!' + err });
-      });
-
-      downloadStream.on('end', () => {
-        return res.end();
-      });
-    } catch (error) {
-      return res.status(500).send({
-        message: error.message,
-      });
-    }
-  });
-
   server.delete('/api/activities/photos', async function (req, res) {
     const id = req.query['id'];
     const uri = process.env['MANGO_DB_CONNECTION_STRING'];
@@ -178,6 +112,76 @@ export function app(): express.Express {
       });
     }
   });
+
+  server.get('/api/activities/photos', async function (req, res) {
+    console.log('GET PHOTOS');
+    const id = req.query['id'];
+    const uri = process.env['MANGO_DB_CONNECTION_STRING'];
+    const client = new MongoClient(uri);
+    try {
+      const database = client.db('edds');
+      const bucket = new GridFSBucket(database, {
+        bucketName: 'photos',
+      });
+
+      const downloadStream = bucket.openDownloadStreamByName(id as string);
+
+      downloadStream.on('data', function (data) {
+        console.log('GET DATA', data);
+        return res.status(200).write(data);
+      });
+
+      downloadStream.on('error', function (err) {
+        return res.status(404).send({ message: 'Cannot download the Image!' + err });
+      });
+
+      downloadStream.on('end', () => {
+        return res.end();
+      });
+    } catch (error) {
+      console.log('GET PHOTOS Error');
+      return res.status(500).send({
+        message: error.message,
+      });
+    }
+  });
+
+  // routes
+  require('./server/routes/auth.routes')(server);
+  require('./server/routes/activity.routes')(server);
+  require('./server/routes/favourite.routes')(server);
+  require('./server/routes/comment.routes')(server);
+  require('./server/routes/mail.routes')(server);
+  require('./server/routes/payments.routes')(server);
+
+  db.mongoose
+    .connect(`${process.env['MANGO_DB_CONNECTION_STRING_PHOTOS']}`)
+    .then(() => {
+      console.log('Successfully connected to MongoDB.', process.env['MANGO_DB_CONNECTION_STRING_PHOTOS']);
+      initializeDb();
+    })
+    .catch((err) => {
+      console.error('Connection error', err);
+      process.exit();
+    });
+
+  // Our Universal express-engine (found @ https://github.com/angular/universal/tree/main/modules/express-engine)
+  server.engine(
+    'html',
+    ngExpressEngine({
+      bootstrap: AppServerModule,
+    })
+  );
+
+  server.set('view engine', 'html');
+  server.set('views', distFolder);
+
+  // Example Express Rest API endpoints
+  // server.get('/api/**', (req, res) => { });
+
+  // ========================================================
+  // ========================================================
+  // ========================================================
 
   // Serve static files from /browser
   server.get(
