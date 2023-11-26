@@ -50,10 +50,7 @@ export function app(): express.Express {
   require('./server/routes/payments.routes')(server);
 
   db.mongoose
-    .connect(`${process.env['MANGO_DB_CONNECTION_STRING_PHOTOS']}`, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    })
+    .connect(`${process.env['MANGO_DB_CONNECTION_STRING_PHOTOS']}`)
     .then(() => {
       console.log('Successfully connect to MongoDB.');
       initializeDb();
