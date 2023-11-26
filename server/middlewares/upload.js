@@ -4,9 +4,9 @@ const { GridFsStorage } = require('multer-gridfs-storage');
 
 var storage = new GridFsStorage({
   url: process.env.MANGO_DB_CONNECTION_STRING_PHOTOS,
+  options: { useNewUrlParser: true, useUnifiedTopology: true },
   file: (req, file) => {
     const match = ['image/png', 'image/jpeg'];
-    console.log('filename: ', file.originalname);
     if (match.indexOf(file.mimetype) === -1) {
       const filename = `${file.originalname}`;
       return filename;

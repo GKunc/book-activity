@@ -11,8 +11,7 @@ import { AppServerModule } from './src/main.server';
 import 'localstorage-polyfill';
 global.localStorage; // now has your in memory localStorage
 
-import { MongoClient, GridFSBucket } from 'mongodb';
-import * as uploadFilesMiddleware from './upload';
+import { MongoClient } from 'mongodb';
 import * as cookieParser from 'cookie-parser';
 import * as cors from 'cors';
 import * as compression from 'compression';
@@ -68,85 +67,8 @@ export function app(): express.Express {
     }
   });
 
-  server.post('/api/activities/photos', async function (req, res) {
-    try {
-      await uploadFilesMiddleware(req, res);
-
-      if (req['file'] == undefined) {
-        return res.send({
-          message: 'You must select a file.',
-        });
-      }
-
-      return res.send({
-        message: 'File has been uploaded.',
-      });
-    } catch (error) {
-      console.log(error);
-
-      return res.send({
-        message: 'Error when trying upload image: ${error}',
-      });
-    }
-  });
-
-  server.delete('/api/activities/photos', async function (req, res) {
-    const id = req.query['id'];
-    const uri = process.env['MANGO_DB_CONNECTION_STRING'];
-    const client = new MongoClient(uri);
-    try {
-      const database = client.db('edds');
-      const bucket = new GridFSBucket(database, {
-        bucketName: 'photos',
-      });
-
-      const image = bucket.find({ filename: id });
-      image.forEach((doc) => {
-        bucket.delete(doc._id);
-      });
-
-      return res.status(200);
-    } catch (error) {
-      return res.status(500).send({
-        message: error.message,
-      });
-    }
-  });
-
-  server.get('/api/activities/photos', async function (req, res) {
-    console.log('GET PHOTOS');
-    const id = req.query['id'];
-    const uri = process.env['MANGO_DB_CONNECTION_STRING'];
-    const client = new MongoClient(uri);
-    try {
-      const database = client.db('edds');
-      const bucket = new GridFSBucket(database, {
-        bucketName: 'photos',
-      });
-
-      const downloadStream = bucket.openDownloadStreamByName(id as string);
-
-      downloadStream.on('data', function (data) {
-        console.log('GET DATA', data);
-        return res.status(200).write(data);
-      });
-
-      downloadStream.on('error', function (err) {
-        return res.status(404).send({ message: 'Cannot download the Image!' + err });
-      });
-
-      downloadStream.on('end', () => {
-        return res.end();
-      });
-    } catch (error) {
-      console.log('GET PHOTOS Error');
-      return res.status(500).send({
-        message: error.message,
-      });
-    }
-  });
-
   // routes
+  require('./server/routes/photo.routes')(server);
   require('./server/routes/auth.routes')(server);
   require('./server/routes/activity.routes')(server);
   require('./server/routes/favourite.routes')(server);
