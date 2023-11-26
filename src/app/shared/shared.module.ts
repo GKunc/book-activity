@@ -36,6 +36,7 @@ import { NzRateModule } from 'ng-zorro-antd/rate';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SafeUrlPipe } from '../common/pipes/safe-url.pipe';
@@ -104,6 +105,7 @@ import { AllowCookiesComponent } from './allow-cookies/allow-cookies.component';
     NzProgressModule,
     NzSwitchModule,
     NzTabsModule,
+    NzAlertModule,
 
     ReactiveFormsModule,
     FormsModule,
@@ -158,6 +160,7 @@ import { AllowCookiesComponent } from './allow-cookies/allow-cookies.component';
     NzProgressModule,
     NzSwitchModule,
     NzTabsModule,
+    NzAlertModule,
 
     ReactiveFormsModule,
     FormsModule,

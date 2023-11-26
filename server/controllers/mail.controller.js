@@ -3,7 +3,7 @@ const templates = require('../assets/email-template.js');
 const db = require('../models');
 const User = db.user;
 
-exports.sendConfirmationEmail = async (req) => {
+exports.sendConfirmationEmail = async (req, res) => {
   const userId = req.userId;
   const confirmationSecret = req.confirmationSecret;
 

@@ -1,5 +1,4 @@
 const stripe = require('stripe')(process.env.PAYMENT_API_KEY);
-const db = require('../models');
 const User = require('../models/user.model');
 const Activity = require('../models/activity.model');
 
@@ -24,8 +23,6 @@ exports.editSubscription = async (req, res) => {
 };
 
 exports.createSubscription = async (req, res) => {
-  console.log('createSubscription', req.body.packageId);
-  console.log('createSubscription', req.headers);
   const packageId = req.body.packageId;
   const user = await User.findOne({ _id: req.body.userId });
 
@@ -125,7 +122,6 @@ exports.listenForSubscriptionEvents = async (req, res) => {
 
     case 'invoice.paid':
       console.log('invoice.paid', event);
-
       user = await User.findOne({ billingId: data.customer });
       const active = await Activity.updateMany({ createdBy: user._id }, { $set: { active: true } });
       console.log('UPDATED paid', active);

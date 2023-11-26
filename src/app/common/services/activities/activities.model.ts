@@ -5,6 +5,7 @@ import { PaymentPeriod } from '../../consts/pay-options.consts';
 
 export interface Activity {
   guid: string;
+  active: boolean;
   createdBy: string;
   coverPhoto: string;
   images: string[];

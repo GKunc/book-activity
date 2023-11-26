@@ -5,8 +5,9 @@ import { distinctUntilChanged, of } from 'rxjs';
 import { AddActivityComponent } from '../add-activity/add-activity.component';
 import { Activity } from '../common/services/activities/activities.model';
 import { ActivitiesService } from '../common/services/activities/activities.service';
-import { LoginService } from '../common/services/login-service/login.service';
+import { InternalUser, LoginService } from '../common/services/login-service/login.service';
 import { ModalService } from '../common/services/modal/modal.service';
+import { Package } from '../profile/profile.models';
 import { DeleteModalComponent } from './delete-modal/delete-modal.component';
 
 @Component({
@@ -21,6 +22,8 @@ export class YourActivitiesComponent implements OnInit {
   noData: boolean;
   userLogged = false;
   limitNumberOfActivities: number = 2;
+  FreePackage: Package = Package.Free;
+  user: InternalUser;
 
   constructor(
     private activitiesService: ActivitiesService,
@@ -31,6 +34,7 @@ export class YourActivitiesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserActivities();
+
     this.loginService._user$.pipe(distinctUntilChanged()).subscribe((user) => {
       if (user) {
         this.userLogged = true;
@@ -80,7 +84,7 @@ export class YourActivitiesComponent implements OnInit {
     const user = this.loginService.user;
 
     if (user) {
-      this.activitiesService.getUserActivities(user?.id).subscribe(
+      this.activitiesService.getUserActivities(user.id).subscribe(
         (data) => {
           this.error = false;
           this.activities = data;
@@ -114,4 +118,7 @@ export class YourActivitiesComponent implements OnInit {
   private isMobile(): boolean {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   }
+}
+function jwt_decode(access_token: any): InternalUser {
+  throw new Error('Function not implemented.');
 }

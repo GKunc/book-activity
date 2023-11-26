@@ -68,7 +68,7 @@ signTokenShort = async (user) => {
 signToken = async (user) => {
   // Sign the access token
   const access_token = signJwt(
-    { id: user._id, username: user.username.toLowerCase(), email: user.email },
+    { id: user._id, username: user.username.toLowerCase(), email: user.email, package: user.package },
     'auth_private_token',
     {
       expiresIn: `${Number(config.accessTokenExpiresIn)}m`,
@@ -77,7 +77,7 @@ signToken = async (user) => {
 
   // Sign the refresh token
   const refresh_token = signJwt(
-    { id: user._id, username: user.username.toLowerCase(), email: user.email },
+    { id: user._id, username: user.username.toLowerCase(), email: user.email, package: user.package },
     'refresh_private_token',
     {
       expiresIn: `${Number(config.refreshTokenExpiresIn)}m`,

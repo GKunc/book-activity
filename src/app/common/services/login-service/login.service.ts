@@ -48,6 +48,7 @@ export class LoginService {
           this.localStorageService.setItem(REFRESH_TOKEN, refresh_token);
 
           const loggedUser: InternalUser = jwt_decode(access_token);
+          console.log(loggedUser);
           this.loggedUser = loggedUser;
           this._user$.next(loggedUser);
           // get favourites
@@ -78,6 +79,7 @@ export class LoginService {
       this.loggedUser = null;
       this._user$.next(null);
     } catch (e) {
+      console.error(e);
     } finally {
       this.localStorageService.removeItem(ACCESS_TOKEN);
       this.localStorageService.removeItem(REFRESH_TOKEN);
