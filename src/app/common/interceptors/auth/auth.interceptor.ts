@@ -7,6 +7,7 @@ import { ModalService } from '../../services/modal/modal.service';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../../consts/local-storage.consts';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { LocalStorageService } from '../../services/local-storage/local-storage.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
@@ -16,7 +17,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
   private loginService: LoginService;
   private localStorageService: LocalStorageService;
 
-  constructor(private injector: Injector) {}
+  constructor(private injector: Injector, private router: Router) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.authService = this.injector.get(AuthenticationService);
@@ -58,6 +59,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
               this.localStorageService.removeItem(REFRESH_TOKEN);
               this.loginService.signOut();
               this.modalService.closeAll();
+              this.router.navigate(['/not-authorized']);
               return;
             }
 

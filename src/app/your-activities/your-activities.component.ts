@@ -119,6 +119,3 @@ export class YourActivitiesComponent implements OnInit {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   }
 }
-function jwt_decode(access_token: any): InternalUser {
-  throw new Error('Function not implemented.');
-}
