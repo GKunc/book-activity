@@ -63,6 +63,10 @@ async function deleteActivity(id) {
 
   return Activity.deleteOne(query);
 }
+
+async function getActivityCreatedBByUser(guid, userId) {
+  return Activity.findOne({ guid, userId });
+}
 const ActivityService = {
   filterActivities,
   getUserActivities,
@@ -70,6 +74,7 @@ const ActivityService = {
   createActivity,
   editActivity,
   deleteActivity,
+  getActivityCreatedBByUser,
 };
 
 module.exports = ActivityService;

@@ -13,5 +13,6 @@ module.exports = function (app) {
   app.get('/api/activity/details', controller.details);
 
   app.post('/api/activities/filter', controller.filter);
-  app.get('/api/activities/:id', [authJwt.verifyToken], controller.getUserActivities);
+  app.get('/api/activity/:id', [authJwt.verifyToken], controller.getUserActivities);
+  server.get('/api/activities/check-permissions', controller.checkPermissions);
 };

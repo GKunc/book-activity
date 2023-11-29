@@ -11,7 +11,6 @@ import { AppServerModule } from './src/main.server';
 import 'localstorage-polyfill';
 global.localStorage; // now has your in memory localStorage
 
-import { MongoClient } from 'mongodb';
 import * as cookieParser from 'cookie-parser';
 import * as cors from 'cors';
 import * as compression from 'compression';
@@ -38,33 +37,6 @@ export function app(): express.Express {
 
   server.get('/service-worker.js', (req, res) => {
     res.sendFile(resolve(__dirname, 'public', 'service-worker.js'));
-  });
-
-  server.get('/api/activities/check-permissions', async function (req, res) {
-    const uri = process.env['MANGO_DB_CONNECTION_STRING'];
-    const query = {};
-    const guid = req.query['guid'];
-    const userId = req.query['userId'];
-
-    if (guid) {
-      query['guid'] = req.query['guid'];
-    }
-
-    const client = new MongoClient(uri);
-    try {
-      const database = client.db('edds');
-      const activities = database.collection('activities');
-      const result = await activities.findOne(query);
-      if (result['createdBy'] === userId) {
-        console.log('Permission granted.');
-        return res.status(200).send('OK');
-      } else {
-        console.log('No permission.');
-        return res.status(401).json({ error: 'No permission' });
-      }
-    } finally {
-      await client.close();
-    }
   });
 
   // routes
