@@ -17,6 +17,7 @@ import * as compression from 'compression';
 
 const db = require('./server/models');
 const initializeDb = require('./server/setup/initializeDb');
+const initializeDevDb = require('./server/setup/initializeDevDb');
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
@@ -52,7 +53,11 @@ export function app(): express.Express {
     .connect(`${process.env['MANGO_DB_CONNECTION_STRING_PHOTOS']}`)
     .then(() => {
       console.log('Successfully connected to MongoDB.', process.env['MANGO_DB_CONNECTION_STRING_PHOTOS']);
+      console.log('Production:', process.env['production']);
       initializeDb();
+      if (Boolean(process.env['production']) === false) {
+        initializeDevDb();
+      }
     })
     .catch((err) => {
       console.error('Connection error', err);

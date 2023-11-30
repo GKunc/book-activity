@@ -1,4 +1,4 @@
-exports.HTML_TEMPLATE = (redirectUrl) => {
+exports.HTML_TEMPLATE = () => {
   return `
     <!DOCTYPE html>
 <html>
@@ -62,7 +62,7 @@ exports.HTML_TEMPLATE = (redirectUrl) => {
           <div>Potwierdz adres email i zacznij korzystac ze swojego konta</div>
           <br />
           <div>
-            <a class="button" target="_blank" href="${redirectUrl}">Potwierdz</a>
+            <a class="button" target="_blank" href="/">Potwierdz</a>
           </div>
         </div>
       </div>

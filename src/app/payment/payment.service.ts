@@ -10,7 +10,6 @@ export class PaymentService {
   constructor(private http: HttpClient) {}
 
   createSubscription(packageId: PackageOption, userId: string): Observable<string> {
-    console.log('createSubscription');
     return this.http.post<string>('/api/payment/subscription', { packageId, userId });
   }
 
