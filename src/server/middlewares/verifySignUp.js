@@ -14,8 +14,6 @@ checkDuplicateUsernameOrEmail = async (req, res, next) => {
     email: req.body.email,
   });
 
-  const passwordMatch = bcrypt.compareSync(req.body.password, user.password);
-
   if (userName && userEmail && passwordMatch) {
     return next();
   }
@@ -28,6 +26,12 @@ checkDuplicateUsernameOrEmail = async (req, res, next) => {
   if (userEmail) {
     return res.status(400).send({ field: 'email', errorType: 'uniqueEmail', message: 'Email jest zajety' });
   }
+
+  if (user) {
+    const passwordMatch = bcrypt.compareSync(req.body.password, user?.password);
+  }
+
+  console.log(req.body, user?.password);
   return next();
 };
 

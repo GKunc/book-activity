@@ -1,5 +1,7 @@
 const User = require('../models/user.model');
 const Role = require('../models/role.model');
+const Package = require('../models/package.model');
+
 const bcrypt = require('bcryptjs');
 const stripe = require('stripe')(process.env.PAYMENT_API_KEY);
 
@@ -120,6 +122,44 @@ async function initializeDevDb() {
       trailEnds: null,
       package: 'Premium',
       roles: [userRole],
+    }).save();
+  }
+
+  const roles = await Role.find({});
+  if (roles && roles.length === 0) {
+    new Role({
+      name: 'user',
+    }).save();
+
+    new Role({
+      name: 'moderator',
+    }).save();
+
+    new Role({
+      name: 'admin',
+    }).save();
+  }
+
+  const packages = await Package.find({});
+  if (packages && packages.length === 0) {
+    await new Package({
+      name: 'Free',
+      priceId: 'price_1O84GEDtchbgKw9RJbLm5f3j',
+    }).save();
+
+    await new Package({
+      name: 'Starter',
+      priceId: 'price_1NP402DtchbgKw9Rp2ThXcZh',
+    }).save();
+
+    await new Package({
+      name: 'Standard',
+      priceId: 'price_1NP41JDtchbgKw9RXRjncKgY',
+    }).save();
+
+    await new Package({
+      name: 'Premium',
+      priceId: 'price_1NP41gDtchbgKw9RMFIE58uF',
     }).save();
   }
 }

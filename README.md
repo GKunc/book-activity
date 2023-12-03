@@ -8,4 +8,8 @@
       - setup env variables `. ./src/environments/set-env.dev.sh`
 
    2. Start app
+
       - npm run start
+
+   3. Start stripe webhook
+      - stripe listen --forward-to localhost:4000/api/payment/webhook

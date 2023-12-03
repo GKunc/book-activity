@@ -24,25 +24,25 @@ async function initializeDb() {
     new Package({
       id: 0,
       name: 'Free',
-      priceId: 'price_1O84GEDtchbgKw9RJbLm5f3j',
+      priceId: 'price_1O84GJDtchbgKw9Rs0kHI7aI',
     }).save();
 
     new Package({
       id: 1,
       name: 'Starter',
-      priceId: 'price_1NP402DtchbgKw9Rp2ThXcZh',
+      priceId: 'price_1OIwm2DtchbgKw9RoKsBeVcC',
     }).save();
 
     new Package({
       id: 2,
       name: 'Standard',
-      priceId: 'price_1NP41JDtchbgKw9RXRjncKgY',
+      priceId: 'price_1OIwlwDtchbgKw9RhRXFBYNa',
     }).save();
 
     new Package({
       id: 3,
       name: 'Premium',
-      priceId: 'price_1NP41gDtchbgKw9RMFIE58uF',
+      priceId: 'price_1OIwloDtchbgKw9RNwv0E1nx',
     }).save();
   }
 }

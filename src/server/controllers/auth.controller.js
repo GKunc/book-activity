@@ -48,7 +48,7 @@ exports.verifyToken = async (req, res) => {
 exports.signup = async (req, res) => {
   const email = req.body.email;
   const username = req.body.username.toLowerCase();
-
+  console.log('body', req.body);
   let user = await User.findOne({
     username,
     email,

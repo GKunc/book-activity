@@ -15,9 +15,9 @@ import * as cookieParser from 'cookie-parser';
 import * as cors from 'cors';
 import * as compression from 'compression';
 
-const db = require('./server/models');
-const initializeDb = require('./server/setup/initializeDb');
-const initializeDevDb = require('./server/setup/initializeDevDb');
+const db = require('./src/server/models');
+const initializeDb = require('./src/server/setup/initializeDb');
+const initializeDevDb = require('./src/server/setup/initializeDevDb');
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
@@ -41,21 +41,22 @@ export function app(): express.Express {
   });
 
   // routes
-  require('./server/routes/photo.routes')(server);
-  require('./server/routes/auth.routes')(server);
-  require('./server/routes/activity.routes')(server);
-  require('./server/routes/favourite.routes')(server);
-  require('./server/routes/comment.routes')(server);
-  require('./server/routes/mail.routes')(server);
-  require('./server/routes/payments.routes')(server);
+  require('./src/server/routes/photo.routes')(server);
+  require('./src/server/routes/auth.routes')(server);
+  require('./src/server/routes/activity.routes')(server);
+  require('./src/server/routes/favourite.routes')(server);
+  require('./src/server/routes/comment.routes')(server);
+  require('./src/server/routes/mail.routes')(server);
+  require('./src/server/routes/payments.routes')(server);
 
   db.mongoose
     .connect(`${process.env['MANGO_DB_CONNECTION_STRING_PHOTOS']}`)
     .then(() => {
       console.log('Successfully connected to MongoDB.', process.env['MANGO_DB_CONNECTION_STRING_PHOTOS']);
       console.log('Production:', process.env['production']);
-      initializeDb();
-      if (Boolean(process.env['production']) === false) {
+      if (Boolean(process.env['production']) === true) {
+        initializeDb();
+      } else {
         initializeDevDb();
       }
     })
