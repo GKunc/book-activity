@@ -21,15 +21,12 @@ const refreshTokenCookieOptions = {
 };
 
 exports.resetPassword = async (req, res) => {
-  console.log('resetPassword', req.body);
   user = await User.findOne({
     email: req.body.email,
   });
 
   if (user && bcrypt.compareSync(req.body.oldPassword, user.password)) {
     user.password = bcrypt.hashSync(req.body.newPassword, 8);
-    console.log('HASH', user.password);
-
     await user.save();
     return res.status(200).send({ message: 'Hasło zresetowane' });
   }
@@ -48,7 +45,6 @@ exports.verifyToken = async (req, res) => {
 exports.signup = async (req, res) => {
   const email = req.body.email;
   const username = req.body.username.toLowerCase();
-  console.log('body', req.body);
   let user = await User.findOne({
     username,
     email,
@@ -74,7 +70,6 @@ exports.signup = async (req, res) => {
     });
   }
 
-  console.log('user', user);
   if (req.body.roles) {
     const roles = await Role.find({ name: { $in: req.body.roles } });
     user.roles = roles.map((role) => role._id);

@@ -44,7 +44,6 @@ export class NavComponent implements OnInit {
 
     this.dictionaryService.getDictionary('categories').subscribe((categories) => {
       this.categoriesOptions = categories;
-      console.log('CATEGORIES', categories);
     });
   }
 

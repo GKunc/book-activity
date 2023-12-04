@@ -16,7 +16,6 @@ async function editSubscription(userId) {
 async function createSubscription(userId, packageId) {
   const user = await User.findOne({ _id: userId });
   const package = await Package.findOne({ name: packageId });
-  console.log('package', package);
   return stripe.checkout.sessions.create({
     customer: user.billingId,
     mode: 'subscription',

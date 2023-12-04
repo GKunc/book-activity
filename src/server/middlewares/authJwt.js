@@ -21,7 +21,6 @@ verifyToken = (req, res, next) => {
     jwt.verify(token, publicKey);
     next();
   } catch (error) {
-    console.log('error', error);
     return res.status(401).send({ message: 'Unauthorized!' });
   }
 };
@@ -37,7 +36,6 @@ verifyRefreshToken = (req, res, next) => {
     const publicKey = Buffer.from(config.refresh_public_token, 'base64').toString('ascii');
     return jwt.verify(token, publicKey);
   } catch (error) {
-    console.log('error', error);
     return null;
   }
 };
