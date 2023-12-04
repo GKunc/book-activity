@@ -1,17 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  BehaviorSubject,
-  catchError,
-  filter,
-  map,
-  mergeMap,
-  Observable,
-  of,
-  switchMap,
-  take,
-  tap,
-  withLatestFrom,
-} from 'rxjs';
+import { BehaviorSubject, catchError, filter, map, mergeMap, Observable, of, take } from 'rxjs';
 import { AuthenticationService } from './common/services/authentication/authentication.service';
 import { LoginService } from './common/services/login-service/login.service';
 
@@ -31,12 +19,11 @@ export class AppInitializer {
   }
 
   load(): Observable<boolean> {
-    console.log('APP_INITIALIZER');
     return this.configReady$.pipe(
       filter((_) => _),
       mergeMap(() => this.authService.refreshToken(this.loginService.user.username)),
       map(() => true),
-      catchError((e) => {
+      catchError(() => {
         return of<boolean>(false);
       }),
       take(1)

@@ -1,6 +1,7 @@
 const User = require('../models/user.model');
 const Role = require('../models/role.model');
 const Package = require('../models/package.model');
+const Category = require('../models/category.model');
 
 const bcrypt = require('bcryptjs');
 const stripe = require('stripe')(process.env.PAYMENT_API_KEY);
@@ -160,6 +161,34 @@ async function initializeDevDb() {
     await new Package({
       name: 'Premium',
       priceId: 'price_1NP41gDtchbgKw9RMFIE58uF',
+    }).save();
+  }
+
+  const categories = await Category.find({});
+  if (categories && categories.length === 0) {
+    await new Category({
+      id: 0,
+      name: 'Lekkoatletyka',
+    }).save();
+
+    await new Category({
+      id: 1,
+      name: 'Pływanie',
+    }).save();
+
+    await new Category({
+      id: 2,
+      name: 'Piłka nożna',
+    }).save();
+
+    await new Category({
+      id: 3,
+      name: 'Gimnastyka',
+    }).save();
+
+    await new Category({
+      id: 4,
+      name: 'Zajęcia ogólnorozwojowe',
     }).save();
   }
 }

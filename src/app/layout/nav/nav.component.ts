@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ACTIVITY_CATEGORIES, Category } from 'src/app/common/consts/category.consts';
+import { Category } from 'src/app/common/consts/category.consts';
 import { ACTIVITY_FILTERS } from 'src/app/common/consts/local-storage.consts';
+import { DictionaryService } from 'src/app/common/services/dictionary/dictionary.service';
 import { LocalStorageService } from 'src/app/common/services/local-storage/local-storage.service';
 import { InternalUser, LoginService } from 'src/app/common/services/login-service/login.service';
 import { ModalService } from 'src/app/common/services/modal/modal.service';
@@ -19,7 +20,7 @@ export class NavComponent implements OnInit {
   userInitials: string;
   categories: Category[];
 
-  categoriesOptions: { value: Category; label: string }[] = ACTIVITY_CATEGORIES;
+  categoriesOptions: { value: Category; label: string }[];
 
   phrase = '';
 
@@ -28,7 +29,8 @@ export class NavComponent implements OnInit {
     public resizeService: ResizeService,
     private modalService: ModalService,
     private router: Router,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private dictionaryService: DictionaryService
   ) {}
 
   ngOnInit(): void {
@@ -38,6 +40,11 @@ export class NavComponent implements OnInit {
         this.userInitials = this.user.username.charAt(0).toUpperCase();
         this.modalService.close();
       }
+    });
+
+    this.dictionaryService.getDictionary('categories').subscribe((categories) => {
+      this.categoriesOptions = categories;
+      console.log('CATEGORIES', categories);
     });
   }
 

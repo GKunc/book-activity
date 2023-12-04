@@ -1,7 +1,6 @@
-const db = require('../models');
-
-const Role = db.role;
-const Package = db.package;
+const Role = require('../models/role.model');
+const Category = require('../models/category.model');
+const Package = require('../models/package.model');
 
 async function initializeDb() {
   const roles = await Role.find({});
@@ -43,6 +42,34 @@ async function initializeDb() {
       id: 3,
       name: 'Premium',
       priceId: 'price_1OIwloDtchbgKw9RNwv0E1nx',
+    }).save();
+  }
+
+  const categories = await Category.find({});
+  if (categories && categories.length === 0) {
+    await new Category({
+      id: 0,
+      name: 'Lekkoatletyka',
+    }).save();
+
+    await new Category({
+      id: 1,
+      name: 'Pływanie',
+    }).save();
+
+    await new Category({
+      id: 2,
+      name: 'Piłka nożna',
+    }).save();
+
+    await new Category({
+      id: 3,
+      name: 'Gimnastyka',
+    }).save();
+
+    await new Category({
+      id: 4,
+      name: 'Zajęcia ogólnorozwojowe',
     }).save();
   }
 }

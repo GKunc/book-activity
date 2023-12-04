@@ -1,8 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { debounceTime, Subject } from 'rxjs';
-import { ACTIVITY_CATEGORIES, Category } from 'src/app/common/consts/category.consts';
+import { Category } from 'src/app/common/consts/category.consts';
 import { ACTIVITY_FILTERS } from 'src/app/common/consts/local-storage.consts';
 import { WeekDay, WEEK_DAYS } from 'src/app/common/consts/week-days.consts';
+import { DictionaryService } from 'src/app/common/services/dictionary/dictionary.service';
 import { LocalStorageService } from 'src/app/common/services/local-storage/local-storage.service';
 import { ResizeService } from 'src/app/common/services/resize/resize.service';
 import { ActivityFilters, ViewType } from './activity-filters.model';
@@ -26,7 +27,7 @@ export class ActivityFiltersComponent implements OnInit {
   minPrice$: Subject<number> = new Subject();
   maxPrice$: Subject<number> = new Subject();
 
-  acitivyCategories: { value: Category; label: string }[] = ACTIVITY_CATEGORIES;
+  acitivyCategories: { value: Category; label: string }[];
   weekDaysOptions: { value: WeekDay; label: string }[] = WEEK_DAYS;
 
   phrase: string;
@@ -44,9 +45,17 @@ export class ActivityFiltersComponent implements OnInit {
     { label: 'Mapa', value: ViewType.Map, icon: 'environment' },
   ];
 
-  constructor(private localStorageService: LocalStorageService, public resizeService: ResizeService) {}
+  constructor(
+    private dictionaryService: DictionaryService,
+    private localStorageService: LocalStorageService,
+    public resizeService: ResizeService
+  ) {}
 
   ngOnInit(): void {
+    this.dictionaryService.getDictionary('categories').subscribe((categories) => {
+      this.acitivyCategories = categories;
+    });
+
     const filters = this.localStorageService.getItem<ActivityFilters>(ACTIVITY_FILTERS);
     if (filters) {
       this.phrase = filters.phrase;

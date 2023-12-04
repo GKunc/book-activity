@@ -1,8 +1,9 @@
 import { WeekDay } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Activity } from 'src/app/common/services/activities/activities.model';
-import { ACTIVITY_CATEGORIES, Category } from '../../common/consts/category.consts';
+import { DictionaryService } from 'src/app/common/services/dictionary/dictionary.service';
+import { Category } from '../../common/consts/category.consts';
 import { WEEK_DAYS } from '../../common/consts/week-days.consts';
 
 @Component({
@@ -16,8 +17,10 @@ export class ActivityDataFormComponent implements OnInit {
   @Output()
   formSubmitted: EventEmitter<Partial<Activity>> = new EventEmitter<Partial<Activity>>();
 
+  dictionaryService: DictionaryService = inject(DictionaryService);
+
   weekDaysOptions: { value: WeekDay; label: string }[] = WEEK_DAYS;
-  acitivyCategories: { value: Category; label: string }[] = ACTIVITY_CATEGORIES;
+  acitivyCategories: { value: Category; label: string }[];
 
   form = new FormGroup({
     name: new FormControl<string>('', Validators.required),
@@ -30,6 +33,10 @@ export class ActivityDataFormComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.dictionaryService.getDictionary('categories').subscribe((categories) => {
+      this.acitivyCategories = categories;
+    });
+
     if (this.activity?.name) {
       this.form.controls.name.setValue(this.activity.name);
       this.form.controls.category.setValue(this.activity.category);
