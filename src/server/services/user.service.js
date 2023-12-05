@@ -1,11 +1,21 @@
 const User = require('../models/user.model');
 
-async function getUser(mail) {
-  return User.findOne({ mail });
+async function getUserByEmail(email) {
+  return User.findOne({ email });
+}
+
+async function getUserById(_id) {
+  return await User.findOne({ _id });
+}
+
+async function deleteUserById(_id) {
+  return await User.deleteOne({ _id });
 }
 
 const UserService = {
-  getUser,
+  getUserByEmail,
+  getUserById,
+  deleteUserById,
 };
 
 module.exports = UserService;

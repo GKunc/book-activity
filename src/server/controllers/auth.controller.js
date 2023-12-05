@@ -5,6 +5,7 @@ const Role = db.role;
 
 var bcrypt = require('bcryptjs');
 const stripe = require('stripe')(process.env.PAYMENT_API_KEY);
+const AuthService = require('../services/auth.service');
 
 const accessTokenCookieOptions = {
   expires: new Date(Date.now() + Number(config.accessTokenExpiresIn) * 60 * 1000),
@@ -21,13 +22,9 @@ const refreshTokenCookieOptions = {
 };
 
 exports.resetPassword = async (req, res) => {
-  user = await User.findOne({
-    email: req.body.email,
-  });
+  const result = await AuthService.resetPassword(req.body.email, req.body.oldPassword, req.body.newPassword);
 
-  if (user && bcrypt.compareSync(req.body.oldPassword, user.password)) {
-    user.password = bcrypt.hashSync(req.body.newPassword, 8);
-    await user.save();
+  if (result) {
     return res.status(200).send({ message: 'Hasło zresetowane' });
   }
   return res.status(400).send({ message: 'Stare hasło nieprawidłowe lub email nie istnieje' });
@@ -37,7 +34,6 @@ exports.verifyToken = async (req, res) => {
   try {
     return res.status(200).send({ message: 'Sesja przywrocona' });
   } catch (e) {
-    // no token
     return res.status(503).send({ message: 'Nie mozna odnowic sesji' });
   }
 };
@@ -122,14 +118,6 @@ exports.signin = async (req, res) => {
     return res.status(401).json({ isSuccess: false, message: 'Niepoprawny email lub hasło' });
   }
 
-  if (!req.body.googleLogin) {
-    const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
-
-    if (!passwordIsValid) {
-      return res.status(401).send({ isSuccess: false, message: 'Niepoprawny email lub hasło' });
-    }
-  }
-
   const { access_token, refresh_token } = await signToken(user);
 
   const authorities = [];
@@ -207,43 +195,6 @@ exports.refreshAccessToken = async (req, res, next) => {
     res.status(200).json({
       access_token,
     });
-  } catch (err) {
-    return next(err);
-  }
-};
-
-exports.getUser = async (req, res, next) => {
-  try {
-    const user = await User.findOne({
-      _id: req.query.userId,
-    });
-
-    if (!user) {
-      return next(new Error(message, 403));
-    }
-
-    res.status(200).json(user);
-  } catch (err) {
-    return ext(err);
-  }
-};
-
-exports.deleteUser = async (req, res, next) => {
-  try {
-    const user = await User.findOne({
-      _id: req.body.userId,
-    });
-
-    const result = await User.deleteOne({
-      _id: req.body.userId,
-    });
-
-    const deleted = await stripe.customers.del(user.billingId);
-
-    if (deleted) {
-      return res.status(200).json({ message: 'ok' });
-    }
-    return res.status(500).send('Could not remove user');
   } catch (err) {
     return next(err);
   }

@@ -49,6 +49,7 @@ export function app(): express.Express {
   require('./src/server/routes/mail.routes')(server);
   require('./src/server/routes/payments.routes')(server);
   require('./src/server/routes/dictionary.routes')(server);
+  require('./src/server/routes/user.routes')(server);
 
   db.mongoose
     .connect(`${process.env['MANGO_DB_CONNECTION_STRING_PHOTOS']}`)

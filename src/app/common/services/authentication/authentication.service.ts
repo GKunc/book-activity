@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpBaseResponse } from '../../models/http-base-response.model';
+import { InternalUser } from '../login-service/login.service';
 
 @Injectable({
   providedIn: 'root',
@@ -34,12 +35,12 @@ export class AuthenticationService {
     return this.http.get(`/api/auth/refresh?username=${username}`);
   }
 
-  getUser(userId: string): Observable<any> {
-    return this.http.get(`/api/auth/user?userId=${userId}`);
+  getUser(userId: string): Observable<InternalUser> {
+    return this.http.get<InternalUser>(`/api/user?userId=${userId}`);
   }
 
-  deleteUser(userId: string): Observable<any> {
-    return this.http.delete('/api/auth/user', { body: { userId } });
+  deleteUser(userId: string): Observable<void> {
+    return this.http.delete<void>('/api/user', { body: { userId } });
   }
 
   signIn(username: string, password: string, googleLogIn: boolean = false): Observable<HttpBaseResponse> {
