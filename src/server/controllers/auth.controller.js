@@ -1,11 +1,10 @@
 const config = require('../config/auth.config');
 const db = require('../models');
-const User = db.user;
 const Role = db.role;
 
-var bcrypt = require('bcryptjs');
 const stripe = require('stripe')(process.env.PAYMENT_API_KEY);
 const AuthService = require('../services/auth.service');
+const UserService = require('../services/user.service');
 
 const accessTokenCookieOptions = {
   expires: new Date(Date.now() + Number(config.accessTokenExpiresIn) * 60 * 1000),
@@ -40,11 +39,10 @@ exports.verifyToken = async (req, res) => {
 
 exports.signup = async (req, res) => {
   const email = req.body.email;
-  const username = req.body.username.toLowerCase();
-  let user = await User.findOne({
-    username,
-    email,
-  });
+  const username = req.body.username;
+  const password = req.body.password;
+
+  let user = await UserService.getUserByUsernameAndEmail(username, email);
 
   if (!user) {
     customerInfo = await stripe.customers.create({
@@ -52,18 +50,7 @@ exports.signup = async (req, res) => {
       description: username,
     });
 
-    user = new User({
-      username,
-      email,
-      password: bcrypt.hashSync(req.body.password, 8),
-      isConfirmed: false,
-      createdAt: new Date(),
-      // payment info
-      billingId: customerInfo.id,
-      paymentEndDate: null,
-      package: 'Free',
-      isTrail: false,
-    });
+    user = await UserService.createUser(username, email, password, customerInfo.id);
   }
 
   if (req.body.roles) {
@@ -96,22 +83,10 @@ exports.signup = async (req, res) => {
 };
 
 exports.signin = async (req, res) => {
-  let user;
-
-  user = await User.findOne({
-    username: req.body.username.toLowerCase(),
-    isConfirmed: true,
-  })
-    .populate('roles', '-__v')
-    .exec();
+  let user = await UserService.getUserConfirmedByUsername(req.body.username);
 
   if (!user) {
-    user = await User.findOne({
-      email: req.body.username.toLowerCase(),
-      isConfirmed: true,
-    })
-      .populate('roles', '-__v')
-      .exec();
+    user = await UserService.getUserConfirmedByEmail(req.body.username);
   }
 
   if (!user) {
@@ -120,12 +95,6 @@ exports.signin = async (req, res) => {
 
   const { access_token, refresh_token } = await signToken(user);
 
-  const authorities = [];
-
-  for (let i = 0; i < user.roles.length; i++) {
-    authorities.push('ROLE_' + user.roles[i].name.toUpperCase());
-  }
-
   res.cookie('access_token', access_token, accessTokenCookieOptions);
   res.cookie('refresh_token', refresh_token, refreshTokenCookieOptions);
   res.cookie('logged_in', true, {
@@ -133,17 +102,14 @@ exports.signin = async (req, res) => {
     httpOnly: false,
   });
 
-  // Send Access Token
   return res.status(200).json({
-    isSuccess: true,
     message: 'Poprawnie zalogowano',
     data: { access_token, refresh_token },
   });
 };
 
-exports.signout = async (req, res) => {
+exports.signout = async (req, res, next) => {
   try {
-    console.log('signout');
     res.cookie('access_token', '', { maxAge: 1 });
     res.cookie('refresh_token', '', { maxAge: 1 });
     res.cookie('logged_in', '', {
@@ -151,7 +117,7 @@ exports.signout = async (req, res) => {
     });
     return res.send(JSON.stringify({ isSuccess: true, message: 'Pomyślnie wylogowano!' }));
   } catch (err) {
-    return this.next(err);
+    return next(err);
   }
 };
 
@@ -159,23 +125,18 @@ exports.refreshAccessToken = async (req, res, next) => {
   try {
     console.log('REFRESH TOKEN');
 
-    // Validate the Refresh token
     const decoded = await verifyRefreshToken(req, res, next);
     const message = 'Could not refresh access token';
     if (!decoded) {
       return res.status(403).send({ message });
     }
 
-    // Check if the user exist
-    const user = await User.findOne({
-      username: req.query.username.toLowerCase(),
-    });
+    const user = await UserService.getUserByUsername(req.query.username);
 
     if (!user) {
       return res.status(403).send({ message });
     }
 
-    // Sign new access token
     const access_token = signJwt(
       { id: user._id, username: user.username.toLowerCase(), email: user.email },
       'auth_private_token',
@@ -184,7 +145,6 @@ exports.refreshAccessToken = async (req, res, next) => {
       }
     );
 
-    // Send the access token as cookie
     res.cookie('access_token', access_token, accessTokenCookieOptions);
     res.cookie('logged_in', true, {
       ...accessTokenCookieOptions,
