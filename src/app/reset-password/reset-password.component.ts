@@ -11,6 +11,7 @@ import { SharedModule } from '../shared/shared.module';
 @Component({
   selector: 'reset-password',
   templateUrl: './reset-password.component.html',
+  styleUrls: ['./reset-password.component.less'],
   standalone: true,
   imports: [SharedModule, NgIf, AsyncPipe],
 })

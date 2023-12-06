@@ -1,10 +1,18 @@
 :host {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - 16px);
+  min-height: 100vh;
   padding-bottom: 80px;
   padding-top: 70px;
+
+  ::ng-deep router-outlet + *:not(hub-nav):not(hub-footer) {
+    position: absolute;
+    top: 80px;
+    bottom: 60px;
+    width: 100%;
+    height: calc(100% - 150px);
+    overflow: auto;
+    padding: 0 16px;
+  }
 }
 
 @media (max-width: 575px) {
