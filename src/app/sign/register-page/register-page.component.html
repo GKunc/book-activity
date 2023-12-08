@@ -1,8 +1,5 @@
-<div class="login-container__image-container" *ngIf="(resizeService.isSmall$ | async) === false">
-  <img alt="Zarejestruj" class="login-container__image" src="../../../assets/login_photo.webp" />
-</div>
-
 <div class="login-container">
+  <h2 class="login-container__title">Załóz konto</h2>
   <form nz-form *ngIf="form" [formGroup]="form" nzLayout="vertical">
     <nz-form-item>
       <nz-form-label nzFor="login" nzRequired>Login</nz-form-label>
@@ -55,12 +52,14 @@
 
   <hub-button
     [isDisabled]="form.invalid"
+    [nz-tooltip]="form.invalid ? 'Wypełnij poprawnie wszystkie pola' : ''"
     class="button__full-width"
     text="Zarejestruj"
     [isLoading]="isLoading"
     (click)="signUp()"
   ></hub-button>
-  <div>Masz juz konto? <a (click)="switchMode.emit()">Zaloguj się.</a></div>
+  <nz-divider></nz-divider>
+  <div>Masz juz konto? <a routerLink="/sign">Zaloguj się.</a></div>
 </div>
 
 <ng-template #errorDescription let-control>

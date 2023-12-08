@@ -1,8 +1,7 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
-import { AuthenticationService } from 'src/app/common/services/authentication/authentication.service';
 import { ResizeService } from 'src/app/common/services/resize/resize.service';
 import { LoginService } from '../../common/services/login-service/login.service';
 import { NotificationsService } from '../../common/services/notifications/notifications.service';
@@ -13,9 +12,6 @@ import { NotificationsService } from '../../common/services/notifications/notifi
   styleUrls: ['./login-page.component.less'],
 })
 export class LoginPageComponent implements OnInit {
-  @Output()
-  switchMode: EventEmitter<void> = new EventEmitter<void>();
-
   form = new FormGroup({
     login: new FormControl<string>('', [Validators.required]),
     password: new FormControl<string>(null, [Validators.required]),

@@ -5,7 +5,11 @@ import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { AuthenticationService } from '../common/services/authentication/authentication.service';
 import { NotificationsService } from '../common/services/notifications/notifications.service';
-import CustomValidators from '../common/validators/strong-password.validator';
+import CustomValidators, {
+  hasLowerCase,
+  hasNumber,
+  hasUpperCase,
+} from '../common/validators/strong-password.validator';
 import { SharedModule } from '../shared/shared.module';
 
 @Component({
@@ -25,11 +29,17 @@ export class ResetPasswordComponent implements OnInit {
         ),
       ]),
       oldPassword: new FormControl<string>('', [Validators.required]),
-      newPassword: new FormControl<string>('', [Validators.required]),
+      newPassword: new FormControl<string>('', [
+        Validators.required,
+        Validators.minLength(8),
+        hasLowerCase(),
+        hasUpperCase(),
+        hasNumber(),
+      ]),
       newPasswordMatch: new FormControl<string>('', [Validators.required]),
     },
     {
-      validators: [CustomValidators.match('password', 'passwordConfirm')],
+      validators: [CustomValidators.match('newPassword', 'newPasswordMatch')],
     }
   );
 

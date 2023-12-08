@@ -37,7 +37,6 @@ import { GlobalErrorInterceptor } from './common/interceptors/error/global-error
 
 import { NgxGoogleAnalyticsModule } from 'ngx-google-analytics';
 import { RegisterPageComponent } from './sign/register-page/register-page.component';
-import { SignComponent } from './sign/sign.component';
 import { LoginPageComponent } from './sign/login-page/login-page.component';
 import { HttpRequestInterceptor } from './common/interceptors/auth/auth.interceptor';
 import { ActivityListComponent } from './find-activities/activity-list/activity-list.component';
@@ -77,7 +76,6 @@ registerLocaleData(en);
     ActivityMapComponent,
     LoginPageComponent,
     RegisterPageComponent,
-    SignComponent,
     ActivityListComponent,
     FavouritesListComponent,
     CommentsComponent,

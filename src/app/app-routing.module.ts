@@ -34,7 +34,11 @@ const routes: Routes = [
   },
   {
     path: 'sign',
-    loadComponent: () => import('./sign/sign.component').then((x) => x.SignComponent),
+    loadComponent: () => import('./sign/login-page/login-page.component').then((x) => x.LoginPageComponent),
+  },
+  {
+    path: 'register',
+    loadComponent: () => import('./sign/register-page/register-page.component').then((x) => x.RegisterPageComponent),
   },
   {
     path: 'packages',

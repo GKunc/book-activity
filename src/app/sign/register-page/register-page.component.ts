@@ -1,8 +1,7 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/common/services/authentication/authentication.service';
-import { LoginService } from 'src/app/common/services/login-service/login.service';
 import { ResizeService } from 'src/app/common/services/resize/resize.service';
 import CustomValidators, {
   hasLowerCase,
@@ -16,9 +15,6 @@ import CustomValidators, {
   styleUrls: ['./register-page.component.less'],
 })
 export class RegisterPageComponent {
-  @Output()
-  switchMode: EventEmitter<void> = new EventEmitter<void>();
-
   form = new FormGroup(
     {
       login: new FormControl<string>('', [Validators.required, Validators.minLength(3)]),
@@ -54,7 +50,6 @@ export class RegisterPageComponent {
   constructor(
     private authService: AuthenticationService,
     private router: Router,
-    private loginService: LoginService,
     public resizeService: ResizeService
   ) {}
 

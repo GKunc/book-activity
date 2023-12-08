@@ -1,8 +1,5 @@
-<div class="login-container__image-container" *ngIf="(resizeService.isSmall$ | async) === false">
-  <img alt="Zaloguj się" class="login-container__image" src="../../../assets/login_photo.webp" />
-</div>
-
 <div class="login-container" (keyup.enter)="signIn()">
+  <h2 class="login-container__title">Zaloguj się</h2>
   <form nz-form *ngIf="form" [formGroup]="form" nzLayout="vertical">
     <nz-form-item>
       <nz-form-label nzFor="login" nzRequired>Login</nz-form-label>
@@ -30,7 +27,8 @@
   </form>
 
   <hub-button class="button__full-width" text="Zaloguj się" [isLoading]="isLoading" (click)="signIn()"></hub-button>
-  <div>Nie masz konta? <a (click)="switchMode.emit()">Zarejestruj się.</a></div>
+  <nz-divider></nz-divider>
+  <div>Nie masz konta? <a routerLink="/register">Zarejestruj się.</a></div>
   <div>Zapomniałeś hasła? <a routerLink="/reset-password">Zresetuj hasło.</a></div>
 </div>
 

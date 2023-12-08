@@ -6,7 +6,7 @@
         *ngIf="resizeService.isSmall$ | async"
         class="landing-page__action-button"
         text="Szukaj zajęć"
-        routerLink="/find-activities"
+        (click)="goToActivityList()"
       >
       </hub-button>
 
@@ -89,7 +89,7 @@
         <br />
         Pozyskaj nowych klientów.
 
-        <hub-button class="landing-page__action-button" text="Załóż konto" (click)="openLoginModal()"> </hub-button>
+        <hub-button class="landing-page__action-button" text="Załóż konto" (click)="openRegisterModal()"> </hub-button>
       </div>
     </div>
   </div>

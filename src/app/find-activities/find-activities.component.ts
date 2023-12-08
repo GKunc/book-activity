@@ -102,6 +102,7 @@ export class FindActivitiesComponent implements OnInit, AfterViewInit {
       )
       .subscribe(
         (activities: Activity[]) => {
+          console.log('SUB', activities);
           if (this.localStorageService.getItem<string[]>(FAVOURITES)) {
             this.favouriteIds = this.localStorageService.getItem<string[]>(FAVOURITES);
           }

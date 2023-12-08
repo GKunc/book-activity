@@ -1,5 +1,34 @@
-.payment-cancelled {
+@import '../../../styles.less';
+
+:host {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.payment-cancelled {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 24px;
+  border: 1px solid @primary-color;
+  border-radius: 2px;
+  box-shadow: @default-box-shadow;
+}
+
+.button__full-width {
+  width: 60%;
+
+  ::ng-deep button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 992px) {
+  .payment-cancelled {
+    width: 90%;
+  }
 }

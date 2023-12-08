@@ -1,6 +1,9 @@
 <div class="payment-confirmation">
-  <h2>Wszystko gotowe!</h2>
-  <hub-button text="Zaloguj sie" routerLink="/sign"></hub-button>
-  <div>lub</div>
-  <hub-button text="Szukaj zajęc" routerLink="/find-activities"></hub-button>
+  <nz-result nzStatus="success" nzTitle="Wszystko gotowe!">
+    <div nz-result-extra>
+      <hub-button class="button__full-width" text="Zaloguj sie" routerLink="/sign"></hub-button>
+      <div>lub</div>
+      <hub-button class="button__full-width" text="Szukaj zajęc" routerLink="/find-activities"></hub-button>
+    </div>
+  </nz-result>
 </div>
