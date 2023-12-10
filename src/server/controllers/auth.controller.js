@@ -42,7 +42,7 @@ exports.signup = async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
 
-  let user = await UserService.getUserByUsernameAndEmail(username, email);
+  let user = await UserService.getUserByUsernameAndEmailAndPassword(username, email);
 
   if (!user) {
     customerInfo = await stripe.customers.create({
@@ -57,6 +57,7 @@ exports.signup = async (req, res) => {
     const roles = await Role.find({ name: { $in: req.body.roles } });
     user.roles = roles.map((role) => role._id);
     if (!roles) {
+      // usun uzytkownika
       return res.status(500).send({ message: 'Rola nie istnieje' });
     }
 

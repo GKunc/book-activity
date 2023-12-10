@@ -9,7 +9,8 @@ import { ResizeService } from 'src/app/common/services/resize/resize.service';
 import { ActivityFilters, ViewType } from './activity-filters.model';
 
 const KEYBOARD_DEBOUND_TIME = 400;
-const MAX_PRICE = 1000;
+export const MAX_PRICE = 200;
+export const DEFAULT_DISTANCE = 50;
 
 @Component({
   selector: 'activity-filters',
@@ -36,9 +37,11 @@ export class ActivityFiltersComponent implements OnInit {
   minPrice = 0;
   maxPrice: number = MAX_PRICE;
   priceRange: number[] = [0, MAX_PRICE];
+  maxDistance: number = DEFAULT_DISTANCE;
   page: number;
   limit: number;
   viewType: ViewType;
+  coordinates: { lng: number; lat: number };
 
   options = [
     { label: 'Lista', value: ViewType.List, icon: 'bars' },
@@ -52,31 +55,37 @@ export class ActivityFiltersComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.dictionaryService.getDictionary('categories').subscribe((categories) => {
-      this.acitivyCategories = categories;
-    });
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.coordinates = { lng: position.coords.longitude, lat: position.coords.latitude };
 
-    const filters = this.localStorageService.getItem<ActivityFilters>(ACTIVITY_FILTERS);
-    if (filters) {
-      this.phrase = filters.phrase;
-      this.weekDays = filters.weekDays;
-      this.categories = filters.categories;
-      this.minPrice = filters.minPrice;
-      this.maxPrice = filters.maxPrice;
-      this.priceRange = [this.minPrice, this.maxPrice];
-      this.page = 1;
-      this.limit = 10;
-      this.viewType = filters.viewType;
-    } else {
-      this.clearAllFilters();
-    }
+      this.dictionaryService.getDictionary('categories').subscribe((categories) => {
+        this.acitivyCategories = categories;
+      });
 
-    this.minPrice$.pipe(debounceTime(KEYBOARD_DEBOUND_TIME)).subscribe((price) => {
-      this.priceRange = [price, this.maxPrice];
-    });
+      const filters = this.localStorageService.getItem<ActivityFilters>(ACTIVITY_FILTERS);
+      if (filters) {
+        this.phrase = filters.phrase;
+        this.weekDays = filters.weekDays;
+        this.categories = filters.categories;
+        this.minPrice = filters.minPrice;
+        this.maxPrice = filters.maxPrice;
+        this.priceRange = [this.minPrice, this.maxPrice];
+        this.page = 1;
+        this.limit = 10;
+        this.viewType = filters.viewType;
+        this.maxDistance = filters.maxDistance;
+        this.coordinates = filters.coordinates;
+      } else {
+        this.clearAllFilters();
+      }
 
-    this.maxPrice$.pipe(debounceTime(KEYBOARD_DEBOUND_TIME)).subscribe((price) => {
-      this.priceRange = [this.minPrice, price];
+      this.minPrice$.pipe(debounceTime(KEYBOARD_DEBOUND_TIME)).subscribe((price) => {
+        this.priceRange = [price, this.maxPrice];
+      });
+
+      this.maxPrice$.pipe(debounceTime(KEYBOARD_DEBOUND_TIME)).subscribe((price) => {
+        this.priceRange = [this.minPrice, price];
+      });
     });
   }
 
@@ -108,6 +117,10 @@ export class ActivityFiltersComponent implements OnInit {
     this.maxPrice$.next(value);
   }
 
+  distanceChanged(distance: number): void {
+    this.maxDistance = distance;
+  }
+
   clearAllFilters(): void {
     this.phrase = undefined;
     this.weekDays = undefined;
@@ -117,7 +130,7 @@ export class ActivityFiltersComponent implements OnInit {
     this.priceRange = [this.minPrice, this.maxPrice];
     this.page = 1;
     this.limit = 10;
-
+    this.maxDistance = DEFAULT_DISTANCE;
     const filters = this.createFilters();
     this.showFilters = false;
     this.localStorageService.setItem(ACTIVITY_FILTERS, filters);
@@ -140,6 +153,8 @@ export class ActivityFiltersComponent implements OnInit {
       page: this.page,
       limit: this.limit,
       viewType: this.viewType,
+      maxDistance: this.maxDistance,
+      coordinates: this.coordinates,
     };
   }
 }

@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { INSTALL_PWA } from '../common/consts/local-storage.consts';
-import { LocalStorageService } from '../common/services/local-storage/local-storage.service';
 
 @Component({
   selector: 'install-pwa',
@@ -16,8 +15,6 @@ export class InstallPwaComponent {
 
   @Output()
   hideBanner: EventEmitter<void> = new EventEmitter();
-
-  constructor(private localStorageService: LocalStorageService) {}
 
   installPWA(): void {
     this.addCookieAndClosePrompt();

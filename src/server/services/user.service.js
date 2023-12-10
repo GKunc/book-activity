@@ -24,6 +24,11 @@ async function getUserByUsernameAndEmail(username, email) {
   });
 }
 
+async function getUserByUsernameAndEmailAndPassword(username, email, password) {
+  const user = await getUserByUsernameAndEmail(username, email);
+  return bcrypt.compareSync(password, user?.password) ? user : null;
+}
+
 async function getUserConfirmedByUsername(username) {
   username = username.toLowerCase().trim();
   return await User.findOne({
@@ -66,6 +71,7 @@ const UserService = {
   getUserById,
   getUserByUsername,
   getUserByUsernameAndEmail,
+  getUserByUsernameAndEmailAndPassword,
   getUserConfirmedByUsername,
   getUserConfirmedByEmail,
   deleteUserById,

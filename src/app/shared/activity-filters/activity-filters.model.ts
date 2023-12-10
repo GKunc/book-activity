@@ -10,6 +10,8 @@ export interface ActivityFilters {
   page: number;
   limit: number;
   viewType: ViewType;
+  maxDistance: number;
+  coordinates: { lng: number; lat: number };
 }
 
 export enum ViewType {

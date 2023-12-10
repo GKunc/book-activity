@@ -5,6 +5,7 @@ import { Activity } from '../common/services/activities/activities.model';
 import { ActivitiesService } from '../common/services/activities/activities.service';
 import { LocalStorageService } from '../common/services/local-storage/local-storage.service';
 import { ResizeService } from '../common/services/resize/resize.service';
+import { DEFAULT_DISTANCE, MAX_PRICE } from '../shared/activity-filters/activity-filters.component';
 import { ActivityFilters, ViewType } from '../shared/activity-filters/activity-filters.model';
 
 @Component({
@@ -34,13 +35,18 @@ export class FindActivitiesComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.lastFilters = this.localStorageService.getItem<ActivityFilters>(ACTIVITY_FILTERS);
+    this.lastFilters = this.localStorageService.getItem<ActivityFilters>(ACTIVITY_FILTERS) ?? Object.create(null);
     this.openView = this.lastFilters.viewType;
   }
 
   ngAfterViewInit(): void {
-    this.onSubmitFilters(this.lastFilters);
-    this.cdr.detectChanges();
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.lastFilters.coordinates = { lng: position.coords.longitude, lat: position.coords.latitude };
+      this.lastFilters.maxDistance = DEFAULT_DISTANCE;
+      this.lastFilters.maxPrice = MAX_PRICE;
+      this.onSubmitFilters(this.lastFilters);
+      this.cdr.detectChanges();
+    });
   }
 
   loadMore(): void {
@@ -67,7 +73,7 @@ export class FindActivitiesComponent implements OnInit, AfterViewInit {
       .pipe(
         switchMap((data) => {
           this.noData = this.hasNoData(data);
-          if (data.length === this.lastFilters.limit && data.length !== 0) {
+          if (data.length === this.lastFilters?.limit && data.length !== 0) {
             this.hasMoreData = true;
           } else {
             this.hasMoreData = false;

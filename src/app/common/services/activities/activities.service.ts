@@ -14,7 +14,7 @@ export class ActivitiesService {
     return this.http.get<Activity[]>(`/api/activities/${id}`);
   }
 
-  filterActivities(query: Partial<ActivityFilters>): Observable<any> {
+  filterActivities(query: Partial<ActivityFilters>): Observable<Activity[]> {
     return this.http.post<Activity[]>('/api/activities/filter', query);
   }
 
