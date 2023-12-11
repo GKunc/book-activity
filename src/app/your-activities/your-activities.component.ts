@@ -7,7 +7,7 @@ import { Activity } from '../common/services/activities/activities.model';
 import { ActivitiesService } from '../common/services/activities/activities.service';
 import { InternalUser, LoginService } from '../common/services/login-service/login.service';
 import { ModalService } from '../common/services/modal/modal.service';
-import { Package } from '../profile/profile.models';
+import { Package } from '../settings/settings.models';
 import { DeleteModalComponent } from './delete-modal/delete-modal.component';
 
 @Component({

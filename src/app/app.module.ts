@@ -45,7 +45,7 @@ import { FavouritesListComponent } from './favourites-list/favourites-list.compo
 import { CommentsComponent } from './activity-details/comments/comments.component';
 import { RateSummaryComponent } from './activity-details/rate-summary/rate-summary.component';
 import { OpinionsComponent } from './activity-details/opinions/opinions.component';
-import { ProfileComponent } from './profile/profile.component';
+import { SettingsComponent } from './settings/settings.component';
 import { PackagesComponent } from './packages/packages.component';
 
 import { InstallPwaComponent } from './install-pwa/install-pwa.component';
@@ -81,7 +81,7 @@ registerLocaleData(en);
     CommentsComponent,
     RateSummaryComponent,
     OpinionsComponent,
-    ProfileComponent,
+    SettingsComponent,
     PackagesComponent,
     InstallPwaComponent,
   ],

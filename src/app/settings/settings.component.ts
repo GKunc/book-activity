@@ -5,14 +5,14 @@ import { AuthenticationService } from '../common/services/authentication/authent
 import { LoginService } from '../common/services/login-service/login.service';
 import { ModalService } from '../common/services/modal/modal.service';
 import { PackagesComponent } from '../packages/packages.component';
-import { Package, PACKAGES, ProfileForm } from './profile.models';
+import { Package, PACKAGES, ProfileForm } from './settings.models';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.less'],
+  selector: 'app-settings',
+  templateUrl: './settings.component.html',
+  styleUrls: ['./settings.component.less'],
 })
-export class ProfileComponent implements OnInit {
+export class SettingsComponent implements OnInit {
   loading: boolean;
   error: boolean;
   userLogged = false;

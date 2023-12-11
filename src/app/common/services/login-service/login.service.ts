@@ -5,7 +5,7 @@ import { ACCESS_TOKEN, FAVOURITES, REFRESH_TOKEN } from '../../consts/local-stor
 import { FavouriteService } from '../favourites/favourites.service';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { Favourite } from '../favourites/favourites.model';
-import { Package } from 'src/app/profile/profile.models';
+import { Package } from 'src/app/settings/settings.models';
 import { HttpBaseResponse } from '../../models/http-base-response.model';
 import { LocalStorageService } from '../local-storage/local-storage.service';
 

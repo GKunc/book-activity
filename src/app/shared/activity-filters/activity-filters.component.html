@@ -72,18 +72,20 @@
         ></nz-input-number>
       </div>
 
-      Odległośc:
-      <nz-slider (ngModelChange)="distanceChanged($event)" [(ngModel)]="maxDistance"></nz-slider>
+      <div class="filters__label">
+        Odległośc/div>
+        <nz-slider (ngModelChange)="distanceChanged($event)" [(ngModel)]="maxDistance"></nz-slider>
 
-      <div class="find-activities__filters-row">
-        <nz-input-number
-          (keyup.enter)="submit()"
-          (ngModelChange)="distanceChanged($event)"
-          [(ngModel)]="maxDistance"
-          [nzMin]="1"
-          [nzMax]="50"
-          [nzStep]="1"
-        ></nz-input-number>
+        <div class="find-activities__filters-row">
+          <nz-input-number
+            (keyup.enter)="submit()"
+            (ngModelChange)="distanceChanged($event)"
+            [(ngModel)]="maxDistance"
+            [nzMin]="1"
+            [nzMax]="50"
+            [nzStep]="1"
+          ></nz-input-number>
+        </div>
       </div>
     </ng-template>
 
@@ -132,6 +134,7 @@
       <nz-option *ngFor="let option of weekDaysOptions" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
     </nz-select>
 
+    Cena:
     <nz-slider nzRange (ngModelChange)="rangePriceChanged($event)" [(ngModel)]="priceRange"></nz-slider>
 
     <div class="find-activities__filters-row">
@@ -151,7 +154,7 @@
       ></nz-input-number>
     </div>
 
-    Odległośc od Ciebie:
+    Odległośc:
     <nz-slider (ngModelChange)="distanceChanged($event)" [(ngModel)]="maxDistance"></nz-slider>
 
     <div class="find-activities__filters-row">

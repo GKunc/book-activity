@@ -26,7 +26,7 @@ const routes: Routes = [
   },
   {
     path: 'profile',
-    loadComponent: () => import('./profile/profile.component').then((x) => x.ProfileComponent),
+    loadComponent: () => import('./settings/settings.component').then((x) => x.SettingsComponent),
   },
   {
     path: 'add-activity',

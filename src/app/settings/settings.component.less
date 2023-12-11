@@ -1,4 +1,20 @@
+@import '../../styles.less';
+
 .profile {
+  &__delete {
+    color: red;
+    background-color: transparent !important;
+
+    &:after {
+      border-right: none;
+    }
+  }
+
+  &__header {
+    padding-left: 24px;
+    margin-bottom: 24px;
+  }
+
   &__action-buttons {
     display: flex;
     justify-content: flex-end;
@@ -9,10 +25,15 @@
     display: flex;
     flex-direction: column;
     gap: 40px;
+
+    ::ng-deep .ant-menu-item-selected {
+      background-color: transparent;
+    }
   }
 
   &__form {
     flex: 1;
+    margin: 40px !important;
   }
 
   &__package {

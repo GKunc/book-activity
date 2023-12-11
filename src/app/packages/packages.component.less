@@ -1,11 +1,20 @@
 @import '../../styles.less';
 
 .packages {
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 24px;
+
+  &__confirm-button {
+    ::ng-deep button {
+      width: 300px;
+      height: 48px;
+      font-size: 20px;
+    }
+  }
 
   &__container {
     display: flex;
