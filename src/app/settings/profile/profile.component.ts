@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '../../common/services/authentication/authentication.service';
-import { LoginService } from '../../common/services/login-service/login.service';
-import { ModalService } from '../../common/services/modal/modal.service';
-import { PackagesComponent } from '../../packages/packages.component';
+import { AuthenticationService } from 'src/app/common/services/authentication/authentication.service';
+import { LoginService } from 'src/app/common/services/login-service/login.service';
+import { ModalService } from 'src/app/common/services/modal/modal.service';
+import { PackagesComponent } from 'src/app/packages/packages.component';
 import { Package, PACKAGES, ProfileForm } from '../settings.models';
 
 @Component({

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError, forkJoin, map, of, tap, switchMap, finalize, filter, zipAll, concat } from 'rxjs';
-import { FAVOURITES } from '../../common/consts/local-storage.consts';
-import { Activity } from '../../common/services/activities/activities.model';
-import { ActivitiesService } from '../../common/services/activities/activities.service';
-import { LocalStorageService } from '../../common/services/local-storage/local-storage.service';
-import { LoginService } from '../../common/services/login-service/login.service';
+import { catchError, map, of, tap, switchMap, finalize, zipAll, concat, Observable } from 'rxjs';
+import { FAVOURITES } from 'src/app/common/consts/local-storage.consts';
+import { Activity } from 'src/app/common/services/activities/activities.model';
+import { ActivitiesService } from 'src/app/common/services/activities/activities.service';
+import { LocalStorageService } from 'src/app/common/services/local-storage/local-storage.service';
+import { LoginService } from 'src/app/common/services/login-service/login.service';
 
 @Component({
   selector: 'app-favourites-list',
@@ -62,7 +62,7 @@ export class FavouritesListComponent implements OnInit {
             isFavourite: true,
           }));
         }),
-        catchError((e) => {
+        catchError(() => {
           return of(this.activities);
         }),
 
@@ -75,7 +75,7 @@ export class FavouritesListComponent implements OnInit {
       });
   }
 
-  private downloadPhotos(activity: Activity): any {
+  private downloadPhotos(activity: Activity): Observable<Activity> {
     if (activity?.coverPhoto) {
       return this.activityService.getPhoto(activity.coverPhoto).pipe(
         map((photo: Blob) => {
