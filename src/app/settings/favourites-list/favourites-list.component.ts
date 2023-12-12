@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { catchError, forkJoin, map, of, tap, switchMap, finalize, filter, zipAll, concat } from 'rxjs';
-import { FAVOURITES } from '../common/consts/local-storage.consts';
-import { Activity } from '../common/services/activities/activities.model';
-import { ActivitiesService } from '../common/services/activities/activities.service';
-import { LocalStorageService } from '../common/services/local-storage/local-storage.service';
-import { LoginService } from '../common/services/login-service/login.service';
+import { FAVOURITES } from '../../common/consts/local-storage.consts';
+import { Activity } from '../../common/services/activities/activities.model';
+import { ActivitiesService } from '../../common/services/activities/activities.service';
+import { LocalStorageService } from '../../common/services/local-storage/local-storage.service';
+import { LoginService } from '../../common/services/login-service/login.service';
 
 @Component({
   selector: 'app-favourites-list',

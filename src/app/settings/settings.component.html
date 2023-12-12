@@ -10,19 +10,19 @@
           <li>
             <h2 class="profile__header"></h2>
           </li>
-          <li nz-menu-item>
+          <li nz-menu-item routerLink="profile" nzSelected>
             <span>Profil</span>
           </li>
-          <li nz-menu-item>
+          <li nz-menu-item [nzDisabled]="true">
             <span>Opłacone zajęcia</span>
           </li>
-          <li nz-menu-item>
+          <li nz-menu-item routerLink="favourites">
             <span>Ulubione</span>
           </li>
-          <li nz-menu-item>
+          <li nz-menu-item routerLink="your-activities">
             <span>Twoje zajęcia</span>
           </li>
-          <li nz-menu-item>
+          <li nz-menu-item [nzDisabled]="true">
             <span>Regulamin</span>
           </li>
           <li class="profile__delete" nz-menu-item (click)="deleteAccount()">
@@ -31,61 +31,8 @@
         </ul>
       </nz-sider>
 
-      <nz-layout>
-        <form class="profile__form" nz-form [formGroup]="form">
-          <h1>Profil:</h1>
-          <nz-form-item>
-            <nz-form-label [nzSpan]="5">Login</nz-form-label>
-            <nz-form-control nzHasFeedback [nzSpan]="20" nzErrorTip="Input is required">
-              <input nz-input formControlName="userName" name="userName" />
-            </nz-form-control>
-          </nz-form-item>
-          <nz-form-item>
-            <nz-form-label [nzSpan]="5">E-mail</nz-form-label>
-            <nz-form-control nzHasFeedback [nzSpan]="20" nzErrorTip="MaxLength is 6">
-              <input nz-input formControlName="email" name="email" email />
-            </nz-form-control>
-          </nz-form-item>
-          <nz-form-item>
-            <nz-form-label [nzSpan]="5">Konto od</nz-form-label>
-            <nz-form-control nzHasFeedback [nzSpan]="20" nzErrorTip="MinLength is 6">
-              <input nz-input formControlName="createdAt" name="createdAt" minlength="6" />
-            </nz-form-control>
-          </nz-form-item>
-          <nz-form-item>
-            <nz-form-label [nzSpan]="5">Opłacone do</nz-form-label>
-            <nz-form-control nzHasFeedback [nzSpan]="20" nzErrorTip="Pattern not match">
-              <input nz-input formControlName="paymentEndDate" name="paymentEndDate" minlength="6" />
-            </nz-form-control>
-          </nz-form-item>
-          <nz-form-item>
-            <nz-form-label [nzSpan]="5">Obecny pakiet</nz-form-label>
-            <nz-form-control [nzSpan]="20" class="profile__package--select">
-              <div class="profile__package">
-                <nz-select formControlName="currentPackage" name="currentPackage" nzPlaceHolder="Pakiet">
-                  <nz-option
-                    *ngFor="let option of packagesOptions"
-                    [nzLabel]="option.label"
-                    [nzValue]="option.value"
-                  ></nz-option>
-                </nz-select>
-                <span
-                  class="profile__package-tooltip"
-                  nz-icon
-                  nzType="info-circle"
-                  nzTheme="outline"
-                  (click)="showAvailablePackages()"
-                ></span>
-              </div>
-            </nz-form-control>
-          </nz-form-item>
-          <nz-form-item>
-            <nz-form-label [nzSpan]="5">Darmowy okres do</nz-form-label>
-            <nz-form-control nzHasFeedback [nzSpan]="20" nzErrorTip="Pattern not match">
-              <input nz-input formControlName="trailEndDate" name="trailEndDate" minlength="6" />
-            </nz-form-control>
-          </nz-form-item>
-        </form>
+      <nz-layout class="profile__router-container">
+        <router-outlet></router-outlet>
       </nz-layout>
     </nz-layout>
   </ng-container>

@@ -1,5 +1,5 @@
-<div class="login-container" (keyup.enter)="signIn()">
-  <h2 class="login-container__title">Zaloguj się</h2>
+<div class="bordered-container" (keyup.enter)="signIn()">
+  <h2 class="bordered-container__title">Zaloguj się</h2>
   <form nz-form *ngIf="form" [formGroup]="form" nzLayout="vertical">
     <nz-form-item>
       <nz-form-label nzFor="login" nzRequired>Login</nz-form-label>

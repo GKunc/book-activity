@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { ProfileComponent } from './settings/profile/profile.component';
+import { SettingsComponent } from './settings/settings.component';
 
 const routes: Routes = [
   {
@@ -17,16 +19,29 @@ const routes: Routes = [
       import('./activity-details/activity-details.component').then((x) => x.ActivityDetailsComponent),
   },
   {
-    path: 'your-activities',
-    loadComponent: () => import('./your-activities/your-activities.component').then((x) => x.YourActivitiesComponent),
-  },
-  {
-    path: 'favourites',
-    loadComponent: () => import('./favourites-list/favourites-list.component').then((x) => x.FavouritesListComponent),
-  },
-  {
-    path: 'profile',
+    path: 'settings',
     loadComponent: () => import('./settings/settings.component').then((x) => x.SettingsComponent),
+    children: [
+      {
+        path: '',
+        redirectTo: 'profile',
+      },
+      {
+        path: 'profile',
+        component: ProfileComponent,
+        loadComponent: () => import('./settings/profile/profile.component').then((x) => x.ProfileComponent),
+      },
+      {
+        path: 'favourites',
+        loadComponent: () =>
+          import('./settings/favourites-list/favourites-list.component').then((x) => x.FavouritesListComponent),
+      },
+      {
+        path: 'your-activities',
+        loadComponent: () =>
+          import('./settings/your-activities/your-activities.component').then((x) => x.YourActivitiesComponent),
+      },
+    ],
   },
   {
     path: 'add-activity',

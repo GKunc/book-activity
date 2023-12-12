@@ -24,8 +24,8 @@ import { ActivityDetailsComponent } from './activity-details/activity-details.co
 import { MediaDataFormComponent } from './add-activity/media-data-form/media-data-form.component';
 import { DragAndDropDirective } from './common/directives/drag-and-drop/drag-and-drop.directive';
 import { ActivityGroupsFormComponent } from './add-activity/activity-groups-form/activity-groups-form.component';
-import { YourActivitiesComponent } from './your-activities/your-activities.component';
-import { DeleteModalComponent } from './your-activities/delete-modal/delete-modal.component';
+import { YourActivitiesComponent } from './settings/your-activities/your-activities.component';
+import { DeleteModalComponent } from './settings/your-activities/delete-modal/delete-modal.component';
 import { NotAuthorizedComponent } from './not-authorized/not-authorized.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { ActivityBoxComponent } from './find-activities/activity-card/activity-box.component';
@@ -41,7 +41,7 @@ import { LoginPageComponent } from './sign/login-page/login-page.component';
 import { HttpRequestInterceptor } from './common/interceptors/auth/auth.interceptor';
 import { ActivityListComponent } from './find-activities/activity-list/activity-list.component';
 import { ScrolledToBottomDirective } from './common/directives/drag-and-drop/scroll.directive';
-import { FavouritesListComponent } from './favourites-list/favourites-list.component';
+import { FavouritesListComponent } from './settings/favourites-list/favourites-list.component';
 import { CommentsComponent } from './activity-details/comments/comments.component';
 import { RateSummaryComponent } from './activity-details/rate-summary/rate-summary.component';
 import { OpinionsComponent } from './activity-details/opinions/opinions.component';
@@ -51,6 +51,7 @@ import { PackagesComponent } from './packages/packages.component';
 import { InstallPwaComponent } from './install-pwa/install-pwa.component';
 import { AppInitializer, appInitializerFactory } from './app-initializer';
 import { AuthenticationService } from './common/services/authentication/authentication.service';
+import { ProfileComponent } from './settings/profile/profile.component';
 
 registerLocaleData(en);
 
@@ -82,6 +83,7 @@ registerLocaleData(en);
     RateSummaryComponent,
     OpinionsComponent,
     SettingsComponent,
+    ProfileComponent,
     PackagesComponent,
     InstallPwaComponent,
   ],

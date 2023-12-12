@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import { distinctUntilChanged, of } from 'rxjs';
-import { AddActivityComponent } from '../add-activity/add-activity.component';
-import { Activity } from '../common/services/activities/activities.model';
-import { ActivitiesService } from '../common/services/activities/activities.service';
-import { InternalUser, LoginService } from '../common/services/login-service/login.service';
-import { ModalService } from '../common/services/modal/modal.service';
-import { Package } from '../settings/settings.models';
+import { AddActivityComponent } from '../../add-activity/add-activity.component';
+import { Activity } from '../../common/services/activities/activities.model';
+import { ActivitiesService } from '../../common/services/activities/activities.service';
+import { InternalUser, LoginService } from '../../common/services/login-service/login.service';
+import { ModalService } from '../../common/services/modal/modal.service';
+import { Package } from '../settings.models';
 import { DeleteModalComponent } from './delete-modal/delete-modal.component';
 
 @Component({
