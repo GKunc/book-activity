@@ -73,7 +73,7 @@ export class ActivityFiltersComponent implements OnInit {
         this.page = 1;
         this.limit = 10;
         this.viewType = filters.viewType;
-        this.maxDistance = filters.maxDistance;
+        this.maxDistance = filters.maxDistance || DEFAULT_DISTANCE;
         this.coordinates = filters.coordinates;
       } else {
         this.clearAllFilters();
@@ -122,17 +122,17 @@ export class ActivityFiltersComponent implements OnInit {
   }
 
   clearAllFilters(): void {
-    this.phrase = undefined;
-    this.weekDays = undefined;
-    this.categories = undefined;
+    this.phrase = null;
+    this.weekDays = null;
     this.minPrice = 0;
     this.maxPrice = MAX_PRICE;
     this.priceRange = [this.minPrice, this.maxPrice];
     this.page = 1;
     this.limit = 10;
     this.maxDistance = DEFAULT_DISTANCE;
-    const filters = this.createFilters();
     this.showFilters = false;
+
+    const filters = this.createFilters();
     this.localStorageService.setItem(ACTIVITY_FILTERS, filters);
   }
 

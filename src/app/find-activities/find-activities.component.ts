@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { catchError, concat, finalize, map, of, switchMap, zipAll } from 'rxjs';
 import { ACTIVITY_FILTERS, FAVOURITES } from '../common/consts/local-storage.consts';
 import { Activity } from '../common/services/activities/activities.model';
@@ -13,7 +13,7 @@ import { ActivityFilters, ViewType } from '../shared/activity-filters/activity-f
   templateUrl: './find-activities.component.html',
   styleUrls: ['./find-activities.component.less'],
 })
-export class FindActivitiesComponent implements OnInit, AfterViewInit {
+export class FindActivitiesComponent implements OnInit {
   activities: Activity[] = [];
 
   lastFilters: ActivityFilters;
@@ -34,12 +34,10 @@ export class FindActivitiesComponent implements OnInit, AfterViewInit {
     public resizeService: ResizeService
   ) {}
 
+  // refactor to store
   ngOnInit(): void {
     this.lastFilters = this.localStorageService.getItem<ActivityFilters>(ACTIVITY_FILTERS) ?? Object.create(null);
     this.openView = this.lastFilters.viewType;
-  }
-
-  ngAfterViewInit(): void {
     navigator.geolocation.getCurrentPosition((position) => {
       this.lastFilters.coordinates = { lng: position.coords.longitude, lat: position.coords.latitude };
       this.lastFilters.maxDistance = DEFAULT_DISTANCE;

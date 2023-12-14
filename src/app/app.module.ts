@@ -52,6 +52,8 @@ import { InstallPwaComponent } from './install-pwa/install-pwa.component';
 import { AppInitializer, appInitializerFactory } from './app-initializer';
 import { AuthenticationService } from './common/services/authentication/authentication.service';
 import { ProfileComponent } from './settings/profile/profile.component';
+import { StatuteComponent } from './settings/statute/statute.component';
+import { PaidActivitiesComponent } from './settings/paid-activities/paid-activities.component';
 
 registerLocaleData(en);
 
@@ -84,6 +86,8 @@ registerLocaleData(en);
     OpinionsComponent,
     SettingsComponent,
     ProfileComponent,
+    StatuteComponent,
+    PaidActivitiesComponent,
     PackagesComponent,
     InstallPwaComponent,
   ],

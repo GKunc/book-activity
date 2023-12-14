@@ -1,0 +1,7 @@
+<div class="favourite-activities__header">
+  <h1 class="favourite-activities__title">Opłacone zajęcia:</h1>
+
+  <loader *ngIf="loading" [inlineStyle]="true"></loader>
+  <no-data *ngIf="noData" [inlineStyle]="true"></no-data>
+  <error *ngIf="error" [inlineStyle]="true"></error>
+</div>

@@ -16,10 +16,13 @@
     <ng-container *ngIf="(resizeService.isSmall$ | async) === false; else mobileView">
       <nz-content class="content-container" style="position: relative">
         <ng-template #activityList>
-          <activity-list [activities]="activities" (loadMore)="loadMore()"></activity-list>
+          <activity-list *ngIf="!loading" [activities]="activities" (loadMore)="loadMore()"></activity-list>
         </ng-template>
 
-        <activity-map *ngIf="openView === viewTypes.Map; else activityList" [activities]="activities"></activity-map>
+        <activity-map
+          *ngIf="openView === viewTypes.Map && !loading; else activityList"
+          [activities]="activities"
+        ></activity-map>
 
         <loader *ngIf="loading" [inlineStyle]="true"></loader>
         <no-data *ngIf="!loading && noData && openView !== viewTypes.Map" [inlineStyle]="true"></no-data>

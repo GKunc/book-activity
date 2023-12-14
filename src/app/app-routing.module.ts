@@ -41,6 +41,15 @@ const routes: Routes = [
         loadComponent: () =>
           import('./settings/your-activities/your-activities.component').then((x) => x.YourActivitiesComponent),
       },
+      {
+        path: 'statute',
+        loadComponent: () => import('./settings/statute/statute.component').then((x) => x.StatuteComponent),
+      },
+      {
+        path: 'paid-activities',
+        loadComponent: () =>
+          import('./settings/paid-activities/paid-activities.component').then((x) => x.PaidActivitiesComponent),
+      },
     ],
   },
   {

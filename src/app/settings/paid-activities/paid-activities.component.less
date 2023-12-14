@@ -1,0 +1,36 @@
+@import '../../../styles.less';
+
+.favourite-activities {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+
+  &__grid {
+    display: block;
+    margin-bottom: 16px;
+
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(3, minmax(100px, 1fr));
+  }
+
+  &__title {
+    margin-top: 16px;
+  }
+}
+
+@media (max-width: 575px) {
+  :host {
+    margin-top: 60px;
+    margin-bottom: 60px;
+    height: calc(100% - 100px);
+  }
+
+  .favourite-activities__grid {
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+    padding: 0;
+  }
+}

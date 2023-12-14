@@ -1,4 +1,4 @@
 <div class="activity-map">
   <div class="activity-map__container" #map id="map"></div>
 </div>
-<loader *ngIf="loading" [inlineStyle]="true"></loader>
+<loader *ngIf="loading && activities.length === 0" [inlineStyle]="true"></loader>
