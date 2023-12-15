@@ -29,3 +29,12 @@ exports.deleteUser = async (req, res) => {
   }
   return res.status(500).send({ message: 'Could not remove user' });
 };
+
+exports.getUserConfig = async (req, res) => {
+  const config = await UserService.getUserConfig(req.body.userId);
+
+  if (config) {
+    res.status(200).json(config);
+  }
+  return res.status(500).send({ message: 'Could not get user config' });
+};
