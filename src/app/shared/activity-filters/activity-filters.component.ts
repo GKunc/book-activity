@@ -3,6 +3,7 @@ import { debounceTime, Subject } from 'rxjs';
 import { Category } from 'src/app/common/consts/category.consts';
 import { ACTIVITY_FILTERS } from 'src/app/common/consts/local-storage.consts';
 import { WeekDay, WEEK_DAYS } from 'src/app/common/consts/week-days.consts';
+import { ClienntConfigService } from 'src/app/common/services/client-config/client-config.service';
 import { DictionaryService } from 'src/app/common/services/dictionary/dictionary.service';
 import { LocalStorageService } from 'src/app/common/services/local-storage/local-storage.service';
 import { ResizeService } from 'src/app/common/services/resize/resize.service';
@@ -51,6 +52,7 @@ export class ActivityFiltersComponent implements OnInit {
   constructor(
     private dictionaryService: DictionaryService,
     private localStorageService: LocalStorageService,
+    private configService: ClienntConfigService,
     public resizeService: ResizeService
   ) {}
 
@@ -140,7 +142,7 @@ export class ActivityFiltersComponent implements OnInit {
     const filters = this.createFilters();
     this.submitFilters.emit(filters);
     this.showFilters = false;
-    this.localStorageService.setItem(ACTIVITY_FILTERS, filters);
+    this.configService.setConfig(filters).subscribe();
   }
 
   private createFilters(): ActivityFilters {

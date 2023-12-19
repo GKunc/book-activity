@@ -3,7 +3,9 @@ import { catchError, concat, finalize, map, of, switchMap, zipAll } from 'rxjs';
 import { ACTIVITY_FILTERS, FAVOURITES } from '../common/consts/local-storage.consts';
 import { Activity } from '../common/services/activities/activities.model';
 import { ActivitiesService } from '../common/services/activities/activities.service';
+import { ClienntConfigService } from '../common/services/client-config/client-config.service';
 import { LocalStorageService } from '../common/services/local-storage/local-storage.service';
+import { LoginService } from '../common/services/login-service/login.service';
 import { ResizeService } from '../common/services/resize/resize.service';
 import { DEFAULT_DISTANCE, MAX_PRICE } from '../shared/activity-filters/activity-filters.component';
 import { ActivityFilters, ViewType } from '../shared/activity-filters/activity-filters.model';
@@ -31,19 +33,22 @@ export class FindActivitiesComponent implements OnInit {
     private activitiesService: ActivitiesService,
     private cdr: ChangeDetectorRef,
     private localStorageService: LocalStorageService,
+    private configService: ClienntConfigService,
     public resizeService: ResizeService
   ) {}
 
   // refactor to store
   ngOnInit(): void {
-    this.lastFilters = this.localStorageService.getItem<ActivityFilters>(ACTIVITY_FILTERS) ?? Object.create(null);
-    this.openView = this.lastFilters.viewType;
-    navigator.geolocation.getCurrentPosition((position) => {
-      this.lastFilters.coordinates = { lng: position.coords.longitude, lat: position.coords.latitude };
-      this.lastFilters.maxDistance = DEFAULT_DISTANCE;
-      this.lastFilters.maxPrice = MAX_PRICE;
-      this.onSubmitFilters(this.lastFilters);
-      this.cdr.detectChanges();
+    this.configService.getUserConfig().subscribe((filters) => {
+      this.lastFilters = filters ?? Object.create(null);
+      this.openView = this.lastFilters.viewType;
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.lastFilters.coordinates = { lng: position.coords.longitude, lat: position.coords.latitude };
+        this.lastFilters.maxDistance = DEFAULT_DISTANCE;
+        this.lastFilters.maxPrice = MAX_PRICE;
+        this.onSubmitFilters(this.lastFilters);
+        this.cdr.detectChanges();
+      });
     });
   }
 
@@ -106,7 +111,6 @@ export class FindActivitiesComponent implements OnInit {
       )
       .subscribe(
         (activities: Activity[]) => {
-          console.log('SUB', activities);
           if (this.localStorageService.getItem<string[]>(FAVOURITES)) {
             this.favouriteIds = this.localStorageService.getItem<string[]>(FAVOURITES);
           }

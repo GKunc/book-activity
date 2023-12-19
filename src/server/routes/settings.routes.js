@@ -8,5 +8,5 @@ module.exports = function (app) {
   });
 
   app.get('/api/settings', [authJwt.verifyToken], controller.getUserConfig);
-  app.post('/api/settings', [authJwt.verifyToken], controller.updateUserConfig);
+  app.put('/api/settings', [authJwt.verifyToken], controller.updateUserConfig);
 };
