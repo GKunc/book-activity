@@ -34,22 +34,28 @@ export class FindActivitiesComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private localStorageService: LocalStorageService,
     private configService: ClienntConfigService,
+    private loginService: LoginService,
     public resizeService: ResizeService
   ) {}
 
   // refactor to store
   ngOnInit(): void {
-    this.configService.getUserConfig().subscribe((filters) => {
-      this.lastFilters = filters ?? Object.create(null);
-      this.openView = this.lastFilters.viewType;
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.lastFilters.coordinates = { lng: position.coords.longitude, lat: position.coords.latitude };
-        this.lastFilters.maxDistance = DEFAULT_DISTANCE;
-        this.lastFilters.maxPrice = MAX_PRICE;
-        this.onSubmitFilters(this.lastFilters);
-        this.cdr.detectChanges();
+    if (this.loginService.loggedUser) {
+      this.configService.getUserConfig().subscribe((filters) => {
+        this.lastFilters = filters ?? Object.create(null);
+        this.openView = this.lastFilters.viewType;
+        navigator.geolocation.getCurrentPosition((position) => {
+          this.lastFilters.coordinates = { lng: position.coords.longitude, lat: position.coords.latitude };
+          this.lastFilters.maxDistance = DEFAULT_DISTANCE;
+          this.lastFilters.maxPrice = MAX_PRICE;
+          this.onSubmitFilters(this.lastFilters);
+          this.cdr.detectChanges();
+        });
       });
-    });
+      return;
+    }
+
+    this.onSubmitFilters(this.lastFilters);
   }
 
   loadMore(): void {

@@ -54,7 +54,7 @@
 
     <div class="column first-column">
       <div *ngIf="!loading" class="carousel-container">
-        <h1 class="carousel-rate">{{ avgRate | number : '1.1-1' || '-' }}</h1>
+        <h1 class="carousel-rate">{{ (avgRate | number : '1.1-1') || '-' }}</h1>
         <nz-carousel nzEffect="scrollx" #carouselRef>
           <div nz-carousel-content *ngFor="let src of activity.photos">
             <img [alt]="activity.name" [src]="src | safeUrl" />

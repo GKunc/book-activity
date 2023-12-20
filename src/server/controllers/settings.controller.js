@@ -1,7 +1,6 @@
 const SettingsService = require('../services/settings.service');
 
 exports.getUserConfig = async (req, res) => {
-  console.log(req);
   const config = await SettingsService.getSettings(req.query.userId);
 
   if (config) {
