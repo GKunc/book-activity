@@ -1,0 +1,39 @@
+<div class="your-activities__container">
+  <div class="your-activities__container--left">
+    <div class="your-activities__description">
+      <div class="your-activities__description--status">
+        <span
+          class="your-activities__description--icon"
+          *ngIf="!activity.active"
+          nz-icon
+          nzTheme="fill"
+          nzType="exclamation-circle"
+          nz-tooltip
+          nzTooltipTitle="Te zajęcia nie są aktywne i nie będą widoczne dla klientów w obecnym pakiecie."
+          nzTooltipPlacement="top"
+        ></span>
+        <h2 class="your-activities__details--name">{{ activity.name }}</h2>
+      </div>
+      <div class="your-activities__details--category">
+        {{ activity.category | category }}
+      </div>
+    </div>
+
+    <div class="your-activities__price" *ngIf="!hidePrice">
+      <div>{{ activity.groups[0].price | pricePLN }}</div>
+      <div>{{ activity.groups[0].weekDay | weekDay }}</div>
+    </div>
+  </div>
+
+  <div class="your-activities__actions">
+    <a nz-button nzType="link" routerLink="/detail/{{ activity.guid }}"
+      >Zobacz <span nz-icon nzType="eye" nzTheme="outline"></span
+    ></a>
+    <a nz-button nzType="link" *ngIf="!hideEditButton" (click)="editActivity.emit(activity)"
+      >Edyduj <span nz-icon nzType="edit" nzTheme="outline"></span
+    ></a>
+    <a nz-button nzType="link" (click)="deleteActivity.emit(activity)"
+      >Usuń <span nz-icon nzType="delete" nzTheme="outline"></span
+    ></a>
+  </div>
+</div>

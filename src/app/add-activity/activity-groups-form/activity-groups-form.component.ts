@@ -61,6 +61,7 @@ export class ActivityGroupsFormComponent implements OnInit {
         time: this.form.controls.time.value,
         weekDay: this.form.controls.weekDay.value,
         paymentPeriod: this.form.controls.paymentPeriod.value,
+        category: this.activity?.category ?? null,
       });
 
       this.form.reset();

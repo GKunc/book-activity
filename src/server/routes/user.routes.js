@@ -10,4 +10,7 @@ module.exports = function (app) {
 
   app.get('/api/user', controller.getUserById);
   app.delete('/api/user', [authJwt.verifyToken], controller.deleteUser);
+  app.get('/api/user/enroll/:userId', [authJwt.verifyToken], controller.getEnrolledGroups);
+  app.put('/api/user/enroll/:userId', [authJwt.verifyToken], controller.enrollToGroup);
+  app.delete('/api/user/enroll/:userId', [authJwt.verifyToken], controller.deleteEnrolledGroup);
 };

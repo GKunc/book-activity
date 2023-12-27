@@ -42,7 +42,7 @@ exports.signup = async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
 
-  let user = await UserService.getUserByUsernameAndEmailAndPassword(username, email);
+  let user = await UserService.getUserByUsernameAndEmail(username, email);
 
   if (!user) {
     customerInfo = await stripe.customers.create({

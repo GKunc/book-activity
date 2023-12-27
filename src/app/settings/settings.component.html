@@ -10,19 +10,19 @@
           <li>
             <h2 class="profile__header"></h2>
           </li>
-          <li nz-menu-item routerLink="profile" nzSelected>
+          <li nz-menu-item routerLink="profile" nzMatchRouter>
             <span>Profil</span>
           </li>
-          <li nz-menu-item routerLink="paid-activities">
+          <li nz-menu-item routerLink="paid-activities" nzMatchRouter>
             <span>Opłacone zajęcia</span>
           </li>
-          <li nz-menu-item routerLink="favourites">
+          <li nz-menu-item routerLink="favourites" nzMatchRouter>
             <span>Ulubione</span>
           </li>
-          <li nz-menu-item routerLink="your-activities">
+          <li nz-menu-item routerLink="your-activities" nzMatchRouter>
             <span>Twoje zajęcia</span>
           </li>
-          <li nz-menu-item routerLink="statute">
+          <li nz-menu-item routerLink="statute" nzMatchRouter>
             <span>Regulamin</span>
           </li>
           <li class="profile__delete" nz-menu-item (click)="deleteAccount()">

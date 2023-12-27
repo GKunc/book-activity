@@ -51,6 +51,7 @@ import { ErrorComponent } from './error/error.component';
 import { DateDistancePipe } from '../common/pipes/date-distance.pipe';
 import { PaymentPeriodPipe } from '../common/pipes/payment-period.pipe';
 import { AllowCookiesComponent } from './allow-cookies/allow-cookies.component';
+import { ActivityBoxSimpleComponent } from './activity-box-simple/activity-box-simple.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { AllowCookiesComponent } from './allow-cookies/allow-cookies.component';
     ActivityFiltersComponent,
     ErrorComponent,
     AllowCookiesComponent,
+    ActivityBoxSimpleComponent,
   ],
   imports: [
     CommonModule,
@@ -117,6 +119,7 @@ import { AllowCookiesComponent } from './allow-cookies/allow-cookies.component';
     ActivityFiltersComponent,
     ErrorComponent,
     AllowCookiesComponent,
+    ActivityBoxSimpleComponent,
 
     SafeUrlPipe,
     WeekDayPipe,

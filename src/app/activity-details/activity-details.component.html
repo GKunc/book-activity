@@ -96,7 +96,7 @@
             </div>
             <div class="activity-groups__details--column activity-groups__price-container">
               <span class="text">{{ group.paymentPeriod | paymentPeriod }}</span>
-              <div class="activity-groups__price">
+              <div class="activity-groups__price" (click)="signForGroup(group)">
                 {{ group.price | pricePLN }}
               </div>
             </div>

@@ -40,7 +40,7 @@ exports.deleteActivity = async (req, res) => {
 };
 
 exports.checkPermissions = async (req, res) => {
-  const result = await getActivityCreatedBByUser(req.query.guid, req.query.userId);
+  const result = await getActivityCreatedByUser(req.query.guid, req.query.userId);
   if (result?.createdBy === userId) {
     console.log('Permission granted.');
     return res.status(200).send('OK');

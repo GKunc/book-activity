@@ -27,10 +27,12 @@ export interface Activity {
 }
 
 export interface GroupDetails {
+  _id?: string;
   name: string;
   duration: number;
   price: number;
   time: Date;
   weekDay: WeekDay;
   paymentPeriod: PaymentPeriod;
+  category: Category;
 }

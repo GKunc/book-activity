@@ -2,9 +2,11 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NzCarouselComponent } from 'ng-zorro-antd/carousel';
 import { catchError, concat, finalize, map, of, switchMap, zipAll } from 'rxjs';
-import { Activity } from '../common/services/activities/activities.model';
+import { Activity, GroupDetails } from '../common/services/activities/activities.model';
 import { ActivitiesService } from '../common/services/activities/activities.service';
+import { LoginService } from '../common/services/login-service/login.service';
 import { MapService } from '../common/services/map-service/map-service.service';
+import { UserService } from '../common/services/user/user.service';
 
 @Component({
   selector: 'app-activity-details',
@@ -32,7 +34,9 @@ export class ActivityDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private activitiesService: ActivitiesService,
-    private mapService: MapService
+    private mapService: MapService,
+    private userService: UserService,
+    private loginService: LoginService
   ) {}
 
   ngOnInit(): void {
@@ -88,6 +92,15 @@ export class ActivityDetailsComponent implements OnInit {
       this.currentDescription = this.activity.description;
     } else {
       this.currentDescription = this.activity.description.slice(0, 150);
+    }
+  }
+
+  signForGroup(group: GroupDetails): void {
+    if (this.loginService.loggedUser) {
+      this.loading = true;
+      this.userService.enrollForGroup(this.loginService.loggedUser, group).subscribe(() => {
+        this.loading = false;
+      });
     }
   }
 

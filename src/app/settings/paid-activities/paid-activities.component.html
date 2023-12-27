@@ -1,6 +1,32 @@
 <div class="favourite-activities__header">
   <h1 class="favourite-activities__title">Opłacone zajęcia:</h1>
 
+  <div class="favourite-activities__grid">
+    <div *ngFor="let group of groups">
+      <div class="your-activities__container">
+        <div class="your-activities__container--left">
+          <div class="your-activities__description">
+            <h2 class="your-activities__details--name">{{ group.name }}</h2>
+            <div class="your-activities__details--category">
+              {{ group.category | category }}
+            </div>
+          </div>
+
+          <div class="your-activities__price">
+            <div>{{ group.price | pricePLN }}</div>
+            <div>{{ group.weekDay | weekDay }}</div>
+          </div>
+        </div>
+
+        <div class="your-activities__actions">
+          <a nz-button nzType="link" (click)="deleteEnrolledGroup(group)"
+            >Odwołaj<span nz-icon nzType="delete" nzTheme="outline"></span
+          ></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <loader *ngIf="loading" [inlineStyle]="true"></loader>
   <no-data *ngIf="noData" [inlineStyle]="true"></no-data>
   <error *ngIf="error" [inlineStyle]="true"></error>

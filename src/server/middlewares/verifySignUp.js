@@ -28,6 +28,7 @@ checkDuplicateUsernameOrEmail = async (req, res, next) => {
   }
 
   if (user) {
+    console.log(req.body.password, user?.password);
     const passwordMatch = bcrypt.compareSync(req.body.password, user?.password);
   }
 

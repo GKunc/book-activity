@@ -1,5 +1,21 @@
 const UserService = require('../services/user.service');
+const EnrolledGroupsService = require('../services/enrolled-group.service');
 const stripe = require('stripe')(process.env.PAYMENT_API_KEY);
+
+exports.getEnrolledGroups = async (req, res) => {
+  const enrolledGroups = await EnrolledGroupsService.getEnrolledGroups(req?.params.userId);
+  res.status(200).json(enrolledGroups);
+};
+
+exports.enrollToGroup = async (req, res) => {
+  await EnrolledGroupsService.enrollToGroup(req?.params.userId, req.body.groupId);
+  res.status(200).json({ message: 'ok' });
+};
+
+exports.deleteEnrolledGroup = async (req, res) => {
+  await EnrolledGroupsService.deleteEnrolledGroup(req?.params.userId, req.query?.groupId);
+  res.status(200).json({ message: 'ok' });
+};
 
 exports.getUserById = async (req, res) => {
   const user = await UserService.getUserById(req.query.userId);
