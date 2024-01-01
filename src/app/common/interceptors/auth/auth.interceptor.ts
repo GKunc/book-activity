@@ -59,7 +59,8 @@ export class HttpRequestInterceptor implements HttpInterceptor {
               this.localStorageService.removeItem(REFRESH_TOKEN);
               this.loginService.signOut();
               this.modalService.closeAll();
-              this.router.navigate(['/not-authorized']);
+              if (this.router.url !== '' && !this.router.url.includes('find-activities'))
+                this.router.navigate(['/sign']);
               return;
             }
 
