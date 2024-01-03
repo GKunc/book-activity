@@ -48,28 +48,15 @@ export class YourActivitiesComponent implements OnInit {
   }
 
   addActivity(): void {
-    if (this.isMobile()) {
-      this.router.navigate(['add-activity']);
-    } else {
-      // false for not mobile device
-      const modal = this.modalService.createModal(AddActivityComponent, 'Dodaj swoje zajęcia', 500, {}, false);
-      this.refreshActivitiesOnModalClose(modal);
-    }
+    this.router.navigate(['/settings/add-activity']);
+    // this.refreshActivitiesOnModalClose(modal);
   }
 
   editActivity(activity: Activity): void {
-    if (this.isMobile()) {
-      this.router.navigateByUrl('add-activity', { state: { activity: JSON.stringify(activity), isEditing: true } });
-    } else {
-      const modal = this.modalService.createModal(
-        AddActivityComponent,
-        'Dodaj swoje zajęcia',
-        500,
-        { activity, isEditing: true },
-        false
-      );
-      this.refreshActivitiesOnModalClose(modal);
-    }
+    this.router.navigateByUrl('/settings/add-activity', {
+      state: { activity: JSON.stringify(activity), isEditing: true },
+    });
+    // this.refreshActivitiesOnModalClose(modal);
   }
 
   deleteActivity(activity: Activity): void {

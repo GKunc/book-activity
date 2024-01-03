@@ -42,6 +42,10 @@ const routes: Routes = [
           import('./settings/your-activities/your-activities.component').then((x) => x.YourActivitiesComponent),
       },
       {
+        path: 'add-activity',
+        loadComponent: () => import('./add-activity/add-activity.component').then((x) => x.AddActivityComponent),
+      },
+      {
         path: 'statute',
         loadComponent: () => import('./settings/statute/statute.component').then((x) => x.StatuteComponent),
       },
@@ -51,10 +55,6 @@ const routes: Routes = [
           import('./settings/paid-activities/paid-activities.component').then((x) => x.PaidActivitiesComponent),
       },
     ],
-  },
-  {
-    path: 'add-activity',
-    loadComponent: () => import('./add-activity/add-activity.component').then((x) => x.AddActivityComponent),
   },
   {
     path: 'sign',
