@@ -11,16 +11,6 @@ const Activity = mongoose.model(
     images: [String],
     category: Number,
     description: String,
-    groups: [
-      {
-        name: String,
-        duration: Number,
-        price: Number,
-        time: String,
-        weekDay: Number,
-        paymentPeriod: Number,
-      },
-    ],
     street: String,
     city: String,
     coordinates: {

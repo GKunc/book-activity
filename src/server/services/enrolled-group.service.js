@@ -1,27 +1,15 @@
 const EnrolledGroups = require('../models/enrolled-group.model');
 const Activity = require('../models/activity.model');
+const Group = require('../models/group.model');
 
 async function getEnrolledGroups(userId) {
   const found = await EnrolledGroups.findOne({ userId });
   const groups = found?.groups;
   const result = [];
   for (let i = 0; i < groups?.length; i++) {
-    const activity = await Activity.findOne(
-      { 'groups._id': groups[i] },
-      { groups: { $elemMatch: { _id: groups[i] } }, category: 1 }
-    );
+    const group = await Group.findOne({ _id: groups[i] });
 
-    const group = activity?.groups[0];
-
-    result.push({
-      _id: group._id,
-      name: group.name,
-      duration: group.duration,
-      price: group.price,
-      time: group.time,
-      weekDay: group.weekDay,
-      category: activity.category,
-    });
+    result.push(group);
   }
 
   return result;

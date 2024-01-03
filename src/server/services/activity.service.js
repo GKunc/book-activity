@@ -1,9 +1,12 @@
 const db = require('../models');
 const Activity = db.activity;
 const { MongoClient, GridFSBucket } = require('mongodb');
+const GroupService = require('./group.service');
+const Group = require('../models/group.model');
 
 async function filterActivities(body) {
   let query = {};
+  let queryGroup = {};
 
   if (body.phrase) {
     query.$or = [];
@@ -11,18 +14,26 @@ async function filterActivities(body) {
   }
 
   if (body.weekDays && body.weekDays.length > 0) {
-    query.weekDay = {};
-    query.weekDay.$in = body.weekDays;
+    queryGroup.weekDay = {};
+    queryGroup.weekDay.$in = body.weekDays;
   }
 
   if (body.categories && body.categories.length > 0) {
-    query.category = {};
-    query.category.$in = body.categories;
+    queryGroup.category = {};
+    queryGroup.category.$in = body.categories;
   }
 
-  query['groups.price'] = {};
-  query['groups.price'].$gte = body.minPrice ?? 0;
-  query['groups.price'].$lte = body.maxPrice ?? 1000;
+  queryGroup['groups.price'] = {};
+  queryGroup['groups.price'].$gte = body.minPrice ?? 0;
+  queryGroup['groups.price'].$lte = body.maxPrice ?? 1000;
+
+  const groups = await Group.find(query);
+  const ids = groups.map((group) => group.activityId);
+  if (ids.length > 0) {
+    query.guid = {};
+    query.guid.$in = ids;
+  }
+
   query.active = true;
 
   const skip = (body.page - 1) * body.limit;
@@ -47,18 +58,28 @@ async function filterActivities(body) {
 }
 
 async function getUserActivities(id) {
-  return Activity.find({ createdBy: id });
+  const activities = await Activity.find({ createdBy: id });
+  for (let i = 0; i < activities.length; i++) {
+    const groups = await GroupService.getGroupsForActivity(activities[i].guid);
+    activities[i] = { ...activities[i]._doc, groups };
+  }
+  return activities;
 }
 
 async function getActivityDetails(id) {
-  return Activity.findOne({ guid: id, active: true });
+  const activity = await Activity.findOne({ guid: id, active: true });
+  const groups = await GroupService.getGroupsForActivity(id);
+  return { ...activity._doc, groups };
 }
 
 async function createActivity(data) {
-  return Activity.create(data);
+  await Activity.create(data);
+  await GroupService.addGroups(data.groups, data.guid);
+  return;
 }
 
 async function editActivity(id, activity) {
+  // check groups
   return Activity.replaceOne({ guid: id }, activity);
 }
 
@@ -76,11 +97,14 @@ async function deleteActivity(id) {
     foundImage.forEach(async (doc) => await bucket.delete(doc._id));
   });
 
-  return Activity.deleteOne(query);
+  await Activity.deleteOne({ guid: id });
+  await GroupService.deleteGroupsForActivity(id);
 }
 
 async function getActivityCreatedByUser(guid, userId) {
-  return Activity.findOne({ guid, userId });
+  const activity = await Activity.findOne({ guid, userId });
+  const groups = await GroupService.getGroupsForActivity(guid);
+  return activity;
 }
 
 function distanceLatLong(lat1, lon1, lat2, lon2) {

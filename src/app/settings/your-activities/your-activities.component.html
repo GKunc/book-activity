@@ -32,6 +32,7 @@
       <div *ngFor="let activity of activities">
         <activity-box-simple
           [activity]="activity"
+          [hidePrice]="true"
           (editActivity)="editActivity($event)"
           (deleteActivity)="editActivity($event)"
         ></activity-box-simple>
