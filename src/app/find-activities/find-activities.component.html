@@ -1,36 +1,53 @@
-<nz-layout>
-  <nz-sider *ngIf="(resizeService.isSmall$ | async) === false" class="slider__filters">
+<!-- <nz-sider *ngIf="(resizeService.isSmall$ | async) === false" class="slider__filters">
     <activity-filters
       (submitFilters)="onSubmitFilters($event, false, true)"
       (submitView)="changeView($event)"
     ></activity-filters>
-  </nz-sider>
+  </nz-sider> -->
 
-  <nz-layout>
-    <activity-filters
-      *ngIf="resizeService.isSmall$ | async"
-      (submitFilters)="onSubmitFilters($event, false, true)"
-      (submitView)="changeView($event)"
-    ></activity-filters>
+<!-- <activity-filters
+  (submitFilters)="onSubmitFilters($event, false, true)"
+  (submitView)="changeView($event)"
+></activity-filters> -->
 
-    <ng-container *ngIf="(resizeService.isSmall$ | async) === false; else mobileView">
-      <nz-content class="content-container" style="position: relative">
-        <ng-template #activityList>
-          <activity-list *ngIf="!loading" [activities]="activities" (loadMore)="loadMore()"></activity-list>
-        </ng-template>
+<ng-container *ngIf="(resizeService.isSmall$ | async) === false; else mobileView">
+  <nz-content class="content-container" style="position: relative">
+    <ng-template #activityList>
+      <activity-list *ngIf="!loading" [activities]="activities" (loadMore)="loadMore()"></activity-list>
+    </ng-template>
 
-        <activity-map
-          *ngIf="openView === viewTypes.Map && !loading; else activityList"
-          [activities]="activities"
-        ></activity-map>
+    <activity-map
+      *ngIf="openView === viewTypes.Map && !loading; else activityList"
+      [activities]="activities"
+    ></activity-map>
 
-        <loader *ngIf="loading" [inlineStyle]="true"></loader>
-        <no-data *ngIf="!loading && noData && openView !== viewTypes.Map" [inlineStyle]="true"></no-data>
-        <error *ngIf="error" [inlineStyle]="true" [retryHandler]="onSubmitFilters.bind(this)"></error>
-      </nz-content>
-    </ng-container>
-  </nz-layout>
-</nz-layout>
+    <button
+      class="find-activities__map--button"
+      *ngIf="openView === viewTypes.Map"
+      (click)="changeView(viewTypes.List)"
+      nz-button
+      nzType="default"
+      nzShape="round"
+    >
+      Pokaz Liste
+    </button>
+
+    <button
+      class="find-activities__map--button"
+      *ngIf="openView === viewTypes.List"
+      (click)="changeView(viewTypes.Map)"
+      nz-button
+      nzType="default"
+      nzShape="round"
+    >
+      Pokaz Mape
+    </button>
+
+    <loader *ngIf="loading" [inlineStyle]="true"></loader>
+    <no-data *ngIf="!loading && noData && openView !== viewTypes.Map" [inlineStyle]="true"></no-data>
+    <error *ngIf="error" [inlineStyle]="true" [retryHandler]="onSubmitFilters.bind(this)"></error>
+  </nz-content>
+</ng-container>
 
 <ng-template #mobileView>
   <nz-tabset>

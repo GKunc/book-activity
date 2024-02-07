@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { catchError, concat, finalize, map, of, switchMap, zipAll } from 'rxjs';
-import { ACTIVITY_FILTERS, FAVOURITES } from '../common/consts/local-storage.consts';
+import { FAVOURITES } from '../common/consts/local-storage.consts';
 import { Activity } from '../common/services/activities/activities.model';
 import { ActivitiesService } from '../common/services/activities/activities.service';
 import { ClienntConfigService } from '../common/services/client-config/client-config.service';
@@ -43,7 +43,7 @@ export class FindActivitiesComponent implements OnInit {
     if (this.loginService.loggedUser) {
       this.configService.getUserConfig().subscribe((filters) => {
         this.lastFilters = filters ?? Object.create(null);
-        this.openView = this.lastFilters.viewType;
+        this.openView = this.lastFilters.viewType ?? ViewType.List;
         navigator.geolocation.getCurrentPosition((position) => {
           this.lastFilters.coordinates = { lng: position.coords.longitude, lat: position.coords.latitude };
           this.lastFilters.maxDistance = DEFAULT_DISTANCE;

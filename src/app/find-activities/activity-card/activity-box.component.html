@@ -16,7 +16,7 @@
 </ng-template>
 <ng-template #description>
   <div class="activity-box__description">
-    <span>{{ activity.category | category }}</span>
+    <span> {{ getActivityCategory(activity.category) }} </span>
     <span
       style="z-index: 1000"
       *ngIf="loginService._user$ | async"

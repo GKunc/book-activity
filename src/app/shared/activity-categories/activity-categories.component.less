@@ -1,0 +1,53 @@
+@import '../../../styles.less';
+
+.activity-category {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 16px;
+  text-align: center;
+  text-wrap: nowrap;
+  cursor: pointer;
+  min-width: 80px;
+
+  &--selected {
+    border-bottom: 1px solid @primary-color;
+  }
+
+  &__wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__container {
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    position: relative;
+    margin-right: 16px;
+  }
+
+  &__arrow {
+    position: sticky;
+
+    &--left {
+      left: 0;
+    }
+
+    &--right {
+      right: 0;
+    }
+  }
+}
+
+:host {
+  flex: 1;
+  overflow: auto;
+  margin: 0 16px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}

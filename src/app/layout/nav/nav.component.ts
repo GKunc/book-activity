@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Category } from 'src/app/common/consts/category.consts';
@@ -15,6 +16,7 @@ import { ResizeService } from 'src/app/common/services/resize/resize.service';
 })
 export class NavComponent implements OnInit {
   visible = false;
+  showFilters: boolean;
 
   user: InternalUser;
   userInitials: string;
@@ -30,10 +32,22 @@ export class NavComponent implements OnInit {
     private modalService: ModalService,
     private router: Router,
     private localStorageService: LocalStorageService,
-    private dictionaryService: DictionaryService
+    private dictionaryService: DictionaryService,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
+    this.showFilters = this.location.path().includes('find-activities');
+
+    this.router.events.subscribe(() => {
+      this.showFilters = this.location.path().includes('find-activities');
+      if (this.showFilters) {
+        document.getElementById('app').style.paddingTop = '180px';
+      } else {
+        document.getElementById('app').style.paddingTop = '70px';
+      }
+    });
+
     this.loginService._user$?.subscribe((data) => {
       if (data) {
         this.user = data;

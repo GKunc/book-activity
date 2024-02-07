@@ -6,11 +6,11 @@ import { map, Observable, of, switchMap, tap } from 'rxjs';
   providedIn: 'root',
 })
 export class DictionaryService {
-  private dictionaries: { [key: string]: { value: number; label: string }[] } = {};
+  private dictionaries: { [key: string]: { value: number; label: string; iconSvg?: string }[] } = {};
 
   constructor(private http: HttpClient) {}
 
-  getDictionary(key: string): Observable<{ value: number; label: string }[]> {
+  getDictionary(key: string): Observable<{ value: number; label: string; iconSvg?: string }[]> {
     const value = this.dictionaries[key];
 
     if (!value) {
@@ -19,6 +19,7 @@ export class DictionaryService {
           result.map((item) => ({
             value: item.id,
             label: item.name,
+            iconSvg: item.iconSvg,
           }))
         ),
         tap((result) => (this.dictionaries[key] = result))

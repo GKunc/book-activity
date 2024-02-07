@@ -8,8 +8,9 @@ async function getEnrolledGroups(userId) {
   const result = [];
   for (let i = 0; i < groups?.length; i++) {
     const group = await Group.findOne({ _id: groups[i] });
-
-    result.push(group);
+    if (group) {
+      result.push(group);
+    }
   }
 
   return result;

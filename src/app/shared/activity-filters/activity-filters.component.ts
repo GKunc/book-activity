@@ -91,6 +91,11 @@ export class ActivityFiltersComponent implements OnInit {
     });
   }
 
+  onSetCategory(category: Category): void {
+    this.categories = [category];
+    this.submit();
+  }
+
   changeView(value: number): void {
     if (value === 0) {
       this.viewType = ViewType.List;

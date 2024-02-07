@@ -8,51 +8,52 @@ async function filterActivities(body) {
   let query = {};
   let queryGroup = {};
 
-  if (body.phrase) {
-    query.$or = [];
-    query.$or = [{ name: new RegExp(body.phrase, 'i') }, { 'groups.name': new RegExp(body.phrase, 'i') }];
-  }
+  // if (body.phrase) {
+  //   query.$or = [];
+  //   query.$or = [{ name: new RegExp(body.phrase, 'i') }, { 'groups.name': new RegExp(body.phrase, 'i') }];
+  // }
 
-  if (body.weekDays && body.weekDays.length > 0) {
-    queryGroup.weekDay = {};
-    queryGroup.weekDay.$in = body.weekDays;
-  }
+  // if (body.categories && body.categories.length > 0) {
+  //   query.category = {};
+  //   query.category.$in = body.categories;
+  // }
 
-  if (body.categories && body.categories.length > 0) {
-    queryGroup.category = {};
-    queryGroup.category.$in = body.categories;
-  }
+  // if (body.weekDays && body.weekDays.length > 0) {
+  //   queryGroup.weekDay = {};
+  //   queryGroup.weekDay.$in = body.weekDays;
+  // }
 
-  queryGroup['groups.price'] = {};
-  queryGroup['groups.price'].$gte = body.minPrice ?? 0;
-  queryGroup['groups.price'].$lte = body.maxPrice ?? 1000;
+  // queryGroup['groups.price'] = {};
+  // queryGroup['groups.price'].$gte = body.minPrice ?? 0;
+  // queryGroup['groups.price'].$lte = body.maxPrice ?? 1000;
 
-  const groups = await Group.find(query);
-  const ids = groups.map((group) => group.activityId);
-  if (ids.length > 0) {
-    query.guid = {};
-    query.guid.$in = ids;
-  }
+  // const groups = await Group.find(queryGroup);
+  // const ids = groups.map((group) => group.activityId);
+  // if (ids.length > 0) {
+  //   query.guid = {};
+  //   query.guid.$in = ids;
+  // }
 
-  query.active = true;
+  // query.active = true;
 
-  const skip = (body.page - 1) * body.limit;
-  const activities = await Activity.find(query)
-    .skip(skip ?? 0)
-    .limit(body.limit ?? 20);
+  // const skip = (body.page - 1) * body.limit;
+  // const activities = await Activity.find(query);
+  const activities = await Activity.find({});
+  // .skip(skip ?? 0)
+  // .limit(body.limit ?? 20);
 
   // body.maxDistance - calculate all activities in radius
-  if (body.coordinates) {
-    return activities.filter(
-      (activity) =>
-        distanceLatLong(
-          activity.coordinates.lat,
-          activity.coordinates.lng,
-          body.coordinates.lat,
-          body.coordinates.lng
-        ) < body.maxDistance
-    );
-  }
+  // if (body.coordinates) {
+  //   return activities.filter(
+  //     (activity) =>
+  //       distanceLatLong(
+  //         activity.coordinates.lat,
+  //         activity.coordinates.lng,
+  //         body.coordinates.lat,
+  //         body.coordinates.lng
+  //       ) < body.maxDistance
+  //   );
+  // }
 
   return activities;
 }
@@ -61,13 +62,17 @@ async function getUserActivities(id) {
   const activities = await Activity.find({ createdBy: id });
   for (let i = 0; i < activities.length; i++) {
     const groups = await GroupService.getGroupsForActivity(activities[i].guid);
-    activities[i] = { ...activities[i]._doc, groups };
+    activities[i] = { ...activities[i]?._doc, groups };
   }
   return activities;
 }
 
 async function getActivityDetails(id) {
   const activity = await Activity.findOne({ guid: id, active: true });
+  if (!activity) {
+    return null;
+  }
+
   const groups = await GroupService.getGroupsForActivity(id);
   return { ...activity._doc, groups };
 }

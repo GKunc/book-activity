@@ -25,12 +25,14 @@
 }
 
 .navigation {
+  position: fixed;
+  top: 0;
+  left: 16px;
+  right: 16px;
+  z-index: 1000;
+  background-color: white;
+
   &__container {
-    z-index: 100;
-    position: fixed;
-    top: 0;
-    left: 16px;
-    right: 16px;
     color: black;
     display: flex;
     align-items: center;
@@ -38,7 +40,6 @@
     gap: 8px;
     padding-bottom: 16px;
     border-bottom: 1px solid @primary-color;
-    background-color: white;
     padding-top: 16px;
 
     &--left {

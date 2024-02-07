@@ -1,7 +1,8 @@
 img {
-  min-height: 150px;
+  min-height: 210px;
   max-height: 150px;
-  object-fit: contain;
+  object-fit: cover;
+  border-radius: 8px !important;
 }
 
 .fav-icon {
@@ -16,7 +17,7 @@ img {
 }
 
 .ant-card-bordered {
-  border: 1px solid rgb(0 141 255 / 54%);
+  border: none;
 
   ::ng-deep .ant-card-body {
     padding: 12px;
@@ -28,5 +29,6 @@ img {
 
   ::ng-deep .ant-card-meta-title {
     padding-top: 8px;
+    margin-bottom: 0;
   }
 }

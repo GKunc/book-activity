@@ -1,4 +1,6 @@
-<div *ngIf="resizeService.isSmall$ | async; else largeScreenFilters" class="filters-mobile">
+<div class="filters-mobile">
+  <activity-categories (setCategory)="onSetCategory($event)"></activity-categories>
+
   <button (click)="openFilters()" nz-button nzType="default" nzSize="default" nzShape="round">
     Pokaz filtry
     <span nz-icon nzType="down" nzTheme="outline"></span>
@@ -12,7 +14,6 @@
     [nzMask]="true"
     [nzMaskClosable]="true"
     (nzOnCancel)="showFilters = false"
-    [nzMaskStyle]="{ 'background-color': 'transparent' }"
     nzTitle=""
   >
     <ng-template #modalContent>
@@ -23,21 +24,6 @@
       <ng-template #suffixIconSearch>
         <span nz-icon nzType="search"></span>
       </ng-template>
-
-      <div class="filters__label">Kategoria:</div>
-      <nz-select
-        class="multiple-select"
-        nzPlaceHolder="Wybierz kategorię"
-        [(ngModel)]="categories"
-        nzMode="multiple"
-        [nzMaxTagCount]="1"
-      >
-        <nz-option
-          *ngFor="let option of acitivyCategories"
-          [nzLabel]="option.label"
-          [nzValue]="option.value"
-        ></nz-option>
-      </nz-select>
 
       <div class="filters__label">Dni tygodnia:</div>
       <nz-select
@@ -72,20 +58,18 @@
         ></nz-input-number>
       </div>
 
-      <div class="filters__label">
-        Odległośc/div>
-        <nz-slider (ngModelChange)="distanceChanged($event)" [(ngModel)]="maxDistance"></nz-slider>
+      <div class="filters__label">Odległośc:</div>
+      <nz-slider (ngModelChange)="distanceChanged($event)" [(ngModel)]="maxDistance"></nz-slider>
 
-        <div class="find-activities__filters-row">
-          <nz-input-number
-            (keyup.enter)="submit()"
-            (ngModelChange)="distanceChanged($event)"
-            [(ngModel)]="maxDistance"
-            [nzMin]="1"
-            [nzMax]="50"
-            [nzStep]="1"
-          ></nz-input-number>
-        </div>
+      <div class="find-activities__filters-row">
+        <nz-input-number
+          (keyup.enter)="submit()"
+          (ngModelChange)="distanceChanged($event)"
+          [(ngModel)]="maxDistance"
+          [nzMin]="1"
+          [nzMax]="50"
+          [nzStep]="1"
+        ></nz-input-number>
       </div>
     </ng-template>
 
@@ -95,90 +79,3 @@
     </ng-template>
   </nz-modal>
 </div>
-
-<ng-template #largeScreenFilters>
-  <div class="find-activities__filters">
-    <nz-segmented
-      [nzOptions]="options"
-      nzSize="large"
-      [ngModel]="viewType"
-      (nzValueChange)="changeView($event)"
-      style="margin: 0 auto"
-    ></nz-segmented>
-
-    <nz-input-group [nzSuffix]="suffixIconSearch">
-      <input type="text" nz-input placeholder="Szukaj" [(ngModel)]="phrase" />
-    </nz-input-group>
-
-    <ng-template #suffixIconSearch>
-      <span nz-icon nzType="search"></span>
-    </ng-template>
-
-    <nz-select
-      class="multiple-select"
-      nzPlaceHolder="Wybierz kategorię"
-      [(ngModel)]="categories"
-      nzMode="multiple"
-      [nzMaxTagCount]="1"
-    >
-      <nz-option *ngFor="let option of acitivyCategories" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
-    </nz-select>
-
-    <nz-select
-      class="multiple-select"
-      nzPlaceHolder="Wybierz dzień tygodnia"
-      [(ngModel)]="weekDays"
-      nzMode="multiple"
-      [nzMaxTagCount]="1"
-    >
-      <nz-option *ngFor="let option of weekDaysOptions" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
-    </nz-select>
-
-    Cena:
-    <nz-slider nzRange (ngModelChange)="rangePriceChanged($event)" [(ngModel)]="priceRange"></nz-slider>
-
-    <div class="find-activities__filters-row">
-      <nz-input-number
-        (ngModelChange)="minPriceChanged($event)"
-        [(ngModel)]="minPrice"
-        [nzMin]="1"
-        [nzMax]="1000"
-        [nzStep]="1"
-      ></nz-input-number>
-      <nz-input-number
-        (ngModelChange)="maxPriceChanged($event)"
-        [(ngModel)]="maxPrice"
-        [nzMin]="1"
-        [nzMax]="1000"
-        [nzStep]="1"
-      ></nz-input-number>
-    </div>
-
-    Odległośc:
-    <nz-slider (ngModelChange)="distanceChanged($event)" [(ngModel)]="maxDistance"></nz-slider>
-
-    <div class="find-activities__filters-row">
-      <nz-input-number
-        (keyup.enter)="submit()"
-        (ngModelChange)="distanceChanged($event)"
-        [(ngModel)]="maxDistance"
-        [nzMin]="1"
-        [nzMax]="50"
-        [nzStep]="1"
-      ></nz-input-number>
-    </div>
-    <div class="find-activities__filters-row">
-      <nz-divider></nz-divider>
-    </div>
-
-    <div class="find-activities__filters-row">
-      <hub-button
-        class="action-button"
-        text="Wyczyść"
-        type="default"
-        (click)="clearAllFilters(); submit()"
-      ></hub-button>
-      <hub-button class="action-button" text="Szukaj" (click)="submit()"></hub-button>
-    </div>
-  </div>
-</ng-template>

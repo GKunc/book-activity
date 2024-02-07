@@ -15,7 +15,7 @@
         <h2 class="your-activities__details--name">{{ activity.name }}</h2>
       </div>
       <div class="your-activities__details--category">
-        {{ activity.category | category }}
+        {{ getActivityCategory(activity.category) }}
       </div>
     </div>
 

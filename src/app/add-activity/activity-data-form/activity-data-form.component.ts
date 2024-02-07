@@ -28,7 +28,7 @@ export class ActivityDataFormComponent implements OnInit {
     description: new FormControl<string>('', [
       Validators.required,
       Validators.minLength(30),
-      Validators.maxLength(200),
+      Validators.maxLength(500),
     ]),
   });
 

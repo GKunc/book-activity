@@ -6,11 +6,15 @@ import { CategoryPipe } from '../../pipes/category.pipe';
 import { Activity } from '../activities/activities.model';
 
 const CATEGORY_COLOR_MAP = new Map<Category, { backgroundColor: string; fillColor: string }>([
-  [Category.Athletics, { backgroundColor: '#ff5050', fillColor: '#bf0003' }],
-  [Category.Football, { backgroundColor: 'green', fillColor: '#54db54' }],
-  [Category.GeneralDevelopment, { backgroundColor: 'darkorange', fillColor: 'orange' }],
-  [Category.Gymnastics, { backgroundColor: '#c8c834', fillColor: 'yellow' }],
-  [Category.Swimming, { backgroundColor: '#0060ae', fillColor: '#008dff' }],
+  [0, { backgroundColor: '#ff5050', fillColor: '#bf0003' }],
+  [1, { backgroundColor: 'green', fillColor: '#54db54' }],
+  [2, { backgroundColor: 'darkorange', fillColor: 'orange' }],
+  [3, { backgroundColor: '#c8c834', fillColor: 'yellow' }],
+  [4, { backgroundColor: '#0060ae', fillColor: '#008dff' }],
+  [5, { backgroundColor: '#0060ae', fillColor: '#008dff' }],
+  [6, { backgroundColor: '#0060ae', fillColor: '#008dff' }],
+  [7, { backgroundColor: '#0060ae', fillColor: '#008dff' }],
+  [8, { backgroundColor: '#0060ae', fillColor: '#008dff' }],
 ]);
 
 const INITIAL_MAP_ZOOM = 13;
