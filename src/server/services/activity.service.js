@@ -84,8 +84,9 @@ async function createActivity(data) {
 }
 
 async function editActivity(id, activity) {
-  // check groups
-  return Activity.replaceOne({ guid: id }, activity);
+  await Activity.replaceOne({ guid: id }, activity);
+  await GroupService.editGroups(activity.groups, id);
+  return;
 }
 
 async function deleteActivity(id) {

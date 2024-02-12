@@ -8,6 +8,11 @@ async function addGroups(groups, activityId) {
   return;
 }
 
+async function editGroups(groups, activityId) {
+  await Group.deleteMany({ activityId });
+  await addGroups(groups, activityId);
+}
+
 async function getGroupsForActivity(activityId) {
   return Group.find({ activityId });
 }
@@ -18,6 +23,7 @@ async function deleteGroupsForActivity(activityId) {
 
 const GroupService = {
   addGroups,
+  editGroups,
   getGroupsForActivity,
   deleteGroupsForActivity,
 };

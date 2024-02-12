@@ -13,3 +13,9 @@
 
    3. Start stripe webhook
       - stripe listen --forward-to localhost:4000/api/payment/webhook
+
+2. Usefull URLs
+   - icons - https://icons8.com/icon/
+   - img converter - https://convertio.co/
+   - svg viewer - https://www.svgviewer.dev/
+   - images - https://unsplash.com/photos/

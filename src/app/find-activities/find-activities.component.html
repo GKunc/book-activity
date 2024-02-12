@@ -1,15 +1,3 @@
-<!-- <nz-sider *ngIf="(resizeService.isSmall$ | async) === false" class="slider__filters">
-    <activity-filters
-      (submitFilters)="onSubmitFilters($event, false, true)"
-      (submitView)="changeView($event)"
-    ></activity-filters>
-  </nz-sider> -->
-
-<!-- <activity-filters
-  (submitFilters)="onSubmitFilters($event, false, true)"
-  (submitView)="changeView($event)"
-></activity-filters> -->
-
 <ng-container *ngIf="(resizeService.isSmall$ | async) === false; else mobileView">
   <nz-content class="content-container" style="position: relative">
     <ng-template #activityList>

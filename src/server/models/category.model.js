@@ -5,6 +5,7 @@ const Category = mongoose.model(
   new mongoose.Schema({
     id: Number,
     name: String,
+    iconSvg: String,
   })
 );
 

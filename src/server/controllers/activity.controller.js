@@ -23,7 +23,7 @@ exports.insertActivity = async (req, res) => {
 
 exports.replaceActivity = async (req, res) => {
   const result = await ActivityService.editActivity(req.query.id, req.body);
-  console.log(`Successfully modified ${result.modifiedCount} document.`);
+  console.log(`Successfully modified document.`);
   return res.sendStatus(200);
 };
 
