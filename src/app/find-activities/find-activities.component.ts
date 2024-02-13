@@ -9,6 +9,7 @@ import { LoginService } from '../common/services/login-service/login.service';
 import { ResizeService } from '../common/services/resize/resize.service';
 import { DEFAULT_DISTANCE, MAX_PRICE } from '../shared/activity-filters/activity-filters.component';
 import { ActivityFilters, ViewType } from '../shared/activity-filters/activity-filters.model';
+import { ActivityFiltersService } from '../shared/activity-filters/activity-filters.service';
 
 @Component({
   selector: 'app-find-activities',
@@ -35,11 +36,16 @@ export class FindActivitiesComponent implements OnInit {
     private localStorageService: LocalStorageService,
     private configService: ClienntConfigService,
     private loginService: LoginService,
+    private activityFiltersService: ActivityFiltersService,
     public resizeService: ResizeService
   ) {}
 
   // refactor to store
   ngOnInit(): void {
+    this.activityFiltersService.getFilters().subscribe((filters) => {
+      this.onSubmitFilters(filters, false, true);
+    });
+
     if (this.loginService.loggedUser) {
       this.configService.getUserConfig().subscribe((filters) => {
         this.lastFilters = filters ?? Object.create(null);

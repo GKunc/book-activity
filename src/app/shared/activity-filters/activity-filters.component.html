@@ -1,5 +1,8 @@
 <div class="filters-mobile">
-  <activity-categories (setCategory)="onSetCategory($event)"></activity-categories>
+  <activity-categories 
+  [selectedCategory]="categories[0]"
+  (setCategory)="onSetCategory($event)">
+</activity-categories>
 
   <button (click)="openFilters()" nz-button nzType="default" nzSize="default" nzShape="round">
     Pokaz filtry

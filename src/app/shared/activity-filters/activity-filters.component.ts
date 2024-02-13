@@ -8,6 +8,7 @@ import { DictionaryService } from 'src/app/common/services/dictionary/dictionary
 import { LocalStorageService } from 'src/app/common/services/local-storage/local-storage.service';
 import { ResizeService } from 'src/app/common/services/resize/resize.service';
 import { ActivityFilters, ViewType } from './activity-filters.model';
+import { ActivityFiltersService } from './activity-filters.service';
 
 const KEYBOARD_DEBOUND_TIME = 400;
 export const MAX_PRICE = 200;
@@ -53,6 +54,7 @@ export class ActivityFiltersComponent implements OnInit {
     private dictionaryService: DictionaryService,
     private localStorageService: LocalStorageService,
     private configService: ClienntConfigService,
+    private activityFiltersService: ActivityFiltersService,
     public resizeService: ResizeService
   ) {}
 
@@ -92,7 +94,7 @@ export class ActivityFiltersComponent implements OnInit {
   }
 
   onSetCategory(category: Category): void {
-    this.categories = [category];
+    this.categories = this.categories[0] === category ? [] : [category];
     this.submit();
   }
 
@@ -148,7 +150,7 @@ export class ActivityFiltersComponent implements OnInit {
 
   submit(): void {
     const filters = this.createFilters();
-    this.submitFilters.emit(filters);
+    this.activityFiltersService.setFilters(filters);
     this.showFilters = false;
     this.configService.setConfig(filters).subscribe();
   }

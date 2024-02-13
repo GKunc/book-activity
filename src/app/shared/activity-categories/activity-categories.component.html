@@ -13,7 +13,7 @@
 
     <div
       [class.activity-category--selected]="selectedCategory === category.value"
-      (click)="setCategory.emit(category.value); selectedCategory = category.value"
+      (click)="setCategory.emit(category.value);"
       class="activity-category"
       *ngFor="let category of acitivyCategories"
     >

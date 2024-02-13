@@ -48,7 +48,6 @@ export class LoginService {
           this.localStorageService.setItem(REFRESH_TOKEN, refresh_token);
 
           const loggedUser: InternalUser = jwt_decode(access_token);
-          console.log(loggedUser);
           this.loggedUser = loggedUser;
           this._user$.next(loggedUser);
           // get favourites

@@ -1,5 +1,15 @@
 import { CommonModule, NgFor } from '@angular/common';
-import { Component, ElementRef, EventEmitter, HostListener, inject, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  inject,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { Category } from 'src/app/common/consts/category.consts';
@@ -14,6 +24,9 @@ import { SafeHtmlPipe } from './safe-html.pipe';
   imports: [NgFor, CommonModule, NzIconModule, NzButtonModule, SafeHtmlPipe],
 })
 export class ActivityCategoriesComponent implements OnInit {
+  @Input()
+  selectedCategory: Category = null;
+
   @Output()
   setCategory: EventEmitter<Category> = new EventEmitter();
 
@@ -22,8 +35,6 @@ export class ActivityCategoriesComponent implements OnInit {
 
   showLeftArrow: boolean;
   showRightArrow: boolean = true;
-
-  selectedCategory: Category = null;
 
   acitivyCategories: { value: Category; label: string; iconSvg?: string }[];
 
