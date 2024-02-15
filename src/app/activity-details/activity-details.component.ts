@@ -14,10 +14,15 @@ import { UserService } from '../common/services/user/user.service';
   styleUrls: ['./activity-details.component.less'],
 })
 export class ActivityDetailsComponent implements OnInit {
-  @ViewChild('map') mapDiv?: ElementRef;
+  @ViewChild('map')
+  mapDiv?: ElementRef;
+
+  @ViewChild('mapContainer')
+  mapContainer?: ElementRef;
 
   @ViewChild('carouselRef')
   carouselRef: NzCarouselComponent;
+
   activity: Activity;
   loading: boolean;
   error: boolean;
@@ -142,6 +147,15 @@ export class ActivityDetailsComponent implements OnInit {
         this.activity.coordinates?.lng
       );
       this.mapService.addInfoBubble(this.activity, map, ui);
+      this.resizeMapToFitScreen();
     });
+  }
+
+  private resizeMapToFitScreen(): void {
+    if (this.mapDiv) {
+      const width = this.mapContainer?.nativeElement.clientWidth + 'px';
+      this.mapDiv.nativeElement.style.width = width;
+      this.mapDiv.nativeElement.querySelector('canvas').style.width = width;
+    }
   }
 }

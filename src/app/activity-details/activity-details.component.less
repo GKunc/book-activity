@@ -23,18 +23,17 @@
 
 [nz-carousel-content] {
   text-align: center;
-  height: 300px;
-  line-height: 300px;
+  height: 400px;
+  line-height: 400px;
   background: white;
   color: black;
   overflow: hidden;
-  border: 1px solid @primary-color;
-  border-radius: 2px;
+  border-radius: 8px;
 
   img {
     height: 100%;
     width: 100%;
-    object-fit: contain;
+    object-fit: cover;
   }
 }
 
@@ -49,15 +48,15 @@
   z-index: 10;
   padding: 16px;
   background-color: @primary-color-transparent;
-  border: 1px solid @primary-color;
-  border-radius: 2px;
+  border: 1px solid white;
+  border-radius: 8px;
 }
 
 .arrow {
   position: absolute;
   top: 40%;
   font-size: 40px;
-  color: @primary-color;
+  color: white;
 
   &:hover {
     cursor: pointer;
@@ -99,10 +98,10 @@
 
 .second-column {
   background-color: @secondary-color;
-  border-radius: 2px;
+  border-radius: 8px;
   height: fit-content;
   position: sticky;
-  top: 60px;
+  top: 85px;
 }
 
 .activity-groups {
@@ -121,6 +120,7 @@
   }
 
   &__details {
+    flex: 1;
     display: flex;
     gap: 16px;
     align-items: center;
@@ -137,7 +137,7 @@
     color: @primary-color;
     font-weight: bold;
     border: 1px solid @primary-color;
-    border-radius: 2px;
+    border-radius: 8px;
     padding: 8px;
     width: 100px;
     text-align: center;

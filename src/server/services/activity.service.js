@@ -23,16 +23,21 @@ async function filterActivities(body) {
     queryGroup.weekDay.$in = body.weekDays;
   }
 
-  // queryGroup['groups.price'] = {};
-  // queryGroup['groups.price'].$gte = body.minPrice ?? 0;
-  // queryGroup['groups.price'].$lte = body.maxPrice ?? 1000;
+  if (body.minPrice || body.maxPrice) {
+    queryGroup.price = {};
+    queryGroup.price.$gte = body.minPrice ?? 0;
+    queryGroup.price.$lte = body.maxPrice ?? 1000;
+  }
 
-  // const groups = await Group.find(queryGroup);
-  // const ids = groups.map((group) => group.activityId);
-  // if (ids.length > 0) {
-  //   query.guid = {};
-  //   query.guid.$in = ids;
-  // }
+  let groups = [];
+  if(Object.keys(queryGroup).length !== 0) {
+    groups = await Group.find(queryGroup);
+  }
+
+  const ids = groups?.map((group) => group.activityId);
+
+  query.guid = {};
+  query.guid.$in = ids;
 
   query.active = true;
 
@@ -40,21 +45,20 @@ async function filterActivities(body) {
   const activities = await Activity.find(query)
   .skip(skip ?? 0)
   .limit(body.limit ?? 20);
-  // const activities = await Activity.find({});
 
 
   // body.maxDistance - calculate all activities in radius
-  // if (body.coordinates) {
-  //   return activities.filter(
-  //     (activity) =>
-  //       distanceLatLong(
-  //         activity.coordinates.lat,
-  //         activity.coordinates.lng,
-  //         body.coordinates.lat,
-  //         body.coordinates.lng
-  //       ) < body.maxDistance
-  //   );
-  // }
+  if (body.coordinates) {
+    return activities.filter(
+      (activity) =>
+        distanceLatLong(
+          activity.coordinates.lat,
+          activity.coordinates.lng,
+          body.coordinates.lat,
+          body.coordinates.lng
+        ) < body.maxDistance
+    );
+  }
 
   return activities;
 }
