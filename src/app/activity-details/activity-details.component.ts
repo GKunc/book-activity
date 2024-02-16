@@ -156,6 +156,7 @@ export class ActivityDetailsComponent implements OnInit {
       const width = this.mapContainer?.nativeElement.clientWidth + 'px';
       this.mapDiv.nativeElement.style.width = width;
       this.mapDiv.nativeElement.querySelector('canvas').style.width = width;
+      this.mapDiv.nativeElement.querySelector('canvas').style.borderRadius = '8px';
     }
   }
 }

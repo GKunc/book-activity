@@ -4,21 +4,6 @@
       <div class="navigation__items-container">
         <nz-input-group name="search-buttons" nzCompact nzSearch [nzAddOnAfter]="suffixButton">
           <input class="search__name" [(ngModel)]="phrase" name="phrase" nz-input placeholder="Szukaj zajęć" />
-          <nz-select
-            name="category"
-            *ngIf="(resizeService.isSmall$ | async) === false"
-            class="search__categories"
-            [(ngModel)]="categories"
-            nzPlaceHolder="Kategoria"
-            nzMode="multiple"
-            [nzMaxTagCount]="1"
-          >
-            <nz-option
-              *ngFor="let option of categoriesOptions"
-              [nzLabel]="option.label"
-              [nzValue]="option.value"
-            ></nz-option>
-          </nz-select>
         </nz-input-group>
         <ng-template #suffixButton>
           <button
@@ -35,7 +20,8 @@
       </div>
     </div>
 
-    <div *ngIf="loginService._user$ | async as user; else login" class="sign-in-container">
+    <ng-container *hideOnProd>
+    <div *ngIf="loginService._user$ | async as user; else login" class="sign-in-container" >
       <div class="login-button">
         <nz-avatar
           nz-dropdown
@@ -70,6 +56,8 @@
         </nz-dropdown-menu>
       </div>
     </ng-template>
+  </ng-container>
   </div>
+  
   <activity-filters *ngIf="showFilters"></activity-filters>
 </div>
