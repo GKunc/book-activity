@@ -35,7 +35,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.initFacebookService();
+    // this.initFacebookService();
 
     if (getCookie(INSTALL_PWA) === '') {
       this.installPWA();
@@ -45,9 +45,9 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    const loader = document.getElementById('loader');
+    const loader = document?.getElementById('loader');
     loader.style.display = 'none'; //hide loader
-    const app = document.getElementById('app');
+    const app = document?.getElementById('app');
     app.style.display = 'block'; //hide loader
   }
 

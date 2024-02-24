@@ -7,16 +7,9 @@ export class GlobalErrorInterceptor implements ErrorHandler {
   constructor(private notificationsService: NotificationsService, private zone: NgZone) {}
 
   handleError(error: any) {
-    if (!environment.production) {
-      this.zone.run(() => {
-        console.log('GlobalErrorInterceptor', error);
-
-        this.notificationsService.error(`${environment.production}`, error?.message || 'Undefined client error');
-      });
-    }
-
-    if (environment.production) {
-      return;
-    }
+    this.zone.run(() => {
+      console.log('GlobalErrorInterceptor', error);
+      this.notificationsService.error(`${environment.production}`, error?.message || 'Undefined client error');
+    });
   }
 }

@@ -36,8 +36,8 @@ async function filterActivities(body) {
 
   const ids = groups?.map((group) => group.activityId);
 
-  query.guid = {};
-  query.guid.$in = ids;
+  // query.guid = {};
+  // query.guid.$in = ids;
 
   query.active = true;
 

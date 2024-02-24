@@ -9,17 +9,17 @@ if (environment.production) {
 }
 
 function bootstrap() {
-  platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+  platformBrowserDynamic()
+    .bootstrapModule(AppModule)
+    .catch((err) => console.error(err));
 }
 
-if(environment.production) {
-  if (document.readyState === 'complete') {
+if (environment.production) {
+  if (document?.readyState === 'complete') {
     bootstrap();
   } else {
-    document.addEventListener('DOMContentLoaded', bootstrap);
+    document?.addEventListener('DOMContentLoaded', bootstrap);
   }
 } else {
   bootstrap();
 }
-

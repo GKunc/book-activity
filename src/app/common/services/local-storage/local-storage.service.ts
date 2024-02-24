@@ -27,7 +27,7 @@ export class LocalStorageService {
 
 export function getCookie(cname: string): string {
   const name = cname + '=';
-  const decodedCookie = decodeURIComponent(document.cookie);
+  const decodedCookie = decodeURIComponent(document?.cookie);
   const ca = decodedCookie.split(';');
   for (let i = 0; i < ca.length; i++) {
     let c = ca[i];

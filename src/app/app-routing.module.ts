@@ -25,10 +25,10 @@ const routes: Routes = [
       {
         path: '',
         redirectTo: 'profile',
+        pathMatch: 'full',
       },
       {
         path: 'profile',
-        component: ProfileComponent,
         loadComponent: () => import('./settings/profile/profile.component').then((x) => x.ProfileComponent),
       },
       {

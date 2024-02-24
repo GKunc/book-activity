@@ -6,6 +6,5 @@
   (hideBanner)="showInstallPWA = false"
 ></install-pwa>
 <router-outlet></router-outlet>
-<div id="facebook-messanger" [attr.page_id]="pageId" class="fb-customerchat"></div>
 <allow-cookies *ngIf="showCookies" (cookiesConfirmed)="showCookies = false"></allow-cookies>
 <hub-footer></hub-footer>

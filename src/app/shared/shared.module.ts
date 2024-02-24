@@ -37,6 +37,7 @@ import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SafeUrlPipe } from '../common/pipes/safe-url.pipe';
@@ -122,6 +123,7 @@ import { ActivityCategoriesComponent } from './activity-categories/activity-cate
     NzAlertModule,
     ReactiveFormsModule,
     FormsModule,
+    NzBreadCrumbModule,
   ],
   imports: [
     CommonModule,
@@ -162,6 +164,7 @@ import { ActivityCategoriesComponent } from './activity-categories/activity-cate
     ReactiveFormsModule,
     FormsModule,
     ActivityCategoriesComponent,
+    NzBreadCrumbModule,
   ],
 })
 export class SharedModule {}

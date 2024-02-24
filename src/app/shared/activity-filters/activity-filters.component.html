@@ -1,6 +1,6 @@
 <div class="filters-mobile">
   <activity-categories 
-  [selectedCategory]="categories[0]"
+  [selectedCategory]="categories?.length > 0 ? categories[0] : null"
   (setCategory)="onSetCategory($event)">
 </activity-categories>
 

@@ -35,7 +35,7 @@ export class ActivityFiltersComponent implements OnInit {
 
   phrase: string;
   weekDays: WeekDay[];
-  categories: Category[];
+  categories: Category[] = [];
   minPrice = 0;
   maxPrice: number = MAX_PRICE;
   priceRange: number[] = [0, MAX_PRICE];
@@ -94,7 +94,12 @@ export class ActivityFiltersComponent implements OnInit {
   }
 
   onSetCategory(category: Category): void {
-    this.categories = this.categories[0] === category ? [] : [category];
+    if (this.categories?.length) {
+      this.categories = this.categories[0] === category ? [] : [category];
+    } else {
+      this.categories = [category];
+    }
+
     this.submit();
   }
 

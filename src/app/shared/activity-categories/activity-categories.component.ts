@@ -35,9 +35,7 @@ export class ActivityCategoriesComponent implements OnInit {
 
   showLeftArrow: boolean;
   showRightArrow: boolean = true;
-
   acitivyCategories: { value: Category; label: string; iconSvg?: string }[];
-
   dictionaryService: DictionaryService = inject(DictionaryService);
 
   ngOnInit(): void {
@@ -61,14 +59,12 @@ export class ActivityCategoriesComponent implements OnInit {
       event.srcElement?.scrollLeft + event.srcElement.offsetWidth + 20 < event.srcElement?.scrollWidth;
     this.showLeftArrow = event.srcElement?.scrollLeft > 0;
   }
-
   scrollLeft(): void {
     this.categoriesElement.nativeElement.scrollTo({
       left: this.categoriesElement.nativeElement.scrollLeft - 150,
       behavior: 'smooth',
     });
   }
-
   scrollRight(): void {
     this.categoriesElement.nativeElement.scrollTo({
       left: this.categoriesElement.nativeElement.scrollLeft + 150,
