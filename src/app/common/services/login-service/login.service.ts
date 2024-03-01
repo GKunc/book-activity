@@ -26,7 +26,7 @@ export class LoginService {
     if (token) {
       const loggedUser: InternalUser = jwt_decode(token);
       this.loggedUser = {
-        id: loggedUser.id,
+        id: loggedUser?.id,
         username: loggedUser.username,
         email: loggedUser.email,
         createdAt: loggedUser.createdAt,

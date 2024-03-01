@@ -44,7 +44,7 @@ export class PackagesComponent implements OnInit {
 
   navigateToEditPayment(): void {
     this.paymentService
-      .editSubscription(this.selectedPackage, this.loginService.loggedUser.id)
+      .editSubscription(this.selectedPackage, this.loginService.loggedUser?.id)
       .pipe(tap(() => (this.isLoading = true)))
       .subscribe((data) => {
         this.isLoading = false;

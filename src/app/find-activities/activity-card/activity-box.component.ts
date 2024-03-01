@@ -36,7 +36,7 @@ export class ActivityBoxComponent implements OnInit {
 
     this.favouriteService
       .updateFavourites({
-        userId: this.loginService.loggedUser.id,
+        userId: this.loginService.loggedUser?.id,
         favourites: [this.activity.guid],
         isNew: this.activity.isFavourite,
       })

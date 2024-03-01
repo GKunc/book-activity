@@ -31,8 +31,8 @@ export class CommentsComponent {
   createComment(): void {
     this.addComment.emit({
       activityId: this.activityId,
-      userId: this.loginService.loggedUser.id,
-      userName: this.loginService.loggedUser.username,
+      userId: this.loginService.loggedUser?.id,
+      userName: this.loginService.loggedUser?.username,
       content: this.inputValue,
       rate: this.rate,
       addedDate: new Date(),

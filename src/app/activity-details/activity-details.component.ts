@@ -1,12 +1,17 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NzCarouselComponent } from 'ng-zorro-antd/carousel';
 import { catchError, concat, finalize, map, of, switchMap, zipAll } from 'rxjs';
+import { Category } from '../common/consts/category.consts';
+import { ACTIVITY_FILTERS } from '../common/consts/local-storage.consts';
 import { Activity, GroupDetails } from '../common/services/activities/activities.model';
 import { ActivitiesService } from '../common/services/activities/activities.service';
+import { DictionaryService } from '../common/services/dictionary/dictionary.service';
+import { LocalStorageService } from '../common/services/local-storage/local-storage.service';
 import { LoginService } from '../common/services/login-service/login.service';
 import { MapService } from '../common/services/map-service/map-service.service';
 import { UserService } from '../common/services/user/user.service';
+import { ActivityFilters, ViewType } from '../shared/activity-filters/activity-filters.model';
 
 @Component({
   selector: 'app-activity-details',
@@ -35,17 +40,40 @@ export class ActivityDetailsComponent implements OnInit {
   phoneToHref: string;
 
   avgRate: number;
+  categoriesOptions: { value: Category; label: string }[];
 
   constructor(
     private route: ActivatedRoute,
     private activitiesService: ActivitiesService,
     private mapService: MapService,
     private userService: UserService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private dictionaryService: DictionaryService,
+    private localStorageService: LocalStorageService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.downloadDetails();
+    this.dictionaryService.getDictionary('categories').subscribe((categories) => {
+      this.categoriesOptions = categories;
+    });
+  }
+
+  getCategoryDescription(category: Category): string {
+    return this.categoriesOptions.find((item) => item.value === category).label;
+  }
+
+  navigateToHome(): void {
+    const filters: ActivityFilters = this.localStorageService.getItem<ActivityFilters>(ACTIVITY_FILTERS);
+    this.localStorageService.setItem(ACTIVITY_FILTERS, { ...filters, viewType: ViewType.List, categories: [] });
+    this.router.navigate(['/find-activities']);
+  }
+
+  navigateToCategory(category: Category): void {
+    const filters: ActivityFilters = this.localStorageService.getItem<ActivityFilters>(ACTIVITY_FILTERS);
+    this.localStorageService.setItem(ACTIVITY_FILTERS, { ...filters, viewType: ViewType.List, categories: [category] });
+    this.router.navigate(['/find-activities']);
   }
 
   downloadDetails(): void {

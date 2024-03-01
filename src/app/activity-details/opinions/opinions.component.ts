@@ -37,7 +37,7 @@ export class OpinionsComponent implements OnInit {
       this.updateAvgRate();
       this.updateRatesStars();
 
-      if (this.comments.find((comment) => comment.userId === this.loginService.loggedUser.id)) {
+      if (this.comments.find((comment) => comment.userId === this.loginService.loggedUser?.id)) {
         this.enableCommenting = false;
       }
     });
