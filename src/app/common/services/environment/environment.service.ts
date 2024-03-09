@@ -16,7 +16,7 @@ export class EnvironmentService {
       this.localStorageService.getItem(environment.ADMIN_TOKEN)
     );
     if (
-      window.location.href.includes('localhost') &&
+      window.location.href.includes('localhost') ||
       this.localStorageService.getItem(environment.ADMIN_TOKEN) !== null
     ) {
       this.isProd = false;
