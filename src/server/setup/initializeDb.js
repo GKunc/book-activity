@@ -4,7 +4,7 @@ const Package = require('../models/package.model');
 
 async function initializeDb() {
   const roles = await Role.find({});
-  if (roles && roles.length === 0) {
+  if (roles?.length === 0) {
     new Role({
       name: 'user',
     }).save();
@@ -19,7 +19,7 @@ async function initializeDb() {
   }
 
   const packages = await Package.find({});
-  if (packages && packages.length === 0) {
+  if (packages?.length === 0) {
     new Package({
       id: 0,
       name: 'Free',
@@ -46,7 +46,7 @@ async function initializeDb() {
   }
 
   const categories = await Category.find({});
-   if (categories && categories.length === 0) {
+   if (categories?.length === 0) {
     await new Category({
       "id": 0,
       "name": "Koszykówka",

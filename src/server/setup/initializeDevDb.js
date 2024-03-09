@@ -127,7 +127,7 @@ async function initializeDevDb() {
   }
 
   const roles = await Role.find({});
-  if (roles && roles.length === 0) {
+  if (roles?.length === 0) {
     new Role({
       name: 'user',
     }).save();
@@ -142,7 +142,7 @@ async function initializeDevDb() {
   }
 
   const packages = await Package.find({});
-  if (packages && packages.length === 0) {
+  if (packages?.length === 0) {
     await new Package({
       name: 'Free',
       priceId: 'price_1O84GEDtchbgKw9RJbLm5f3j',
@@ -165,7 +165,7 @@ async function initializeDevDb() {
   }
 
   const categories = await Category.find({});
-  if (categories && categories.length === 0) {
+  if (categories.length === 0) {
     await new Category({
       "id": 0,
       "name": "Koszykówka",

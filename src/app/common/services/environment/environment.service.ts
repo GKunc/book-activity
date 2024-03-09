@@ -11,10 +11,7 @@ export class EnvironmentService {
   localStorageService: LocalStorageService = inject(LocalStorageService);
 
   checkEnvironment() {
-    console.log(
-      'this.localStorageService.getItem(environment.ADMIN_TOKEN)',
-      this.localStorageService.getItem(environment.ADMIN_TOKEN)
-    );
+    // api call with localstorage token
     if (
       window.location.href.includes('localhost') ||
       this.localStorageService.getItem(environment.ADMIN_TOKEN) !== null
