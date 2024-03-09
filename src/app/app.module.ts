@@ -54,6 +54,8 @@ import { AuthenticationService } from './common/services/authentication/authenti
 import { ProfileComponent } from './settings/profile/profile.component';
 import { StatuteComponent } from './settings/statute/statute.component';
 import { PaidActivitiesComponent } from './settings/paid-activities/paid-activities.component';
+import { EnvironmentService } from './common/services/environment/environment.service';
+import { LocalStorageService } from './common/services/local-storage/local-storage.service';
 
 registerLocaleData(en);
 
@@ -118,7 +120,7 @@ registerLocaleData(en);
     {
       provide: APP_INITIALIZER,
       useFactory: appInitializerFactory,
-      deps: [AppInitializer, AuthenticationService, HttpClient],
+      deps: [AppInitializer, AuthenticationService, HttpClient, EnvironmentService, LocalStorageService],
       multi: true,
     },
   ],
