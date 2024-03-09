@@ -54,13 +54,13 @@ export function app(): express.Express {
 
   db.mongoose
     .connect(`${process.env['MANGO_DB_CONNECTION_STRING_PHOTOS']}`)
-    .then(() => {
+    .then(async () => {
       console.log('Successfully connected to MongoDB.', process.env['MANGO_DB_CONNECTION_STRING_PHOTOS']);
       console.log('Production:', process.env['production']);
       if (Boolean(process.env['production']) === true) {
-        initializeDb();
+        await initializeDb();
       } else {
-        initializeDevDb();
+        await initializeDevDb();
       }
     })
     .catch((err) => {
