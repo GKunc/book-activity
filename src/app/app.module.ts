@@ -54,7 +54,6 @@ import { AuthenticationService } from './common/services/authentication/authenti
 import { ProfileComponent } from './settings/profile/profile.component';
 import { StatuteComponent } from './settings/statute/statute.component';
 import { PaidActivitiesComponent } from './settings/paid-activities/paid-activities.component';
-import { HideOnProdDirective } from './common/directives/hide-on-prod.directive';
 
 registerLocaleData(en);
 
@@ -91,7 +90,6 @@ registerLocaleData(en);
     PaidActivitiesComponent,
     PackagesComponent,
     InstallPwaComponent,
-    HideOnProdDirective,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

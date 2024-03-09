@@ -54,6 +54,7 @@ import { PaymentPeriodPipe } from '../common/pipes/payment-period.pipe';
 import { AllowCookiesComponent } from './allow-cookies/allow-cookies.component';
 import { ActivityBoxSimpleComponent } from './activity-box-simple/activity-box-simple.component';
 import { ActivityCategoriesComponent } from './activity-categories/activity-categories.component';
+import { HideOnProdDirective } from '../common/directives/hide-on-prod.directive';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { ActivityCategoriesComponent } from './activity-categories/activity-cate
     ErrorComponent,
     AllowCookiesComponent,
     ActivityBoxSimpleComponent,
+    HideOnProdDirective,
   ],
   exports: [
     ButtonComponent,
@@ -124,6 +126,7 @@ import { ActivityCategoriesComponent } from './activity-categories/activity-cate
     ReactiveFormsModule,
     FormsModule,
     NzBreadCrumbModule,
+    HideOnProdDirective,
   ],
   imports: [
     CommonModule,

@@ -1,17 +1,22 @@
 import { Directive, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
+import { EnvironmentService } from '../services/environment/environment.service';
 
 @Directive({
   selector: '[hideOnProd]',
 })
 export class HideOnProdDirective implements OnInit {
-  constructor(private templateRef: TemplateRef<any>, private vcr: ViewContainerRef) {}
+  constructor(
+    private templateRef: TemplateRef<any>,
+    private vcr: ViewContainerRef,
+    private environmentService: EnvironmentService
+  ) {}
 
   ngOnInit(): void {
-    this.vcr.createEmbeddedView(this.templateRef);
-
-    if (!window.location.href.includes('localhost')) {
-      this.vcr.clear();
+    if (!this.environmentService.isProd) {
+      this.vcr.createEmbeddedView(this.templateRef);
       return;
     }
+
+    this.vcr.clear();
   }
 }
