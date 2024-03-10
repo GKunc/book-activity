@@ -106,7 +106,7 @@ registerLocaleData(en);
     IconModule,
     NgxGoogleAnalyticsModule.forRoot(environment.MEASUREMENT_ID),
     ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
+      enabled: Boolean(environment.production),
     }),
   ],
   providers: [

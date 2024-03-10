@@ -56,8 +56,8 @@ export function app(): express.Express {
     .connect(`${process.env['MANGO_DB_CONNECTION_STRING_PHOTOS']}`)
     .then(async () => {
       console.log('Successfully connected to MongoDB.', process.env['MANGO_DB_CONNECTION_STRING_PHOTOS']);
-      console.log('Production:', process.env['production']);
-      if (Boolean(process.env['production']) === true) {
+      console.log('Production:', process.env['PRODUCTION']);
+      if (Boolean(process.env['PRODUCTION']) === true) {
         await initializeDb();
       } else {
         await initializeDevDb();

@@ -32,7 +32,7 @@ const setEnv = () => {
   ADMIN_PASSWORD: '${process.env['ADMIN_PASSWORD']}',
   ADMIN_EMAIL: '${process.env['ADMIN_EMAIL']}',
   appVersion: '${appVersion}',
-  production: '${process.env['PRODUCTION']}',
+  production: '${Boolean(process.env['PRODUCTION'])}',
 };
 `;
   console.log('The file `environment.ts` will be written with the following content: \n');
