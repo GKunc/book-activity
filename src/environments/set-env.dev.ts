@@ -29,6 +29,8 @@ const setEnv = () => {
   WEBHOOK_SECRET: '${process.env['WEBHOOK_SECRET']}',
   PAYMENT_UPDATED_URL: '${process.env['PAYMENT_UPDATED_URL']}',
   ADMIN_TOKEN: '${process.env['ADMIN_TOKEN']}',
+  ADMIN_PASSWORD: '${process.env['ADMIN_PASSWORD']}',
+  ADMIN_EMAIL: '${process.env['ADMIN_EMAIL']}',
   appVersion: '${appVersion}',
   production: false,
 };
