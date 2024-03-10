@@ -30,7 +30,7 @@ const setEnv = () => {
   PAYMENT_UPDATED_URL: '${process.env['PAYMENT_UPDATED_URL']}',
   ADMIN_TOKEN: '${process.env['ADMIN_TOKEN']}',
   appVersion: '${appVersion}',
-  production: true,
+  production: '${process.env['PRODUCTION']}',
 };
 `;
   console.log('The file `environment.ts` will be written with the following content: \n');

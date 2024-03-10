@@ -165,7 +165,7 @@ async function initializeDevDb() {
   }
 
   const categories = await Category.find({});
-  console.log("CATEGORIES", categories?.length)
+  console.log("CATEGORIES DEV", categories?.length)
   if (categories.length === 0) {
     await new Category({
       "id": 0,
