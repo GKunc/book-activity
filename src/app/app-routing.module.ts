@@ -1,13 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LandingPageComponent } from './landing-page/landing-page.component';
-import { ProfileComponent } from './settings/profile/profile.component';
-import { SettingsComponent } from './settings/settings.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: LandingPageComponent,
+    loadComponent: () => import('./find-activities/find-activities.component').then((x) => x.FindActivitiesComponent),
   },
   {
     path: 'find-activities',

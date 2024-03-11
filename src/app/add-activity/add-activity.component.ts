@@ -82,6 +82,7 @@ export class AddActivityComponent implements OnInit {
       .subscribe(
         () => {
           this.isLoading = false;
+          this.router.navigate(['settings/add-adcitivty']);
           this.notificationsService.success('Zajęcia dodane', 'Poczekaj na email potwierdzający weryfikację.');
           this.modalService.close();
         },

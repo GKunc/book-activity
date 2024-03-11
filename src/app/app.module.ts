@@ -27,7 +27,6 @@ import { ActivityGroupsFormComponent } from './add-activity/activity-groups-form
 import { YourActivitiesComponent } from './settings/your-activities/your-activities.component';
 import { DeleteModalComponent } from './settings/your-activities/delete-modal/delete-modal.component';
 import { NotAuthorizedComponent } from './not-authorized/not-authorized.component';
-import { LandingPageComponent } from './landing-page/landing-page.component';
 import { ActivityBoxComponent } from './find-activities/activity-card/activity-box.component';
 import { FindActivitiesComponent } from './find-activities/find-activities.component';
 import { ActivityMapComponent } from './find-activities/activity-map/activity-map.component';
@@ -62,7 +61,6 @@ registerLocaleData(en);
 @NgModule({
   declarations: [
     AppComponent,
-    LandingPageComponent,
     AddActivityComponent,
     ActivityDataFormComponent,
     ClientDataFormComponent,
