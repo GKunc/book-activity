@@ -3,7 +3,6 @@ import { IconService } from '@ant-design/icons-angular';
 import { PlusOutline } from '@ant-design/icons-angular/icons';
 import { NzConfigService } from 'ng-zorro-antd/core/config';
 import { FacebookService, InitParams } from 'ngx-facebook';
-import { environment } from 'src/environments/environment';
 import { ALLOW_COOKIES, INSTALL_PWA } from './common/consts/local-storage.consts';
 import { getCookie, LocalStorageService } from './common/services/local-storage/local-storage.service';
 import { Platform } from '@angular/cdk/platform';
@@ -15,7 +14,6 @@ import { Platform } from '@angular/cdk/platform';
 })
 export class AppComponent implements OnInit, AfterViewInit {
   title = 'book-activity';
-  pageId = environment.FACEBOOK_APP_ID;
   showCookies: boolean = false;
   showInstallPWA: boolean = false;
   currentSystem: 'iOS' | 'Android' = null;

@@ -4,3 +4,4 @@ export const REFRESH_TOKEN = 'refresh_token';
 export const FAVOURITES = 'favourites';
 export const ALLOW_COOKIES = 'allow_cookies';
 export const INSTALL_PWA = 'install_pwa';
+export const ADMIN_TOKEN = 'admin_token';

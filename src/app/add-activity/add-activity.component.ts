@@ -79,18 +79,18 @@ export class AddActivityComponent implements OnInit {
     }
     this.activitiesService
       .insertActivity({ ...activity, guid: this.guid, createdBy: this.loginService.user?.id })
-      .subscribe(
-        () => {
+      .subscribe({
+        next: () => {
           this.isLoading = false;
           this.router.navigate(['settings/add-adcitivty']);
           this.notificationsService.success('Zajęcia dodane', 'Poczekaj na email potwierdzający weryfikację.');
           this.modalService.close();
         },
-        () => {
+        error: () => {
           this.isLoading = false;
           this.notificationsService.error('Wystąpił problem', 'Nie mozna bylo dodac zajec. Sprobuj ponownie');
-        }
-      );
+        },
+      });
   }
 
   disabledMinutes(): number[] {

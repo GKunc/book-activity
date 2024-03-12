@@ -84,8 +84,8 @@ export class ActivityDetailsComponent implements OnInit {
     this.activitiesService
       .getActivityDetails(id)
       .pipe(switchMap((activity: Activity) => this.downloadPhotos(activity)))
-      .subscribe(
-        (activity: Activity) => {
+      .subscribe({
+        next: (activity: Activity) => {
           this.activity = activity;
           this.mailToHref = `mailto:${activity.email}`;
           this.phoneToHref = `tel:${activity.phone}`;
@@ -97,13 +97,13 @@ export class ActivityDetailsComponent implements OnInit {
           this.error = false;
           this.loading = false;
         },
-        (error) => {
+        error: (error) => {
           if (error.status !== 403) {
             this.error = true;
             this.loading = false;
           }
-        }
-      );
+        },
+      });
   }
 
   updateAvgRate(rate: number): void {
