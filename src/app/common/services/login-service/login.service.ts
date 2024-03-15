@@ -52,7 +52,7 @@ export class LoginService {
           this._user$.next(loggedUser);
           // get favourites
           this.favouriteService.getFavourites(loggedUser?.id).subscribe((response: Favourite) => {
-            if (response.favourites.length > 0) {
+            if (response?.favourites.length > 0) {
               this.localStorageService.setItem(FAVOURITES, response?.favourites);
               this._favourites$.next(response?.favourites);
             }

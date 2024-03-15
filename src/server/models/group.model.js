@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const Group = mongoose.model(
   'Group',
   new mongoose.Schema({
+    addressId: String,
     activityId: String,
     name: String,
     duration: Number,

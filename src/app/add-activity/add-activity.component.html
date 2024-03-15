@@ -2,7 +2,7 @@
   <nz-steps [nzCurrent]="currentStep" (nzIndexChange)="onIndexChange($event)">
     <nz-step></nz-step>
     <nz-step [nzDisabled]="!groupsDataEnabled"></nz-step>
-    <nz-step [nzDisabled]="!locationDataEnabled"></nz-step>
+    <!-- <nz-step [nzDisabled]="!locationDataEnabled"></nz-step> -->
     <nz-step [nzDisabled]="!clientDataEnabled"></nz-step>
     <nz-step [nzDisabled]="!mediaDataEnabled"></nz-step>
   </nz-steps>
@@ -21,15 +21,15 @@
         ></activity-groups-form>
       </ng-container>
 
-      <ng-container *ngSwitchCase="2">
+      <!-- <ng-container *ngSwitchCase="2">
         <location-data-form
           [activity]="activity"
           (formSubmitted)="saveData($event); next()"
           (previousForm)="previous()"
         ></location-data-form>
-      </ng-container>
+      </ng-container> -->
 
-      <ng-container *ngSwitchCase="3">
+      <ng-container *ngSwitchCase="2">
         <client-data-form
           [activity]="activity"
           (formSubmitted)="saveData($event); next()"
@@ -37,7 +37,7 @@
         ></client-data-form>
       </ng-container>
 
-      <ng-container *ngSwitchCase="4">
+      <ng-container *ngSwitchCase="3">
         <media-data-form
           [activity]="activity"
           [isEditing]="isEditing"

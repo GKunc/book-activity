@@ -12,7 +12,7 @@ export interface Activity {
   name: string;
   category: Category;
   description: string;
-  groups: GroupDetails[];
+  addressTabs: AdressTab[];
   street: string;
   city: City;
   coordinates: { lng: number; lat: number };
@@ -35,4 +35,10 @@ export interface GroupDetails {
   weekDay: WeekDay;
   paymentPeriod: PaymentPeriod;
   category: Category;
+}
+
+export interface AdressTab {
+  address: string;
+  addressId: string;
+  groups: GroupDetails[];
 }

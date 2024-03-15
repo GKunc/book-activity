@@ -18,24 +18,22 @@ async function filterActivities(body) {
     query.category.$in = body.categories;
   }
 
-  if (body.weekDays && body.weekDays.length > 0) {
-    queryGroup.weekDay = {};
-    queryGroup.weekDay.$in = body.weekDays;
-  }
+  // if (body.weekDays && body.weekDays.length > 0) {
+  //   queryGroup.weekDay = {};
+  //   queryGroup.weekDay.$in = body.weekDays;
+  // }
 
-  if (body.minPrice || body.maxPrice) {
-    queryGroup.price = {};
-    queryGroup.price.$gte = body.minPrice ?? 0;
-    queryGroup.price.$lte = body.maxPrice ?? 1000;
-  }
+  // if (body.minPrice || body.maxPrice) {
+  //   queryGroup.price = {};
+  //   queryGroup.price.$gte = body.minPrice ?? 0;
+  //   queryGroup.price.$lte = body.maxPrice ?? 1000;
+  // }
 
-  let groups = [];
-  if(Object.keys(queryGroup).length !== 0) {
-    groups = await Group.find(queryGroup);
-  }
-
-  const ids = groups?.map((group) => group.activityId);
-
+  // let groups = [];
+  // if(Object.keys(queryGroup).length !== 0) {
+  //   groups = await Group.find(queryGroup);
+  // }
+  // const ids = groups?.map((group) => group.activityId);
   // query.guid = {};
   // query.guid.$in = ids;
 
@@ -44,21 +42,21 @@ async function filterActivities(body) {
   const skip = (body.page - 1) * body.limit;
   const activities = await Activity.find(query)
   .skip(skip ?? 0)
-  .limit(body.limit ?? 20);
+  .limit(20);
 
 
   // body.maxDistance - calculate all activities in radius
-  if (body.coordinates) {
-    return activities.filter(
-      (activity) =>
-        distanceLatLong(
-          activity.coordinates.lat,
-          activity.coordinates.lng,
-          body.coordinates.lat,
-          body.coordinates.lng
-        ) < body.maxDistance
-    );
-  }
+  // if (body.coordinates) {
+  //   return activities.filter(
+  //     (activity) =>
+  //       distanceLatLong(
+  //         activity.coordinates.lat,
+  //         activity.coordinates.lng,
+  //         body.coordinates.lat,
+  //         body.coordinates.lng
+  //       ) < body.maxDistance
+  //   );
+  // }
 
   return activities;
 }
@@ -78,13 +76,13 @@ async function getActivityDetails(id) {
     return null;
   }
 
-  const groups = await GroupService.getGroupsForActivity(id);
-  return { ...activity._doc, groups };
+  const addressTabs = await GroupService.getGroupsForActivity(id);
+  return { ...activity._doc, addressTabs };
 }
 
 async function createActivity(data) {
   await Activity.create(data);
-  await GroupService.addGroups(data.groups, data.guid);
+  await GroupService.addAddressTab(data.addressTabs, data.guid)
   return;
 }
 

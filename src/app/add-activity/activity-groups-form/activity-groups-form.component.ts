@@ -2,8 +2,9 @@ import { WeekDay } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PaymentPeriod, PAY_OPTIONS } from 'src/app/common/consts/pay-options.consts';
-import { Activity, GroupDetails } from 'src/app/common/services/activities/activities.model';
+import { Activity, AdressTab } from 'src/app/common/services/activities/activities.model';
 import { WEEK_DAYS } from '../../common/consts/week-days.consts';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'activity-groups-form',
@@ -25,7 +26,8 @@ export class ActivityGroupsFormComponent implements OnInit {
 
   weekDaysOptions: { value: WeekDay; label: string }[] = WEEK_DAYS;
 
-  addedGroups: GroupDetails[] = [];
+  tabs: AdressTab[] = [{ address: 'Adres', addressId: uuidv4(), groups: [] }];
+  selectedIndex: number = 0;
 
   form = new FormGroup({
     name: new FormControl<string>(null, Validators.required),
@@ -39,9 +41,22 @@ export class ActivityGroupsFormComponent implements OnInit {
   payOptions: { value: PaymentPeriod; label: string }[] = PAY_OPTIONS;
 
   ngOnInit(): void {
-    if (this.activity.groups) {
-      this.addedGroups = this.activity.groups;
+    if (this.activity.addressTabs) {
+      this.tabs = this.activity.addressTabs;
     }
+  }
+
+  closeTab({ index }: { index: number }): void {
+    this.tabs.splice(index, 1);
+  }
+
+  newTab(): void {
+    this.tabs.push({ address: 'Adres', addressId: uuidv4(), groups: [] });
+    this.selectedIndex = this.tabs.length;
+  }
+
+  trackByFn(index: number): number {
+    return index;
   }
 
   disabledMinutes(): number[] {
@@ -51,10 +66,8 @@ export class ActivityGroupsFormComponent implements OnInit {
   addNewGroup(): void {
     this.form.controls.name.setValue(this.form.controls.name.value.trim());
 
-    console.log(this.form.value);
-
     if (this.validateForm()) {
-      this.addedGroups.push({
+      this.tabs[this.selectedIndex].groups.push({
         name: this.form.controls.name.value,
         duration: this.form.controls.duration.value,
         price: this.form.controls.price.value,
@@ -68,8 +81,8 @@ export class ActivityGroupsFormComponent implements OnInit {
     }
   }
 
-  removeActivity(index): void {
-    this.addedGroups.splice(index, 1);
+  removeGroup(index): void {
+    this.tabs[this.selectedIndex].groups.splice(index, 1);
   }
 
   previous(): void {
@@ -77,14 +90,14 @@ export class ActivityGroupsFormComponent implements OnInit {
   }
 
   submit(): void {
-    if (this.addedGroups.length > 0) {
+    if (this.tabs.length > 0) {
       this.formSubmitted.emit({
-        groups: this.addedGroups,
+        addressTabs: this.tabs,
       });
     } else if (this.validateForm()) {
       this.addNewGroup();
       this.formSubmitted.emit({
-        groups: this.addedGroups,
+        addressTabs: this.tabs,
       });
     }
   }

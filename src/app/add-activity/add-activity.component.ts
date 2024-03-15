@@ -28,7 +28,7 @@ export class AddActivityComponent implements OnInit {
   currentStep = 0;
 
   groupsDataEnabled = false;
-  locationDataEnabled = false;
+  // locationDataEnabled = false;
   clientDataEnabled = false;
   mediaDataEnabled = false;
 
@@ -64,17 +64,17 @@ export class AddActivityComponent implements OnInit {
 
     if (this.isEditing) {
       activity.guid = this.activity.guid;
-      this.activitiesService.editActivity(this.activity).subscribe(
-        () => {
+      this.activitiesService.editActivity(this.activity).subscribe({
+        next: () => {
           this.isLoading = false;
           this.notificationsService.success('Sukces', 'Zajęcia edytowano poprawnie.');
           this.modalService.close();
         },
-        () => {
+        error: () => {
           this.isLoading = false;
           this.notificationsService.error('Wystąpił problem', 'Nie mozna bylo dodac zajec. Sprobuj ponownie');
-        }
-      );
+        },
+      });
       return;
     }
     this.activitiesService
@@ -112,13 +112,13 @@ export class AddActivityComponent implements OnInit {
       case 1:
         this.groupsDataEnabled = true;
         break;
+      // case 2:
+      //   this.locationDataEnabled = true;
+      //   break;
       case 2:
-        this.locationDataEnabled = true;
-        break;
-      case 3:
         this.clientDataEnabled = true;
         break;
-      case 4:
+      case 3:
         this.mediaDataEnabled = true;
         break;
     }
@@ -134,7 +134,7 @@ export class AddActivityComponent implements OnInit {
 
   private enableAllSteps(): void {
     this.groupsDataEnabled = true;
-    this.locationDataEnabled = true;
+    // this.locationDataEnabled = true;
     this.clientDataEnabled = true;
     this.mediaDataEnabled = true;
   }

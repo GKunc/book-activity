@@ -1,101 +1,126 @@
-<form nz-form [formGroup]="form" nzLayout="vertical">
-  <div class="form__two-columns">
-    <nz-form-item class="width__full">
-      <nz-form-label nzFor="name" nzRequired>Nazwa grupy</nz-form-label>
-      <nz-form-control [nzErrorTip]="errorDescription">
-        <input id="name" nz-input placeholder="Nazwa" formControlName="name" />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item class="width__full">
-      <nz-form-label nzFor="duration" nzRequired>Czas trwania (min)</nz-form-label>
-      <nz-form-control [nzErrorTip]="errorDescription">
-        <nz-input-number
-          id="duration"
-          nz-input
-          nzPlaceHolder="Czas trwania (min)"
-          formControlName="duration"
-        ></nz-input-number>
-      </nz-form-control>
-    </nz-form-item>
-  </div>
+<form class="activity-groups__form" nz-form [formGroup]="form" nzLayout="vertical">
+  <nz-tabset
+    [(nzSelectedIndex)]="selectedIndex"
+    nzType="editable-card"
+    (nzAdd)="newTab()"
+    (nzClose)="closeTab($event)"
+    >
+      <nz-tab 
+        *ngFor="let tab of tabs; let i = index; trackBy: trackByFn" 
+        [nzClosable]="i > 0" 
+        [nzTitle]="selectedIndex === i ? editTemplate : titleTemplate"
+        >
+        <ng-template #titleTemplate>
+          {{tab.address}} 
+        </ng-template>
 
-  <div class="form__two-columns">
-    <nz-form-item class="width__full">
-      <nz-form-label nzFor="weekDay" nzRequired>Dzień tygodnia</nz-form-label>
-      <nz-form-control [nzErrorTip]="errorDescription">
-        <nz-select formControlName="weekDay" nzPlaceHolder="Wybierz dzień tygodnia">
-          <nz-option
-            *ngFor="let option of weekDaysOptions"
-            [nzLabel]="option.label"
-            [nzValue]="option.value"
-          ></nz-option>
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item class="width__full">
-      <nz-form-label nzFor="time" nzRequired>Godzina</nz-form-label>
-      <nz-form-control [nzErrorTip]="errorDescription">
-        <input type="time" id="time" nz-input placeHolder="Podaj godzinę (HH:mm)" formControlName="time" />
-      </nz-form-control>
-    </nz-form-item>
-  </div>
-
-  <div class="form__two-columns">
-    <nz-form-item class="width__full">
-      <nz-form-label nzFor="price" nzRequired>Cena</nz-form-label>
-      <nz-form-control [nzErrorTip]="errorDescription">
-        <nz-input-number id="price" nz-input nzPlaceHolder="Cena" formControlName="price"></nz-input-number>
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item class="width__full">
-      <nz-form-label nzFor="paymentPeriod" nzRequired>Rozliczenie</nz-form-label>
-      <nz-form-control [nzErrorTip]="errorDescription">
-        <nz-select formControlName="paymentPeriod" nzPlaceHolder="Rozliczenie">
-          <nz-option *ngFor="let option of payOptions" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
-  </div>
-</form>
-<hub-button
-  class="button__add-group"
-  type="dashed"
-  text="Dodaj grupę"
-  icon="plus-circle"
-  (click)="addNewGroup()"
-></hub-button>
-<nz-divider></nz-divider>
-
-<div *ngFor="let group of addedGroups; let i = index">
-  <div class="activity-groups">
-    <div class="activity-groups__name" [nz-tooltip]="group.name">
-      {{ group.name }}
-    </div>
-
-    <div class="activity-groups__details">
-      <div class="activity-groups__details--column">
-        <div>{{ group.duration | durationMin }}</div>
-      </div>
-      <div class="activity-groups__details--column">
-        <div>
-          <h3>{{ group.time | date : 'HH:mm' }}</h3>
+        <ng-template #editTemplate>
+          <input 
+          id="new_address_input" 
+          [ngModelOptions]="{standalone: true}"
+          [(ngModel)]="tabs[i].address" name="new_address" nz-input placeholder="Adres" />
+        </ng-template>
+        
+        <div class="form__two-columns">
+          <nz-form-item class="width__full">
+            <nz-form-label nzFor="name" nzRequired>Nazwa grupy</nz-form-label>
+            <nz-form-control [nzErrorTip]="errorDescription">
+              <input id="name" nz-input placeholder="Nazwa" formControlName="name" />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item class="width__full">
+            <nz-form-label nzFor="duration" nzRequired>Czas trwania (min)</nz-form-label>
+            <nz-form-control [nzErrorTip]="errorDescription">
+              <nz-input-number
+                id="duration"
+                nz-input
+                nzPlaceHolder="Czas trwania (min)"
+                formControlName="duration"
+              ></nz-input-number>
+            </nz-form-control>
+          </nz-form-item>
         </div>
-        <div class="info-container__description">
-          {{ group.weekDay | weekDay }}
+      
+        <div class="form__two-columns">
+          <nz-form-item class="width__full">
+            <nz-form-label nzFor="weekDay" nzRequired>Dzień tygodnia</nz-form-label>
+            <nz-form-control [nzErrorTip]="errorDescription">
+              <nz-select formControlName="weekDay" nzPlaceHolder="Wybierz dzień tygodnia">
+                <nz-option
+                  *ngFor="let option of weekDaysOptions"
+                  [nzLabel]="option.label"
+                  [nzValue]="option.value"
+                ></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+      
+          <nz-form-item class="width__full">
+            <nz-form-label nzFor="time" nzRequired>Godzina</nz-form-label>
+            <nz-form-control [nzErrorTip]="errorDescription">
+              <input type="time" id="time" nz-input placeHolder="Podaj godzinę (HH:mm)" formControlName="time" />
+            </nz-form-control>
+          </nz-form-item>
         </div>
-      </div>
-      <div class="activity-groups__details--column activity-groups__price-container">
-        <span class="text">{{ group.paymentPeriod | paymentPeriod }}</span>
-        <div class="activity-groups__price">
-          {{ group.price | pricePLN }}
+      
+        <div class="form__two-columns">
+          <nz-form-item class="width__full">
+            <nz-form-label nzFor="price" nzRequired>Cena</nz-form-label>
+            <nz-form-control [nzErrorTip]="errorDescription">
+              <nz-input-number id="price" nz-input nzPlaceHolder="Cena" formControlName="price"></nz-input-number>
+            </nz-form-control>
+          </nz-form-item>
+      
+          <nz-form-item class="width__full">
+            <nz-form-label nzFor="paymentPeriod" nzRequired>Rozliczenie</nz-form-label>
+            <nz-form-control [nzErrorTip]="errorDescription">
+              <nz-select formControlName="paymentPeriod" nzPlaceHolder="Rozliczenie">
+                <nz-option *ngFor="let option of payOptions" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
         </div>
-      </div>
-      <div class="clickable" (click)="removeActivity(i)" nz-icon nzType="delete" nzTheme="outline"></div>
-    </div>
-  </div>
-</div>
+
+        <hub-button
+          class="button__add-group"
+          type="dashed"
+          text="Dodaj grupę"
+          icon="plus-circle"
+          (click)="addNewGroup()"
+        ></hub-button>
+        <nz-divider></nz-divider>
+
+        <div *ngFor="let group of tab?.groups; let i = index">
+          <div class="activity-groups">
+            <div class="activity-groups__name" [nz-tooltip]="group.name">
+              {{ group.name }}
+            </div>
+
+            <div class="activity-groups__details">
+              <div class="activity-groups__details--column">
+                <div>{{ group.duration | durationMin }}</div>
+              </div>
+              <div class="activity-groups__details--column">
+                <div>
+                  <h3>{{ group.time }}</h3>
+                </div>
+                <div class="info-container__description">
+                  {{ group.weekDay | weekDay }}
+                </div>
+              </div>
+              <div class="activity-groups__details--column activity-groups__price-container">
+                <span class="text">{{ group.paymentPeriod | paymentPeriod }}</span>
+                <div class="activity-groups__price">
+                  {{ group.price | pricePLN }}
+                </div>
+              </div>
+              <div class="clickable" (click)="removeGroup(i)" nz-icon nzType="delete" nzTheme="outline"></div>
+            </div>
+          </div>
+        </div>
+      </nz-tab>
+    </nz-tabset>
+ </form>
 
 <div class="modal__action-container">
   <hub-button text="Wstecz" (click)="previous()"></hub-button>

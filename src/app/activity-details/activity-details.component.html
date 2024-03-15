@@ -87,33 +87,45 @@
 
       <h2 class="activity-details__header">Grupy:</h2>
       <nz-divider></nz-divider>
-      <div *ngFor="let group of activity.groups">
-        <div class="activity-groups">
-          <div class="activity-groups__name">
-            {{ group.name }}
-          </div>
 
-          <div class="activity-groups__details">
-            <div class="activity-groups__details--column">
-              <div>{{ group.duration | durationMin }}</div>
-            </div>
-            <div class="activity-groups__details--column">
-              <h3>{{ group.time }}</h3>
-              <div class="info-container__description">
-                {{ group.weekDay | weekDay }}
+      <nz-tabset
+      [(nzSelectedIndex)]="selectedIndex"
+      nzType="editable-card"
+      >
+        <nz-tab 
+          *ngFor="let tab of activity.addressTabs; let i = index; trackBy: trackByFn" 
+          [nzClosable]="false" 
+          [nzTitle]="tab.address"
+          >
+          <div *ngFor="let group of tab.groups"> 
+            <div class="activity-groups">
+              <div class="activity-groups__name">
+                {{ group.name }}
+              </div>
+
+              <div class="activity-groups__details">
+                <div class="activity-groups__details--column">
+                  <div>{{ group.duration | durationMin }}</div>
+                </div>
+                <div class="activity-groups__details--column">
+                  <h3>{{ group.time }}</h3>
+                  <div class="info-container__description">
+                    {{ group.weekDay | weekDay }}
+                  </div>
+                </div>
+                <div class="activity-groups__details--column activity-groups__price-container">
+                  <span class="text">{{ group.paymentPeriod | paymentPeriod }}</span>
+                  <div class="activity-groups__price" (click)="signForGroup(group)">
+                    {{ group.price | pricePLN }}
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="activity-groups__details--column activity-groups__price-container">
-              <span class="text">{{ group.paymentPeriod | paymentPeriod }}</span>
-              <div class="activity-groups__price" (click)="signForGroup(group)">
-                {{ group.price | pricePLN }}
-              </div>
-            </div>
           </div>
-        </div>
-      </div>
 
-      <activity-opinions [activity]="activity" (avgRateChanged)="updateAvgRate($event)"></activity-opinions>
+          <activity-opinions [activity]="activity" (avgRateChanged)="updateAvgRate($event)"></activity-opinions>
+        </nz-tab>
+      </nz-tabset>
     </div>
   </div>
 </ng-container>

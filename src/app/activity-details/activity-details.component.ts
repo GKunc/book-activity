@@ -41,6 +41,7 @@ export class ActivityDetailsComponent implements OnInit {
 
   avgRate: number;
   categoriesOptions: { value: Category; label: string }[];
+  selectedIndex: number = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -135,6 +136,10 @@ export class ActivityDetailsComponent implements OnInit {
         this.loading = false;
       });
     }
+  }
+
+  trackByFn(index: number): number {
+    return index;
   }
 
   private downloadPhotos(activity: Activity): any {

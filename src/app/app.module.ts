@@ -1,4 +1,4 @@
-import { NgModule, ErrorHandler, APP_INITIALIZER } from '@angular/core';
+import { NgModule, ErrorHandler, APP_INITIALIZER, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { LayoutModule } from '@angular/cdk/layout';
 
@@ -115,6 +115,7 @@ registerLocaleData(en);
     },
     { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true },
     { provide: NZ_I18N, useValue: pl_PL },
+    { provide: LOCALE_ID, useValue: 'en-US' }, //replace "en-US" with your locale
     {
       provide: APP_INITIALIZER,
       useFactory: appInitializerFactory,

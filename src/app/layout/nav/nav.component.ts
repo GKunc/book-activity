@@ -68,7 +68,7 @@ export class NavComponent implements OnInit {
       minPrice: 0,
       maxPrice: 1000,
       page: 1,
-      limit: 10,
+      limit: 100,
     });
     this.phrase = '';
     this.categories = [];
